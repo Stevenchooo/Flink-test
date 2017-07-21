@@ -9,7 +9,7 @@ import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.api.functions.co.CoMapFunction;
 
 /**
- * Created by didi on 2017/6/11.
+ * Created by Steven on 2017/7/20.
  */
 public class ConnectExample {
 

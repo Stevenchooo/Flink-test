@@ -1,22 +1,7 @@
-/*
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.demo.ml;
-
+/**
+ * Created by Steven on 2017/7/20.
+ */
 import org.apache.flink.api.java.utils.ParameterTool;
 import org.apache.flink.streaming.api.TimeCharacteristic;
 import org.apache.flink.streaming.api.datastream.DataStream;
@@ -64,7 +49,7 @@ public class IncrementalLearningSkeleton {
 
 	public static void main(String[] args) throws Exception {
 
-		// Checking input parameters
+		//检查输入参数
 		final ParameterTool params = ParameterTool.fromArgs(args);
 
 		StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
@@ -78,7 +63,7 @@ public class IncrementalLearningSkeleton {
 		// 新到来的数据, 50条, 用750ms发送完成
 		DataStream<Integer> newData = env.addSource(new FiniteNewDataSource());
 
-		// build new model on every second of new data
+		// 在新数据的每一秒建立新的模型
         // 以0.5s为单位, 进行增量部分模型的构建.
 		DataStream<Double[]> model = trainingData
                 // 对于要进行window操作的数据, 要包含时间戳和Watermark. 由于我们是简单的从文件中读取的数据,

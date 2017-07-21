@@ -1,5 +1,7 @@
 package com.dataartisans;
-
+/**
+ * Created by Steven on 2017/7/20.
+ */
 import org.apache.flink.api.common.functions.FlatMapFunction;
 import org.apache.flink.util.Collector;
 import org.slf4j.Logger;
@@ -22,10 +24,10 @@ public class ThroughputLogger implements FlatMapFunction<String, Integer> {
   public void flatMap(String element, Collector<Integer> collector) throws Exception {
     totalReceived++;
     if (totalReceived % logfreq == 0) {
-      // throughput over entire time
+      // 整个时间内的吞吐量
       long now = System.currentTimeMillis();
 
-      // throughput for the last "logfreq" elements
+      // 最后一个“logfreq”的吞吐量
       if(lastLogTimeMs == -1) {
         // init (the first)
         lastLogTimeMs = now;

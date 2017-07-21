@@ -1,21 +1,7 @@
-/*
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.demo.iteration;
+/**
+ * Created by Steven on 2017/7/20.
+ */
 
 import org.apache.flink.api.common.functions.MapFunction;
 import org.apache.flink.api.java.tuple.Tuple2;
@@ -33,23 +19,9 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * Example illustrating iterations in Flink streaming.
- * <p> The program sums up random numbers and counts additions
- * it performs to reach a specific threshold in an iterative streaming fashion. </p>
- *
  * 这个程序将随机数相加, 并计算加法操作执行的次数.
- *
- * <p>
- * This example shows how to use:
- * <ul>
- *   <li>streaming iterations,
- *   <li>buffer timeout to enhance latency,
- *   <li>directed outputs.
- * </ul>
- * </p>
- *
  * 程序主要经过了以下步骤:
- *
+ * <p>
  * 1. 从文件中生成数据源, 或者直接生成数据源.
  * 2. 将数据源map成迭代需要的格式, 生成IterativeStream
  * 3. 对IterativeStream进行一系列的transformation操作, 然后利用Selector, 根据结果生成SpitStream.
@@ -60,24 +32,20 @@ public class IterationExample {
 
     private static final int BOUND = 100;
 
-    // *************************************************************************
-    // PROGRAM
-    // *************************************************************************
-
     public static void main(String[] args) throws Exception {
 
-        // Checking input parameters
+        //检查输入的参数
         final ParameterTool params = ParameterTool.fromArgs(args);
 
-        // set up input for the stream of integer pairs
+        //为正数对的流 设置参数
 
-        // obtain execution environment and set setBufferTimeout to 1 to enable
-        // continuous flushing of the output buffers (lowest latency)
+        // 获取执行环境并将setBufferTimeout设置为1以启用
+        // 连续冲洗输出缓冲区（最低延迟）
         // 注意: 这里的延迟单位是ms.
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment()
                 .setBufferTimeout(1);
 
-        // make parameters available in the web interface
+        // 使参数在Web接口中可用
         env.getConfig().setGlobalJobParameters(params);
 
         // create input stream of integer pairs
@@ -93,29 +61,26 @@ public class IterationExample {
             inputStream = env.addSource(new RandomFibonacciSource());
         }
 
-        // create an iterative data stream from the input with 5 second timeout
+        // 从输入创建5秒超时的迭代数据流Timeout=5s
         IterativeStream<Tuple5<Integer, Integer, Integer, Integer, Integer>> it = inputStream.map(new InputMap())
                 // 这个等待时间, 是指在5000ms内没有收到新数据, 就停止迭代. 为了测试的方便.
                 .iterate(5000);
 
-        // apply the step function to get the next Fibonacci number
-        // increment the counter and split the output with the output selector
+        // 应用阶梯函数获得下一个斐波那契数
+        // 递增计数器并用 输出选择器 分割输出
         SplitStream<Tuple5<Integer, Integer, Integer, Integer, Integer>> step = it.map(new Step())
                 .split(new MySelector());
 
-        // close the iteration by selecting the tuples that were directed to the
-        // 'iterate' channel in the output selector
+        // 通过选择引导到输出选择器中“迭代”通道的元组来关闭迭代
         // 这里是反馈回路, 也就是需要继续迭代的地方
         it.closeWith(step.select("iterate"));
 
-        // to produce the final output select the tuples directed to the
-        // 'output' channel then get the input pairs that have the greatest iteration counter
-        // on a 1 second sliding window
+        // 选择定向到“输出”通道的元组,然后获得在1秒滑动窗口上具有最大迭代计数器的输入对,以产生最终输出
         // 这里是最终的输出
         DataStream<Tuple2<Tuple2<Integer, Integer>, Integer>> numbers = step.select("output")
                 .map(new OutputMap());
 
-        // emit results
+        // 发表结果
         if (params.has("output")) {
             numbers.writeAsText(params.get("output"));
         } else {
@@ -123,7 +88,7 @@ public class IterationExample {
             numbers.print();
         }
 
-        // execute the program
+        //执行
         env.execute("Streaming Iteration Example");
     }
 
@@ -133,9 +98,9 @@ public class IterationExample {
 
     /**
      * Generate BOUND number of random integer pairs from the range from 0 to BOUND/2.
-     *
+     * <p>
      * 数据源: 生成取值范围受限的tuple2.
-     *
+     * <p>
      * 注意: run()方法理论上必须能够无限执行, 而且必须能够响应cancel()方法的中断.
      */
     private static class RandomFibonacciSource implements SourceFunction<Tuple2<Integer, Integer>> {
@@ -167,7 +132,7 @@ public class IterationExample {
 
     /**
      * Generate random integer pairs from the range from 0 to BOUND/2.
-     *
+     * <p>
      * 这个方法是用来从文件中读取数据作为数据源的, 因为文件中的数据是(value1, value2), 是一个String, 所以这里进行了以下操作:
      * 1. substring, 取1~n-1的长度, 也就是去掉了().
      * 2. 分离两个value.
@@ -237,7 +202,7 @@ public class IterationExample {
 
     /**
      * Giving back the input pair and the counter.
-     *
+     * <p>
      * 返回原始的tuple2, 和加法执行次数的结果.
      */
     public static class OutputMap implements MapFunction<Tuple5<Integer, Integer, Integer, Integer, Integer>,

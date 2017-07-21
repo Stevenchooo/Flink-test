@@ -1,5 +1,7 @@
 package com.dataartisans;
-
+/**
+ * Created by Steven on 2017/7/20.
+ */
 import org.apache.flink.api.common.functions.FlatMapFunction;
 import org.apache.flink.api.java.utils.ParameterTool;
 import org.apache.flink.streaming.api.datastream.DataStream;
