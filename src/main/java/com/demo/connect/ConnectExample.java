@@ -26,6 +26,7 @@ public class ConnectExample {
                 new Tuple3<>("user6", "item6", "6"),
                 new Tuple3<>("user7", "item7", "7"),
                 new Tuple3<>("user8", "item8", "8")
+
         );
 
         KeyedStream<Tuple3<String, String, String>, Tuple> userStream = ratingSource.keyBy(0);
