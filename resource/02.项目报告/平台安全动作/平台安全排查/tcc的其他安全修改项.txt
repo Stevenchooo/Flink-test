@@ -1,0 +1,16 @@
+安全整改还有其他的修改：
+1、CI修改；
+--涉及所有文件
+
+2、XSS防JS注入；
+--主要是input标签和前端请求，后台：BaseAction.java的json2InputStreamReplaceQuotes方法，前端：common.js的function val()
+
+3、csrf token校验；
+--这个主要是两个方式：1、用Struts的token拦截器，比如userLogin登录请求；2、使用Struts的s:token标签，然后后台收工校验request与session的token，比如：importTasks任务导入、importNodes节点导入
+
+4、加密算法修改；
+--1、加密算法由AES/GCM/NoPadding改为AES/CBC/ISO10126Padding；
+--2、改为可以配置的，详见CryptUtil.java中的encryptToAESStr、decryptForAESStr
+
+5、根密钥文件重新生成；
+--根密钥生成的方式和工作密钥的使用不当，修改情况为：1、GenKeyComponent.java的mainGenKeyComponents方法生根密钥；2、KeyComponentUtil.java可以获取相应的工作密钥
