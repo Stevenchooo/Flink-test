@@ -1,0 +1,41 @@
+﻿
+
+<div class="panel panel-default" ng-controller="GroupManagementCtrl">
+	<div class="panel-heading font-bold">群组管理</div>
+	<div class="panel-body">
+
+			<form class="bs-example form-horizontal" name="groupAdminForm" ng-submit="saveGroup(group.id)"  novalidate>
+			    
+			        <div class="form-group">
+			            <div>
+			                <label class="col-sm-2 text-right">群组名<font color="red">*</font></label>
+			                <div class="col-lg-10">
+				                <input type="text" class="form-control" name="name" ng-model="group.name" required maxlength="50" />
+				                <span style="color:red" ng-show="groupAdminForm.name.$invalid && !groupAdminForm.name.$pristine">姓名不能为空</span>
+			                </div>
+			            </div>
+			        </div>
+			        
+			        <div class="form-group">
+			        		<label class="col-sm-2 text-right">成员列表</label>
+			                <div class="col-lg-10">
+			                	<label style="display:inline;" ng-repeat="user in users">
+			                		<span class="col-sm-6">
+  										<input type="checkbox" checklist-model="selectedUsers" checklist-value="user" checklist-comparator=".id"> {{user.name}}
+  									</span>
+								</label>
+			                </div>
+			        </div>			                 
+			    
+			    <div class="dialog-buttons dialog-footer">        
+			        <button type="button" class="dialog-button dialog-button-secondary" ng-click="closeThisDialog('close')">取消</button>
+			        <button type="submit" class="dialog-button dialog-button-primary"  ng-disabled="groupAdminForm.$invalid">&#160;确定&#160;</button>
+			    </div>
+			</form>
+	</div>
+</div>
+
+
+
+
+

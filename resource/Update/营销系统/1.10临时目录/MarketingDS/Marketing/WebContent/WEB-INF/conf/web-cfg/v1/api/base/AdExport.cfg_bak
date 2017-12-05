@@ -1,0 +1,122 @@
+{
+"name": "广告信息导出",
+
+"methods": [
+      {
+        "name":"/api/adExport/query",
+        "authType": "user",
+        "type" : "AUTHRDB",
+        "writeLog":true,
+        "dataType":"adExport",
+        "operation":"r",
+        
+        "request" : {
+            "parameters" : [
+                {"name":"pOperator", "type":"ACCOUNT", "desc":"操作人账号"},
+                {"name":"mktId", "type":"INT", "desc":"活动ID"},
+                {"name":"adState", "type":"INT", "desc":"广告位状态"},
+                {"name":"adInfoWebName", "type":"INT", "desc":"网站名称"},
+                {"name":"adInfoPort", "type":"INT", "desc":"端口所属"},
+                {"name":"from", "type":"INT", "default":0, "min":0, "desc":"开始行号"},
+                {"name":"perPage", "type":"INT", "default":10, "min":5, "max":100, "desc":"每页显示行数"}
+            ]
+        },
+        
+        "process" : {
+            "sql" : "{call sp_adExportQuery(?,?,?,?,?,?,?,?)}"
+        },
+        
+        "response" : {
+            "results" : [
+                {
+                    "name" : "result",
+                    "multi" : true,
+                    "segments" : [
+                        {"name":"adInfoId", "type":"INT", "desc":"广告位ID"},
+                        {"name":"mktinfoName", "type":"STRING", "desc":"营销活动名称"},
+                        {"name":"adInfoWebName", "type":"STRING", "desc":"网站名称"},
+                        {"name":"adInfoChannel", "type":"STRING", "desc":"频道"},
+                        {"name":"adInfoPosition", "type":"STRING", "desc":"广告位"},
+                        {"name":"adInfoPort", "type":"STRING", "desc":"端口"},
+                        {"name":"adInfoPlatform", "type":"STRING",  "desc":"平台"},
+                        {"name":"adInfoPlatformDesc", "type":"STRING",  "desc":"平台描述"},
+                        {"name":"adInfoFlowType", "type":"STRING",  "desc":"引流类型"},
+                        {"name":"adInfoDeliveryDays", "type":"STRING", "desc":"投放天数"},
+                        {"name":"adInfoDeliveryTimes", "type":"STRING", "desc":"投放时间"},
+                        {"name":"mktLandInfoCID", "type":"STRING",  "desc":"CID"},
+                        {"name":"mktLandInfoLandUrl", "type":"STRING",  "desc":"着陆链接"},
+                        {"name":"monitorExposureUrl", "type":"STRING",  "desc":"曝光URL"},
+                        {"name":"monitorClickUrl", "type":"STRING",  "desc":"点击URL"},
+                        {"name":"adInfoState", "type":"STRING", "desc":"当前状态"}
+                    ]
+                },
+                
+                {
+                    "name" : "total",
+                    "merge" : true,
+                    "segments" : [
+                        {"name":"total", "type":"INT", "desc":"总数"}
+                    ]
+                }
+            ]
+        }
+    },
+   {
+        "name":"/api/adExport/excelExport",
+        "authType": "user",
+        "type" : "AUTHRDB",
+        "writeLog":true,
+        "dataType":"adExport",
+        "operation":"r",
+        
+        "request" : {
+            "parameters" : [
+                {"name":"pOperator", "type":"ACCOUNT", "desc":"操作人账号"},
+                {"name":"mktId", "type":"INT", "desc":"活动ID"},
+                {"name":"adState", "type":"INT", "desc":"广告位状态"},
+                {"name":"adInfoWebName", "type":"INT", "desc":"网站名称"},
+                {"name":"adInfoPort", "type":"INT", "desc":"端口所属"},
+                {"name":"from", "type":"INT", "default":0, "min":0, "desc":"开始行号"},
+                {"name":"perPage", "type":"INT", "default":10000, "min":5, "max":10000, "desc":"每页显示行数"}
+            ]
+        },
+        
+        "process" : {
+            "processor": "com.huawei.manager.mkt.api.AdExoprt",
+            "sql" : "{call sp_adExportQuery(?,?,?,?,?,?,?,?)}"
+        },
+        
+         "response": {
+             "results" : [
+                {
+                    "name" : "result",
+                    "multi" : true,
+                    "segments" : [
+                        {"name":"adInfoId", "type":"INT", "desc":"广告位ID"},
+                        {"name":"mktinfoName", "type":"STRING", "desc":"营销活动名称"},
+                        {"name":"adInfoWebName", "type":"STRING", "desc":"网站名称"},
+                        {"name":"adInfoChannel", "type":"STRING", "desc":"频道"},
+                        {"name":"adInfoPosition", "type":"STRING", "desc":"广告位"},
+                        {"name":"adInfoPort", "type":"STRING", "desc":"端口"},
+                        {"name":"adInfoPlatform", "type":"STRING",  "desc":"平台"},
+                        {"name":"adInfoPlatformDesc", "type":"STRING",  "desc":"平台描述"},
+                        {"name":"adInfoFlowType", "type":"STRING",  "desc":"引流类型"},
+                        {"name":"adInfoDeliveryDays", "type":"STRING", "desc":"投放天数"},
+                        {"name":"adInfoDeliveryTimes", "type":"STRING", "desc":"投放时间"},
+                        {"name":"mktLandInfoCID", "type":"STRING",  "desc":"CID"},
+                        {"name":"mktLandInfoLandUrl", "type":"STRING",  "desc":"着陆链接"},
+                        {"name":"monitorExposureUrl", "type":"STRING",  "desc":"曝光URL"},
+                        {"name":"monitorClickUrl", "type":"STRING",  "desc":"点击URL"},
+                        {"name":"adInfoState", "type":"STRING", "desc":"当前状态"}
+                    ]
+                }
+                
+            ]
+            
+       }
+    }
+    
+    
+  ]
+}
+

@@ -1,0 +1,177 @@
+
+<!-- 网站分析系统登录后的入口页 ， 加载用户有权看到的website和mini-site-->
+<#include "../common_header.ftl">
+
+<!-- 
+<div id="dHead">
+<div id="head_div">
+  <div id="head_logo"><img src="${vars.imgRoot}/titleban.png" alt="...."></div>
+  <div style="float:right;">
+    <div class="head_text">
+        <span class="head_welcome">Hello <strong id="user_account" class="head_function">${__account}</strong>  ${__userKey}    </span>&nbsp;|&nbsp;
+        <span id="btn_logout" class="head_function">${lang.logout}</span>&nbsp;|&nbsp;
+    </div>
+    <div id="head_menu"></div>
+  </div>
+</div>
+</div>
+-->
+
+
+<div class="collapse navbar-collapse" style="background-color: #ff934b;height:80px;vertical-align: middle;margin-left:0px;">
+	<ul class="nav navbar-nav navbar-left" style="height:80px; vertical-align: middle">
+    	<li style="height:80px;margin-top:17px;">
+        	<img src="${vars.imgRoot}/titleban.png" alt="....">
+        </li>
+	</ul>
+        
+    <ul class="nav navbar-nav navbar-right" style="height:80px; vertical-align: middle">  
+    	<li style="height:80px;margin-top:17px;">
+        	<span class="head_welcome">Hello <strong id="user_account" class="head_function">${__account}</strong>  ${__userKey}    </span>&nbsp;|&nbsp;
+        </li>
+          
+        <li style="height:80px;margin-top:17px;">
+			<span id="btn_logout" class="head_function"><a ui-sref="app3.website_management" class="dropdown-toggle text-white">后台管理</a></span>&nbsp;|&nbsp;
+        </li>
+          
+        <li style="height:80px;margin-top:17px;">
+        	<span id="btn_logout" class="head_function">${lang.logout}</span>&nbsp;|&nbsp;
+        </li>
+	</ul>
+    <!-- / navbar right -->
+</div>
+<!-- / navbar collapse -->
+      
+      
+<!-- content -->
+  <!-- 和app-content有关 -->
+  <div class="app-content" style="margin-left:0px;">
+    <!--
+    <div ui-butterbar></div>
+    <a href class="off-screen-toggle hide" ui-toggle-class="off-screen" data-target=".app-aside" ></a> 
+    -->
+    <!-- <div class="app-content-body fade-in-up" ui-view></div> -->
+    <div class="app-content-body fade-in-up">
+    
+    	<div class="wrapper-md" ng-controller="HomeCtrl" style="padding:0px;">
+		  <div class="panel panel-default">
+		    <div class="panel-body b-b b-light">
+		      	搜索网站： <input id="filter" type="text" class="form-control input-sm w-sm inline m-r"/>
+		    </div>
+		    <div>
+		      <table class="table m-b-none"><!--  ui-jq="footable" data-filter="#filter" data-page-size="10" -->
+		        <tbody>
+		          
+		          <tr ng-repeat="website in websites">
+		              <td>
+		              	<!-- www还是wap -->
+		              	<i ng-if="website.accessNetType == 1" class="glyphicon icon-screen-desktop icon text-success"></i>
+		              	<i ng-if="website.accessNetType == 2" class="glyphicon glyphicon-phone icon text-success"></i>
+		              	
+		              	<!-- 网站还是网页 -->
+		              	<i ng-if="website.siteType == 1" class="glyphicon icon-home icon text-success"></i>
+		              	<i ng-if="website.siteType == 2" class="fa fa-file-o icon text-success"></i>
+		              	
+		              </td>
+		              
+		              <td class="media-body block m-b-none">
+		              	{{website.site_name}}<br>
+		              	{{website.site_url}}
+		              </td>
+		              
+		              <td>
+		              	<a ui-sref="app.website_summary({sid:website.site_id})"><i class="fa fa-line-chart"></i></a>
+		              </td>
+		              
+		              <td>{{website.createtime}}</td>
+		              
+		              
+		              <td class="media-body block m-b-none">
+		              	昨日PV:{{website.last_pv | formatnumber}}<br>
+		              	累计PV:{{website.total_pv | formatnumber}}<br>
+		              </td>
+		              
+		              <td>{{website.site_desc}}</td>
+		              <td></td>
+		          </tr>
+		        </tbody>
+		        <!-- <tfoot class="hide-if-no-paging">
+		          <tr>
+		              <td colspan="5" class="text-center">
+		                  <ul class="pagination"></ul>
+		              </td>
+		          </tr>
+		        </tfoot> -->
+		      </table>
+		    </div>
+		  </div>
+		</div>
+    
+    </div>
+    
+    
+  </div>
+  
+  
+<!-- 
+<div class="collapse navbar-collapse {{app.settings.navbarCollapseColor}}" style="height:80px;vertical-align: middle;margin-left:0px;">
+	<ul class="nav navbar-nav navbar-left" style="height:80px; vertical-align: middle">
+    	<li style="height:80px;margin-top:17px;">
+        	<img src="${vars.imgRoot}/titleban.png" alt="....">
+        </li>
+	</ul>
+	
+    <ul class="nav navbar-nav navbar-right" style="height:80px; vertical-align: middle">  
+    	
+        <li style="height:80px;margin-top:30px;">
+        	<a ui-sref="app3.website_management" class="dropdown-toggle text-white">
+            	后台管理
+            </a>
+        </li>
+        
+        <li class="dropdown" style="height:80px;margin-top:30px;">
+         aaa 
+        </li>
+    </ul>
+</div>
+ -->
+ 
+<!-- waf自带
+<div id="dBody">
+<div id="main_div">
+    <div id="navigation">/</div>
+    <div id="dataContainer">
+        <div id="treeContainer">
+            <ul id="modelTree" class="ztree" style="width:260px; overflow:auto;"></ul>
+        </div>
+        <div id="rightContainer">
+            <div id="listContainer">
+              <center>
+              <br/>
+              <img src="${vars.imgRoot}/index/global.png" />
+              <br/>
+              <br/>
+              <div>${lang.system_name}</div>
+              </center>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+-->
+
+<div id="dFoot">${lang.copyRight}</div>
+
+<script type="text/javascript">
+<script src="${vars.jsRoot}/controllers/home.js"></script>
+seajs.use(["jquery", "angular", "modules/base/index"], function($, angular, index) {
+    index.init({
+        treeContainer:"modelTree",
+        naviBar:"#navigation", 
+        featureBar:"#head_menu", 
+        listContainer:"listContainer"
+    });
+});
+</script>
+<#include "../common_footer.ftl">
+

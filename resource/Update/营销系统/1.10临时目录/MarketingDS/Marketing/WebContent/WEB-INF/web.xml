@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app
+    xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="http://java.sun.com/xml/ns/javaee"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+    version="3.0">
+    <display-name>WAF_manager</display-name>
+    <!-- ====================================================================== -->
+    <listener>
+        <listener-class>com.huawei.manager.base.servlet.ManagerInitListener</listener-class>  
+    </listener>
+    
+    <session-config>
+	    <session-timeout>3600</session-timeout>
+	</session-config>
+
+    <!--  ================CAS集成开始=====================  
+    <filter>
+       <filter-name>CAS Single Sign Out Filter</filter-name>
+       <filter-class>org.jasig.cas.client.session.SingleSignOutFilter</filter-class>
+    </filter>
+    
+    <filter-mapping>
+       <filter-name>CAS Single Sign Out Filter</filter-name>
+       <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    
+    <listener>
+        <listener-class>org.jasig.cas.client.session.SingleSignOutHttpSessionListener</listener-class>
+    </listener>
+    
+    <filter>
+        <filter-name>CAS Authentication Filter</filter-name>
+        <filter-class>org.jasig.cas.client.authentication.AuthenticationFilter</filter-class>
+        <init-param>
+            <param-name>casServerLoginUrl</param-name>
+            <param-value>https://biportal/BIPortal/login</param-value>
+        </init-param>
+        <init-param>
+             <param-name>serverName</param-name>
+             <param-value>http://192.168.22.60:23080</param-value>
+        </init-param>
+        <init-param>
+            <param-name>gateway</param-name>
+            <param-value>false</param-value>
+        </init-param>
+        <init-param>
+            <param-name>renew</param-name>
+            <param-value>false</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>CAS Authentication Filter</filter-name>
+        <url-pattern>/*</url-pattern>
+</filter-mapping> 
+    
+    <filter>  
+        <filter-name>CAS Validation Filter</filter-name>  
+        <filter-class>org.jasig.cas.client.validation.Cas10TicketValidationFilter</filter-class>  
+        <init-param>  
+            <param-name>casServerUrlPrefix</param-name>  
+            <param-value>https://biportal/BIPortal/</param-value>  
+        </init-param>  
+        <init-param>  
+            <param-name>serverName</param-name>  
+             <param-value>http://192.168.22.60:23080</param-value>
+        </init-param>  
+    </filter>  
+    <filter-mapping>  
+        <filter-name>CAS Validation Filter</filter-name>  
+        <url-pattern>/*</url-pattern>  
+    </filter-mapping>  
+  
+    <filter>  
+            <filter-name>CAS HttpServletRequest Wrapper Filter</filter-name> 
+            <filter-class>org.jasig.cas.client.util.HttpServletRequestWrapperFilter</filter-class> 
+    </filter> 
+    <filter-mapping> 
+            <filter-name>CAS HttpServletRequest Wrapper Filter</filter-name> 
+        <url-pattern>/*</url-pattern> 
+    </filter-mapping> 
+    
+    -->
+    
+    <!--  ============   过滤器开始      ============-->
+    
+    <filter>
+	    <filter-name>AuthenticationFilter</filter-name>
+	    <filter-class>com.huawei.manager.mkt.filter.AuthenticationFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>AuthenticationFilter</filter-name>
+        <url-pattern>/api/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>AuthenticationFilter</filter-name>
+        <url-pattern>/browser/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>AuthenticationFilter</filter-name>
+        <url-pattern>/page/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>AuthenticationFilter</filter-name>
+        <url-pattern>/js/*</url-pattern>
+    </filter-mapping>
+	<!--  ============   过滤器结束      ============ -->
+    <!-- ====================================================================== -->
+    <!-- 拦截所有以api开头的请求 -->
+    <servlet>
+        <servlet-name>waf_dispatcher</servlet-name>
+        <servlet-class>com.huawei.manager.mkt.servlet.SplitDispatcher</servlet-class>
+        <load-on-startup>1</load-on-startup>
+        <async-supported>true</async-supported>
+    </servlet>
+	
+    <servlet-mapping> 
+        <servlet-name>waf_dispatcher</servlet-name> 
+        <url-pattern>/api/*</url-pattern> 
+    </servlet-mapping>
+    
+    <servlet-mapping> 
+        <servlet-name>waf_dispatcher</servlet-name> 
+        <url-pattern>/browser/*</url-pattern> 
+    </servlet-mapping>
+    
+    <servlet-mapping> 
+        <servlet-name>waf_dispatcher</servlet-name> 
+        <url-pattern>/page/*</url-pattern> 
+    </servlet-mapping>
+    
+    
+    <listener>
+        <listener-class>com.huawei.manager.mkt.task.TaskManagerListener</listener-class>
+    </listener>
+
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>AllUrl</web-resource-name>
+			<url-pattern>/*</url-pattern>
+			<http-method>PUT</http-method>
+			<http-method>DELETE</http-method>
+			<http-method>HEAD</http-method>
+			<http-method>OPTIONS</http-method>
+			<http-method>TRACE</http-method>
+		</web-resource-collection>
+		<auth-constraint />
+	</security-constraint>
+
+</web-app>

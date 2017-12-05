@@ -1,0 +1,257 @@
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper" ng-controller="PagesSummaryCtrl" >
+	<section class="content">
+		<div class="row">
+            <div class="col-md-3 col-sm-6 col-xs-12" style="margin-top:10px;padding-left:0px;">
+              <div class="info-box">
+                <span class="info-box-icon bg-aqua"><i class="ion ion-ios-browsers-outline"></i></span>
+                <div class="info-box-content">
+                  <span class="info-box-text">浏览量(PV)</span>
+                  <span class="info-box-number">{{summaryData.pv | formatnumber}}</span>
+                  <span ng-show="isHuanBi" class="info-box-number text-muted">{{huanBiSummaryData.pv | formatnumber}}</span>
+                </div><!-- /.info-box-content -->
+              </div><!-- /.info-box -->
+            </div><!-- /.col -->
+            
+            <div class="col-md-3 col-sm-6 col-xs-12" style="margin-top:10px;padding-left:0px;">
+              <div class="info-box">
+                <span class="info-box-icon bg-red"><i class="ion ion-android-contacts"></i></span>
+                <div class="info-box-content">
+                  <span class="info-box-text">访客数(UV)</span>
+                  <span class="info-box-number">{{summaryData.uv | formatnumber}}</span>
+                  <span ng-show="isHuanBi" class="info-box-number text-muted">{{huanBiSummaryData.uv | formatnumber}}</span>
+                </div><!-- /.info-box-content -->
+              </div><!-- /.info-box -->
+            </div><!-- /.col -->
+            
+            <div class="col-md-3 col-sm-6 col-xs-12" style="margin-top:10px;padding-left:0px;">
+              <div class="info-box">
+                <span class="info-box-icon bg-green"><i class="ion ion-close"></i></span>
+                <div class="info-box-content">
+                  <span class="info-box-text">退出页次数</span>
+                  <span class="info-box-number">{{summaryData.exit_pages | formatnumber}}</span>
+                  <span ng-show="isHuanBi" class="info-box-number text-muted">{{huanBiSummaryData.exit_pages | formatnumber}}</span>
+                </div><!-- /.info-box-content -->
+              </div><!-- /.info-box -->
+            </div><!-- /.col -->
+            
+            <div class="col-md-3 col-sm-6 col-xs-12" style="margin-top:10px;padding-left:0px;">
+              <div class="info-box">
+                <span class="info-box-icon bg-yellow"><i class="ion ion-log-in"></i></span>
+                <div class="info-box-content">
+                  <span class="info-box-text">退出率</span>
+                  <span class="info-box-number">{{summaryData.exit_rate | percentage:2}}</span>
+                  <span ng-show="isHuanBi" class="info-box-number text-muted">{{huanBiSummaryData.exit_rate | percentage:2}}</span>
+                </div><!-- /.info-box-content -->
+              </div><!-- /.info-box -->
+            </div><!-- /.col -->
+            
+    	</div><!-- /.row -->
+    	
+    	<div class="row">
+			<div class="col-md-12" style="padding-left:0px;">
+          		<div class="box box-info">
+					<div class="box-body">
+						<div class="b-b b-light" style="padding-bottom:8px;">
+							<!-- <i class="ion-android-search" style="font-size:18px;"></i>  -->  
+		      				<input id="filter" type="text" placeholder="  查询页面..." class="form-control input-sm w-sm inline m-r" style="padding:2px;" ng-model="searchText"/>
+		    			</div>
+						<table class="table m-b-none">
+					        <thead>
+					          <tr>
+					              <th data-sort-ignore="true">
+					              	  页面URL
+					              </th>
+					              <th data-sort-ignore="true"></th>
+					              <th data-sort-ignore="true">
+					              	浏览量(PV)
+					              </th>
+					              <th data-sort-ignore="true">
+					              	访客数(UV)
+					              </th>
+					              <th data-sort-ignore="true">
+					              	 退出页次数
+					              </th>
+					              <th data-sort-ignore="true">
+					              	 退出率
+					              </th>
+					          </tr>
+					        </thead>
+					        <tbody>
+					        
+					        	<tr ng-repeat="row in pageSummaryJson | pageSummarypageFilter:pageSummaryJson.curpage:15:searchText">  	
+						          	<td>
+						          		<div>{{row.page_url}}</div>
+						          		<div>{{selectDate | formatdate}}</div>
+						          		<div ng-show="isHuanBi">{{selectHbDate | formatdate}}</div>
+						          		<div ng-show="isHuanBi">变化率</div>
+						          	</td>
+						          	<td>
+						          		<div class="extlink-icon exticon-base">
+                                    	<span class="exticon-pop">
+                                        	<a target="{{blank}}" ui-sref="app.pages_trend({pageUrl:row.page_url})">&gt; 查看历史趋势</a>
+                                            <a href="javascript:void(0)" ng-click="checkPageDetails(row.page_url)">&gt; 查看页面详情</a>
+                                        </span>
+                                    </div>
+						            </td>
+						            
+						            <td>
+						          		<div>&nbsp;</div>
+						          		<div>
+						          			{{row.pv | formatnumber}}
+						          			<i ng-show="isHuanBi"  ng-if="row.pv > page_list_hbdata[(pageSummaryJson.curpage -1) * 15 +$index].pv" class="glyphicon glyphicon-arrow-up text-danger"></i>
+						          			<i ng-show="isHuanBi"  ng-if="row.pv < page_list_hbdata[(pageSummaryJson.curpage -1) * 15 +$index].pv" class="glyphicon glyphicon-arrow-down text-success"></i>
+						          		</div>
+						          		<div ng-show="isHuanBi">{{page_list_hbdata[(pageSummaryJson.curpage -1) * 15 +$index].pv | formatnumber}}</div>
+						          		<div ng-show="isHuanBi">{{ (row.pv - page_list_hbdata[(pageSummaryJson.curpage -1) * 15 + $index].pv) / page_list_hbdata[(pageSummaryJson.curpage -1) * 15 +$index].pv | percentage:2}}</div>
+						          	</td>
+						          	
+						          	<td>
+						          		<div>&nbsp;</div>
+						          		<div>
+						          			{{row.uv | formatnumber}}
+						          			<i ng-show="isHuanBi"  ng-if="row.uv > page_list_hbdata[(pageSummaryJson.curpage -1) * 15 +$index].uv" class="glyphicon glyphicon-arrow-up text-danger"></i>
+						          			<i ng-show="isHuanBi"  ng-if="row.uv < page_list_hbdata[(pageSummaryJson.curpage -1) * 15 +$index].uv" class="glyphicon glyphicon-arrow-down text-success"></i>
+						          		</div>
+						          		<div ng-show="isHuanBi">{{page_list_hbdata[(pageSummaryJson.curpage -1) * 15 +$index].uv | formatnumber}}</div>
+						          		<div ng-show="isHuanBi">{{ (row.uv - page_list_hbdata[(pageSummaryJson.curpage -1) * 15 +$index].uv) / page_list_hbdata[(pageSummaryJson.curpage -1) * 15 +$index].uv | percentage:2}}</div>
+						          	</td>
+						          	
+						          	<td>
+						          		<div>&nbsp;</div>
+						          		<div>
+						          			{{row.exit_pages | formatnumber}}
+						          			<i ng-show="isHuanBi"  ng-if="row.exit_pages > page_list_hbdata[(pageSummaryJson.curpage -1) * 15 +$index].exit_pages" class="glyphicon glyphicon-arrow-up text-danger"></i>
+						          			<i ng-show="isHuanBi"  ng-if="row.exit_pages < page_list_hbdata[(pageSummaryJson.curpage -1) * 15 +$index].exit_pages" class="glyphicon glyphicon-arrow-down text-success"></i>
+						          		</div>
+						          		<div ng-show="isHuanBi">{{page_list_hbdata[(pageSummaryJson.curpage -1) * 15 +$index].exit_pages | formatnumber}}</div>
+						          		<div ng-show="isHuanBi">{{ (row.exit_pages - page_list_hbdata[(pageSummaryJson.curpage -1) * 15 +$index].exit_pages) / page_list_hbdata[(pageSummaryJson.curpage -1) * 15 +$index].exit_pages | percentage:2}}</div>
+						          	</td>
+						          	
+						          	<td>
+						          		<div>&nbsp;</div>
+						          		<div>
+						          			{{row.exit_rate | percentage:2}}
+						          			<i ng-show="isHuanBi"  ng-if="row.exit_rate > page_list_hbdata[(pageSummaryJson.curpage -1) * 15 +$index].exit_rate" class="glyphicon glyphicon-arrow-up text-danger"></i>
+						          			<i ng-show="isHuanBi"  ng-if="row.exit_rate < page_list_hbdata[(pageSummaryJson.curpage -1) * 15 +$index].exit_rate" class="glyphicon glyphicon-arrow-down text-success"></i>
+						          		</div>
+						          		<div ng-show="isHuanBi">{{page_list_hbdata[(pageSummaryJson.curpage -1) * 15 +$index].exit_rate | percentage:2}}</div>
+						          		<div ng-show="isHuanBi">{{ (row.exit_rate - page_list_hbdata[(pageSummaryJson.curpage -1) * 15 +$index].exit_rate) / page_list_hbdata[(pageSummaryJson.curpage -1) * 15 +$index].exit_rate | percentage:2}}</div>
+						          	</td>
+						          	
+				          		</tr>
+					        
+					        </tbody>
+					      </table>
+					      <div class="up-pager">
+						<div class="uppg">
+							<a href="javascript:void(0);" class="first-page"
+								data-page="first" ng-click="selectPage(1)">首页</a> <a
+								href="javascript:void(0);" class="uppg-prv"
+								ng-click="selectPage(pageSummaryJson.curpage - 1)">上一页</a> <a
+								ng-repeat="p in pageSummaryJson.showPage" href="javascript:void(0);"
+								ng-class="setCurPage(p)" ng-click="selectPage(p)">{{p}}</a> <a
+								href="javascript:void(0);" class="uppg-nt"
+								ng-click="selectPage(pageSummaryJson.curpage + 1)">下一页</a> <a
+								href="javascript:void(0);" class="last-page" data-page="last"
+								ng-click="selectPage(pageSummaryJson.totalPage)">尾页</a>
+						</div>
+						<div class="pg-count">
+							共<span class="pg-no">{{pageSummaryJson.totalPage}}</span>页
+						</div>
+					</div>
+					</div> <!-- /.box-body -->
+				</div> <!-- /.box -->
+			</div> <!-- /.col-md-12 -->
+		</div> <!-- /.row -->
+    	
+    	
+	</section> <!-- /.content -->
+	<div class="up-mask" ng-show="isPageSum" style="z-index:1999;">
+    <div class="up-popup upp-tabwin">
+        <h2>查看本页详情</h2>
+        <a href="javascript:void(0)" class="upp-close" ng-click="closeMask()"></a>
+        <div class="upp-cont">
+            <div class="upp-tabber">
+            	<a href="javascript:void(0);" ng-class="{true: 'upp-tabon', false: ''}[isActive[0]]" ng-click="checkPageDetails(1)">上游页面</a>
+                <a href="javascript:void(0);" ng-class="{true: 'upp-tabon', false: ''}[isActive[1]]" ng-click="checkPageDetails(2)">下游页面</a>
+                <a href="javascript:void(0);" ng-class="{true: 'upp-tabon', false: ''}[isActive[2]]" ng-click="checkPageDetails(3)">点击详情</a>
+            </div>
+            <div class="upp-tabpage" ng-show="isActive[0]" style="height: 330px;overflow:auto;">
+                <table class="upp-tabtable">
+                    <!-- colgroup 对列的宽度进行定义, 与td对应。 方便后期修改宽度 -->
+                    <colgroup>
+                        <col style="width:250px;"/>
+                        <col />
+                        <col />
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <td>上游TOP10</td>
+                            <td style="text-align:right;">UV</td>
+                            <td style="text-align:right;">PV</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="row in updown">
+                            <td class="toe" title="{{row.updown_page_url}}"><a href="">{{row.updown_page_url | truncate:true:30:' ...' }}</a></td>
+                            <td style="text-align:right;">{{row.uv | formatnumber}}</td>
+                            <td style="text-align:right;">{{row.pv | formatnumber}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="upp-tabpage" ng-show="isActive[1]" style="height: 330px;overflow:auto;">
+                <table class="upp-tabtable">
+                    <!-- colgroup 对列的宽度进行定义, 与td对应。 方便后期修改宽度 -->
+                    <colgroup>
+                        <col style="width:250px;"/>
+                        <col />
+                        <col />
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <td>下游TOP10</td>
+                            <td style="text-align:right;">UV</td>
+                            <td style="text-align:right;">PV</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="row in updown">
+                            <td class="toe" title="{{row.updown_page_url}}"><a href="">{{row.updown_page_url| truncate:true:30:' ...' }}</a></td>
+                            <td style="text-align:right;">{{row.uv | formatnumber}}</td>
+                            <td style="text-align:right;">{{row.pv | formatnumber}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="upp-tabpage" ng-show="isActive[2]" style="height:330px;overflow:auto;">
+                <table class="upp-tabtable">
+                    <!-- colgroup 对列的宽度进行定义, 与td对应。 方便后期修改宽度 -->
+                    <colgroup>
+                        <col style="width:250px;"/>
+                        <col />
+                        <col />
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <td>按钮点击TOP10</td>
+                            <td style="text-align:right;">UV</td>
+                            <td style="text-align:right;">PV</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                       <tr ng-repeat="row in updown">
+                            <td class="toe" title="{{row.updown_page_url}}"><a href="">{{row.updown_page_url | truncate:true:30:' ...'}}</a></td>
+                            <td style="text-align:right;">{{row.uv | formatnumber}}</td>
+                            <td style="text-align:right;">{{row.pv | formatnumber}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+</div> <!-- /.content-wrapper -->
+

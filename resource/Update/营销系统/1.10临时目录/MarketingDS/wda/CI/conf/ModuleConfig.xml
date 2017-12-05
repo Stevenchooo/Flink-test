@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- "由产品CIE配置此文件" -->
+
+<!-- "以下配置模块信息，用于静态检查,如：sourcemonitor、cct、simian。" -->
+<moduleConfig version="1.0">
+
+    <paths>
+        <!--说明：
+        1、只支持相对路径，id名称自定义，在CIConfig.xml中引用
+        2、path仅支持pathelement，fileset，path作为子节点
+        3、pathelement仅支持path和location
+        4、path引用前面定义好的path id（refid）-->
+        <path id="path.class.main">	
+            <pathelement path="wda/WebContent/WEB-INF/classes"/>	
+        </path>
+        
+        <path id="path.lib.main">	
+            <fileset dir="wda/WebContent/WEB-INF/lib">
+                <include name="**/*.jar"/>
+            </fileset>
+        </path>
+       
+        <path id="path.main">
+            <fileset dir="wda/WebContent/WEB-INF/lib">
+                <include name="**/*.jar"/>
+            </fileset>
+           <pathelement location="wda/WebContent/WEB-INF/test"/>
+            
+            <path refid="path.class.main"/>
+        </path> 
+    </paths>
+
+
+    <!-- "兼容pattern配置模式下的模块路径公共配置声明" -->
+    <modulePatternPublicSet>
+		<exclude name="**/*.asn" />
+		<exclude name="**/*.so" />
+    </modulePatternPublicSet>
+	
+	<modules>
+		<!-- "用户配置的多组模块信息，用于生成Pattern以及静态检查任务" -->
+		<module name="wda" language="java" layerPath="/wda">
+			<include name="wda/src/**/*.java" />
+		</module>
+	</modules>
+	
+	<!--"当用户的Pclint任务的模块信息与静态检查的模块信息不一致时，在此增加附加规则，在源模块的基础上排除不需要做Pclint的文件;不增加时默认使用modules中的模块定义做Pclint检查。"-->
+	<!--"注：此中的模块名称与modules中的模块名称一致"-->
+	<!--"注：此处的module设置参数defaultExtends定义lint的模块的include和exclude是否继承上面的。可选值:true/false"-->
+	<lintModuleSet defaultExtends="true">
+		<module name="server" extends="false">
+			<exclude name="subsystem1/source/server/**/*.h" />
+		</module>
+		<!--"注：若此处的module设置参数extends,则总是以此处的为准。可选值:true/false"-->
+		<module name="client" extends="false">
+			<exclude name="subsystem1/source/client/**/*.h" />
+		</module>
+	</lintModuleSet>
+</moduleConfig>

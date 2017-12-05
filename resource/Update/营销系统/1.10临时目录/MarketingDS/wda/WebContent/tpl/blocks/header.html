@@ -1,0 +1,97 @@
+      <!-- navbar header -->
+      <!-- 
+      <div class="navbar-header {{app.settings.navbarHeaderColor}}">
+        <a href="#" class="navbar-brand text-lt">
+          <i class="fa fa-area-chart"></i>
+          <img src="img/logo.png" alt="." class="hide">
+          <span class="hidden-folded m-l-xs">{{app.name}}</span>
+        </a>
+      </div>
+      -->
+      <!-- / navbar header -->
+
+      <!-- navbar collapse -->
+      <div ng-show="{{headerShow}}">
+      <div  class="collapse navbar-collapse box-shadow {{app.settings.navbarCollapseColor}}" style="height:80px;vertical-align: middle;margin-left:0px;">
+        <!-- 
+        <div class="nav navbar-nav hidden-xs" style="height:80px;vertical-align: middle;">
+          <a href class="btn no-shadow navbar-btn" ng-click="app.settings.asideFolded = !app.settings.asideFolded">
+            <i class="fa {{app.settings.asideFolded ? 'fa-indent' : 'fa-dedent'}} fa-fw"></i>
+          </a>
+        </div>
+        -->
+        
+        <ul  class="nav navbar-nav navbar-left" style="height:80px; vertical-align: middle">
+          <li style="height:80px;margin-top:17px;">
+          	<img src="/wda/imgs/titleban.png" alt=".">
+          </li>
+        </ul>
+
+        <!-- nabar right -->
+        <ul class="nav navbar-nav navbar-right"  style="height:80px;vertical-align: middle;">
+          
+          <li  style="height:80px;margin-top:30px;">
+            <a class="text-white">
+              	用户名：{{account}}
+            </a>
+          </li>
+          
+          <li style="height:80px;margin-top:30px;">
+            <a class="text-white">
+              	当前站点
+            </a>
+          </li>
+          
+          <li style="height:80px;margin-top:40px;">
+          	<!-- <div ng-controller="MainController2"> -->
+          		<select 
+  					class="form-control input-sm bg-light no-border"
+  					id="transactiontype" 
+  					ng-model="selected"
+  					ng-options="opt.site_id as (opt.site_name+' ') for opt in websites" 
+  					ng-change="locationChangeFunction(selected)">
+  				</select>
+			<!-- </div> -->
+          </li>
+          
+          <!-- <li class="dropdown">  -->
+          <li  style="height:80px;margin-top:30px;">
+            <a class="text-white" ui-sref="home"> <!-- ng-click="logout()"  -->
+              	返回首页
+            </a>
+          </li>
+        </ul>
+        <!-- / navbar right -->
+        
+      </div>
+      </div>
+      
+      
+      
+      <div ng-show="!{{headerShow}}">
+      <div  class="collapse navbar-collapse box-shadow " style="height:60px;vertical-align: middle;margin-left:0px;background-color: #00B6E2;">
+     
+        <ul class="nav navbar-nav navbar-right"  style="height:50px;vertical-align: middle;">
+          
+          <li style="height:50px;margin-top:10px;">
+            <a class="text-white">
+              	当前站点
+            </a>
+          </li>
+          
+          <li style="height:50px;margin-top:10px;">
+          	<!-- <div ng-controller="MainController2"> -->
+          		<select 
+  					class="form-control input-sm bg-light no-border"
+  					id="transactiontype" 
+  					ng-model="selected"
+  					ng-options="opt.site_id as (opt.site_name+' ') for opt in websites" 
+  					ng-change="locationChangeFunction(selected)">
+  				</select>
+			<!-- </div> -->
+          </li>
+        </ul>
+      </div>
+      </div>
+      
+      <!-- / navbar collapse -->

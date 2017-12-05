@@ -1,0 +1,65 @@
+﻿
+
+<div class="panel panel-default" ng-controller="WebsiteManagementCtrl">
+	<div class="panel-heading font-bold">网站管理</div>
+	<div class="panel-body">
+
+		<form class="form-horizontal" name="adminForm"
+			ng-submit="saveWebsite(website.id)" novalidate>
+
+			<div class="form-group">
+				<div>
+					<label class="col-sm-2 text-right">IDSITE <font color="red">*</font></label>
+					<div class="col-lg-10">
+						<input type="text" class="form-control" name="site_id"
+							ng-model="website.site_id" placeholder="多个IDSITE请用英文逗号分隔"
+							required maxlength="512" /> <span style="color: red"
+							ng-show="adminForm.site_id.$invalid && !adminForm.site_id.$pristine">IDSITE不能为空</span>
+					</div>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<div>
+					<label class="col-sm-2 text-right">网站名称 <font color="red">*</font></label>
+					<div class="col-lg-10">
+						<input type="text" class="form-control" name="site_name"
+							ng-model="website.site_name" required maxlength="50" /> <span
+							style="color: red"
+							ng-show="adminForm.site_name.$invalid && !adminForm.site_name.$pristine">网站名称不能为空</span>
+					</div>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-sm-2 text-right">网站URL</label>
+				<div class="col-lg-10">
+					<input type="text" class="form-control" name="site_url"
+						data-ng-model="website.site_url" maxlength="100" />
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-sm-2 text-right">用户群组</label>
+				<div class="col-lg-10">
+					<select class="form-control" id="transactiontype"
+						ng-model="selected"
+						ng-options="opt.id as opt.name for opt in groups">
+					</select>
+				</div>
+			</div>
+
+			<div class="dialog-buttons dialog-footer">
+				<button type="button" class="dialog-button dialog-button-secondary"
+					ng-click="closeThisDialog('close')">取消</button>
+				<button type="submit" ng-disabled="adminForm.$invalid"
+					class="dialog-button dialog-button-primary">&#160;确定&#160;</button>
+			</div>
+		</form>
+	</div>
+</div>
+
+
+
+
+

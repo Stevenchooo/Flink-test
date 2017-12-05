@@ -1,0 +1,56 @@
+
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper" ng-controller="PagesAnalyticsCtrl">
+	<!-- Content Header (Page header) -->
+	<section class="content-header" style="padding: 0 15px 0 15px;">
+    	<h5>页面分析 </h5>
+	</section>
+	
+	<section class="content">
+		<!-- Info boxes -->
+		<div class="row">
+			<div class="col-md-12">
+	        	<div class="box" style="border-top:0px;margin-bottom:15px;background:#ffffff;">
+	          		<div class="box-header" style="padding:0px;">
+			          	<ul class="nav nav-pills" >
+				          <li ng-class='{"active":period==0}'><a href ng-click="selectTimePeriod(0)">今天</a></li>
+				          <li ng-class='{"active":period==-1}'><a href ng-click="selectTimePeriod(-1)">昨天</a></li>
+				          <li ng-class='{"active":period==-7}'><a href ng-click="selectTimePeriod(-7)">最近7天</a></li>
+				          <li ng-class='{"active":period==-30}'><a href ng-click="selectTimePeriod(-30)">最近30天</a></li>
+				          <!-- -->
+				          <li style="margin-left:5px; padding: 10px 15px;">
+				          	<input date-range-picker class="form-control date-picker" size="22" type="text" ng-model="datePicker.date" options="opts" ng-change="timePickerChange()"/>
+				          </li>
+				          
+				          
+				          <li style=" padding: 10px 1px 10px 1px;">
+				          	<label class="i-checks i-checks-sm checkbox-inline">
+				          		<input type="checkbox" ng-model="isHuanBi" ng-change="huanbi()" /><i></i>对比
+				          	</label>
+				          </li>
+				          <li ng-show ="isHuanBi" style=" padding: 10px 1px 10px 1px;">
+				          	<input date-range-picker class="form-control date-picker" size="22" type="text" ng-model="datePicker.date1" options="opts" ng-change="comparePeriodTimeSelect()"/>
+				          </li>
+				          
+				        </ul>
+			        </div> <!-- /.box-header -->
+		        </div> <!-- /.box -->
+          </div> <!-- /.col-md-12 -->
+		</div> <!--  /.row -->
+		
+		<div class="row">
+			<div class="col-md-12">
+				<tabs data="tabData"></tabs>
+			</div> <!-- /.col-md-12 -->
+		</div> <!--  /.row -->
+		
+		<div class="row">
+			<div class="col-md-12">
+				<ui-view></ui-view>
+			</div> <!-- /.col-md-12 -->
+		</div> <!--  /.row -->
+		
+	</section> <!-- /.content -->
+
+</div> <!-- /.content-wrapper -->

@@ -1,0 +1,240 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<project name="build" basedir="." default="all">
+	<!--全局属性-->
+	<property file="build.properties" />
+	<property name="project.dir" location="." />
+	<!--临时war包目录-->
+	<property name="dest.dir" value="${project.dir}\target" />
+	<!--classes目录-->
+	<property name="classes.main" value="${project.dir}\bin" />
+	<property name="tomcat.home" value="D:\apache-tomcat-7.0.67" />
+	<tstamp>
+		<format property="current_time" pattern="yyyy-MM-dd HH:mm:ss" offset="0" unit="minute" />
+	</tstamp>
+
+	<!-- 构建路径 -->
+	<path id="compile.src.classpath">
+		<!-- <fileset dir="${project.dir}/${webRoot}/WEB-INF/lib">
+			<include name="*.jar" /> 
+		</fileset>-->
+		 <fileset dir="${tomcat.home}/lib">
+		            <include name="**/*.jar" />
+		            <include name="*.jar" />
+		        </fileset>
+		<fileset dir="${project.dir}/lib">
+			<include name="*.jar" />
+			<include name="**/*.jar" />
+		</fileset>
+	</path>
+
+	<target name="begin">
+		<echo>============================================</echo>
+		<echo>Project Info</echo>
+		<echo>Name = ${name}</echo>
+		<echo>Version = ${version}</echo>
+		<echo>Copyright = ${copyright}</echo>
+		<echo>Current_time = ${current_time}</echo>
+		<echo>Project.dir = ${project.dir}</echo>
+		<echo>dest.dir = ${dest.dir}</echo>
+		<echo>classes.main = ${classes.main}</echo>
+		<echo>============================================</echo>
+	</target>
+
+	<!--清除目标文件夹文件-->
+	<target name="build-clean" depends="begin" description="Clean output dirs (report, classes, doc, dist)">
+		<echo message="clean dir" />
+		<!--删除归档目录-->
+		<delete dir="${dest.dir}" />
+		<!--删除编译输出目录-->
+		<delete dir="${classes.main}" />
+	</target>
+
+	<!--编译所有的源文件，并且将源码目录下的资源文件COPY到WEB相应的目录下-->
+	<target name="build-compile" depends="build-clean">
+		<!--创建临时classes目录-->
+		<mkdir dir="${classes.main}" />
+		
+		<echo message="compile" />
+
+		<javac executable="C:\Program Files\Java\jdk1.7.0_79\bin\javac.exe"
+               destdir="${classes.main}" encoding="utf-8"  debug="true" deprecation="false" optimize="false" failonerror="true" nowarn="true" fork="true" >
+			<compilerarg line="-g:source,lines,vars" />
+			<src path="${project.dir}/src" />
+			<classpath refid="compile.src.classpath" />
+		</javac>
+		<copy todir="${classes.main}" preservelastmodified="true">
+			
+			<fileset dir="${project.dir}/src">
+				<include name="META-INF/*.*" />
+			</fileset>
+		</copy>
+		<echo message="compile success" />
+	</target>
+
+	<!--打jar包-->
+	<target name="build-jar" depends="build-compile">
+	   
+	   <mkdir dir="${classes.main}\..\lib" />
+
+	   <echo>build jar</echo>
+		<!-- JAR： uniaccount_userprofile.jar -->
+		<jar destfile="${project.dir}/bin/${jarName}.jar">
+			<fileset dir="${classes.main}">
+				<exclude name="**/Test.class" />
+				<exclude name="*.properties" />
+				<exclude name="*.xml" />
+			</fileset>
+		</jar>
+		<echo message="build jar success" />
+	</target>
+
+	<!--打war包-->
+	<!--target name="build-war" depends="build-jar">
+		<echo>build war</echo-->
+
+	<!--创建临时war包目录-->
+	<!--mkdir dir="${dest.dir}/temp" /-->
+	<!--将工程webRoot下的内容拷到target/temp目录下-->
+	<!--copy todir="${dest.dir}/temp" preservelastmodified="true">
+			<fileset dir="${project.dir}/${webRoot}">
+				<include name="**" />
+				<include name="**/*.*" />
+				<exclude name="**/*.class" />
+				<exclude name="**/*.svn" />
+				<exclude name="**/*.cvs" />
+			</fileset>
+		</copy-->
+
+	<!--将根目录下lib文件拷到target\WEB-INF\lib目录-->
+	<!--mkdir dir="${dest.dir}/temp/WEB-INF/tools" /-->
+
+	<!--将tools目录拷到target/tools目录-->
+	<!--copy todir="${dest.dir}/temp/tools" preservelastmodified="true">
+			<fileset dir="${project.dir}/tools">
+				<include name="**/**" />
+				<include name="**.**" />
+			</fileset>
+		</copy-->
+
+	<!--将lib目录下的jar包拷到WebRoot\WEB-INF\lib目录(不包含文件夹)-->
+	<!--copy todir="${dest.dir}/temp/WEB-INF/lib" preservelastmodified="true" flatten="true">
+			<fileset dir="${project.dir}/lib">
+				<include name="*.jar" />
+				<include name="**/*.jar" />
+				<exclude name="**/jsp-api.jar" />
+				<exclude name="jsp-api.jar" />
+				<exclude name="**/servlet-api.jar" />
+				<exclude name="servlet-api.jar" />
+				<exclude name="**/servlet-api-2.4.jar" />
+				<exclude name="servlet-api-2.4.jar" />
+			</fileset>
+		</copy>
+
+	<war warfile="${dest.dir}/${name}.war" basedir="${dest.dir}/temp" webxml="${dest.dir}/temp/WEB-INF/web.xml">
+			<include name="*/**" />
+		</war>
+		<delete dir="${classes.main}" />
+		<delete dir="${dest.dir}/temp" />
+		<echo>build war success</echo>
+	</target-->
+
+	<!--打gz包-->
+	<target name="build-gz" depends="build-jar">
+		<echo>build release</echo>
+		<echo>build gz</echo>
+
+		<!--创建目录-->
+		<mkdir dir="${dest.dir}/${name}" />
+		<!--将工程webRoot下的内容拷到target/temp目录下-->
+		<copy todir="${dest.dir}/${name}" preservelastmodified="true">
+			<fileset dir="${project.dir}/bin">
+				<include name="**" />
+				<include name="**/*.*" />
+				<exclude name="**/*.svn" />
+				<exclude name="**/*.cvs" />
+			</fileset>
+		</copy>
+
+		<!--将根目录下lib文件拷到target\WEB-INF\lib目录-->
+		<!--<mkdir dir="${dest.dir}/${name}/WEB-INF/tools" />-->
+
+		<!--将tools目录拷到target/tools目录-->
+		<!--<copy todir="${dest.dir}/${name}/tools" preservelastmodified="true">
+			<fileset dir="${project.dir}/tools">
+				<include name="**/**" />
+				<include name="**.**" />
+			</fileset>
+		</copy>-->
+
+		<!--将lib目录下的jar包拷到WebRoot\WEB-INF\lib目录(不包含文件夹)-->
+		<copy todir="${dest.dir}/${name}/WEB-INF/lib" preservelastmodified="true" flatten="true">
+			<fileset dir="${project.dir}/lib">
+				<include name="*.jar" />
+				<include name="**/*.jar" />
+				<include name="**/*.txt" />
+				<!--  <exclude name="jxls/*.jar" />
+				<exclude name="**/jsp-api.jar" />
+				<exclude name="**/servlet-api.jar" />
+				<exclude name="**/servlet-api-2.4.jar" />
+				<exclude name="servlet-api-2.4.jar" />
+				<exclude name="servlet-api.jar" />
+				<exclude name="jsp-api.jar" />-->
+			</fileset>
+		</copy>
+		<!--删除classes下面的com目录-->
+		<delete dir="${dest.dir}/${name}/WEB-INF/classes/com" failonerror="false" />
+
+		<!--打成tar包-->
+		<tar tarfile="${dest.dir}/${name}.tar" basedir="${dest.dir}" longfile="gnu">
+			<include name="*/**" />
+		</tar>
+		<!--打成gzip包-->
+		<gzip src="${dest.dir}/${name}.tar" zipfile="${dest.dir}/${name}.tar.gz" />
+	</target>
+	
+	<!--打zip包-->
+	<tstamp>
+		<format property="currentTime" pattern="yyyyMMddHHmmss" offset="0" unit="minute" />
+	</tstamp>
+	<target name="build-zip" depends="build-jar">
+		<echo>build zip</echo>
+		<!--源码zip目录-->
+		<mkdir dir="${dest.dir}/${name}_src_${currentTime}" />
+
+		<!--将src下面的java文件拷贝到源码目录下-->
+		<copy todir="${dest.dir}/${name}_src_${currentTime}" preservelastmodified="true">
+			<fileset dir="${project.dir}/src">
+				<include name="**/**" />
+				<include name="META-INF/*.*" />
+				<exclude name="*.class" />
+				<exclude name="**/*.class" />
+				<exclude name="**/*.svn" />
+				<exclude name="**/*.cvs" />
+			</fileset>
+		</copy>
+
+		<!--将源码打成zip包-->
+		<zip destfile="${dest.dir}/${name}_src_${currentTime}.zip" basedir="${dest.dir}/${name}_src_${currentTime}">
+			<include name="*/**" />
+		</zip>
+	</target>
+	
+	<!--清理临时目录-->
+	<target name="cleanTempDir" depends="build-zip">
+		<delete dir="${dest.dir}/${name}_src_${currentTime}" failonerror="false" />
+		<delete file="${dest.dir}/${name}.tar" failonerror="false" />
+		<delete file="${project.dir}/bin/${jarName}.jar" failonerror="false" />
+		<delete dir="${dest.dir}/${name}" failonerror="false" />
+	</target>
+	
+	<!--MD5 -->
+    <target name="genCheckSum" depends="build-gz,build-zip">
+           <checksum algorithm="MD5">
+                <fileset dir="${dest.dir}">
+                    <include name="${name}.tar.gz"/>
+                    <include name="${name}_src_${currentTime}.zip"/>
+                </fileset>
+            </checksum>
+    </target>
+    <target name="all" depends="begin,build-clean,build-compile,build-jar,cleanTempDir,genCheckSum" description="compile Project" />
+</project>

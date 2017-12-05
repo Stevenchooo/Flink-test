@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en" data-ng-app="app">
+<head>
+<meta charset="utf-8" />
+<title>网站分析系统</title>
+<meta name="description" content="" />
+<meta name="keywords" content="" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<link rel="stylesheet" href="${vars.webRoot}/css/bootstrap.css"
+	type="text/css" />
+
+<link rel="stylesheet" href="${vars.webRoot}/css/app.css"
+	type="text/css" />
+<link rel="stylesheet" href="${vars.webRoot}/css/AdminLTE.css"
+	type="text/css" />
+
+<link rel="stylesheet" href="${vars.webRoot}/css/animate.css"
+	type="text/css" />
+
+<link rel="stylesheet" href="${vars.webRoot}/css/font-awesome.min.css"
+	type="text/css" />
+
+<link rel="stylesheet" href="${vars.webRoot}/css/ionicons.min.css"
+	type="text/css" />
+
+<link rel="stylesheet"
+	href="${vars.webRoot}/css/jquery-jvectormap-1.2.2.css" type="text/css" />
+
+<link rel="stylesheet" href="${vars.webRoot}/css/treeGrid.css"
+	type="text/css" />
+
+<link rel="stylesheet" href="${vars.webRoot}/css/ngExDialog.css">
+
+<!-- 日期选择控件css，迭代2实现-->
+<link rel="stylesheet" href="css/daterangepicker.css">
+
+<link rel="stylesheet" href="${vars.webRoot}/css/upcss.css">
+
+</head>
+<body ng-controller="AppCtrl">
+
+	<div class="app" id="app"
+		ng-class="{
+         'app-header-fixed': app.settings.headerFixed, 
+		 'app-aside-fixed' : app.settings.asideFixed, 
+		 'app-aside-folded': app.settings.asideFolded, 
+		 'app-aside-dock'  : app.settings.asideDock, 
+		 'container'       : app.settings.container}"
+		ui-view></div>
+
+	<script src="${vars.jsRoot}/echarts/echarts.min.js"></script>
+	<script src="${vars.jsRoot}/echarts/china.js"></script>
+	<script src="${vars.jsRoot}/local/util.js"></script>
+	<script src="${vars.jsRoot}/local/${curLang}.js"></script>
+	<script src="${vars.jsRoot}/seajs/2.2.1/sea.js"></script>
+
+	<!-- jQuery -->
+	<script src="${vars.webRoot}/vendor/jquery/jquery.min.js"></script>
+
+	<!-- Angular -->
+	<script src="${vars.webRoot}/vendor/angular/angular.js"></script>
+
+	<script
+		src="${vars.webRoot}/vendor/angular/angular-animate/angular-animate.js"></script>
+	<script
+		src="${vars.webRoot}/vendor/angular/angular-cookies/angular-cookies.js"></script>
+	<script
+		src="${vars.webRoot}/vendor/angular/angular-resource/angular-resource.js"></script>
+	<script
+		src="${vars.webRoot}/vendor/angular/angular-sanitize/angular-sanitize.js"></script>
+	<script
+		src="${vars.webRoot}/vendor/angular/angular-touch/angular-touch.js"></script>
+	<!-- Vendor -->
+	<script
+		src="${vars.webRoot}/vendor/angular/angular-ui-router/angular-ui-router.js"></script>
+	<script src="${vars.webRoot}/vendor/angular/ngstorage/ngStorage.js"></script>
+	<script
+		src="${vars.webRoot}/vendor/angular/angular-ui-utils/ui-utils.js"></script>
+
+	<!-- bootstrap -->
+	<script
+		src="${vars.webRoot}/vendor/angular/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+
+	<!-- lazyload -->
+	<script src="${vars.webRoot}/vendor/angular/oclazyload/ocLazyLoad.js"></script>
+
+	<!-- translate -->
+	<script
+		src="${vars.webRoot}/vendor/angular/angular-translate/angular-translate.js"></script>
+
+	<script
+		src="${vars.webRoot}/vendor/angular/angular-translate/loader-static-files.js"></script>
+	<script
+		src="${vars.webRoot}/vendor/angular/angular-translate/storage-cookie.js"></script>
+	<script
+		src="${vars.webRoot}/vendor/angular/angular-translate/storage-local.js"></script>
+
+	<script src="${vars.jsRoot}/directives/d3.js"></script>
+	<script src="${vars.jsRoot}/directives/nv.d3.js"></script>
+	<!-- or use another assembly -->
+	<script src="${vars.jsRoot}/directives/angular-nvd3.js"></script>
+
+	<script src="${vars.jsRoot}/plugins/ui-router-tabs.js"></script>
+	<script src="${vars.jsRoot}/plugins/ngExDialog.js"></script>
+	<script src="${vars.jsRoot}/plugins/angular-drag-and-drop-lists.js"></script>
+	<script src="${vars.jsRoot}/plugins/jsmind/jsmind.js"></script>
+
+	<script src="${vars.jsRoot}/plugins/datepicker/moment.js"></script>
+	<script src="${vars.jsRoot}/plugins/datepicker/daterangepicker.js"></script>
+	<script
+		src="${vars.jsRoot}/plugins/datepicker/angular-daterangepicker.js"></script>
+
+	<script src="${vars.jsRoot}/plugins/checklist-model.js"></script>
+
+	<!-- <script src="js/ui-bootstrap-tpls-0.14.0.min.js"></script> -->
+
+	<!-- App -->
+
+	<script src="${vars.jsRoot}/app.js"></script>
+	<script src="${vars.jsRoot}/config.js"></script>
+	<script src="${vars.jsRoot}/config.lazyload.js"></script>
+	<script src="${vars.jsRoot}/config.router.js"></script>
+	<script src="${vars.jsRoot}/main.js"></script>
+	<script src="${vars.jsRoot}/services/ui-load.js"></script>
+	<script src="${vars.jsRoot}/services/chart/base.js"></script>
+	<script src="${vars.jsRoot}/services/chart/bar.js"></script>
+	<script src="${vars.jsRoot}/services/chart/line.js"></script>
+	<script src="${vars.jsRoot}/services/chart/pie.js"></script>
+	<script src="${vars.jsRoot}/services/chart/map.js"></script>
+	<script src="${vars.jsRoot}/services/chart/lineRef.js"></script>
+	<script src="${vars.jsRoot}/services/chart/bar_y.js"></script>
+	<script src="${vars.jsRoot}/services/chart/hbBar.js"></script>
+	<script src="${vars.jsRoot}/filters/fromNow.js"></script>
+
+	<script src="${vars.jsRoot}/filters/pageFilters.js"></script>
+
+	<script src="${vars.jsRoot}/directives/setnganimate.js"></script>
+	<script src="${vars.jsRoot}/directives/ui-butterbar.js"></script>
+	<script src="${vars.jsRoot}/directives/ui-focus.js"></script>
+	<script src="${vars.jsRoot}/directives/ui-fullscreen.js"></script>
+	<script src="${vars.jsRoot}/directives/ui-jq.js"></script>
+	<script src="${vars.jsRoot}/directives/ui-module.js"></script>
+	<script src="${vars.jsRoot}/directives/ui-nav.js"></script>
+	<script src="${vars.jsRoot}/directives/ui-scroll.js"></script>
+	<script src="${vars.jsRoot}/directives/ui-shift.js"></script>
+	<script src="${vars.jsRoot}/directives/ui-toggleclass.js"></script>
+	<script src="${vars.jsRoot}/controllers/bootstrap.js"></script>
+	<script src="${vars.jsRoot}/dataServices.js"></script>
+	<script src="${vars.jsRoot}/directives/tree-grid-directive.js"></script>
+	<script src="${vars.jsRoot}/plugins/ngStorage.js"></script>
+
+	<div id="load-me" class="up-mask" style="display: none; z-index: 199;">
+		<div class="up-popup data-loading"
+			style="width: 300px; height: 100px;">
+			<img src="images/loading_spinner.gif"
+				style="height: 90px; margin-right: 10px; vertical-align: middle; width: 90px;" /><em>数据加载中，请稍候......</em>
+			<em style="display: none;">用户识别中，请稍候......</em> <em
+				style="display: none;">文件处理中...</em>
+		</div>
+	</div>
+
+	<div style="display: none;" id="errorHttp" class="up-mask">
+		<div class="up-popup upp-msg">
+			<h2>提示</h2>
+			<a class="upp-close" href="javascript:void(0)"></a>
+			<div class="upp-cont">
+				<p class="msg-detail">抱歉！请求错误，请刷新重试！</p>
+			</div>
+		</div>
+	</div>
+
+	<script>
+		seajs.config({
+			base : "${vars.jsRoot}/",
+			alias : {
+				'jquery' : 'jquery/jquery/1.10.1/jquery',
+				'cookie' : 'arale/cookie/1.0.2/cookie',
+				'dialog' : 'jquery/dialog/4.1.7/artDialog',
+				'calendar' : 'jquery/calendar/1.0/tinycal.js',
+				'angular' : 'angular/1.1.5/angular',
+				'tree' : 'jquery/tree/3.5/ztree',
+				'splitter' : 'jquery/splitter/0.8.0/splitter',
+				'meta' : 'modules/base/meta/meta',
+				'model' : 'modules/base/model'
+			},
+
+			map : [ [ /^(.*\.(?:css|js))(.*)$/i, '$1?20140219' ] ]
+		});
+
+		var __userKey = "${__userKey!"
+		"}";
+		var __cookieHeader = "${vars.cookieHead}";
+		var __webRoot = "${vars.webRoot}";
+		var __account = "${__account!"
+		"}";
+		var __urlRoot = "${vars.urlRoot}";
+		var __tplRoot = "${vars.tplRoot}";
+	</script>
+
+</body>
+</html>

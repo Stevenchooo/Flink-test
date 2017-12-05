@@ -1,0 +1,377 @@
+<!doctype html>
+<html lang="en" data-ng-app="appRongyao">
+<head>
+<meta charset="utf-8">
+<title>营销数据中心</title>
+<link rel="stylesheet" type="text/css" href="/wda/css/bicore.css">
+<link rel="stylesheet" type="text/css" href="/wda/css/upcss1.css" />
+</head>
+
+<body ng-controller="AppRongYaoCtrl">
+	<!-- <div  class="appRongyao" id="appRongyao"> -->
+	<div class="cd-wp cd-menu">
+		<img src="/wda/images/logo.png" alt="" />
+		<div id="guideArea" class="cdm-navs">
+			<a href="" id="mainPage" ng-click="mainPage()"
+				class="cdmn-link cdmn-on">首页</a>
+			<!-- <iframe src=""
+							style="height: auto; width: auto; border: 0px solid red;">
+						</iframe> -->
+			<a href="" id="flowManagement" ng-click="flowManagement()"
+				class="cdmn-link">流量经营</a> <a href="" id="areaManagement"
+				ng-click="areaManagement()" class="cdmn-link">阵地经营</a> <!-- <a href=""
+				id="socialPublicOpinion" ng-click="socialPublicOpinion()"
+				class="cdmn-link">社会化舆情</a> --> <a href="" id="researchInsight"
+				ng-click="researchInsight()" class="cdmn-link">调研画像</a> <a href=""
+				id="researchReport" ng-click="researchReport()" class="cdmn-link">研究报告</a>
+		</div>
+		<div class="cdm-useracts">
+			<span>{{account}}</span><b>|</b><a href="logout">退出</a>
+
+		</div>
+	</div>
+
+	<div id="pageHonor" style = "display:none;">
+		<div ng-show="isHonor == 0">
+			<div class="cd-wp" style="height: 650px;">
+				<span class="cf-side"> <a href="">抱歉，您没有访问页面的权限</a>
+				</span>
+			</div>
+
+			<div class="cd-foot">
+				<div class="cd-wp">
+					<span style="display: none;" class="cf-side"> <a href="">隐私条款</a><strong>|</strong><a
+						href="mailto:xxx@huawei.com">联系我们</a>
+					</span> <span class="cf-main">©2011-2016 华为软件技术有限公司 版本所有 保留一切权利</span>
+				</div>
+			</div>
+		</div>
+
+		<div ng-show="isHonor == 1">
+			<div id="mainPage" ng-show="mainShow">
+				<div class="cd-wp cd-sumbar">
+					<h2 class="cd-hbar">
+						<img src="/wda/images/icon.png" alt="" /> <span>营销大数据情况
+							&nbsp; {{honorSummary.pt_d}}</span>
+					</h2>
+					<div class="sumbar-box mkcl">
+						<div class="sumbar-data" style="background-color: #5094D1;">
+							<div class="sumbar-intro">
+								<img src="/wda/images/itmore.png" />
+								<div class="sumbar-itmore">
+									{{honorSummary.exposure_uv | formatnumber}} : 荣耀营销活动广告的曝光人次</br>{{honorSummary.phone_exposure_uv
+									/ honorSummary.exposure_uv * 100 | formatper}} % ： 手机用户占比</br>{{honorSummary.year_exposure_uv
+									| formatnumber}} ： 累计总量
+								</div>
+							</div>
+							<p class="sumbar-dt1">曝光人次数</p>
+							<p class="sumbar-dt2">{{honorSummary.exposure_uv |
+								formatnumber}}</p>
+							<p class="sumbar-dt3">{{honorSummary.phone_exposure_uv /
+								honorSummary.exposure_uv * 100 | formatper}} %</p>
+							<p class="sumbar-dt4">2016年累计至今
+								{{honorSummary.year_exposure_uv | formatnumber}}</p>
+						</div>
+						<div class="sumbar-data" style="background-color: #9754B3;">
+							<div class="sumbar-intro">
+								<img src="/wda/images/itmore.png" />
+								<div class="sumbar-itmore">
+									{{honorSummary.click_uv | formatnumber}} ： 荣耀营销活动广告的点击人次</br>{{honorSummary.phone_click_uv
+									/ honorSummary.click_uv * 100 | formatper}} % ： 手机用户占比</br>{{honorSummary.year_click_uv
+									| formatnumber}} ： 累计总量
+								</div>
+							</div>
+							<p class="sumbar-dt1">电商导流人数</p>
+							<p class="sumbar-dt2">{{honorSummary.click_uv |
+								formatnumber}}</p>
+							<p class="sumbar-dt3">{{honorSummary.phone_click_uv /
+								honorSummary.click_uv * 100 | formatper}} %</p>
+							<p class="sumbar-dt4">2016年累计至今 {{honorSummary.year_click_uv
+								| formatnumber}}</p>
+						</div>
+						<div class="sumbar-data" style="background-color: #F24C8C;">
+							<div class="sumbar-intro">
+								<img src="/wda/images/itmore.png" />
+								<div class="sumbar-itmore">
+									{{honorSummary.landing_uv | formatnumber}} ：Vmall上访问荣耀产品页面的人次</br>{{honorSummary.phone_landing_uv
+									/ honorSummary.landing_uv * 100 | formatper}} % : 手机用户占比</br>{{honorSummary.year_landing_uv
+									| formatnumber}} ： 累计总量
+								</div>
+							</div>
+							<p class="sumbar-dt1">荣耀产品流量</p>
+							<p class="sumbar-dt2">{{honorSummary.landing_uv |
+								formatnumber}}</p>
+							<p class="sumbar-dt3">{{honorSummary.phone_landing_uv /
+								honorSummary.landing_uv * 100 | formatper}} %</p>
+							<p class="sumbar-dt4">2016年累计至今{{honorSummary.year_landing_uv
+								| formatnumber}}</p>
+						</div>
+						<div class="sumbar-data" style="background-color: #F7DC71;">
+							<div class="sumbar-intro">
+								<img src="/wda/images/itmore.png" />
+								<div class="sumbar-itmore">
+									{{honorSummary.posts | formatnumber}} : 花粉论坛发帖量</br>{{honorSummary.phone_posts
+									/ honorSummary.posts * 100 | formatper}} % : 手机用户占比</br>{{honorSummary.year_posts
+									| formatnumber}} ： 累计总量
+								</div>
+							</div>
+							<p class="sumbar-dt1">论坛发帖量</p>
+							<p class="sumbar-dt2">{{honorSummary.posts | formatnumber}}</p>
+							<p class="sumbar-dt3">{{honorSummary.phone_posts /
+								honorSummary.posts * 100 | formatper}} %</p>
+							<p class="sumbar-dt4">2016年累计至今{{honorSummary.year_posts |
+								formatnumber}}</p>
+						</div>
+					</div>
+
+				</div>
+
+				<!-- 3个框平分 -->
+				<!-- 每个框内填充了 30px, 所以下面每个框的实际宽度为 404px -->
+				<div class="cd-wp cd-figblock">
+					<h2 class="cd-hbar">
+						<img src="/wda/images/icon.png" alt="" /> <span>人群属性
+							&nbsp; {{yearOfThis}}年至今</span>
+					</h2>
+					<div class="cd-figlayer mkcl">
+						<div class="cdfig-box" style="width: 436px; height: 400px;">
+							<div id="crowd3" style="width: 430px; height: 395px;"></div>
+						</div>
+						<div class="cdfig-box" style="width: 250px; height: 400px;">
+							<div id="crowd2" style="width: 245px; height: 395px;"></div>
+						</div>
+						<div class="cdfig-box" style="width: 436px; height: 400px;">
+							<div id="crowd1" style="width: 430px; height: 395px;"></div>
+						</div>
+					</div>
+				</div>
+
+				<!-- 框的宽度可以自己定（只需要右侧对齐就好）， 高度也可以自己定(比如这里就是280px)  -->
+				<div class="cd-wp cd-figblock" style = "display:none;">
+					<h2 class="cd-hbar">
+						<img src="/wda/images/icon.png" alt="" /> <span>品牌声量
+							&nbsp; {{yearOfThis}}年至今</span>
+					</h2>
+					<div class="cd-figlayer mkcl">
+						<div class="cdfig-box" style="width: 250px; height: 280px;">
+							<div id="wordCloud1" class=""
+								style="width: 250px; height: 280px;"></div></div>
+						<div class="cdfig-box" style="width: 250px; height: 280px;">
+							222</div>
+						<div class="cdfig-box" style="width: 622px; height: 280px;">
+							333</div>
+					</div>
+				</div>
+
+				<!-- 2个框  -->
+				<div class="cd-wp cd-figblock">
+					<h2 class="cd-hbar">
+						<img src="/wda/images/icon.png" alt="" /> <span>流量趋势
+							&nbsp; {{yearOfThis}}年至今</span>
+					</h2>
+					<div class="cd-figlayer mkcl">
+						<div class="cdfig-box" style="width: 582px;">
+							<div id="flowLineTrend" class=""
+								style="width: 582px; height: 350px;"></div>
+						</div>
+						<div class="cdfig-box" style="width: 582px;">
+							<div id="flowLineCTR" class=""
+								style="width: 582px; height: 350px;"></div>
+						</div>
+					</div>
+				</div>
+
+				<!-- 2个框  -->
+				<div class="cd-wp cd-figblock">
+					<h2 class="cd-hbar">
+						<img src="/wda/images/icon.png" alt="" /> <span>阵地经营
+							&nbsp; {{thrMonDate}}</span>
+					</h2>
+					<div class="cd-figlayer mkcl">
+						<div class="cdfig-box" style="width: 582px; height: 510px;">
+							<div id="barVamll" class="" style="width: 582px; height: 250px;"></div>
+							<div id="lineVmall" class="" style="width: 582px; height: 250px;"></div>
+						</div>
+						<div class="cdfig-box" style="width: 582px; height: 510px;">
+							<div id="barCNClub" class="" style="width: 582px; height: 250px;"></div>
+							<div id="lineCNClub" class=""
+								style="width: 582px; height: 250px;"></div>
+						</div>
+					</div>
+				</div>
+
+				<div class="cd-wp cd-reportlayer">
+					<h2 class="cd-hbar">
+						<img src="/wda/images/icon.png" alt="" /> <span>研究报告</span> <a
+							href="" class="cdh-more" style="display: none;">更多 &gt;</a>
+					</h2>
+					<div class="cd-reports mkcl">
+						<div class="cdr-item" id="report_{{$index}}"
+							ng-repeat="row in reportData" style="display: none;">
+							<img style="width: 170px; height: 140px;"
+								ng-src="/wda/api/wda/page/rongyao/reportImgDownload?__userKey=${__userKey!}&reportId={{row.id}}"
+								class="rep-img" />
+							<div class="rep-detail">
+								<p class="downline">
+									<a href="" class="btn-down" ng-click="download(row,false)">下载</a>
+								</p>
+								<h3>{{row.reportTitle}}</h3>
+								<p>作者： {{row.reportOwner}} &nbsp;&nbsp;&nbsp; 上传:
+									{{row.reportCreator}}</p>
+
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="cd-foot">
+					<div class="cd-wp">
+						<span style="display: none;" class="cf-side"> <a href="">隐私条款</a><strong>|</strong><a
+							href="mailto:xxx@huawei.com">联系我们</a>
+						</span> <span class="cf-main">©2011-2016 华为软件技术有限公司 版本所有 保留一切权利</span>
+					</div>
+				</div>
+			</div>
+
+			<div  style="width: 1365px; margin: auto;" id="sidePage"
+				ng-show="sideShow">
+				<div ng-hide="isReportCenter">
+					<iframe id="mainFrame" name="mainFrame" frameborder="0" border=0
+						scrolling="auto" src="" style="overflow-y: auto;" height="800px;"
+						width="1365px;"> </iframe>
+						</div>
+				<div ng-show="isReportCenter">
+					<div class="up-main mkcl">
+						<div class="upm-cont upm-tabpage">
+							<div class="pt-tabcont" data-tabvalue="0" style="display: block;"
+								id="pt-tabcont">
+								<div class="upmc-topsearch upm-common"
+									style="padding-bottom: 6px;">
+									<strong>搜索报告:</strong>
+									<div class="app-search">
+										<input type="text" class="apptxt" autocomplete="off"
+											ng-model="searchText" /> <a class="appsbtn"
+											href="javascript:void(0);"></a>
+									</div>
+								</div>
+								<table class="res-filter">
+									<tr>
+										<th>报告类型：</th>
+										<td id="repTypes"><a href="javascript:void(0)"
+											class="download">可下载</a> <a ng-repeat="row in reportType"
+											class="ann-stop" href="javascript:void(0);">{{row.reportTypeName}}</a>
+										</td>
+									</tr>
+									<tr>
+										<th>热门关键字：</th>
+										<td id="repKeywords"><a ng-repeat="row in hotWord"
+											class="ann-stop" href="javascript:void(0);">{{row.hotKeyword}}</a>
+										</td>
+									</tr>
+								</table>
+								<div class="rep-list" id="rep-list">
+									<div
+										ng-repeat="row in reportJson | reportFilter:reportJson.curpage:6:searchText"
+										class="rl-item">
+										<img class="rli-pic"
+											ng-src="/wda/api/wda/page/rongyao/reportImgDownload?__userKey=${__userKey!}&reportId={{row.id}}">
+										<div class="rli-cont">
+											<div class="rlic-h">{{row.reportTitle}}</div>
+											<div class="rlic-b">{{row.reportKeyword}}</div>
+											<div class="rlic-f">
+												<span class="rlicf-item">作者：{{row.reportOwner}}</span><span
+													class="rlicf-item">上传：{{row.reportCreator}}</span>
+											</div>
+										</div>
+										<a id="111111" class="rli-down" href="javascript:void(0);"
+											ng-class="setShowDown(row)" ng-click="download(row,true)"></a>
+									</div>
+								</div>
+								<div class="quote-res qr-nogood" style="display: none;">
+									<table>
+										<tr>
+											<td>抱歉<br />您查找的条件没有数据哦~~~<br />
+											</td>
+										</tr>
+									</table>
+								</div>
+
+								<div class="up-pager">
+									<div class="uppg">
+										<a id="firstPage" href="javascript:void(0);"
+											class="first-page" data-page="first" ng-click="selectPage(1)">首页</a>
+										<a href="javascript:void(0);" class="uppg-prv"
+											ng-click="selectPage(reportJson.curpage - 1)">上一页</a> <a
+											ng-repeat="p in reportJson.showPage"
+											href="javascript:void(0);" ng-class="setCurPage(p)"
+											ng-click="selectPage(p)">{{p}}</a> <a
+											href="javascript:void(0);" class="uppg-nt"
+											ng-click="selectPage(reportJson.curpage + 1)">下一页</a> <a
+											href="javascript:void(0);" class="last-page" data-page="last"
+											ng-click="selectPage(reportJson.totalPage)">尾页</a>
+
+									</div>
+									<div class="pg-count">
+										共<span class="pg-no">{{reportJson.totalPage}}</span>页
+									</div>
+								</div>
+
+							</div>
+						</div>
+					</div>
+
+					<div style="display: none;" id="noRepRights" class="up-mask">
+						<div class="up-popup upp-msg">
+							<h2>权限提示</h2>
+							<a class="upp-close" href="javascript:void(0)"></a>
+							<div class="upp-cont">
+								<p class="msg-detail">您目前不具备该报告的下载权限，可联系上传者赋予权限。</p>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div id="load-me" class="up-mask" style="display: none; z-index: 199;">
+		<div class="up-popup data-loading">
+			<img src="/wda/images/loading_spinner.gif"
+				style="height: 90px; margin-left: 15px; margin-top:10px; vertical-align: middle; width: 90px;" /><em>数据加载中，请稍候......</em>
+			<em style="display: none;">用户识别中，请稍候......</em> <em
+				style="display: none;">文件处理中...</em>
+		</div>
+	</div>
+
+	<div style="display: none;" id="errorHttp" class="up-mask">
+		<div class="up-popup upp-msg">
+			<h2>提示</h2>
+			<a class="upp-close" href="javascript:void(0)"></a>
+			<div class="upp-cont">
+				<p class="msg-detail">抱歉！请求错误，请刷新重试！</p>
+			</div>
+		</div>
+	</div>
+	
+	<script>
+		var __userKey = "${__userKey!}";
+		var __cookieHeader = "${vars.cookieHead}";
+		var __webRoot = "${vars.webRoot}";
+		var __account = "${__account!}";
+		var __urlRoot = "${vars.urlRoot}";
+		var __tplRoot = "${vars.tplRoot}";
+	</script>
+
+	<!-- jQuery -->
+	<script src="/wda/vendor/jquery/jquery.min.js"></script>
+	<script src="/wda/vendor/angular/angular.js"></script>
+	<script src="${vars.jsRoot}/services/chart/base.js"></script>
+	<script src="${vars.jsRoot}/echarts/echarts.min.js"></script>
+	<script src="/wda/js/app.js"></script>
+	<script src="/wda/js/config.js"></script>
+	<script src="/wda/js/config.lazyload.js"></script>
+	<script src="/wda/js/config.router.js"></script>
+	<script src="/wda/js/controllers/rongyao.js"></script>
+</body>
+</html>

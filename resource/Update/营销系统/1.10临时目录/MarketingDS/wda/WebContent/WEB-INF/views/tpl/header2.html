@@ -1,0 +1,51 @@
+      <!-- navbar header -->
+      
+      <!-- 
+      <div class="navbar-header {{app.settings.navbarHeaderColor}}" style="height:80px;">
+        <div class="navbar-brand text-lt" style="height:80px;vertical-align: middle">
+          <i class="fa fa-area-chart"></i>
+        </div>
+      </div>
+       -->
+      <!-- / navbar header -->
+      
+      <!-- navbar collapse -->
+      <div class="collapse navbar-collapse {{app.settings.navbarCollapseColor}}" style="height:80px;vertical-align: middle;margin-left:0px;">
+        
+        <ul class="nav navbar-nav navbar-left" style="height:80px; vertical-align: middle">
+          <li style="height:80px;margin-top:17px;">
+          	<img src="${vars.imgRoot}/titleban.png" alt=".">
+          </li>
+        </ul>
+        
+        <ul class="nav navbar-nav navbar-right" style="height:80px; vertical-align: middle">  
+          <li class="hidden-xs" style="height:80px;margin-top:30px;">
+            <a ui-fullscreen></a>
+          </li>
+          
+          
+          <li class="dropdown" dropdown style="height:80px;margin-top:30px;">
+            <a ui-sref="app3.website_management" class="dropdown-toggle text-white">
+              	后台管理
+            </a>
+          </li>
+          
+          <li class="dropdown" style="height:80px;margin-top:30px;">
+          <!-- <li class="dropdown" dropdown> -->
+            <a href class="dropdown-toggle clear" dropdown-toggle>
+              
+              <span class="hidden-sm hidden-md text-white">退出</span></b>
+            </a>
+            <!-- dropdown -->
+            <ul class="dropdown-menu animated fadeInRight w">
+              <li>
+                <a ui-sref="access.signin">Logout</a>
+              </li>
+            </ul>
+            <!-- / dropdown -->
+          </li>
+        </ul>
+        <!-- / navbar right -->
+
+      </div>
+      <!-- / navbar collapse -->

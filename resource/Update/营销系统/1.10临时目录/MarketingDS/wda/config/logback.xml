@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration>
+<configuration scan="true" scanPeriod="120 seconds" debug="false">
+    <property name="loggerHome" value=".." />
+	
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    	<file>${loggerHome}/logs/waf/waf-log.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>${loggerHome}/logs/waf/waf-log_%d{yyyyMMdd}_%i.log</FileNamePattern>
+            <MaxHistory>30</MaxHistory>
+            <TimeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <MaxFileSize>50MB</MaxFileSize>
+            </TimeBasedFileNamingAndTriggeringPolicy>   
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>
+        </encoder>
+    </appender>
+	
+    <appender name="ACCESS_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    	<file>${loggerHome}/logs/access/access-log.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>${loggerHome}/logs/access/access-log_%d{yyyyMMdd_HH}_%i.log</FileNamePattern>
+            <MaxHistory>50</MaxHistory>
+            <TimeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <MaxFileSize>50MB</MaxFileSize>
+            </TimeBasedFileNamingAndTriggeringPolicy>   
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>
+        </encoder>
+    </appender>
+	
+    <root>
+        <level value="INFO" />
+        <appender-ref ref="FILE" />
+    </root>
+    
+    <logger name="com.huawei.waf" additivity="false">
+        <level value="INFO" />
+        <appender-ref ref="FILE" />
+    </logger>
+    
+    <logger name="ACCESS" additivity="false">
+        <level value="INFO" />
+        <appender-ref ref="ACCESS_FILE" />
+    </logger>
+</configuration>

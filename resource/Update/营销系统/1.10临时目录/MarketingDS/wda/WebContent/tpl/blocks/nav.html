@@ -1,0 +1,318 @@
+<!-- list -->
+<ul class="nav">
+  
+  <!--
+  <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
+    <span translate="aside.nav.HEADER">Web Analytics</span>
+  </li>
+  -->
+  
+  <li class="line dk hidden-folded"></li>
+  
+  <!--
+  <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">          
+    <span translate="aside.nav.HEADER1">Foreground Page</span>
+  </li>  
+  -->
+  
+  <!--
+  <li>
+    <a href class="auto">      
+      <span class="pull-right text-muted">
+        <i class="fa fa-fw fa-angle-right text"></i>
+        <i class="fa fa-fw fa-angle-down text-active"></i>
+      </span>
+      <i class="glyphicon glyphicon-stats icon text-primary-dker"></i>
+      <span class="font-normal" translate="aside.nav.DASHBOARD">Dashboard</span>
+    </a>
+    <ul class="nav nav-sub dk">
+      <li class="nav-sub-header">
+        <a href>
+          <span translate="aside.nav.DASHBOARD">Dashboard</span>
+        </a>
+      </li>
+      <li ui-sref-active="active">
+        <a ui-sref="app.dashboard-v1">
+          <span translate="aside.nav.DASHBOARDV1">Dashboard v1</span>
+        </a>
+      </li>
+      <li ui-sref-active="active">
+        <a ui-sref="app.dashboard-v2">
+          <b class="label bg-info pull-right">N</b>
+          <span translate="aside.nav.DASHBOARDV2">Dashboard v2</span>
+        </a>
+      </li>
+    </ul>
+  </li>
+  -->
+  
+  
+  <!-- 网站概况 -->
+  <li ui-sref-active="active">
+    <a ui-sref="app.website_summary">
+      <i class="glyphicon glyphicon-calendar icon text-info-dker"></i>
+      <span class="font-normal" translate="aside.nav.WEBSITE_SUMMARY">Summary</span>
+    </a>
+  </li>
+  <!-- 
+  <li ui-sref-active="active">
+    <a ui-sref="app.mail.list">
+      <b class="badge bg-info pull-right">9</b>
+      <i class="glyphicon glyphicon-envelope icon text-info-lter"></i>
+      <span class="font-bold" translate="aside.nav.EMAIL">Email</span>
+    </a>
+  </li>
+  -->
+  
+  <li>
+    <a href class="auto">
+      <span class="pull-right text-muted">
+        <i class="fa fa-fw fa-angle-right text"></i>
+        <i class="fa fa-fw fa-angle-down text-active"></i>
+      </span>
+      <i class="glyphicon glyphicon-th-large icon text-success"></i>
+      <span class="font-normal" translate="aside.nav.components.website_analytics.WEBISTE_ANALYTICS">Website Analytics</span>
+    </a>
+    <ul class="nav nav-sub dk">
+      <li class="nav-sub-header">
+        <a href>
+          <span translate="aside.nav.components.website_analytics.WEBISTE_ANALYTICS">Website Analytics</span>
+        </a>
+      </li>
+      <!-- 
+      <li ui-sref-active="active">
+        <a ui-sref="app.website_statistics_realtime">
+          <span translate="aside.nav.components.website_analytics.REALTIME_STATISTICS">Realtime Statistics</span>
+        </a>
+      </li>
+      -->
+      <li ui-sref-active="active">
+        <a ui-sref="app.website_statistics_today">
+          <span translate="aside.nav.components.website_analytics.TODAY_STATISTICS">Today Statistics</span>
+        </a>
+      </li>
+      <li ui-sref-active="active">
+        <a ui-sref="app.website_statistics_yesterday">
+          <span translate="aside.nav.components.website_analytics.YESTERDAY_STATISTICS">Yesterday Statistics</span>
+        </a>
+      </li>
+      <li ui-sref-active="active">
+        <a ui-sref="app.website_statistics_latest30">
+          <span translate="aside.nav.components.website_analytics.LATEST30_STATISTICS">Latest 30 Statistics</span>
+        </a>
+      </li>
+    </ul>
+  </li>
+  
+  <!-- 页面分析 -->
+  
+  <li>
+    <a href class="auto">
+      <span class="pull-right text-muted">
+        <i class="fa fa-fw fa-angle-right text"></i>
+        <i class="fa fa-fw fa-angle-down text-active"></i>
+      </span>
+      <i class="glyphicon glyphicon-signal icon text-primary-dker"></i>
+      <span class="font-normal" translate="aside.nav.components.page_analytics.PAGE_ANALYTICS">Page Analytics</span>
+    </a>
+    <ul class="nav nav-sub dk">
+      <li class="nav-sub-header">
+        <a href>
+          <span translate="aside.nav.components.page_analytics.PAGE_ANALYTICS">Page Analytics</span>
+        </a>
+      </li>
+      
+      <li ui-sref-active="active">
+        <a ui-sref="app.pages.summary">
+          <span translate="aside.nav.components.page_analytics.VISITED_PAGES">Visited Pages</span>
+        </a>
+      </li>
+      
+      <!--
+      <li ui-sref-active="active">
+        <a ui-sref="app.pages_contrast">
+          <span translate="aside.nav.components.page_analytics.CONTRAST_PAGES">Contrast Pages</span>
+        </a>
+      </li>
+      
+      -->
+      
+      <!--
+      <li ui-sref-active="active">
+        <a ui-sref="app.visited_pages">
+          <span translate="aside.nav.components.page_analytics.VISITED_PAGES">Visited Pages</span>
+        </a>
+      </li>
+      -->
+      <!-- 
+      <li ui-sref-active="active">
+        <a ui-sref="app.visiting_trend">
+          <span translate="aside.nav.components.page_analytics.VISITING_TREND">Visiting Trend</span>
+        </a>
+      </li>
+      -->
+      
+      <!--  
+      <li ui-sref-active="active">
+        <a ui-sref="app.landing_pages">
+          <span translate="aside.nav.components.page_analytics.LANDING_PAGES">Landing Pages</span>
+        </a>
+      </li>
+      <li ui-sref-active="active">
+        <a ui-sref="app.exit_pages">
+          <span translate="aside.nav.components.page_analytics.EXIT_PAGES">Exit Pages</span>
+        </a>
+      </li>
+      <li ui-sref-active="active">
+        <a ui-sref="app.page_up_down_stream">
+          <span translate="aside.nav.components.page_analytics.PAGE_UP_DOWN_STREAM">Page Up_down_stream</span>
+        </a>
+      </li>
+      -->
+      
+    </ul>
+  </li>
+  
+  
+  
+  <!-- 来源分析 -->
+  <li>
+    <a href class="auto">
+      <span class="pull-right text-muted">
+        <i class="fa fa-fw fa-angle-right text"></i>
+        <i class="fa fa-fw fa-angle-down text-active"></i>
+      </span>
+      <i class="glyphicon glyphicon-cog icon text-primary"></i>
+      <span class="font-normal" translate="aside.nav.components.referrer_analytics.REFERRER_ANALYTICS">Referrer Analytics</span>
+    </a>
+    <ul class="nav nav-sub dk">
+      <li class="nav-sub-header">
+        <a href>
+          <span translate="aside.nav.components.referrer_analytics.REFERRER_ANALYTICS">Referrer Analytics</span>
+        </a>
+      </li>
+      
+      <li ui-sref-active="active">
+        <a ui-sref="app.referrer.all">
+          <span translate="aside.nav.components.referrer_analytics.ALL_REFERRER">All Referrer</span>
+        </a>
+      </li>
+      <li ui-sref-active="active">
+        <a ui-sref="app.referrer.promotion">
+          <span translate="aside.nav.components.referrer_analytics.PROMOTION_TREND">Promotion Trend</span>
+        </a>
+      </li>
+      <li ui-sref-active="active">
+        <a ui-sref="app.referrer.outer">
+          <span translate="aside.nav.components.referrer_analytics.OUTER_TREND">Outer Trend</span>
+        </a>
+      </li>
+      <li ui-sref-active="active">
+        <a ui-sref="app.referrer.direct">
+          <span translate="aside.nav.components.referrer_analytics.DIRECT_TREND">Direct Trend</span>
+        </a>
+      </li>
+      
+    </ul>
+  </li>
+  
+  
+  <!-- 访客分析 -->
+  <li>
+    <a href class="auto">
+      <span class="pull-right text-muted">
+        <i class="fa fa-fw fa-angle-right text"></i>
+        <i class="fa fa-fw fa-angle-down text-active"></i>
+      </span>
+      <i class="glyphicon glyphicon-user icon text-primary-lter"></i>
+      <span class="font-normal" translate="aside.nav.components.visitor_analytics.VISITOR_ANALYTICS">Visitor Analytics</span>
+    </a>
+    <ul class="nav nav-sub dk">
+      <li class="nav-sub-header">
+        <a href>
+          <span translate="aside.nav.components.visitor_analytics.VISITOR_ANALYTICS">Visitor Analytics</span>
+        </a>
+      </li>
+      <li ui-sref-active="active">
+        <a ui-sref="app.area_distribution">
+          <span translate="aside.nav.components.visitor_analytics.AREA_DISTRIBUTION">Area Distribution</span>
+        </a>
+      </li>
+      
+      <li ui-sref-active="active">
+        <a ui-sref="app.area_userinsight">
+          <span translate="aside.nav.components.visitor_analytics.VISITOR_USERINSIGHT">Area UserInsight</span>
+        </a>
+      </li>
+      
+      <!--
+      <li ui-sref-active="active">
+        <a ui-sref="app.area_trend">
+          <span translate="aside.nav.components.visitor_analytics.AREA_TREND">Area Trend</span>
+        </a>
+      </li>
+      -->
+      
+      <!--
+      <li ui-sref-active="active">
+        <a ui-sref="apps.contact2">
+          <span translate="aside.nav.components.visitor_analytics.VISITOR_ATTRIBUTE">Visitor Attribute</span>
+        </a>
+      </li>
+      -->
+    </ul>
+  </li>
+  
+  <!-- 
+  <li>
+    <a href class="auto">
+      <span class="pull-right text-muted">
+        <i class="fa fa-fw fa-angle-right text"></i>
+        <i class="fa fa-fw fa-angle-down text-active"></i>
+      </span>
+      <i class="glyphicon glyphicon-road icon text-success"></i>
+      <span class="font-normal" translate="aside.nav.components.order_analytics.ORDER_ANALYTICS">Order Analytics</span>
+    </a>
+    <ul class="nav nav-sub dk">
+      <li class="nav-sub-header">
+        <a href>
+          <span translate="aside.nav.components.order_analytics.ORDER_ANALYTICS">Order Analytics</span>
+        </a>
+      </li>
+      <li ui-sref-active="active">
+        <a ui-sref="app.order">
+          <span translate="aside.nav.components.order_analytics.CATEGORY_TRADE">Category Trade</span>
+        </a>
+      </li>
+      <li ui-sref-active="active">
+        <a ui-sref="app.order2">
+          <span translate="aside.nav.components.order_analytics.COMMODITY_TRADE">Commodity Trade</span>
+        </a>
+      </li>
+    </ul>
+  </li>
+  -->
+  
+  
+  
+ 
+  
+  
+  <!-- 帮助 -->
+
+  <li class="line dk hidden-folded"></li>
+  <!-- 
+  <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">          
+    <span translate="aside.nav.HELPS.HELPS">Helps</span>
+  </li>
+  -->
+  <!--
+  <li>
+    <a ui-sref="app.docs2">
+      <i class="icon-question icon"></i>
+      <span translate="aside.nav.HELPS.HELP_DOCUMENT">Documents</span>
+    </a>
+  </li>
+  -->
+</ul>
+<!-- / list -->

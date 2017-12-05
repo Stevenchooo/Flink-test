@@ -1,0 +1,86 @@
+
+<div class="bg-light lter b-b wrapper-md">
+	<h5 class="m-n font-thin">角色管理</h5>
+</div>
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper" ng-controller="RoleManagementCtrl">
+	<section class="content">
+		<div class="row">
+			<div class="col-md-12" style="padding-left: 10px;">
+				<div class="box box-info">
+					<div class="box-body">
+						<div class="b-b b-light" style="padding-bottom: 8px;">
+							<!-- <i class="ion-android-search" style="font-size:18px;"></i>  -->
+							<input id="filter" type="text" placeholder="搜索角色名"
+								class="form-control input-sm w-sm inline m-r"
+								style="padding: 2px;" ng-model="searchText" />
+						</div>
+						<table class="table m-b-none">
+							<!--  ui-jq="footable" data-filter="#filter" data-page-size="5" -->
+							<thead>
+								<tr>
+									<th data-sort-ignore="true">角色</th>
+									<th data-sort-ignore="true">角色名称</th>
+									<th data-sort-ignore="true">角色描述</th>
+									<th data-sort-ignore="true">操作 &nbsp;&nbsp; <i
+										class="ion ion-plus text-danger ion-pointer"
+										ng-click="addRoleDialog()"></i>
+									</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr
+									ng-repeat="role in roleManageJson | roleManageFilter:roleManageJson.curpage:10:searchText">
+									<td><span ng-show="role.isAdmin == 1"> <i
+											class="fa fa-user text-success"></i>
+									</span>{{ role.role || '' }}</td>
+									<td>{{ role.name | truncate:true:30:' ...' }}</td>
+									<td>{{ role.description | truncate:true:30:' ...' }}</td>
+									<td style="white-space: nowrap">
+										<div class="buttons" ng-show="user.account != 'admin'">
+											<i class="ion ion-compose text-success ion-pointer"
+												ng-click="editRoleDialog(role.role)"></i>
+											&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <i
+												class="ion ion-close text-danger ion-pointer"
+												ng-click="delRoleDialog(role.role)"></i> <i
+												class="ion text-success ion-pointer"
+												ng-click="updateRoleDialog(role.role)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;修改权限</i>
+										</div>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+						<div class="up-pager">
+							<div class="uppg">
+								<a href="javascript:void(0);" class="first-page"
+									data-page="first" ng-click="selectPage(1)">首页</a> <a
+									href="javascript:void(0);" class="uppg-prv"
+									ng-click="selectPage(roleManageJson.curpage - 1)">上一页</a> <a
+									ng-repeat="p in roleManageJson.showPage"
+									href="javascript:void(0);" ng-class="setCurPage(p)"
+									ng-click="selectPage(p)">{{p}}</a> <a
+									href="javascript:void(0);" class="uppg-nt"
+									ng-click="selectPage(roleManageJson.curpage + 1)">下一页</a> <a
+									href="javascript:void(0);" class="last-page" data-page="last"
+									ng-click="selectPage(roleManageJson.totalPage)">尾页</a>
+
+							</div>
+							<div class="pg-count">
+								共<span class="pg-no">{{roleManageJson.totalPage}}</span>页
+							</div>
+						</div>
+					</div>
+					<!-- /.box-body -->
+				</div>
+				<!-- /.box -->
+			</div>
+			<!-- /.col-md-12 -->
+		</div>
+		<!-- /.row -->
+
+
+	</section>
+	<!-- /.content -->
+</div>
+<!-- /.content-wrapper -->

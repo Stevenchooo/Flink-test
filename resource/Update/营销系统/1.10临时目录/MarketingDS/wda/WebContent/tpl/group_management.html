@@ -1,0 +1,94 @@
+
+<div class="bg-light lter b-b wrapper-md">
+  <h5 class="m-n font-thin">群组管理</h5>
+</div>
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper" ng-controller="GroupManagementCtrl" >
+	<section class="content">
+    	<div class="row">
+			<div class="col-md-12" style="padding-left:10px;">
+          		<div class="box box-info">
+					<div class="box-body">
+						<div class="b-b b-light" style="padding-bottom:8px;">
+		      				<input id="filter" type="text" placeholder="搜索群组名" class="form-control input-sm w-sm inline m-r" style="padding:2px;" ng-model="searchText"/>
+		    			</div>
+						<table class="table m-b-none">
+					        <thead>
+					          <tr>
+					              <th data-sort-ignore="true">
+					              	  群组名
+					              </th>
+					              <th data-sort-ignore="true">
+					              	成员列表
+					              </th>
+					              <th data-sort-ignore="true">
+					              	创建时间
+					              </th>
+					              <th data-sort-ignore="true">
+					              	创建人
+					              </th>
+					              <th data-sort-ignore="true">
+					              	操作      &nbsp;&nbsp;   <i class="ion ion-plus text-danger ion-pointer" ng-click="addGroupDialog()"></i>
+					              </th>
+					          </tr>
+					        </thead>
+					        <tbody>
+					          <tr ng-repeat="group in groupManageJson | groupManageFilter:groupManageJson.curpage:15:searchText">
+					              <td>{{ group.name || '' }}</td>
+					              <td>{{ group.userName | truncate:true:80:' ...' }}</td>
+					              <td>{{ group.createtime || '' }}</td>
+					              <td>{{ group.creator || '' }}</td>
+					              <td style="white-space: nowrap">
+							        <div>
+							           <i class="ion ion-compose text-success ion-pointer" ng-click="editGroupDialog(group.id)"></i> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   
+							           <i class="ion ion-close text-danger ion-pointer" ng-click="delGroupDialog(group.id)"></i>
+							        </div>  
+							      </td>
+					          </tr>
+					        </tbody>
+					      </table>
+					      <div class="up-pager">
+							<div class="uppg">
+								<a href="javascript:void(0);" class="first-page"
+									data-page="first" ng-click="selectPage(1)">首页</a> <a
+									href="javascript:void(0);" class="uppg-prv"
+									ng-click="selectPage(groupManageJson.curpage - 1)">上一页</a> <a
+									ng-repeat="p in groupManageJson.showPage" href="javascript:void(0);"
+									ng-class="setCurPage(p)" ng-click="selectPage(p)">{{p}}</a> <a
+									href="javascript:void(0);" class="uppg-nt"
+									ng-click="selectPage(groupManageJson.curpage + 1)">下一页</a> <a
+									href="javascript:void(0);" class="last-page" data-page="last"
+									ng-click="selectPage(groupManageJson.totalPage)">尾页</a>
+
+							</div>
+							<div class="pg-count">
+								共<span class="pg-no">{{groupManageJson.totalPage}}</span>页
+							</div>
+						</div>
+					</div> <!-- /.box-body -->
+				</div> <!-- /.box -->
+			</div> <!-- /.col-md-12 -->
+		</div> <!-- /.row -->
+	</section> <!-- /.content -->
+</div> <!-- /.content-wrapper -->
+
+<!-- 
+<div ng-controller="sampleController" class="container">    
+    <h4 class="panel-indent">Common Dialogs</h4>
+    <a class="hy-link cursor-pointer" ng-click="openSimpleInfo()">Open Information Dialog by Simple Call</a><br />
+    <a class="hy-link cursor-pointer" ng-click="openSimpleWarning()">Open Warning Dialog by Simple Call</a><br />
+    <a class="hy-link cursor-pointer" ng-click="openSimpleError()">Open Error Dialog by Simple Call</a><br />
+    <a class="hy-link cursor-pointer" ng-click="dialogNoIconAndGrayButWithBorder()">Dialog without Icon and Gray-background But with Border</a><br />
+    <a class="hy-link cursor-pointer" ng-click="dialogNoAnimationDrag()">Dialog without Animation and Dragging</a><br />
+    <a class="hy-link cursor-pointer" ng-click="differentHeaderFooterStyles()">Different Header and Footer Styles</a><br />
+    <a class="hy-link cursor-pointer" ng-click="openSimpleConfirmation()">Open Confirmation Dialog by Simple Call</a><br />
+    <a class="hy-link cursor-pointer" ng-click="keepParentOpenAndNoCloseByOutside()">Keep Parent Dialog Opening and Disable Closing by Click-outside</a><br />
+    <a class="hy-link cursor-pointer" ng-click="openDialogAfterClosingParentUsingPremise()">Open Child Dialog After Closing Parent Using Premise</a><br />
+    <a class="hy-link cursor-pointer" ng-click="openDialogBeforeClosingParentUsingCallback()">Open Child Dialog Before Closing Parent Using Callback Function</a><br />
+    <h4 class="panel-indent top-space"> Custom Data Dialogs</h4>
+    <a class="hy-link cursor-pointer" ng-click="dataFormDialog(0)">Display and Submit Data Form</a><br />
+    <a class="hy-link cursor-pointer" ng-click="dataFormDialog(1)">Data Form with Confirmation Dialog Open</a><br />
+    <a class="hy-link cursor-pointer" ng-click="dataFormDialog(2)">Data Form Dialog with Cancel Warning</a><br />
+</div>
+-->

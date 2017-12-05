@@ -1,0 +1,380 @@
+
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper" ng-controller="ReferrerTrendCtrl">
+
+	<!-- Content Header (Page header) -->
+    <section class="content-header" style="padding: 0 15px 0 15px;">
+    	<h5><span class="text-yellow" style="padding-right:5px;">[{{refName}}]</span>  访问来源趋势</h5>
+	</section>
+	
+	<section class="content">
+          <!-- Info boxes -->
+          <div class="row">
+          	<div class="col-md-12">
+          	<div class="box" style="border-top:0px;margin-bottom:15px;background:#ffffff;">
+          		<div class="box-header" style="padding:0px;">
+		          	<ul class="nav nav-pills" >
+			          <li ng-class='{"active":period==0}'><a href ng-click="selectTimePeriod(0)">今天</a></li>
+			          <li ng-class='{"active":period==-1}'><a href ng-click="selectTimePeriod(-1)">昨天</a></li>
+			          <li ng-class='{"active":period==-7}'><a href ng-click="selectTimePeriod(-7)">最近7天</a></li>
+			          <li ng-class='{"active":period==-30}'><a href ng-click="selectTimePeriod(-30)">最近30天</a></li>
+			          <!-- 迭代2 TODO  -->
+			          <li style="margin-left:5px; padding: 10px 15px;">
+			          	<input date-range-picker class="form-control date-picker" size="22" type="text" ng-model="datePicker.date" options="opts" ng-change="timePickerChange()"/>
+			          </li>
+			          <li style="padding: 10px 1px 10px 1px;">
+			          	<label class="i-checks i-checks-sm checkbox-inline">
+			          		<input type="checkbox" ng-model="isHuanBi" ng-change="huanbi()" /><i></i>对比
+			          	</label>
+			          </li>
+			          <li ng-show = "isHuanBi"style="padding: 10px 1px 10px 1px;">
+			          	<input date-range-picker class="form-control date-picker" size="22" type="text" ng-model="datePicker.date1" options="opts" ng-change="compareTimePeriodSelect()"/>
+			          </li>
+			          
+			          <li style="margin-left:20px; padding: 10px 15px;">
+			          	<div class="btn-group" ng-init="time_dim_value = 1" >
+							<label  class="btn btn-sm bg-yellow"  ng-disabled="!time_dim_status[0]"  ng-model="time_dim_value" btn-radio="1" ng-click="byDim(1)"><i class="fa fa-check text-active" style="color:#ffffff;"></i> 按时</label>
+					        <label  class="btn btn-sm bg-yellow" ng-disabled="!time_dim_status[1]" ng-model="time_dim_value" btn-radio="2" ng-click="byDim(2)"><i class="fa fa-check text-active" style="color:#fffffff;"></i> 按日</label>
+					        <label  class="btn btn-sm bg-yellow" ng-disabled="!time_dim_status[2]" ng-model="time_dim_value" btn-radio="3" ng-click="byDim(3)"><i class="fa fa-check text-active" style="color:#fffffff;"></i> 按周</label>
+					        <label  class="btn btn-sm bg-yellow" ng-disabled="!time_dim_status[3]" ng-model="time_dim_value" btn-radio="4" ng-click="byDim(4)"><i class="fa fa-check text-active" style="color:#fffffff;"></i> 按月</label>
+					    </div>
+			          </li>
+			        </ul>
+		        </div>
+	        </div>
+	        </div>
+          </div>
+          
+          
+          <div class="row">
+          	<div class="col-md-3 col-sm-6 col-xs-12">	
+              <div class="info-box small">
+                <span class="info-box-icon bg-aqua"><i class="ion ion-ios-browsers-outline"></i></span>
+                <div class="info-box-content">
+                  <span class="info-box-text">浏览量(PV)</span>
+                  <span class="info-box-number">{{summaryData.pv | formatnumber}}</span>
+                  <span ng-show="isHuanBi" class="info-box-number text-muted">{{huanBiSummaryData.pv | formatnumber}}</span>
+                </div><!-- /.info-box-content -->
+              </div><!-- /.info-box -->
+            </div><!-- /.col -->
+            <div class="col-md-3 col-sm-6 col-xs-12">	
+              <div class="info-box small">
+                <span class="info-box-icon bg-aqua"><i class="ion ion-forward"></i></span>
+                <div class="info-box-content">
+                  <span class="info-box-text">跳出率</span>
+                  <span class="info-box-number">{{summaryData.bounce_rate | percentage:2}}</span>
+                  <span ng-show="isHuanBi" class="info-box-number text-muted">{{huanBiSummaryData.bounce_rate | percentage:2}}</span>
+                </div><!-- /.info-box-content -->
+              </div><!-- /.info-box -->
+            </div><!-- /.col -->
+            <div class="col-md-3 col-sm-6 col-xs-12">	
+              <div class="info-box small">
+                <span class="info-box-icon bg-aqua"><i class="ion ion-ios-clock-outline"></i></span>
+                <div class="info-box-content">
+                  <span class="info-box-text">平均访问时长</span>
+                  <span class="info-box-number">{{summaryData.avg_visit_time | formatSecond}}</span>
+                  <span ng-show="isHuanBi" class="info-box-number text-muted">{{huanBiSummaryData.avg_visit_time | formatSecond}}</span>
+                </div><!-- /.info-box-content -->
+              </div><!-- /.info-box -->
+            </div><!-- /.col -->
+            <div class="col-md-3 col-sm-6 col-xs-12">
+              <div class="info-box">
+                <span class="info-box-icon bg-aqua"><i class="ion ion-ios-paper-outline"></i></span>
+                <div class="info-box-content">
+                  <span class="info-box-text">平均访问页面</span>
+                  <span class="info-box-number">{{summaryData.avg_visit_pages | formatnumber}}</span>
+                  <span ng-show="isHuanBi" class="info-box-number text-muted">{{huanBiSummaryData.avg_visit_pages | formatnumber}}</span>
+                </div><!-- /.info-box-content -->
+              </div><!-- /.info-box -->
+            </div><!-- /.col -->
+          </div><!-- /.row -->
+          
+          
+          <div class="row" style="padding-bottom:0px;">
+            <div class="col-md-12">
+              <div class="box box-primary">
+                <div class="box-header" style="padding-bottom:0px;">
+                  
+                  <ul class="nav navbar-nav hidden-sm">
+					  <li class="dropdown pos-stc" dropdown>
+					    <a href class="dropdown-toggle" dropdown-toggle style="padding-top:0; padding-bottom:0;">
+					      	指标：<span class="text-danger" style="font-size:12px;" ng-repeat="d in data"> {{d.key}} {{$last ? '' : '，'}}</span>
+					      	<span class="caret"></span>
+					    </a>
+					    
+					    <div class="dropdown-menu wrapper bg-white" style="opacity:0.95; width:40%;" onclick="event.stopPropagation();">  
+					      <div class="row wrapper">
+					        <div class="col-xs-12">
+					          <ul class="nav nav-pills list-unstyled list-inline" style="padding-left:20px;padding-right:20px">
+					            <li class="col-xs-4" ng-repeat="item in allOptions" style="margin-left:20px;margin-right:20px" id="{{item.key}}">
+					              <input type="checkbox" ng-disabled="item.value == 'conversions' ? true : false" ng-change="sync(item.checked, item)" ng-model="item.checked">{{item.key}}
+					            </li>
+					          </ul>
+					        </div>
+					      </div>
+					      
+					      <div class="row">
+					        <div class="col-sm-12 b-l text-right b-light">
+					          (可同时选择{{canSelectedKpi}}项)
+					        </div>
+					      </div>
+					     </div>   <!--  /dropdown-menu  --> 
+					   </li>
+					 </ul>
+                </div><!-- /.box-header -->
+                
+                <div class="box-body" style="padding-top:0px;">
+                  <div class="row">
+                    <div class="col-md-12">
+                    	<div id="refferTrendLine" style="width: 100%;height:400px;"></div>
+                    </div><!-- /.col -->
+                    <!--
+                    <div class="col-md-4">
+                      <p class="text-center">
+                        <strong>..</strong>
+                      </p>
+                    </div> --> <!-- /.col -->
+                  </div><!-- /.row -->
+                </div><!-- ./box-body --> 
+              </div><!-- /.box -->
+            </div><!-- /.col -->
+          </div><!-- /.row -->
+          
+		  <div class="row">
+		  	<div class="col-md-12">
+          	<div class="box box-info">
+				<div class="box-body">
+					<table class="table m-b-none">
+				        <thead>
+				          <tr>
+				              <th>
+				              	  日期
+				              </th>
+				              <th>
+				              	 浏览量(PV)
+				              </th>
+				              <th>
+				              	  跳出率
+				              </th>
+				              <th>
+								平均访问时长
+				              </th>
+				              <th>
+				              	平均访问页面
+				              </th>
+				          </tr>
+				        </thead>
+				        
+				        <tbody >
+				        
+				        <!-- 按时显示 -->
+				        <tbody ng-show="time_dim_value == 1">
+				        	<tr ng-if="!isHuanBi" ng-repeat="row in referrer_trend_list_data">
+				        		<td>
+				        			<div>{{row.pt_h | formathour}}</div>
+				        		</td>
+				        		<td>
+				        			<div>{{row.pv | formatnumber}}</div>
+				        		</td>
+				        		<td>
+				        			<div>{{row.bounce_rate | percentage:2}}</div>
+				        		</td>
+				        		<td>
+				        			<div>{{row.avg_visit_time | formatSecond}}</div>
+				        		</td>
+				        		<td>
+				        			<div>{{row.avg_visit_pages | formatnumber}}</div>
+				        		</td>
+				        	</tr>
+				        	
+				        	<tr ng-if="isHuanBi" ng-repeat="row in referrer_trend_list_data">
+				        		<td>
+				        			<div>{{row.pt_h | formathour}}</div>
+				        			<div>{{selectDate}}</div>
+				        			<div>{{selectHbDate}}</div>
+				        			<div>变化率</div>
+				        		</td>
+				        		<td>
+				        			<div>&nbsp;</div>
+				        			<div>
+				        				{{row.pv | formatnumber}}
+				        				<i ng-if="row.pv > referrer_trend_list_hbdata[$index].pv" class="glyphicon glyphicon-arrow-up text-danger"></i>
+							          	<i ng-if="row.pv < referrer_trend_list_hbdata[$index].pv" class="glyphicon glyphicon-arrow-down text-success"></i>	
+				        			</div>
+				        			<div>{{referrer_trend_list_hbdata[$index].pv | formatnumber}}</div>
+				        			<div>{{ (row.pv - referrer_trend_list_hbdata[$index].pv) / referrer_trend_list_hbdata[$index].pv | percentage:2}}</div>     			
+				        		</td>
+				        		<td>
+				        			<div>&nbsp;</div>
+				        			<div>
+				        				{{row.bounce_rate | percentage:2}}
+				        				<i ng-if="row.bounce_rate > referrer_trend_list_hbdata[$index].bounce_rate" class="glyphicon glyphicon-arrow-up text-danger"></i>
+							          	<i ng-if="row.bounce_rate < referrer_trend_list_hbdata[$index].bounce_rate" class="glyphicon glyphicon-arrow-down text-success"></i>
+				        			</div>
+				        			<div>{{referrer_trend_list_hbdata[$index].bounce_rate | percentage:2}}</div>
+				        			<div>{{ (row.bounce_rate - referrer_trend_list_hbdata[$index].bounce_rate) / referrer_trend_list_hbdata[$index].bounce_rate | percentage:2}}</div>     			
+				        		</td>
+				        		<td>
+				        			<div>&nbsp;</div>
+				        			<div>
+				        				{{row.avg_visit_time | formatSecond}}
+				        				<i ng-if="row.avg_visit_time > referrer_trend_list_hbdata[$index].avg_visit_time" class="glyphicon glyphicon-arrow-up text-danger"></i>
+							          	<i ng-if="row.avg_visit_time < referrer_trend_list_hbdata[$index].avg_visit_time" class="glyphicon glyphicon-arrow-down text-success"></i>	
+				        			</div>
+				        			<div>{{referrer_trend_list_hbdata[$index].avg_visit_time | formatSecond}}</div>
+				        			<div>{{ (row.avg_visit_time - referrer_trend_list_hbdata[$index].avg_visit_time) / referrer_trend_list_hbdata[$index].avg_visit_time | percentage:2}}</div>     			
+				        		</td>
+				        		<td>
+				        			<div>&nbsp;</div>
+				        			<div>
+				        				{{row.avg_visit_pages | formatnumber}}
+				        				<i ng-if="row.avg_visit_pages > referrer_trend_list_hbdata[$index].avg_visit_pages" class="glyphicon glyphicon-arrow-up text-danger"></i>
+							          	<i ng-if="row.avg_visit_pages < referrer_trend_list_hbdata[$index].avg_visit_pages" class="glyphicon glyphicon-arrow-down text-success"></i>
+				        			</div>
+				        			<div>{{referrer_trend_list_hbdata[$index].avg_visit_pages | formatnumber}}</div>
+				        			<div>{{ (row.avg_visit_pages - referrer_trend_list_hbdata[$index].avg_visit_pages) / referrer_trend_list_hbdata[$index].avg_visit_pages | percentage:2}}</div>     			
+				        		</td>
+				        	</tr>
+				        </tbody>
+				        
+				        <!-- 按天显示 -->
+				        <tbody ng-show="time_dim_value == 2||time_dim_value == 3 || time_dim_value == 4">
+				        	<tr ng-if="!isHuanBi" ng-repeat="row in referrer_trend_list_data">
+				        		<td>
+				        			<div>{{row.pt_d | formatdate}}</div>
+				        		</td>
+				        		<td>
+				        			<div>{{row.pv | formatnumber}}</div>
+				        		</td>
+				        		<td>
+				        			<div>{{row.bounce_rate | percentage:2}}</div>
+				        		</td>
+				        		<td>
+				        			<div>{{row.avg_visit_time | formatSecond}}</div>
+				        		</td>
+				        		<td>
+				        			<div>{{row.avg_visit_pages | formatnumber}}</div>
+				        		</td>
+				        	</tr>
+				        	
+				        	<tr ng-if="isHuanBi" ng-repeat="row in referrer_trend_list_data">
+				        		<td>
+				        			<div>{{hbDateByDay}}</div>
+				        			<div>{{row.pt_d | formatdate}}</div>
+				        			<div>{{referrer_trend_list_hbdata[$index].pt_d | formatdate}}</div>
+				        			<div>变化率</div>
+				        		</td>
+				        		<td>
+				        			<div>&nbsp;</div>
+				        			<div>
+				        				{{row.pv | formatnumber}}
+				        				<i ng-if="row.pv > referrer_trend_list_hbdata[$index].pv" class="glyphicon glyphicon-arrow-up text-danger"></i>
+							          	<i ng-if="row.pv < referrer_trend_list_hbdata[$index].pv" class="glyphicon glyphicon-arrow-down text-success"></i>	
+				        			</div>
+				        			<div>{{referrer_trend_list_hbdata[$index].pv | formatnumber}}</div>
+				        			<div>{{ (row.pv - referrer_trend_list_hbdata[$index].pv) / referrer_trend_list_hbdata[$index].pv | percentage:2}}</div>     			
+				        		</td>
+				        		<td>
+				        			<div>&nbsp;</div>
+				        			<div>
+				        				{{row.bounce_rate | percentage:2}}
+				        				<i ng-if="row.bounce_rate > referrer_trend_list_hbdata[$index].bounce_rate" class="glyphicon glyphicon-arrow-up text-danger"></i>
+							          	<i ng-if="row.bounce_rate < referrer_trend_list_hbdata[$index].bounce_rate" class="glyphicon glyphicon-arrow-down text-success"></i>	
+				        			</div>
+				        			<div>{{referrer_trend_list_hbdata[$index].bounce_rate | percentage:2}}</div>
+				        			<div>{{ (row.bounce_rate - referrer_trend_list_hbdata[$index].bounce_rate) / referrer_trend_list_hbdata[$index].bounce_rate | percentage:2}}</div>     			
+				        		</td>
+				        		<td>
+				        			<div>&nbsp;</div>
+				        			<div>
+				        				{{row.avg_visit_time | formatSecond}}
+				        				<i ng-if="row.avg_visit_time > referrer_trend_list_hbdata[$index].avg_visit_time" class="glyphicon glyphicon-arrow-up text-danger"></i>
+							          	<i ng-if="row.avg_visit_time < referrer_trend_list_hbdata[$index].avg_visit_time" class="glyphicon glyphicon-arrow-down text-success"></i>				        			
+				        			</div>
+				        			<div>{{referrer_trend_list_hbdata[$index].avg_visit_time | formatSecond}}</div>
+				        			<div>{{ (row.avg_visit_time - referrer_trend_list_hbdata[$index].avg_visit_time) / referrer_trend_list_hbdata[$index].avg_visit_time | percentage:2}}</div>     			
+				        		</td>
+				        		<td>
+				        			<div>&nbsp;</div>
+				        			<div>
+				        				{{row.avg_visit_pages | formatnumber}}
+				        				<i ng-if="row.avg_visit_pages > referrer_trend_list_hbdata[$index].avg_visit_pages" class="glyphicon glyphicon-arrow-up text-danger"></i>
+							          	<i ng-if="row.avg_visit_pages < referrer_trend_list_hbdata[$index].avg_visit_pages" class="glyphicon glyphicon-arrow-down text-success"></i>
+				        			</div>
+				        			<div>{{referrer_trend_list_hbdata[$index].avg_visit_pages | formatnumber}}</div>
+				        			<div>{{ (row.avg_visit_pages - referrer_trend_list_hbdata[$index].avg_visit_pages) / referrer_trend_list_hbdata[$index].avg_visit_pages | percentage:2}}</div>     			
+				        		</td>
+				        	</tr>
+				        </tbody>
+				        </tbody>
+				        
+				        <!-- 
+				        <tbody>
+				        	<tr ng-repeat="row in referrer_trend_list_data">  	
+						          	<td>
+						          		<div>{{row.pt_h | formathour}}</div>
+						          		<div>{{row.pt_d | formatdate}}</div>
+						          		<div ng-show="isHuanBi">{{row.pt_d2 | formatdate}}</div>
+						          		<div ng-show="isHuanBi">变化率</div>
+						          	</td>
+						          	
+						          	<td>
+						          		<div>--</div>
+						          		<div>
+						          			{{row.pv | formatnumber}}
+						          			<i ng-show="isHuanBi"  ng-if="row.pv > row.pv2" class="glyphicon glyphicon-arrow-up text-danger"></i>
+						          			<i ng-show="isHuanBi"  ng-if="row.pv < row.pv2" class="glyphicon glyphicon-arrow-down text-success"></i>
+						          		</div>
+						          		<div ng-show="isHuanBi">{{row.avg_visit_time2 | formatSecond}}</div>
+						          		<div ng-show="isHuanBi">{{ (row.avg_visit_time - row.avg_visit_time2) / row.avg_visit_time2 | percentage:2}}</div>
+						          	</td>
+						          	
+						          	<td>
+						          		<div>--</div>
+						          		<div>
+						          			{{row.bounce_rate | percentage:2}}
+						          			<i ng-show="isHuanBi"  ng-if="row.bounce_rate > row.bounce_rate2" class="glyphicon glyphicon-arrow-up text-danger"></i>
+						          			<i ng-show="isHuanBi"  ng-if="row.bounce_rate < row.bounce_rate2" class="glyphicon glyphicon-arrow-down text-success"></i>
+						          		</div>
+						          		<div ng-show="isHuanBi">{{row.bounce_rate2 | percentage:2}}</div>
+						          		<div ng-show="isHuanBi">{{ (row.bounce_rate - row.bounce_rate2) / row.bounce_rate2 | percentage:2}}</div>
+						          	</td>
+						          	
+						          	<td>
+						          		<div>--</div>
+						          		<div>
+						          			{{row.avg_visit_time | formatSecond}}
+						          			<i ng-show="isHuanBi"  ng-if="row.avg_visit_time > row.avg_visit_time2" class="glyphicon glyphicon-arrow-up text-danger"></i>
+						          			<i ng-show="isHuanBi"  ng-if="row.avg_visit_time < row.avg_visit_time2" class="glyphicon glyphicon-arrow-down text-success"></i>
+						          		</div>
+						          		<div ng-show="isHuanBi">{{row.avg_visit_time2 | formatSecond}}</div>
+						          		<div ng-show="isHuanBi">{{ (row.avg_visit_time - row.avg_visit_time2) / row.avg_visit_time2 | percentage:2}}</div>
+						          	</td>
+						          	
+						          	<td>
+						          		<div>--</div>
+						          		<div>
+						          			{{row.avg_visit_pages}}
+						          			<i ng-show="isHuanBi"  ng-if="row.avg_visit_time > row.avg_visit_time2" class="glyphicon glyphicon-arrow-up text-danger"></i>
+						          			<i ng-show="isHuanBi"  ng-if="row.avg_visit_time < row.avg_visit_time2" class="glyphicon glyphicon-arrow-down text-success"></i>
+						          		</div>
+						          		<div ng-show="isHuanBi">{{row.avg_visit_pages2}}</div>
+						          		<div ng-show="isHuanBi">{{ (row.avg_visit_pages - row.avg_visit_pages2) / row.avg_visit_pages2 | percentage:2}}</div>
+						          	</td>
+				          		</tr> 
+				        </tbody>
+				        -->
+				        
+				      </table>
+				</div>
+			</div>
+			</div>
+		  </div>
+          
+          
+          </section><!-- /.content -->
+
+</div><!-- /.content-wrapper -->
+
+

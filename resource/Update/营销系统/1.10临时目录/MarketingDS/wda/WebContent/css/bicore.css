@@ -1,0 +1,84 @@
+@charset "utf-8";
+/* reset */
+html, body, div, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, abbr, address, cite, code, del, dfn, img, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td{margin: 0;padding: 0;line-height:1;}
+
+img{border:0;-ms-interpolation-mode:bicubic;}
+table{border-collapse: collapse;border-spacing: 0;}
+button,select{text-transform: none;}
+button::-moz-focus-inner,input::-moz-focus-inner {border: 0;padding: 0;}
+textarea {overflow: auto;vertical-align: top; resize:none;}
+ol,ul{list-style:none;}
+em{font-weight:normal;font-style:normal;}
+input,textarea,select{font-family:inherit;font-size:inherit;font-weight:inherit}
+input,textarea,select{*font-size:100%}
+h1,h2,h3,h4,h5,h6,b{font-size:100%;font-weight:normal;}
+td{word-break:break-all;word-wrap:break-word;}
+
+/* common */
+html{font-size: 100%;-webkit-text-size-adjust:100%;overflow-y:scroll;}
+body{font-size:12px;font-family:Microsoft Yahei,STHeiti,Simsun,STSong;color:#333; background-color:#FFF;}
+a{text-decoration:none;color:#7c7c7c;}
+a:focus, a:active, a:hover, input{outline:0;}
+.mkcl:after{visibility:hidden;display:block;font-size:0;content:" ";clear:both;height:0;}
+.mkcl{*zoom:1;}
+.posR{position:relative;}
+.vm{vertical-align:middle;}
+
+.btn-lightblue{ background-color:#FF934B; border:1px solid #FF934B; border-radius:4px;color:#fff;}
+.btn-lightblue:hover{ background-color:#FFA567;}
+.btn-grey,
+.ape-ok{ background-color:#F0F0F0; border:1px solid #AAA; border-radius:4px;color:#333;}
+.btn-grey:hover,
+.ape-ok:hover{ background-color:#e2e2e2}
+.btn-grey.icb-disable:hover{ background-color:#F0F0F0;color:#333}
+
+
+
+
+/* index */
+.cd-wp{width:1240px; margin:auto;}
+.cdmn-link{ color:#3F5386; margin-left:48px; font-size:14px;}
+.cdmn-link:hover{color:#00B6E2}
+.cd-menu{ position:relative; padding:48px 0 36px;}
+.cdm-navs{ position:absolute; right:0; top:86px;}
+.cdm-useracts{ position:absolute; right:0; top:24px;}
+.cdmn-on{color:#00B6E2}
+.cdm-useracts b{ margin:0 12px;}
+.cdm-useracts a:hover{color:#00B6E2}
+
+.cd-hbar{ margin-bottom:8px;}
+.cd-hbar span{color:#01B6E1; font-size:14px; vertical-align:middle; font-weight:bold;}
+.cd-hbar img{vertical-align:middle;}
+.cd-sumbar{ margin-bottom:16px;}
+.sumbar-data{width:25%; padding-top:54px; padding-bottom:32px; float:left; text-align:center; color:#fff; position:relative;}
+.sumbar-dt1{ font-size:14px; margin-bottom:8px;}
+.sumbar-dt2{ font-size:26px; margin-bottom:28px; font-weight:bold;}
+.sumbar-dt3{ font-size:14px; margin-bottom:6px;}
+.sumbar-dt4{ font-size:14px; }
+.sumbar-intro{ position:absolute; width:30px; height:22px;  top:0; right:0; z-index:3; text-align:center; padding-top:8px;}
+.sumbar-itmore{ border:1px solid #C8C8C6; background-color:#fff; padding:4px 8px; line-height:1.5; font-size:12px; color:#888; width:140px; text-align:left; margin-top:4px; border-radius:2px; box-shadow:0 0 4px rgba(0,0,0,0.2); margin-left:-120px; display:none;}
+.sumbar-intro:hover .sumbar-itmore{ display:block;}
+
+.cd-figlayer,
+.cd-reports{ margin-right:-20px;}
+.cd-reportlayer{ margin-bottom:16px;}
+.cdfig-box,
+.cdr-item{ background-color:#FAFBFF; border:1px solid #E4EBF5; margin-right:10px; height:370px; float:left; padding:15px;}
+.cdr-item{width:582px; height:auto;}
+.cd-figblock{ margin-bottom:16px;}
+.rep-img{ width:220px; float:left;}
+.rep-detail{ margin-left:240px;}
+.rep-detail h3{ font-size:18px; margin-bottom:6px;}
+.rep-detail p{ line-height:1.5; margin:4px 0; color:#999;}
+.rep-detail p.downline{text-align:right; margin:0;}
+.btn-down{ display:inline-block; padding:6px 20px; background-color:#01B6E1; color:#fff; border-radius:5px;}
+.btn-down:hover{ background-color:#31C1E3;  color:#fff;}
+.cdh-more{ float:right; line-height:18px;}
+.cdh-more:hover{color:#00B6E2}
+
+.cd-foot .cd-wp{ padding:18px 0 24px;font-size:12px;line-height:1;}
+.cf-main{ color:#7C7C7C;}
+.cf-side{float:right;}
+.cf-side a{color:#7C7C7C;text-decoration:none;}
+.cf-side a:hover{color:#50CFF1;}
+.cf-side strong{color:#7C7C7C;margin:0 8px; font-weight:normal;}
