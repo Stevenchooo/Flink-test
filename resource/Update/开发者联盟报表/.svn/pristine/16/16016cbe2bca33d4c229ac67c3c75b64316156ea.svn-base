@@ -1,0 +1,1137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WorkBook xmlVersion="20131111" releaseVersion="7.0.5">
+<TableDataMap>
+<TableData name="get_all" class="com.fr.data.impl.DBTableData">
+<Parameters>
+<Parameter>
+<Attributes name="dateto"/>
+<O t="Date">
+<![CDATA[1429200000000]]></O>
+</Parameter>
+<Parameter>
+<Attributes name="app_id"/>
+<O>
+<![CDATA[]]></O>
+</Parameter>
+<Parameter>
+<Attributes name="app_select"/>
+<O>
+<![CDATA[all]]></O>
+</Parameter>
+<Parameter>
+<Attributes name="period"/>
+<O>
+<![CDATA[all]]></O>
+</Parameter>
+<Parameter>
+<Attributes name="top_select"/>
+<O>
+<![CDATA[25]]></O>
+</Parameter>
+</Parameters>
+<Attributes maxMemRowCount="-1"/>
+<Connection class="com.fr.data.impl.NameDatabaseConnection">
+<DatabaseName>
+<![CDATA[192.168.8.242_DBankRPTdb]]></DatabaseName>
+</Connection>
+<Query>
+<![CDATA[SELECT 
+    terminal_type,
+    SUM(active_all) AS active_all,
+    SUM(active_all)/SUM(terminal_num) AS dc
+  FROM dw_dev_app_active_users_terminal_wm
+ WHERE pt_w =CONCAT(DATE_FORMAT(DATE_SUB("${dateto}", INTERVAL WEEKDAY("${dateto}") DAY),'%Y%m%d'),'-',DATE_FORMAT(DATE_ADD("${dateto}", INTERVAL  6 - WEEKDAY("${dateto}")  DAY),'%Y%m%d'))
+${if(period == "all"," ","AND period = '"+period+"'")}
+${if(app_select == "assign","AND app_id = '"+app_id+"'","")}
+ GROUP BY terminal_type
+ ORDER BY active_all DESC
+ LIMIT ${top_select}]]></Query>
+</TableData>
+<TableData name="get_assign" class="com.fr.data.impl.DBTableData">
+<Parameters>
+<Parameter>
+<Attributes name="dateto"/>
+<O t="Date">
+<![CDATA[1429200000000]]></O>
+</Parameter>
+<Parameter>
+<Attributes name="app_id"/>
+<O>
+<![CDATA[]]></O>
+</Parameter>
+<Parameter>
+<Attributes name="app_select"/>
+<O>
+<![CDATA[all]]></O>
+</Parameter>
+<Parameter>
+<Attributes name="terminal_type"/>
+<O>
+<![CDATA[]]></O>
+</Parameter>
+<Parameter>
+<Attributes name="period"/>
+<O>
+<![CDATA[all]]></O>
+</Parameter>
+</Parameters>
+<Attributes maxMemRowCount="-1"/>
+<Connection class="com.fr.data.impl.NameDatabaseConnection">
+<DatabaseName>
+<![CDATA[192.168.8.242_DBankRPTdb]]></DatabaseName>
+</Connection>
+<Query>
+<![CDATA[SELECT 
+    terminal_type,
+    SUM(active_all) AS active_all,
+    SUM(active_all)/SUM(terminal_num) AS dc
+  FROM dw_dev_app_active_users_terminal_wm
+ WHERE pt_w =CONCAT(DATE_FORMAT(DATE_SUB("${dateto}", INTERVAL WEEKDAY("${dateto}") DAY),'%Y%m%d'),'-',DATE_FORMAT(DATE_ADD("${dateto}", INTERVAL  6 - WEEKDAY("${dateto}")  DAY),'%Y%m%d'))
+${IF(len(terminal_type) == 0,"","AND terminal_type in ('"+terminal_type+"')") }
+${if(period == "all"," ","AND period = '"+period+"'")}
+${if(app_select == "assign","AND app_id = '"+app_id+"'","")}
+ GROUP BY terminal_type
+ ORDER BY active_all DESC]]></Query>
+</TableData>
+<TableData name="select_assign" class="com.fr.data.impl.ConditionTableData">
+<TDName FC="$terminal_assign = &apos;assign&apos;">
+<![CDATA[get_assign]]></TDName>
+<TDName FC="$terminal_assign = &apos;all&apos;">
+<![CDATA[get_all]]></TDName>
+<Parameters>
+<Parameter>
+<Attributes name="terminal_assign"/>
+<O>
+<![CDATA[all]]></O>
+</Parameter>
+</Parameters>
+</TableData>
+<TableData name="get_terminal_type" class="com.fr.data.impl.DBTableData">
+<Parameters>
+<Parameter>
+<Attributes name="dateto"/>
+<O t="Date">
+<![CDATA[1429200000000]]></O>
+</Parameter>
+<Parameter>
+<Attributes name="app_id"/>
+<O>
+<![CDATA[]]></O>
+</Parameter>
+<Parameter>
+<Attributes name="app_select"/>
+<O>
+<![CDATA[all]]></O>
+</Parameter>
+<Parameter>
+<Attributes name="period"/>
+<O>
+<![CDATA[all]]></O>
+</Parameter>
+</Parameters>
+<Attributes maxMemRowCount="-1"/>
+<Connection class="com.fr.data.impl.NameDatabaseConnection">
+<DatabaseName>
+<![CDATA[192.168.8.242_DBankRPTdb]]></DatabaseName>
+</Connection>
+<Query>
+<![CDATA[SELECT 
+    distinct terminal_type
+  FROM dw_dev_app_active_users_terminal_wm
+ WHERE pt_w =CONCAT(DATE_FORMAT(DATE_SUB("${dateto}", INTERVAL WEEKDAY("${dateto}") DAY),'%Y%m%d'),'-',DATE_FORMAT(DATE_ADD("${dateto}", INTERVAL  6 - WEEKDAY("${dateto}")  DAY),'%Y%m%d'))
+${if(period == "all"," ","AND period = '"+period+"'")}
+${if(app_select == "assign","AND app_id = '"+app_id+"'","")}
+
+
+]]></Query>
+</TableData>
+<TableData name="get_app_name" class="com.fr.data.impl.DBTableData">
+<Parameters>
+<Parameter>
+<Attributes name="dateto"/>
+<O t="Date">
+<![CDATA[1429200000000]]></O>
+</Parameter>
+<Parameter>
+<Attributes name="period"/>
+<O>
+<![CDATA[all]]></O>
+</Parameter>
+</Parameters>
+<Attributes maxMemRowCount="-1"/>
+<Connection class="com.fr.data.impl.NameDatabaseConnection">
+<DatabaseName>
+<![CDATA[192.168.8.242_DBankRPTdb]]></DatabaseName>
+</Connection>
+<Query>
+<![CDATA[SELECT 
+    MAX(app_name) AS app_name,app_id
+  FROM dw_dev_app_active_users_terminal_wm
+ WHERE pt_w =CONCAT(DATE_FORMAT(DATE_SUB("${dateto}", INTERVAL WEEKDAY("${dateto}") DAY),'%Y%m%d'),'-',DATE_FORMAT(DATE_ADD("${dateto}", INTERVAL  6 - WEEKDAY("${dateto}")  DAY),'%Y%m%d'))
+${if(period == "all"," ","AND period = '"+period+"'")}
+ GROUP BY app_id]]></Query>
+</TableData>
+</TableDataMap>
+<ReportWebAttr>
+<ServerPrinter/>
+<WebPageContent>
+<ToolBars>
+<ToolBarManager>
+<Location>
+<Embed position="1"/>
+</Location>
+<ToolBar>
+<Widget class="com.fr.report.web.button.page.First">
+<WidgetAttr/>
+<Text>
+<![CDATA[${i18n('ReportServerP-First')}]]></Text>
+<IconName>
+<![CDATA[first]]></IconName>
+</Widget>
+<Widget class="com.fr.report.web.button.page.Previous">
+<WidgetAttr/>
+<Text>
+<![CDATA[${i18n('ReportServerP-Previous')}]]></Text>
+<IconName>
+<![CDATA[previous]]></IconName>
+</Widget>
+<Widget class="com.fr.report.web.button.page.PageNavi">
+<WidgetAttr/>
+</Widget>
+<Widget class="com.fr.report.web.button.page.Next">
+<WidgetAttr/>
+<Text>
+<![CDATA[${i18n('ReportServerP-Next')}]]></Text>
+<IconName>
+<![CDATA[next]]></IconName>
+</Widget>
+<Widget class="com.fr.report.web.button.page.Last">
+<WidgetAttr/>
+<Text>
+<![CDATA[${i18n('ReportServerP-Last')}]]></Text>
+<IconName>
+<![CDATA[last]]></IconName>
+</Widget>
+<Widget class="com.fr.report.web.button.FlashPrint">
+<WidgetAttr/>
+<Text>
+<![CDATA[${i18n('Utils-Print[Client]A')}]]></Text>
+<IconName>
+<![CDATA[flashprint]]></IconName>
+</Widget>
+<Widget class="com.fr.report.web.button.Print">
+<WidgetAttr/>
+<Text>
+<![CDATA[${i18n('Print')}]]></Text>
+<IconName>
+<![CDATA[print]]></IconName>
+<PrintButtons/>
+</Widget>
+<Widget class="com.fr.report.web.button.Export">
+<WidgetAttr/>
+<Text>
+<![CDATA[${i18n('Export')}]]></Text>
+<IconName>
+<![CDATA[export]]></IconName>
+<Buttons pdf="true" excelP="true" excelO="true" excelS="true" word="true" image="true" html="true"/>
+</Widget>
+<Widget class="com.fr.report.web.button.Email">
+<WidgetAttr/>
+<Text>
+<![CDATA[${i18n('Email')}]]></Text>
+<IconName>
+<![CDATA[email]]></IconName>
+</Widget>
+</ToolBar>
+</ToolBarManager>
+</ToolBars>
+<WebPage isPage="true" isShowAsImage="false" isAutoScale="false" isTDHeavy="false"/>
+</WebPageContent>
+</ReportWebAttr>
+<Report class="com.fr.report.worksheet.WorkSheet" name="sheet1">
+<ReportPageAttr>
+<HR/>
+<FR/>
+<HC/>
+<FC/>
+</ReportPageAttr>
+<RowHeight defaultValue="723900">
+<![CDATA[723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,0,723900]]></RowHeight>
+<ColumnWidth defaultValue="2743200">
+<![CDATA[2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200]]></ColumnWidth>
+<CellElementList>
+<C c="0" r="0" cs="12" rs="4" s="0">
+<O>
+<![CDATA[应用报表-应用周活分析-机型分析]]></O>
+<CellGUIAttr adjustmode="2"/>
+<CellPageAttr/>
+<Expand/>
+</C>
+<C c="0" r="4" cs="12" s="1">
+<O>
+<![CDATA[指标说明：]]></O>
+<Expand/>
+</C>
+<C c="0" r="5" cs="2" s="2">
+<O>
+<![CDATA[应用周活量:]]></O>
+<Expand/>
+</C>
+<C c="2" r="5" cs="10" s="2">
+<O>
+<![CDATA[应用激活数量大于10000的应用的一周活跃用户数量]]></O>
+<Expand/>
+</C>
+<C c="0" r="6" cs="2" s="2">
+<O>
+<![CDATA[周活比例:]]></O>
+<Expand/>
+</C>
+<C c="2" r="6" cs="10" s="2">
+<O>
+<![CDATA[应用周活量/机器数量，机器数量为激活过联盟应用的机器数量]]></O>
+<Expand/>
+</C>
+<C c="0" r="7" cs="2" s="2">
+<O>
+<![CDATA[统计时间区域：]]></O>
+<Expand/>
+</C>
+<C c="2" r="7" cs="10" s="2">
+<O>
+<![CDATA[当前统计时间所在的周]]></O>
+<Expand/>
+</C>
+<C c="0" r="8" cs="12" rs="2" s="3">
+<O>
+<![CDATA[应用周活-机型分布]]></O>
+<CellGUIAttr adjustmode="2"/>
+<CellPageAttr/>
+<Expand/>
+</C>
+<C c="0" r="10" cs="12" rs="2" s="4">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if($app_select = "all", "全部应用周活", A42 + "周活")+"-"+if($terminal_assign = "all", "全部机型分布  TOP："+$top_select, "指定机型分布") + "  统计时间:" + DATEINWEEK($dateto,1)+"至"+DATEINWEEK($dateto,-1)]]></Attributes>
+</O>
+<CellGUIAttr adjustmode="2"/>
+<CellPageAttr/>
+<Expand/>
+</C>
+<C c="0" r="12" cs="12" rs="24" s="5">
+<O t="CC">
+<LayoutAttr selectedIndex="0"/>
+<Chart name="默认">
+<Chart class="com.fr.chart.chartattr.Chart">
+<GI>
+<AttrBackground>
+<Background name="NullBackground"/>
+</AttrBackground>
+<AttrBorder>
+<Attr lineStyle="0" isRoundBorder="false"/>
+<newColor borderColor="-6908266"/>
+</AttrBorder>
+<AttrAlpha>
+<Attr alpha="1.0"/>
+</AttrAlpha>
+</GI>
+<ChartAttr isJSDraw="true"/>
+<Title>
+<GI>
+<AttrBackground>
+<Background name="NullBackground"/>
+</AttrBackground>
+<AttrBorder>
+<Attr lineStyle="0" isRoundBorder="false"/>
+<newColor borderColor="-6908266"/>
+</AttrBorder>
+<AttrAlpha>
+<Attr alpha="1.0"/>
+</AttrAlpha>
+</GI>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if($app_select = "all", "全部应用周活", A42 + "周活")+"-"+if($terminal_assign = "all", "全部机型分布  TOP："+$top_select, "指定机型分布") + "  统计时间:" + DATEINWEEK($dateto,1)+"至"+DATEINWEEK($dateto,-1)]]></Attributes>
+</O>
+<TextAttr>
+<Attr alignText="0">
+<FRFont name="微软雅黑" style="0" size="88"/>
+</Attr>
+</TextAttr>
+<TitleVisible value="true" position="0"/>
+</Title>
+<Plot class="com.fr.chart.chartattr.CustomPlot">
+<CategoryPlot>
+<GI>
+<AttrBackground>
+<Background name="NullBackground"/>
+</AttrBackground>
+<AttrBorder>
+<Attr lineStyle="0" isRoundBorder="false"/>
+<newColor/>
+</AttrBorder>
+<AttrAlpha>
+<Attr alpha="1.0"/>
+</AttrAlpha>
+</GI>
+<Attr isNullValueBreak="true" autoRefreshPerSecond="-1" plotStyle="3"/>
+<newHotTooltipStyle>
+<AttrContents>
+<Attr showLine="false" position="1" seriesLabel="${SERIES}${BR}${CATEGORY}${BR}${VALUE}"/>
+<Format class="com.fr.base.CoreDecimalFormat">
+<![CDATA[#.##]]></Format>
+<PercentFormat>
+<Format class="com.fr.base.CoreDecimalFormat">
+<![CDATA[#.##%]]></Format>
+</PercentFormat>
+</AttrContents>
+</newHotTooltipStyle>
+<ConditionCollection>
+<DefaultAttr class="com.fr.chart.chartglyph.CustomAttr">
+<CustomAttr>
+<ConditionAttr name=""/>
+<ctattr renderer="1"/>
+</CustomAttr>
+</DefaultAttr>
+<ConditionAttrList>
+<List index="0">
+<CustomAttr>
+<ConditionAttr name="条件属性01">
+<AttrList>
+<Attr class="com.fr.chart.base.AttrBackground">
+<AttrBackground>
+<Background name="ColorBackground" color="-6697984"/>
+</AttrBackground>
+</Attr>
+<Attr class="com.fr.chart.base.AttrAxisPosition">
+<AttrAxisPosition>
+<Attr axisPosition="LEFT"/>
+</AttrAxisPosition>
+</Attr>
+</AttrList>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNAME>
+<![CDATA[系列序号]]></CNAME>
+<Compare op="0">
+<O t="I">
+<![CDATA[1]]></O>
+</Compare>
+</Condition>
+</ConditionAttr>
+<ctattr renderer="1"/>
+</CustomAttr>
+</List>
+<List index="1">
+<CustomAttr>
+<ConditionAttr name="条件属性11">
+<AttrList>
+<Attr class="com.fr.chart.base.AttrColor">
+<AttrColor>
+<Attr color="-8355840"/>
+</AttrColor>
+</Attr>
+<Attr class="com.fr.chart.base.AttrAxisPosition">
+<AttrAxisPosition>
+<Attr axisPosition="RIGHT"/>
+</AttrAxisPosition>
+</Attr>
+<Attr class="com.fr.chart.base.AttrLineStyle">
+<AttrLineStyle>
+<newAttr lineStyle="5"/>
+</AttrLineStyle>
+</Attr>
+<Attr class="com.fr.chart.base.AttrMarkerType">
+<AttrMarkerType>
+<Attr markerType="SquareFilledMarker"/>
+</AttrMarkerType>
+</Attr>
+</AttrList>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNAME>
+<![CDATA[系列序号]]></CNAME>
+<Compare op="0">
+<O t="I">
+<![CDATA[2]]></O>
+</Compare>
+</Condition>
+</ConditionAttr>
+<ctattr renderer="2"/>
+</CustomAttr>
+</List>
+</ConditionAttrList>
+</ConditionCollection>
+<Legend>
+<GI>
+<AttrBackground>
+<Background name="NullBackground"/>
+</AttrBackground>
+<AttrBorder>
+<Attr lineStyle="0" isRoundBorder="false"/>
+<newColor borderColor="-6908266"/>
+</AttrBorder>
+<AttrAlpha>
+<Attr alpha="1.0"/>
+</AttrAlpha>
+</GI>
+<Attr position="3" visible="true"/>
+<FRFont name="微软雅黑" style="0" size="72"/>
+</Legend>
+<DataSheet>
+<GI>
+<AttrBackground>
+<Background name="NullBackground"/>
+</AttrBackground>
+<AttrBorder>
+<Attr lineStyle="1" isRoundBorder="false"/>
+<newColor borderColor="-16777216"/>
+</AttrBorder>
+<AttrAlpha>
+<Attr alpha="1.0"/>
+</AttrAlpha>
+</GI>
+<Attr isVisible="false"/>
+</DataSheet>
+<newPlotFillStyle>
+<AttrFillStyle>
+<AFStyle colorStyle="0"/>
+</AttrFillStyle>
+</newPlotFillStyle>
+<RectanglePlotAttr interactiveAxisTooltip="false"/>
+<xAxis>
+<CategoryAxis class="com.fr.chart.chartattr.CategoryAxis">
+<newAxisAttr isShowAxisLabel="true"/>
+<AxisLineStyle AxisStyle="1" MainGridStyle="0"/>
+<newLineColor mainGridColor="-4144960" lineColor="-5197648"/>
+<AxisPosition value="3"/>
+<TickLine201106 type="2" secType="0"/>
+<ArrowShow arrowShow="false"/>
+<TextAttr>
+<Attr alignText="1">
+<FRFont name="微软雅黑" style="0" size="72"/>
+</Attr>
+</TextAttr>
+<AxisLabelCount value="=0"/>
+<AxisRange/>
+<AxisUnit201106 isCustomMainUnit="false" isCustomSecUnit="false" mainUnit="=0" secUnit="=0"/>
+<ZoomAxisAttr isZoom="false"/>
+</CategoryAxis>
+</xAxis>
+<yAxis>
+<ValueAxis class="com.fr.chart.chartattr.ValueAxis">
+<ValueAxisAttr201108 alignZeroValue="false"/>
+<newAxisAttr isShowAxisLabel="true"/>
+<AxisLineStyle AxisStyle="1" MainGridStyle="1"/>
+<newLineColor mainGridColor="-4144960" lineColor="-5197648"/>
+<AxisPosition value="2"/>
+<TickLine201106 type="2" secType="0"/>
+<ArrowShow arrowShow="false"/>
+<TextAttr>
+<Attr alignText="0">
+<FRFont name="微软雅黑" style="0" size="72"/>
+</Attr>
+</TextAttr>
+<AxisLabelCount value="=0"/>
+<AxisRange/>
+<AxisUnit201106 isCustomMainUnit="false" isCustomSecUnit="false" mainUnit="=0" secUnit="=0"/>
+<ZoomAxisAttr isZoom="false"/>
+</ValueAxis>
+</yAxis>
+<secondAxis>
+<ValueAxis class="com.fr.chart.chartattr.ValueAxis">
+<ValueAxisAttr201108 alignZeroValue="false"/>
+<newAxisAttr isShowAxisLabel="true"/>
+<AxisLineStyle AxisStyle="1" MainGridStyle="0"/>
+<newLineColor mainGridColor="-4144960" lineColor="-5197648"/>
+<AxisPosition value="4"/>
+<TickLine201106 type="2" secType="0"/>
+<ArrowShow arrowShow="false"/>
+<TextAttr>
+<Attr alignText="0">
+<FRFont name="微软雅黑" style="0" size="72"/>
+</Attr>
+</TextAttr>
+<Format class="com.fr.base.CoreDecimalFormat">
+<![CDATA[#0.00%]]></Format>
+<AxisLabelCount value="=0"/>
+<AxisRange/>
+<AxisUnit201106 isCustomMainUnit="false" isCustomSecUnit="false" mainUnit="=0" secUnit="=0"/>
+<ZoomAxisAttr isZoom="false"/>
+</ValueAxis>
+</secondAxis>
+<CateAttr isStacked="false"/>
+</CategoryPlot>
+</Plot>
+<ChartDefinition>
+<MoreNameCDDefinition>
+<Top topCate="-1" topValue="-1" isDiscardOtherCate="false" isDiscardOtherSeries="false" isDiscardNullCate="false" isDiscardNullSeries="false"/>
+<TableData class="com.fr.data.impl.NameTableData">
+<Name>
+<![CDATA[select_assign]]></Name>
+</TableData>
+<CategoryName value="terminal_type"/>
+<ChartSummaryColumn name="active_all" function="com.fr.data.util.function.NoneFunction" customName="应用周活数"/>
+<ChartSummaryColumn name="dc" function="com.fr.data.util.function.NoneFunction" customName="周活比例"/>
+</MoreNameCDDefinition>
+</ChartDefinition>
+</Chart>
+</Chart>
+</O>
+<Expand/>
+</C>
+<C c="0" r="36" cs="12" rs="2" s="4">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if($app_select = "all", "全部应用周活", A42 + "周活")+"-"+if($terminal_assign = "all", "全部机型分布表  TOP："+$top_select, "指定机型分布表") + "  统计时间:" + DATEINWEEK($dateto,1)+"至"+DATEINWEEK($dateto,-1)]]></Attributes>
+</O>
+<CellGUIAttr adjustmode="2"/>
+<CellPageAttr/>
+<Expand/>
+</C>
+<C c="0" r="38" cs="4" s="6">
+<O>
+<![CDATA[机型名称]]></O>
+<Expand/>
+</C>
+<C c="4" r="38" cs="4" s="6">
+<O>
+<![CDATA[周活跃数]]></O>
+<Expand/>
+</C>
+<C c="8" r="38" cs="4" s="6">
+<O>
+<![CDATA[周活比例]]></O>
+<Expand/>
+</C>
+<C c="0" r="39" cs="4" s="7">
+<O t="DSColumn">
+<Attributes dsName="select_assign" columnName="terminal_type"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<Expand dir="0"/>
+</C>
+<C c="4" r="39" cs="4" s="8">
+<O t="DSColumn">
+<Attributes dsName="select_assign" columnName="active_all"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<Expand dir="0"/>
+</C>
+<C c="8" r="39" cs="4" s="9">
+<O t="DSColumn">
+<Attributes dsName="select_assign" columnName="dc"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<Expand dir="0"/>
+</C>
+<C c="0" r="41">
+<O t="DSColumn">
+<Attributes dsName="get_app_name" columnName="app_name"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNAME>
+<![CDATA[app_id]]></CNAME>
+<Compare op="0">
+<Parameter>
+<Attributes name="app_id"/>
+<O>
+<![CDATA[]]></O>
+</Parameter>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<Expand dir="0"/>
+</C>
+</CellElementList>
+<ReportAttrSet>
+<ReportSettings headerHeight="0" footerHeight="0">
+<PaperSetting>
+<PaperSize width="32976000" height="42768000"/>
+<Margin top="0" left="0" bottom="0" right="0"/>
+</PaperSetting>
+</ReportSettings>
+<Header reportPageType="0">
+<Background name="NullBackground"/>
+<LeftList/>
+<CenterList/>
+<RightList/>
+</Header>
+<Footer reportPageType="0">
+<Background name="NullBackground"/>
+<LeftList/>
+<CenterList/>
+<RightList/>
+</Footer>
+</ReportAttrSet>
+</Report>
+<ReportParameterAttr>
+<Attributes showWindow="true" delayPlaying="false" windowPosition="1" align="1"/>
+<PWTitle>
+<![CDATA[参数]]></PWTitle>
+<ParameterUI class="com.fr.form.main.parameter.FormParameterUI">
+<Layout class="com.fr.form.ui.container.WAbsoluteLayout">
+<WidgetName name="para"/>
+<WidgetAttr/>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.Label">
+<WidgetName name="Labelterminal_assign"/>
+<WidgetAttr/>
+<LabelAttr verticalcenter="true" textalign="0" autoline="true"/>
+<FRFont name="SimSun" style="0" size="72"/>
+<widgetValue>
+<O>
+<![CDATA[机型:]]></O>
+</widgetValue>
+</InnerWidget>
+<BoundsAttr x="342" y="25" width="41" height="21"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.RadioGroup">
+<Listener event="afterinit">
+<JavaScript class="com.fr.js.JavaScriptImpl">
+<Parameters/>
+<Content>
+<![CDATA[var terminal_assign = this.options.form.getWidgetByName("terminal_assign").getValue();
+var top_select = this.options.form.getWidgetByName("top_select");
+var terminal_type = this.options.form.getWidgetByName("terminal_type");
+if(terminal_assign == 'all'){
+       terminal_type.setEnable(false);
+       top_select.setEnable(true);
+   }
+   else{
+   	  terminal_type.setEnable(true);
+          top_select.setEnable(false);
+   }
+]]></Content>
+</JavaScript>
+</Listener>
+<Listener event="statechange">
+<JavaScript class="com.fr.js.JavaScriptImpl">
+<Parameters/>
+<Content>
+<![CDATA[var terminal_assign = this.options.form.getWidgetByName("terminal_assign").getValue();
+var top_select = this.options.form.getWidgetByName("top_select");
+var terminal_type = this.options.form.getWidgetByName("terminal_type");
+if(terminal_assign == 'all'){
+       terminal_type.setEnable(false);
+       top_select.setEnable(true);
+   }
+   else{
+   	  terminal_type.setEnable(true);
+          top_select.setEnable(false);
+   }
+]]></Content>
+</JavaScript>
+</Listener>
+<WidgetName name="terminal_assign"/>
+<WidgetAttr/>
+<allowBlank>
+<![CDATA[false]]></allowBlank>
+<Dictionary class="com.fr.data.impl.CustomDictionary">
+<CustomDictAttr>
+<Dict key="all" value="全部"/>
+<Dict key="assign" value="指定机型"/>
+</CustomDictAttr>
+</Dictionary>
+<widgetValue>
+<O>
+<![CDATA[all]]></O>
+</widgetValue>
+</InnerWidget>
+<BoundsAttr x="383" y="26" width="131" height="21"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.Label">
+<WidgetName name="Labelperiod"/>
+<WidgetAttr/>
+<LabelAttr verticalcenter="true" textalign="0" autoline="true"/>
+<FRFont name="SimSun" style="0" size="72"/>
+<widgetValue>
+<O>
+<![CDATA[机器使用时间:]]></O>
+</widgetValue>
+</InnerWidget>
+<BoundsAttr x="176" y="25" width="86" height="21"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.ComboBox">
+<WidgetName name="period"/>
+<WidgetAttr/>
+<allowBlank>
+<![CDATA[false]]></allowBlank>
+<CustomData>
+<![CDATA[false]]></CustomData>
+<Dictionary class="com.fr.data.impl.CustomDictionary">
+<CustomDictAttr>
+<Dict key="all" value="全部"/>
+<Dict key="30" value="&lt;=1个月"/>
+<Dict key="90" value="&gt;1个月&lt;=3个月"/>
+<Dict key="180" value="&gt;3个月&lt;=6个月"/>
+<Dict key="365" value="&gt;6个月&lt;=1年"/>
+<Dict key="730" value="&gt;1年&lt;=2年"/>
+</CustomDictAttr>
+</Dictionary>
+<widgetValue>
+<O>
+<![CDATA[all]]></O>
+</widgetValue>
+</InnerWidget>
+<BoundsAttr x="262" y="25" width="80" height="21"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.Label">
+<WidgetName name="Labeldateto"/>
+<WidgetAttr/>
+<LabelAttr verticalcenter="true" textalign="0" autoline="true"/>
+<FRFont name="SimSun" style="0" size="72"/>
+<widgetValue>
+<O>
+<![CDATA[统计时间:]]></O>
+</widgetValue>
+</InnerWidget>
+<BoundsAttr x="471" y="58" width="64" height="21"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.DateEditor">
+<WidgetName name="dateto"/>
+<WidgetAttr/>
+<allowBlank>
+<![CDATA[false]]></allowBlank>
+<DateAttr/>
+<widgetValue>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=today()-1]]></Attributes>
+</O>
+</widgetValue>
+</InnerWidget>
+<BoundsAttr x="535" y="58" width="102" height="21"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.Label">
+<WidgetName name="Labelapp_select"/>
+<WidgetAttr/>
+<LabelAttr verticalcenter="true" textalign="0" autoline="true"/>
+<FRFont name="SimSun" style="0" size="72"/>
+<widgetValue>
+<O>
+<![CDATA[应用:]]></O>
+</widgetValue>
+</InnerWidget>
+<BoundsAttr x="176" y="58" width="40" height="21"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.RadioGroup">
+<Listener event="afterinit">
+<JavaScript class="com.fr.js.JavaScriptImpl">
+<Parameters/>
+<Content>
+<![CDATA[var app_select = this.options.form.getWidgetByName("app_select").getValue();
+var app_id = this.options.form.getWidgetByName("app_id");
+if(app_select=='all'){
+       app_id.setEnable(false);
+   }
+   else{
+   	  app_id.setEnable(true);
+   }
+]]></Content>
+</JavaScript>
+</Listener>
+<Listener event="statechange">
+<JavaScript class="com.fr.js.JavaScriptImpl">
+<Parameters/>
+<Content>
+<![CDATA[var app_select = this.options.form.getWidgetByName("app_select").getValue();
+var app_id = this.options.form.getWidgetByName("app_id");
+if(app_select=='all'){
+       app_id.setEnable(false);
+   }
+   else{
+   	  app_id.setEnable(true);
+   }
+]]></Content>
+</JavaScript>
+</Listener>
+<WidgetName name="app_select"/>
+<WidgetAttr/>
+<allowBlank>
+<![CDATA[false]]></allowBlank>
+<Dictionary class="com.fr.data.impl.CustomDictionary">
+<CustomDictAttr>
+<Dict key="all" value="全部"/>
+<Dict key="assign" value="指定应用"/>
+</CustomDictAttr>
+</Dictionary>
+<widgetValue>
+<O>
+<![CDATA[all]]></O>
+</widgetValue>
+</InnerWidget>
+<BoundsAttr x="216" y="58" width="126" height="21"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.RadioGroup">
+<WidgetName name="top_select"/>
+<WidgetAttr/>
+<Dictionary class="com.fr.data.impl.CustomDictionary">
+<CustomDictAttr>
+<Dict key="25" value="TOP25"/>
+<Dict key="50" value="TOP50"/>
+</CustomDictAttr>
+</Dictionary>
+<widgetValue>
+<O>
+<![CDATA[25]]></O>
+</widgetValue>
+</InnerWidget>
+<BoundsAttr x="514" y="26" width="119" height="21"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.parameter.FormSubmitButton">
+<WidgetName name="Search"/>
+<WidgetAttr/>
+<Text>
+<![CDATA[查询]]></Text>
+<Hotkeys>
+<![CDATA[enter]]></Hotkeys>
+</InnerWidget>
+<BoundsAttr x="642" y="58" width="80" height="21"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.ComboCheckBox">
+<WidgetName name="terminal_type"/>
+<WidgetAttr/>
+<CustomData>
+<![CDATA[false]]></CustomData>
+<Dictionary class="com.fr.data.impl.TableDataDictionary">
+<FormulaDictAttr kiName="terminal_type" viName="terminal_type"/>
+<TableDataDictAttr>
+<TableData class="com.fr.data.impl.NameTableData">
+<Name>
+<![CDATA[get_terminal_type]]></Name>
+</TableData>
+</TableDataDictAttr>
+</Dictionary>
+<widgetValue>
+<O>
+<![CDATA[]]></O>
+</widgetValue>
+<RAAttr delimiter="&apos;,&apos;" isArray="false"/>
+</InnerWidget>
+<BoundsAttr x="633" y="25" width="89" height="21"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.ComboBox">
+<WidgetName name="app_id"/>
+<WidgetAttr/>
+<CustomData>
+<![CDATA[false]]></CustomData>
+<Dictionary class="com.fr.data.impl.TableDataDictionary">
+<FormulaDictAttr kiName="app_id" viName="app_name"/>
+<TableDataDictAttr>
+<TableData class="com.fr.data.impl.NameTableData">
+<Name>
+<![CDATA[get_app_name]]></Name>
+</TableData>
+</TableDataDictAttr>
+</Dictionary>
+<widgetValue>
+<O>
+<![CDATA[]]></O>
+</widgetValue>
+</InnerWidget>
+<BoundsAttr x="342" y="58" width="129" height="21"/>
+</Widget>
+<LCAttr vgap="0" hgap="0"/>
+</Layout>
+<DesignAttr width="1000" height="92"/>
+</ParameterUI>
+</ReportParameterAttr>
+<StyleList>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="微软雅黑" style="0" size="144" foreground="-6737152"/>
+<Background name="ImageBackground" specifiedImageWidth="-1.0" specifiedImageHeight="-1.0" layout="0">
+<IM>
+<![CDATA[!E0?,oncL?7h#eD$31&+%7s)Y;?-[s-ia5I-jTkS!!!+k000(5$5uK(5u`*_24.Ne,0LTeg&
+HY=#3i$t+DVZ^]ApX(>E1^:&N%QS9@rV23jRW!A]A;>6RrSGu[GC"a%rk=umYOq_2kJUH:4S62
+Q]AYC)QoDSHt4b(54J)BKt/H>Z\'hb.g)ILHN[sdiFn,(5\5PKZ5d'LG-n&oQoQ/e"99/CD/G
+SJVmpKKWtr6'i^3kb*5.GL]A]AhlrC%d^4?ZDIpQs_nm2'3UPqlWlu:Q1-X4J;;^9AX&:r"A\6
+LkO`t"m*G'`ipMtWYPiGYa8("5T>-$ndgTt<OMhe]AK%3O<+QolK5[VT,g:?o98>e\Zo5nML7
+AAh?MHahVe;N?S]A\&YQ1<3dDJCG5O\-3o_sX+%TuGhs?H2%nM43;IN44QkhTei[;-;tbQ-5b
+)7&QA;j<EMJHs3c%fCPT:.2%J;^YQ<^&#[`qu"gT)KCC24BW#Aogiq(DP#T@P>=5Y:S+[&VT
+HFiX0#GcG3?,a"3>mrX5'el/<HeZeW[[@mfT(qUH*kJQFJj-%CMfQlX%H.Tr39IE>8Y4F1,]A
+nmd`e[XZlR2K(;Vml!jX?ZLm$JG4KTVHYAf(/o?b*d/aZ=aEBrTPE%dW0O)c#Eat7@S&/,(a
+^Sqim.')'9`/bc)T5BX@^JI-l'GY!Od61`LR$YPGE.SpCqi)!3?#aLd\kcBU.AoUCWb$Fn6E
+AlJ(rZeMtlK"PBg1UXbMG@:]A!5]A8HG%Gta`dK-:0^(jRS4ptb2]AJH/pJ%Gik-o0+c4F'lgcE
+5#aIumPo!kgRiCP7t8!5"))Hi2#6CJ4=hA!a:[?i`fm+_m&@8utf>.jki%5]A"1e^BFjmq=^I
+=FW:fp-rib%pRdt7j'bA3X;WMr`Cn08WUK::8l:R\^m-Uqi"XB[4U-I"9KB)2"MRb)_#.)*k
+?%L]A:R7]A7eduUQah=,a[kND]A<pEaT<`PJsZUL^agZA:)+"rXmk#XA;nDX4k2p\guXOZ]A`&GY
+qgWpdU<$RZ\#ns,gX[)p'6]AUq,AH!THUrHpJ`ZbEc`$`nn7[]A8f_H1Jh3-'-[>W\T7Y$m@.,
+jUeK[?;6;B1RslMF:+4?al\hgD@hH)I`4P?[gH18_)$A+rI2ANJo1u@%&mpLCfUW>p'[^G5p
+>0h!-Le&,?3N8^kE1o/l!FQ=tQMjWKK.B$:YX5K6]Aj>RtYA_@:n36)8+bKmqPg+1:T7LKa)o
+1Cu_kB[[dRX?Q;UiW=s<e!+!H>Hc`H%&lY9;Xa=GO5a;+@Ia^DG5nOFH";(8a)]A-nSJ1.e3r
+$9jn:W978Z1Ff[?C?L6FKBX^,$BmB(!YbbIsT2Lf&IY%]A4EV'L>U+3"-4i2dRHg:@U(M5Gd)
+7_3kAQoKf7]A7*g!9-&.$.OG.Bs>Ok^WL5gZQ8m>fl\ec7o&+NDD%!1PE?8C60T`gpRNA'2Br
+kYfeQR:fsg*?4nm*`k+S;Pc]A$h\ciZV!C3!-QkdtHHJPXDtd<fKShM#6J'El4eEK>nb)Z/B4
+jeMbL$Zl5nRm1Di`ZF'0)/1JZlHiD3<T^$$[*3f6BZHpL<(U4b/E1]Aq[ra,;3TKeEnbjT5(d
+YgB9;u'5kR?R*,c7($Esh.R>oX=Tfb&I_FP)oZr##MCL2m'KO0no7$fa8?;Z.4"UI*7+D_g*
+YU@I7cQ%Yj-Hts)inm[#c"@ubrp+PP!]ARI@0E/dI\NSN@^K$]AQ%aZ`]A$QPcWP]AVCq(N.`B>^
+r`"Nm-u$T`T58n*=-EZGpcC?ZPC_A?5l0fd;<%N3u1nF`DuTilRgKFH\.BC11U\!auYie<9G
+PW%J-7iAf.)"bAVoX`=18+iP:&+-tmIW!X7Pq-D8k&)RfS,Y270!)-20$j\=T[NIW[:h:@#t
+5iM;2'r=BiO:T2uo[[#Y6&d`KKTH^LCU?Tj=knO.;fsZOW%N.BrSH4#6etAA.pi^caXaF&OL
+ZNd:ms2D>(J\^3ZT/IGZAO+4QeC^S\42(Ij(.:[Z*/sN/R:UF.KDE`0:M;nfMIM>>Xo.cS&Z
+'L#C&Q%l(.g%b0K@p.<#-gVYE88uYooDjb>#3@s7'[$MYgP0*iJ&F7$DXOM=t:,\R$L9q6IM
+IZiQY1-hj3BV(YtOjZDQiQSjs?9_1D)ZA!TasN'2NGC!A@_6UJN*<bOH$%#$Au6FkHd$qaqG
+Qd@ic[R\)6-1gq@\\p)-94Y9*%l90=&V%C1;)b4n"OaUZ#t\8#-5-"o]A4BV.?A%MaE:7gI5[
+nE"F$g;++A>A29`)lsAJR:\8*AON,@n05RmG9=[16E5:Pp:GVo"&f9P$s+6+fNrUODb\Bj-5
+oWWC_Np;/psjri!-l#W6C-^2n:(a%I#OVN&S41Uhkg>OFdn[X&I`'g0!cP,>>CR_crVR\TE)
++i/jGJa[ap4,k)YVH7j<H0S41ej%m;UpgF@]A\:VPI?4AYt_o$ZNt.(Y\N#kJuJ\b`=H29r\9
+J/eBn4($JA]AJD"+-Y8]A=dg=ClmY1g;biSJ,cXG:.[h7A=9;i7^U76i96X*dL3)JPLn3f]A+4=
+Yn#jUJqP^R;!nrtTm8%sI(6.AI/*4fnq?2;lc[.Or@j:t[cbsGLP9jAeaj'kHIjr+S,f$)n_
+'Iq2ZBH0D!Q108"@Vj3o#DOY.ZZRihjB8U$h^2+_i1/#GLAfV>g?O#eb=!-7Q)<+[5-;elIL
+NGnn#fTma-ZE8_E#0O3<'\Vbg<,`AL7UJLKEc`.i[Y3"m,YbIp6QaV)\S-EuQ(5(.'6C[7#l
+"rKA.lH1_Qp9eUL'%$%!d6Z.H_Ur7FeRP6KAa#;Disg`9/*o3#Z.=fN!6>,7lcM9lA;32h7Q
+<mWf#AcJ_/WL7,a'V#?Y6r-i1,=U6(a"HPRF5.[6K98F+Sj@JC\<TX(`j?n=4;dM*s<96Eo.
+Vbl`IE^tjg$JV#g-/4[$n`)3l:3#mqncSFBp`o-U_uI`0na`Z_<XTWFl4ug(]AsOceRT+/`:e
+7PJ+48HK8=N;JUB?@BT;Jqaq*?mjbJ!qW:@CqbdW"[=o[96=@S?/4VdVV+*?KpD1nLd.&1"6
+lm):Ue<B+s6"V0IqdttD,A^MSIigS>E4Pc^7f!UIqk/G<-LF<o[<);u&mBjQpQ:f:XEBOH0(
+]AcS_@kaiGEM`/2!cE2#(lC+Xq^m8YfW."J6B1DD8=ZiQc*.,V^chf9+<-?8q?UE+]AU#%c0ih
+o%F:('OiH9nMn\mFqQUsQor%k&F>p+j,Y5Ta[eh`9#Ue[WVrc17Wokttr@:!_M1_mDX%nZ=Q
+C?iIX9qp4X"_Zh-(TsNJkBn!"(6a1T1J8BKe82nVO4sLB.Nt%1;i9VQz8OZBBY!QNJ~
+]]></IM>
+</Background>
+<Border>
+<Top style="1"/>
+<Bottom style="1"/>
+<Left style="1"/>
+<Right style="1"/>
+</Border>
+</Style>
+<Style horizontal_alignment="2" imageLayout="1">
+<FRFont name="微软雅黑" style="1" size="96"/>
+<Background name="ImageBackground" specifiedImageWidth="-1.0" specifiedImageHeight="-1.0" layout="2">
+<IM>
+<![CDATA[lO<9(kN.ld@UNU%p%320@UNU)#I6cXfRW$ncQ/@&<0O5<@n=S@[oX!K%L!+t*8LGkV28*<fV
+1DR2+&2#M*'iG9!?fn`jEHhj.>Qf/%>^"4u8^;2W-f-"/[-Ps"#=CT4LGm?)6rkX]Ap9;)cg,
+:Xp=M>^R`IX>57);OBFYLBS"_e1Gss7S9)tL+\09b!LY7c2&TIA?%9m4n<NhHK^]A5-XNuS&?
+,PUblK>Iu.A7%J~
+]]></IM>
+</Background>
+<Border>
+<Top style="1"/>
+<Bottom style="1"/>
+<Left style="1"/>
+<Right style="1"/>
+</Border>
+</Style>
+<Style horizontal_alignment="2" imageLayout="1">
+<FRFont name="微软雅黑" style="0" size="72"/>
+<Background name="ImageBackground" specifiedImageWidth="-1.0" specifiedImageHeight="-1.0" layout="2">
+<IM>
+<![CDATA[lO<9(kN.ld@UNU%p%320@UNU)#I6cXfRW$ncQ/@&<0O5<@n=S@[oX!K%L!+t*8LGkV28*<fV
+1DR2+&2#M*'iG9!?fn`jEHhj.>Qf/%>^"4u8^;2W-f-"/[-Ps"#=CT4LGm?)6rkX]Ap9;)cg,
+:Xp=M>^R`IX>57);OBFYLBS"_e1Gss7S9)tL+\09b!LY7c2&TIA?%9m4n<NhHK^]A5-XNuS&?
+,PUblK>Iu.A7%J~
+]]></IM>
+</Background>
+<Border>
+<Top style="1"/>
+<Bottom style="1"/>
+<Left style="1"/>
+<Right style="1"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="微软雅黑" style="1" size="136" foreground="-1"/>
+<Background name="GradientBackground" color1="-4144960" color2="-16777216" direction="1" useCell="true" begin="0.0" finish="0.0" cyclic="false"/>
+<Border>
+<Top style="1"/>
+<Bottom style="1"/>
+<Left style="1"/>
+<Right style="1"/>
+</Border>
+</Style>
+<Style horizontal_alignment="2" imageLayout="1">
+<FRFont name="微软雅黑" style="1" size="120"/>
+<Background name="ImageBackground" specifiedImageWidth="-1.0" specifiedImageHeight="-1.0" layout="2">
+<IM>
+<![CDATA[lO<9(kN.ld@UNU%p%320@UNU)#I6cXfRW$ncQ/@&<0O5<@n=S@[oX!K%L!+t*8LGkV28*<fV
+1DR2+&2#M*'iG9!?fn`jEHhj.>Qf/%>^"4u8^;2W-f-"/[-Ps"#=CT4LGm?)6rkX]Ap9;)cg,
+:Xp=M>^R`IX>57);OBFYLBS"_e1Gss7S9)tL+\09b!LY7c2&TIA?%9m4n<NhHK^]A5-XNuS&?
+,PUblK>Iu.A7%J~
+]]></IM>
+</Background>
+<Border>
+<Top style="1"/>
+<Bottom style="1"/>
+<Left style="1"/>
+<Right style="1"/>
+</Border>
+</Style>
+<Style imageLayout="1">
+<FRFont name="微软雅黑" style="0" size="72"/>
+<Background name="NullBackground"/>
+<Border>
+<Top style="1"/>
+<Bottom style="1"/>
+<Left style="1"/>
+<Right style="1"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="微软雅黑" style="0" size="72"/>
+<Background name="ColorBackground" color="-1577999"/>
+<Border>
+<Top style="1"/>
+<Bottom style="1"/>
+<Left style="1"/>
+<Right style="1"/>
+</Border>
+</Style>
+<Style horizontal_alignment="4" imageLayout="1">
+<FRFont name="微软雅黑" style="0" size="72"/>
+<Background name="NullBackground"/>
+<Border>
+<Top style="1"/>
+<Bottom style="1"/>
+<Left style="1"/>
+<Right style="1"/>
+</Border>
+</Style>
+<Style horizontal_alignment="4" imageLayout="1">
+<Format class="com.fr.base.CoreDecimalFormat">
+<![CDATA[#,##0]]></Format>
+<FRFont name="微软雅黑" style="0" size="72"/>
+<Background name="NullBackground"/>
+<Border>
+<Top style="1"/>
+<Bottom style="1"/>
+<Left style="1"/>
+<Right style="1"/>
+</Border>
+</Style>
+<Style horizontal_alignment="4" imageLayout="1">
+<Format class="com.fr.base.CoreDecimalFormat">
+<![CDATA[#0.00%]]></Format>
+<FRFont name="微软雅黑" style="0" size="72"/>
+<Background name="NullBackground"/>
+<Border>
+<Top style="1"/>
+<Bottom style="1"/>
+<Left style="1"/>
+<Right style="1"/>
+</Border>
+</Style>
+</StyleList>
+<DesignerVersion DesignerVersion="HAF"/>
+<PreviewType PreviewType="0"/>
+</WorkBook>
