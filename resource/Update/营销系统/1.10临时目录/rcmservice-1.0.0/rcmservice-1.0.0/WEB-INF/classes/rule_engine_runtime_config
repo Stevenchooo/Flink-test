@@ -1,3 +1,0 @@
-# list the names of business rules need to load
-# if empty then load all the published rules
-# for example:businessRules=xxx,xxx,xxx,xxx
