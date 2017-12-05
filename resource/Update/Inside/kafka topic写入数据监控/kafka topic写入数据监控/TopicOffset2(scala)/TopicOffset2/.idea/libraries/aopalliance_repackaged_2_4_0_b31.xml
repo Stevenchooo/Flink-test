@@ -1,0 +1,72 @@
+<component name="libraryTable">
+  <library name="aopalliance-repackaged-2.4.0-b31">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib_c60/aopalliance-repackaged-2.4.0-b31.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib_c60/apache-log4j-extras-1.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib_c60/argparse4j-0.5.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib_c60/commons-cli-1.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib_c60/connect-api-0.9.0.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib_c60/connect-file-0.9.0.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib_c60/connect-json-0.9.0.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib_c60/connect-runtime-0.9.0.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib_c60/dynalogger-V100R002C10.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib_c60/hk2-api-2.4.0-b31.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib_c60/hk2-locator-2.4.0-b31.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib_c60/hk2-utils-2.4.0-b31.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib_c60/icu4j-2.6.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib_c60/jackson-annotations-2.5.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib_c60/jackson-core-2.5.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib_c60/jackson-databind-2.5.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib_c60/jackson-jaxrs-base-2.5.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib_c60/jackson-jaxrs-json-provider-2.5.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib_c60/jackson-module-jaxb-annotations-2.5.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib_c60/javacc-5.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib_c60/javassist-3.18.1-GA.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib_c60/javax.annotation-api-1.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib_c60/javax.inject-1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib_c60/javax.inject-2.4.0-b31.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib_c60/javax.servlet-api-3.1.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib_c60/javax.ws.rs-api-2.0.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib_c60/jersey-client-2.22.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib_c60/jersey-common-2.22.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib_c60/jersey-container-servlet-2.22.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib_c60/jersey-container-servlet-core-2.22.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib_c60/jersey-guava-2.22.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib_c60/jersey-media-jaxb-2.22.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib_c60/jersey-server-2.22.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib_c60/jetty-http-9.2.12.v20150709.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib_c60/jetty-io-9.2.12.v20150709.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib_c60/jetty-security-9.2.12.v20150709.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib_c60/jetty-server-9.2.12.v20150709.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib_c60/jetty-servlet-9.2.12.v20150709.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib_c60/jetty-util-9.2.12.v20150709.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib_c60/jopt-simple-3.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib_c60/kafka-clients-0.9.0.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib_c60/kafka-log4j-appender-0.9.0.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib_c60/kafka-tools-0.9.0.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib_c60/kafka_2.10-0.9.0.0-test.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib_c60/kafka_2.10-0.9.0.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib_c60/log4j-1.2.17.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib_c60/lz4-1.2.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib_c60/metrics-core-2.2.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib_c60/osgi-resource-locator-1.0.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib_c60/scala-library-2.10.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib_c60/slf4j-api-1.7.6.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib_c60/slf4j-log4j12-1.7.6.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib_c60/snappy-java-1.1.1.7.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib_c60/validation-api-1.1.0.Final.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib_c60/wc2frm-v1r2c60-20160429.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib_c60/xalan-2.6.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib_c60/xmlParserAPIs-2.6.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib_c60/xom-1.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib_c60/zkclient-0.7.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib_c60/zookeeper-3.5.1.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$PROJECT_DIR$/lib_c60/kafka_2.10-0.9.0.0-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/lib_c60/kafka_2.10-0.9.0.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
