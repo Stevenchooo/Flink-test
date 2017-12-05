@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FieldValidateConfig>
+
+	<!-- 参数校验配置
+		1.必须说明校验规则，要求详细完整
+		2.对于通用的字段校验规则，需要命名为common.xxx达到重用目的，指定字段专有规则必须单独命名
+		3.对于相同字段名，需要增加所属的类型做标识前缀，比如classA.name	classB.name
+	-->
+	<ParamValid>
+	   
+		
+		<!-- 校验规则：只允许1,2,3数字-->
+		<Field name="reqFolder" nullable="false"><![CDATA[^1|2|3$]]></Field>
+		
+		<!-- 校验规则：字母和数字，长度0-15  -->
+        <Field name="deviceID" nullable="false"><![CDATA[^[0-9a-zA-Z\\.]{0,15}$]]></Field>
+		
+        <!-- 校验规则：字母和数字，长度0-30  -->
+        <Field name="emuiVer" nullable="true"><![CDATA[^[0-9a-zA-Z\\.]{0,30}$]]></Field>
+        
+        
+	</ParamValid>
+
+</FieldValidateConfig>
