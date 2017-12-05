@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE nmaprun>
+<?xml-stylesheet href="file:///D:/Program Files/Nmap/nmap.xsl" type="text/xsl"?>
+<!-- Nmap 7.12 scan initiated Tue May 10 20:01:40 2016 as: nmap -sU -p 1-65535 -n -oX udp_60.xml -Pn 192.168.22.60 -->
+<nmaprun scanner="nmap" args="nmap -sU -p 1-65535 -n -oX udp_60.xml -Pn 192.168.22.60" start="1462881700" startstr="Tue May 10 20:01:40 2016" version="7.12" xmloutputversion="1.04">
+<scaninfo type="udp" protocol="udp" numservices="65535" services="1-65535"/>
+<verbose level="0"/>
+<debugging level="0"/>
+<host starttime="1462881700" endtime="1462881731"><status state="up" reason="user-set" reason_ttl="0"/>
+<address addr="192.168.22.60" addrtype="ipv4"/>
+<hostnames>
+</hostnames>
+<ports><extraports state="closed" count="65528">
+<extrareasons reason="port-unreaches" count="65528"/>
+</extraports>
+<port protocol="udp" portid="67"><state state="open|filtered" reason="no-response" reason_ttl="0"/><service name="dhcps" method="table" conf="3"/></port>
+<port protocol="udp" portid="68"><state state="open|filtered" reason="no-response" reason_ttl="0"/><service name="dhcpc" method="table" conf="3"/></port>
+<port protocol="udp" portid="111"><state state="open" reason="udp-response" reason_ttl="62"/><service name="rpcbind" method="table" conf="3"/></port>
+<port protocol="udp" portid="177"><state state="open" reason="udp-response" reason_ttl="62"/><service name="xdmcp" method="table" conf="3"/></port>
+<port protocol="udp" portid="631"><state state="open|filtered" reason="no-response" reason_ttl="0"/><service name="ipp" method="table" conf="3"/></port>
+<port protocol="udp" portid="751"><state state="open|filtered" reason="no-response" reason_ttl="0"/><service name="kerberos_master" method="table" conf="3"/></port>
+<port protocol="udp" portid="60129"><state state="open|filtered" reason="no-response" reason_ttl="0"/><service name="unknown" method="table" conf="3"/></port>
+</ports>
+<times srtt="53310" rttvar="2413" to="100000"/>
+</host>
+<runstats><finished time="1462881731" timestr="Tue May 10 20:02:11 2016" elapsed="31.18" summary="Nmap done at Tue May 10 20:02:11 2016; 1 IP address (1 host up) scanned in 31.18 seconds" exit="success"/><hosts up="1" down="0" total="1"/>
+</runstats>
+</nmaprun>
