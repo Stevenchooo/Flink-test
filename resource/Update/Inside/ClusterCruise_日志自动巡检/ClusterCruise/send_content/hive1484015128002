@@ -1,0 +1,1 @@
+path=D:/project/java/ClusterCruise/hive.txtregexp =.*\| ERROR \|.*\| SASL negotiation failure \|.*

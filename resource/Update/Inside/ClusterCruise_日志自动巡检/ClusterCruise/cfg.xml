@@ -1,0 +1,962 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+ <sms_receiver>186;177</sms_receiver>
+ <email_receiver>chenzhiliang@huawei.com;liutanyi@huawei.com</email_receiver>
+ 
+ <series name="hive">
+    <rnode scope="startCheckFileError">
+            <path ></path>
+		    <rules>
+		      <rule>
+		        <r>.*\| ERROR \|.*</r>
+		        <period_second>0</period_second>
+		        <period_count>1</period_count>
+		        <send_msg></send_msg>
+				<should_alarm>false</should_alarm>
+		        <auto_fix_cmd></auto_fix_cmd>
+				
+				<alarm_id>334455</alarm_id>
+		      </rule>
+			  <rule>
+		        <r>.*\| WARN  \|.*</r>
+		        <period_second>0</period_second>
+		        <period_count>1</period_count>
+		        <send_msg></send_msg>
+				<should_alarm>false</should_alarm>
+		        <auto_fix_cmd></auto_fix_cmd>
+				<alarm_id>334455</alarm_id>
+		      </rule>
+		       
+		   </rules>
+    </rnode>
+    <rnode>
+		    <path>D:/project/java/ClusterCruise/hive.txt</path>
+		    <rules>
+		      <rule>
+		        <r>.*\| ERROR \|.*\| SASL negotiation failure \|.*</r>
+		        <period_second>0</period_second>
+		        <period_count>1</period_count>
+		        <send_msg>hive server SASL. restart now</send_msg>
+		        <should_alarm>true</should_alarm>
+				<auto_fix_cmd>/home/restart_hive.sh</auto_fix_cmd>
+				<alarm_id>334455</alarm_id>
+				
+		      </rule>
+		      <rule>
+		        <r>.*\| ERROR \|.*\| MetaStoreClient lost connection, stop to connect.*</r>
+				
+		        <period_second>60</period_second>
+		        <period_count>5</period_count>
+		        <send_msg>metastore lost connection high  </send_msg>
+				<should_alarm>true</should_alarm>
+		        <auto_fix_cmd></auto_fix_cmd>
+				<alarm_id>334455</alarm_id>
+		      </rule>
+			  <rule>
+		        <r>.*\| ERROR \|.*\| Could not get a new token. Attempts left.*</r>
+		        <period_second>0</period_second>
+		        <period_count>2</period_count>
+		        <send_msg> Could not get a new token.  </send_msg>
+				<should_alarm>true</should_alarm>
+		        <auto_fix_cmd></auto_fix_cmd>
+				<alarm_id>334455</alarm_id>
+		      </rule>
+			  <rule>
+		        <r>.*\| ERROR \| Thread.*\| Error during job, obtaining debugging information</r>
+		        <period_second>0</period_second>
+		        <period_count>2</period_count>
+		        <send_msg> ERROR | Thread-**during job, obtaining debugging information.   </send_msg>
+				<should_alarm>true</should_alarm>
+		        <auto_fix_cmd></auto_fix_cmd>
+				<alarm_id>334455</alarm_id>
+		      </rule>
+			   
+			  <rule>
+			    <r>.*\| ERROR \| HiveServer2-Handler-Pool.*\| Error occurred during processing of message.</r>
+		        <period_second>0</period_second>
+		        <period_count>2</period_count>
+		        <send_msg> error unknown.   </send_msg>
+				<should_alarm>true</should_alarm>
+		        <auto_fix_cmd></auto_fix_cmd>
+				<alarm_id>334455</alarm_id>
+		      </rule>
+			  
+			  <rule>
+			    <r>.*\| ERROR \|.*\| Examining task ID:.*</r>
+		        <period_second>0</period_second>
+		        <period_count>2</period_count>
+		        <send_msg> error unknown.   </send_msg>
+				<should_alarm>true</should_alarm>
+		        <auto_fix_cmd></auto_fix_cmd>
+				<alarm_id>334455</alarm_id>
+		      </rule>
+			  <rule>
+			    <r>.*\| ERROR \| HiveServiceHealthChecker \| Exceed the reconnecting time limits!.*</r>
+		        <period_second>0</period_second>
+		        <period_count>2</period_count>
+		        <send_msg> Exceed the reconnecting time limits.serious error, check now.   </send_msg>
+				<should_alarm>true</should_alarm>
+		        <auto_fix_cmd></auto_fix_cmd>
+				<alarm_id>334455</alarm_id>
+		      </rule>
+			  <rule>
+			    <r>.*Exception: Cannot make directory:.*</r>
+		        <period_second>0</period_second>
+		        <period_count>2</period_count>
+		        <send_msg> Exceed the reconnecting time limits.serious error, check now.   </send_msg>
+				<should_alarm>true</should_alarm>
+		        <auto_fix_cmd></auto_fix_cmd>
+				<alarm_id>334455</alarm_id>
+		      </rule>
+			  <rule>
+			    <r>.*Exception: Interuppted \| org.apache.hadoop.hive.ql.exec.mr.MapRedTask.execute.*</r>
+		        <period_second>0</period_second>
+		        <period_count>2</period_count>
+		        <send_msg> Exceed the reconnecting time limits.serious error, check now.   </send_msg>
+				<should_alarm>true</should_alarm>
+		        <auto_fix_cmd></auto_fix_cmd>
+				<alarm_id>334455</alarm_id>
+		      </rule>
+			  
+			  <rule>
+			    <r>.*failed to connection to hiveserver.*</r>
+		        <period_second>0</period_second>
+		        <period_count>1</period_count>
+		        <send_msg> failed to connection to hiveserver.   </send_msg>
+				<should_alarm>true</should_alarm>
+		        <auto_fix_cmd></auto_fix_cmd>
+				<alarm_id>334455</alarm_id>
+		      </rule>
+			  <rule>
+			    <r>.*Unable to connect to metastore with URI thrift.*</r>
+		        <period_second>0</period_second>
+		        <period_count>1</period_count>
+		        <send_msg> Unable to connect to metastore.   </send_msg>
+				<should_alarm>true</should_alarm>
+		        <auto_fix_cmd></auto_fix_cmd>
+				<alarm_id>334455</alarm_id>
+		      </rule>
+			  <rule>
+			    <r>.*Job Submission failed with exception.*</r>
+		        <period_second>0</period_second>
+		        <period_count>1</period_count>
+		        <send_msg> Job Submission failed.   </send_msg>
+				<should_alarm>true</should_alarm>
+		        <auto_fix_cmd></auto_fix_cmd>
+				<alarm_id>334455</alarm_id>
+		      </rule>
+			  <rule>
+		        <r>.*add to deadNodes and continue.*</r>
+		        <period_second>0</period_second>
+		        <period_count>1</period_count>
+		        <send_msg>hdfs add to deadNodes, check now. </send_msg>
+				<should_alarm>true</should_alarm>
+		        <auto_fix_cmd></auto_fix_cmd>
+				<alarm_id>334455</alarm_id>
+		      </rule>
+			  
+			  <rule>
+		        <r>.*Runtime exception be caught while deserializing object using kryo:Unable to find class.*</r>
+		        <period_second>0</period_second>
+		        <period_count>1</period_count>
+		        <send_msg>udf not found. </send_msg>
+				<should_alarm>true</should_alarm>
+		        <auto_fix_cmd></auto_fix_cmd>
+				<alarm_id>334455</alarm_id>
+		      </rule>
+			  <rule>
+		        <r>.*Counter is deprecated.*</r>
+		        <period_second>0</period_second>
+		        <period_count>10</period_count>
+		        <send_msg></send_msg>
+				<should_alarm>false</should_alarm>
+		        <auto_fix_cmd></auto_fix_cmd>
+				<alarm_id>334455</alarm_id>
+		      </rule>
+			  
+			  <rule>
+		        <r>.*ParseException.*</r>
+		        <period_second>0</period_second>
+		        <period_count>10</period_count>
+		        <send_msg></send_msg>
+				<should_alarm>false</should_alarm>
+		        <auto_fix_cmd></auto_fix_cmd>
+				<alarm_id>334455</alarm_id>
+		      </rule>
+			  <rule>
+		        <r>.*SemanticException.*</r>
+		        <period_second>0</period_second>
+		        <period_count>10</period_count>
+		        <send_msg></send_msg>
+				<should_alarm>false</should_alarm>
+		        <auto_fix_cmd></auto_fix_cmd>
+				<alarm_id>334455</alarm_id>
+		      </rule>
+			  
+			  <rule>
+		        <r>.*Duplicate taskid file removed: hdfs.*</r>
+		        <period_second>0</period_second>
+		        <period_count>10</period_count>
+		        <send_msg></send_msg>
+				<should_alarm>false</should_alarm>
+		        <auto_fix_cmd></auto_fix_cmd>
+				<alarm_id>334455</alarm_id>
+		      </rule>
+			  
+			  
+			  <rule>
+		        <r>.*NoSuchObjectException.*</r>
+		        <period_second>0</period_second>
+		        <period_count>10</period_count>
+		        <send_msg></send_msg>
+				<should_alarm>false</should_alarm>
+		        <auto_fix_cmd></auto_fix_cmd>
+				<alarm_id>334455</alarm_id>
+		      </rule>
+			  
+			  <rule>
+		        <r>.*Shutting down task : Stage.*</r>
+		        <period_second>0</period_second>
+		        <period_count>10</period_count>
+		        <send_msg></send_msg>
+				<should_alarm>false</should_alarm>
+		        <auto_fix_cmd></auto_fix_cmd>
+				<alarm_id>334455</alarm_id>
+		      </rule>
+			   
+			   <rule>
+		        <r>.*Session SessionHandle .* is Timed-out.*</r>
+		        <period_second>0</period_second>
+		        <period_count>10</period_count>
+		        <send_msg></send_msg>
+				<should_alarm>false</should_alarm>
+		        <auto_fix_cmd></auto_fix_cmd>
+				<alarm_id>334455</alarm_id>
+		      </rule>
+			  <rule>
+		        <r>.*Job Submission failed with exception 'org.apache.hadoop.security.AccessControlException.*</r>
+		        <period_second>0</period_second>
+		        <period_count>10</period_count>
+		        <send_msg></send_msg>
+				<should_alarm>false</should_alarm>
+		        <auto_fix_cmd></auto_fix_cmd>
+				<alarm_id>334455</alarm_id>
+		      </rule>
+			   
+			  <rule>
+		        <r>.*Job Submission failed with exception 'java.io.InterruptedIOException(Call interrupted)'.*</r>
+		        <period_second>0</period_second>
+		        <period_count>5</period_count>
+		        <send_msg>submit job fail.</send_msg>
+				<should_alarm>true</should_alarm>
+		        <auto_fix_cmd></auto_fix_cmd>
+				<alarm_id>334455</alarm_id>
+		      </rule> 
+			  
+			  <rule>
+		        <r>.*Examining task ID.*</r>
+		        <period_second>0</period_second>
+		        <period_count>5</period_count>
+		        <send_msg></send_msg>
+				<should_alarm>false</should_alarm>
+		        <auto_fix_cmd></auto_fix_cmd>
+				<alarm_id>334455</alarm_id>
+		      </rule> 
+			  
+			  <rule>
+		        <r>.*Ended Job =.*</r>
+		        <period_second>0</period_second>
+		        <period_count>5</period_count>
+		        <send_msg></send_msg>
+				<should_alarm>false</should_alarm>
+		        <auto_fix_cmd></auto_fix_cmd>
+				<alarm_id>334455</alarm_id>
+		      </rule> 
+			  
+			  <rule>
+		        <r>.*org.apache.hive.service.cli.thrift.ThriftCLIService.ExecuteStatement(ThriftCLIService.java:536).*</r>
+		        <period_second>0</period_second>
+		        <period_count>5</period_count>
+		        <send_msg></send_msg>
+				<should_alarm>false</should_alarm>
+		        <auto_fix_cmd></auto_fix_cmd>
+				<alarm_id>334455</alarm_id>
+		      </rule> 
+			  <rule>
+  			    <r>.*Exception encountered while connecting to the server.*</r>
+		        <period_second>0</period_second>
+		        <period_count>5</period_count>
+		        <send_msg>network connect error</send_msg>
+				<should_alarm>true</should_alarm>
+		        <auto_fix_cmd></auto_fix_cmd>
+				<alarm_id>334455</alarm_id>
+		      </rule> 
+			  
+			  
+			  <rule>
+		        <r>.*ORC_GET_SPLITS .* A failover has occurred since the start of this method invocation attempt.*</r>
+		        <period_second>0</period_second>
+		        <period_count>5</period_count>
+		        <send_msg>orc split failed.</send_msg>
+				<should_alarm>true</should_alarm>
+		        <auto_fix_cmd></auto_fix_cmd>
+				<alarm_id>334455</alarm_id>
+		      </rule> 
+			  
+			  <rule>
+		        <r>.*TaskLogServlet is not supported in MR2 mode.*</r>
+		        <period_second>0</period_second>
+		        <period_count>5</period_count>
+		        <send_msg></send_msg>
+				<should_alarm>false</should_alarm>
+		        <auto_fix_cmd></auto_fix_cmd>
+				<alarm_id>334455</alarm_id>
+		      </rule> 
+			  
+			  <rule>
+		        <r>.*DFS chooseDataNode.*</r>
+		        <period_second>0</period_second>
+		        <period_count>5</period_count>
+		        <send_msg></send_msg>
+				<should_alarm>false</should_alarm>
+		        <auto_fix_cmd></auto_fix_cmd>
+				<alarm_id>334455</alarm_id>
+		      </rule> 
+			  
+			  
+			  <rule>
+		        <r>.*Dynamic partitioning is used.*</r>
+		        <period_second>0</period_second>
+		        <period_count>5</period_count>
+		        <send_msg></send_msg>
+				<should_alarm>false</should_alarm>
+		        <auto_fix_cmd></auto_fix_cmd>
+				<alarm_id>334455</alarm_id>
+		      </rule> 
+			  
+			  <rule>
+		        <r>.*DDLTask.*</r>
+		        <period_second>0</period_second>
+		        <period_count>5</period_count>
+		        <send_msg></send_msg>
+				<should_alarm>false</should_alarm>
+		        <auto_fix_cmd></auto_fix_cmd>
+				<alarm_id>334455</alarm_id>
+		      </rule> 
+			  
+			  <rule>
+		        <r>.*Re-acquire Token while token expired or does not exist.*</r>
+		        <period_second>0</period_second>
+		        <period_count>5</period_count>
+		        <send_msg></send_msg>
+				<should_alarm>false</should_alarm>
+		        <auto_fix_cmd></auto_fix_cmd>
+				<alarm_id>334455</alarm_id>
+		      </rule> 
+			  
+			  <rule>
+		        <r>.*MetaException.message:java.lang.IllegalArgumentException.*</r>
+		        <period_second>0</period_second>
+		        <period_count>5</period_count>
+		        <send_msg></send_msg>
+				<should_alarm>false</should_alarm>
+		        <auto_fix_cmd></auto_fix_cmd>
+				<alarm_id>334455</alarm_id>
+		      </rule> 
+			  
+			  <rule>
+		        <r>.*Error running hive query.*</r>
+		        <period_second>0</period_second>
+		        <period_count>5</period_count>
+		        <send_msg></send_msg>
+				<should_alarm>false</should_alarm>
+		        <auto_fix_cmd></auto_fix_cmd>
+				<alarm_id>334455</alarm_id>
+		      </rule>
+			  <rule>
+		        <r>.*FAILED: Operation cancelled.*</r>
+		        <period_second>0</period_second>
+		        <period_count>5</period_count>
+		        <send_msg></send_msg>
+				<should_alarm>false</should_alarm>
+		        <auto_fix_cmd></auto_fix_cmd>
+				<alarm_id>334455</alarm_id>
+		      </rule>
+			   
+			   <rule>
+		        <r>.*hive.server2.logging.operation.enabled is false.*</r>
+		        <period_second>0</period_second>
+		        <period_count>5</period_count>
+		        <send_msg></send_msg>
+				<should_alarm>false</should_alarm>
+		        <auto_fix_cmd></auto_fix_cmd>
+				<alarm_id>334455</alarm_id>
+		      </rule>
+			   
+			  <rule>
+		        <r>.*I/O error constructing remote block reader.*</r>
+		        <period_second>0</period_second>
+		        <period_count>5</period_count>
+		        <send_msg></send_msg>
+				<should_alarm>true</should_alarm>
+		        <auto_fix_cmd></auto_fix_cmd>
+				<alarm_id>334455</alarm_id>
+		      </rule>
+			  
+			  <rule>
+		        <r>.*Failed to open transport when Re-acquire Token.*</r>
+		        <period_second>60</period_second>
+		        <period_count>5</period_count>
+		        <send_msg></send_msg>
+				<should_alarm>true</should_alarm>
+		        <auto_fix_cmd></auto_fix_cmd>
+				<alarm_id>334455</alarm_id>
+		      </rule>
+			  
+			  <rule>
+		        <r>.*Exception: java.lang.InterruptedException.*</r>
+		        <period_second>60</period_second>
+		        <period_count>5</period_count>
+		        <send_msg></send_msg>
+				<should_alarm>true</should_alarm>
+		        <auto_fix_cmd></auto_fix_cmd>
+				<alarm_id>334455</alarm_id>
+		      </rule>
+			  
+			  <rule>
+		        <r>.*No partition is generated by dynamic partitioning.*</r>
+		        <period_second>60</period_second>
+		        <period_count>5</period_count>
+		        <send_msg></send_msg>
+				<should_alarm>false</should_alarm>
+		        <auto_fix_cmd></auto_fix_cmd>
+				<alarm_id>334455</alarm_id>
+		      </rule>
+			   
+			  <rule>
+		        <r>.*org.apache.hadoop.hive.ql.io.merge.MergeTask.execute\(MergeTask.java:258\).*</r>
+		        <period_second>60</period_second>
+		        <period_count>5</period_count>
+		        <send_msg></send_msg>
+				<should_alarm>false</should_alarm>
+		        <auto_fix_cmd></auto_fix_cmd>
+				<alarm_id>334455</alarm_id>
+		      </rule> 
+			  
+			  <rule>
+		        <r>.*SessionState.java:575.*</r>
+		        <period_second>60</period_second>
+		        <period_count>5</period_count>
+		        <send_msg></send_msg>
+				<should_alarm>false</should_alarm>
+		        <auto_fix_cmd></auto_fix_cmd>
+				<alarm_id>334455</alarm_id>
+		      </rule>
+			  
+			  <rule>
+		        <r>.*Ignoring similar problems.*</r>
+		        <period_second>60</period_second>
+		        <period_count>5</period_count>
+		        <send_msg></send_msg>
+				<should_alarm>false</should_alarm>
+		        <auto_fix_cmd></auto_fix_cmd>
+				<alarm_id>334455</alarm_id>
+		      </rule>
+			   
+			  <rule>
+		        <r>.*interrupted waiting to send rpc request to server.*</r>
+		        <period_second>0</period_second>
+		        <period_count>100</period_count>
+		        <send_msg>interrupted waiting. </send_msg>
+				<should_alarm>true</should_alarm>
+		        <auto_fix_cmd></auto_fix_cmd>
+				<alarm_id>334455</alarm_id>
+		      </rule>
+			  
+			  <rule>
+		        <r>.*Please check the file's format.*</r>
+		        <period_second>0</period_second>
+		        <period_count>100</period_count>
+		        <send_msg></send_msg>
+				<should_alarm>false</should_alarm>
+		        <auto_fix_cmd></auto_fix_cmd>
+				<alarm_id>334455</alarm_id>
+		      </rule>
+			  <rule>
+		        <r>.*Error getting operation id,audit log with no operation id record.*</r>
+		        <period_second>0</period_second>
+		        <period_count>100</period_count>
+		        <send_msg></send_msg>
+				<should_alarm>false</should_alarm>
+		        <auto_fix_cmd></auto_fix_cmd>
+				<alarm_id>334455</alarm_id>
+		      </rule>
+			  
+			  <rule>
+		        <r>.*Get user name from session failed.*</r>
+		        <period_second>0</period_second>
+		        <period_count>100</period_count>
+		        <send_msg></send_msg>
+				<should_alarm>false</should_alarm>
+		        <auto_fix_cmd></auto_fix_cmd>
+				<alarm_id>334455</alarm_id>
+		      </rule>
+			  
+			  <rule>
+		        <r>.*Group FileSystemCounters is deprecated.*</r>
+		        <period_second>0</period_second>
+		        <period_count>100</period_count>
+		        <send_msg></send_msg>
+				<should_alarm>false</should_alarm>
+		        <auto_fix_cmd></auto_fix_cmd>
+				<alarm_id>334455</alarm_id>
+		      </rule>
+			  
+			  <rule>
+		        <r>.*Error closing operation:  \| org.apache.hive.service.cli.thrift.ThriftCLIService.CloseOperation.*</r>
+		        <period_second>0</period_second>
+		        <period_count>100</period_count>
+		        <send_msg></send_msg>
+				<should_alarm>false</should_alarm>
+		        <auto_fix_cmd></auto_fix_cmd>
+				<alarm_id>334455</alarm_id>
+		      </rule>
+			  
+			  <rule>
+		        <r>.*org.apache.hive.service.cli.thrift.ThriftCLIService.CancelOperation.*</r>
+		        <period_second>0</period_second>
+		        <period_count>100</period_count>
+		        <send_msg></send_msg>
+				<should_alarm>false</should_alarm>
+		        <auto_fix_cmd></auto_fix_cmd>
+				<alarm_id>334455</alarm_id>
+		      </rule>
+			  
+			  <rule>
+		        <r>.*ThriftCLIService.java:536.*</r>
+		        <period_second>0</period_second>
+		        <period_count>100</period_count>
+		        <send_msg></send_msg>
+				<should_alarm>false</should_alarm>
+		        <auto_fix_cmd></auto_fix_cmd>
+				<alarm_id>334455</alarm_id>
+		      </rule>
+			  
+			  
+			  <rule>
+		        <r>.*Filter passes no row.*</r>
+		        <period_second>0</period_second>
+		        <period_count>100</period_count>
+		        <send_msg></send_msg>
+				<should_alarm>false</should_alarm>
+		        <auto_fix_cmd></auto_fix_cmd>
+				<alarm_id>334455</alarm_id>
+		      </rule>
+			  
+			  <rule>
+		        <r>.*filesystem error in check phase.*</r>
+		        <period_second>0</period_second>
+		        <period_count>10</period_count>
+		        <send_msg>maybe some hdfs node error.</send_msg>
+				<should_alarm>true</should_alarm>
+		        <auto_fix_cmd></auto_fix_cmd>
+				<alarm_id>334455</alarm_id>
+		      </rule>
+			   
+			  <rule>
+		        <r>.*\| ERROR \| Thread.* |</r>
+		        <period_second>0</period_second>
+		        <period_count>10</period_count>
+		        <send_msg>Container killed.</send_msg>
+				<should_alarm>true</should_alarm>
+		        <auto_fix_cmd></auto_fix_cmd>
+				<alarm_id>334455</alarm_id>
+		      </rule>
+			  
+			  <rule>
+		        <r>.*FAILED: NoMatchingMethodException No matching method for.*</r>
+		        <period_second>0</period_second>
+		        <period_count>10</period_count>
+		        <send_msg></send_msg>
+				<should_alarm>false</should_alarm>
+		        <auto_fix_cmd></auto_fix_cmd>
+				<alarm_id>334455</alarm_id>
+		      </rule>
+			  
+			  <rule>
+		        <r>.*ThriftCLIService.java:761.*</r>
+		        <period_second>0</period_second>
+		        <period_count>10</period_count>
+		        <send_msg></send_msg>
+				<should_alarm>false</should_alarm>
+		        <auto_fix_cmd></auto_fix_cmd>
+				<alarm_id>334455</alarm_id>
+		      </rule>
+			  
+			  <rule>
+		        <r>.*ThriftCLIService.java:618.*</r>
+		        <period_second>0</period_second>
+		        <period_count>5</period_count>
+		        <send_msg>Invalid SessionHandle.</send_msg>
+				<should_alarm>true</should_alarm>
+		        <auto_fix_cmd></auto_fix_cmd>
+				<alarm_id>334455</alarm_id>
+		      </rule>
+			  
+			  <rule>
+		        <r>.*Failed with exception addFiles: filesystem error in check phase.*</r>
+		        <period_second>0</period_second>
+		        <period_count>1</period_count>
+		        <send_msg>hdfs maybe error.</send_msg>
+				<should_alarm>true</should_alarm>
+		        <auto_fix_cmd></auto_fix_cmd>
+				<alarm_id>334455</alarm_id>
+		      </rule>
+			  
+			  <rule>
+		        <r>.*Failed with exception copyFiles.*</r>
+		        <period_second>0</period_second>
+		        <period_count>1</period_count>
+		        <send_msg></send_msg>
+				<should_alarm>false</should_alarm>
+		        <auto_fix_cmd></auto_fix_cmd>
+				<alarm_id>334455</alarm_id>
+		      </rule>
+			  
+			  <rule>
+		        <r>.*Error launching map-reduce job.*</r>
+		        <period_second>0</period_second>
+		        <period_count>1</period_count>
+		        <send_msg>submit task fail. Fatal</send_msg>
+				<should_alarm>true</should_alarm>
+		        <auto_fix_cmd></auto_fix_cmd>
+				<alarm_id>334455</alarm_id>
+		      </rule>
+			  
+			  <rule>
+		        <r>.*HiveAuthzPluginException Error getting object from metastore for Object.*</r>
+		        <period_second>0</period_second>
+		        <period_count>1</period_count>
+		        <send_msg></send_msg>
+				<should_alarm>false</should_alarm>
+		        <auto_fix_cmd></auto_fix_cmd>
+				<alarm_id>334455</alarm_id>
+		      </rule>
+			  
+			  <rule>
+		        <r>.*HiveAccessControlException Permission denied.*</r>
+		        <period_second>0</period_second>
+		        <period_count>1</period_count>
+		        <send_msg></send_msg>
+				<should_alarm>false</should_alarm>
+		        <auto_fix_cmd></auto_fix_cmd>
+				<alarm_id>334455</alarm_id>
+		      </rule>
+			  
+			  <rule>
+		        <r>.*org.apache.hive.service.cli.thrift.ThriftCLIService.FetchResults\(ThriftCLIService.java:865\).*</r>
+		        <period_second>0</period_second>
+		        <period_count>1</period_count>
+		        <send_msg></send_msg>
+				<should_alarm>false</should_alarm>
+		        <auto_fix_cmd></auto_fix_cmd>
+				<alarm_id>334455</alarm_id>
+		      </rule>
+			  
+			  <rule>
+		        <r>.*Failed with exception java.lang.InterruptedException.*</r>
+		        <period_second>60</period_second>
+		        <period_count>5</period_count>
+		        <send_msg>InterruptedException, need check.</send_msg>
+				<should_alarm>true</should_alarm>
+		        <auto_fix_cmd></auto_fix_cmd>
+				<alarm_id>334455</alarm_id>
+		      </rule>
+			  
+			  <rule>
+		        <r>.*Hive Internal Error: java.util.ConcurrentModificationException.*</r>
+		        <period_second>0</period_second>
+		        <period_count>5</period_count>
+		        <send_msg>ConcurrentModificationException, need check.</send_msg>
+				<should_alarm>true</should_alarm>
+		        <auto_fix_cmd></auto_fix_cmd>
+				<alarm_id>334455</alarm_id>
+		      </rule>
+			  
+			  <rule>
+		        <r>.*ClientServiceDelegate invoke call interrupted \| org.apache.hadoop.mapred.ClientServiceDelegate.invoke.*</r>
+		            
+				<period_second>0</period_second>
+		        <period_count>5</period_count>
+		        <send_msg>.</send_msg>
+				<should_alarm>false</should_alarm>
+		        <auto_fix_cmd></auto_fix_cmd>
+				<alarm_id>334455</alarm_id>
+		      </rule>
+			   
+			  <rule>
+		        <r>.*Database does not exist.*</r>
+		        <period_second>0</period_second>
+		        <period_count>5</period_count>
+		        <send_msg>.</send_msg>
+				<should_alarm>false</should_alarm>
+		        <auto_fix_cmd></auto_fix_cmd>
+				<alarm_id>334455</alarm_id>
+		      </rule>
+			  
+			  <rule>
+		        <r>.*A failover has occurred since the start of this method invocation attempt.*</r>
+		        <period_second>60</period_second>
+		        <period_count>5</period_count>
+		        <send_msg>failover unknown.</send_msg>
+				<should_alarm>true</should_alarm>
+		        <auto_fix_cmd></auto_fix_cmd>
+				<alarm_id>334455</alarm_id>
+		      </rule>
+			  
+			  <rule>
+		        <r>.*Failed to clean-up tmp directories. \| org.apache.hadoop.hive.ql.exec.Utilities.clearWork.*</r>
+		        <period_second>0</period_second>
+		        <period_count>1</period_count>
+		        <send_msg>hdfs error unknown.</send_msg>
+				<should_alarm>true</should_alarm>
+		        <auto_fix_cmd></auto_fix_cmd>
+				<alarm_id>334455</alarm_id>
+		      </rule>
+			   
+			   <rule>
+		        <r>.*Exception while removing job record for jobId.*</r>
+		        <period_second>0</period_second>
+		        <period_count>1</period_count>
+		        <send_msg>hdfs error unknown.</send_msg>
+				<should_alarm>true</should_alarm>
+		        <auto_fix_cmd></auto_fix_cmd>
+				<alarm_id>334455</alarm_id>
+		      </rule>
+			  
+			  <rule>
+		        <r>.*org.apache.hadoop.hive.ql.metadata.HiveException.*</r>
+		        <period_second>0</period_second>
+		        <period_count>1</period_count>
+		        <send_msg></send_msg>
+				<should_alarm>false</should_alarm>
+		        <auto_fix_cmd></auto_fix_cmd>
+				<alarm_id>334455</alarm_id>
+		      </rule>
+			  
+			  <rule>
+		        <r>.*Failed with exception Unable to move sourcehdfs.*</r>
+		        <period_second>0</period_second>
+		        <period_count>1</period_count>
+		        <send_msg>hdfs move error.</send_msg>
+				<should_alarm>true</should_alarm>
+		        <auto_fix_cmd></auto_fix_cmd>
+				<alarm_id>334455</alarm_id>
+		      </rule>
+			   
+			  <rule>
+		        <r>.*BadPaddingException.*</r>
+		        <period_second>0</period_second>
+		        <period_count>1</period_count>
+		        <send_msg>udf error.</send_msg>
+				<should_alarm>false</should_alarm>
+		        <auto_fix_cmd></auto_fix_cmd>
+				<alarm_id>334455</alarm_id>
+		      </rule>
+			   
+			   <rule>
+		        <r>.*ERROR \| HiveServer2-Handler-Pool: .* \| FAILED: NullPointerException null.*</r>
+		        <period_second>0</period_second>
+		        <period_count>1</period_count>
+		        <send_msg>compile error.</send_msg>
+				<should_alarm>false</should_alarm>
+		        <auto_fix_cmd></auto_fix_cmd>
+				<alarm_id>334455</alarm_id>
+		      </rule>
+			  
+			  <rule>
+		        <r>.*ExecDriver.java:474.*</r>
+		        <period_second>0</period_second>
+		        <period_count>1</period_count>
+		        <send_msg>kill job.</send_msg>
+				<should_alarm>false</should_alarm>
+		        <auto_fix_cmd></auto_fix_cmd>
+				<alarm_id>334455</alarm_id>
+		      </rule>
+			  
+			  <rule>
+		        <r>.*FAILED: ClassCastException.*</r>
+		        <period_second>0</period_second>
+		        <period_count>1</period_count>
+		        <send_msg>Maybe UDF error.</send_msg>
+				<should_alarm>false</should_alarm>
+		        <auto_fix_cmd></auto_fix_cmd>
+				<alarm_id>334455</alarm_id>
+		      </rule>
+			  
+			  <rule>
+		        <r>.*Error closing session:  \| org.apache.hive.service.cli.thrift.ThriftCLIService.CloseSession.*</r>
+		        <period_second>0</period_second>
+		        <period_count>1</period_count>
+		        <send_msg></send_msg>
+				<should_alarm>false</should_alarm>
+		        <auto_fix_cmd></auto_fix_cmd>
+				<alarm_id>334455</alarm_id>
+		      </rule>
+			  
+			  <rule>
+		        <r>.*Failed to connect to the MetaStore Server.*</r>
+		        <period_second>60</period_second>
+		        <period_count>10</period_count>
+		        <send_msg>connect to the MetaStore fail.</send_msg>
+				<should_alarm>true</should_alarm>
+		        <auto_fix_cmd></auto_fix_cmd>
+				<alarm_id>334455</alarm_id>
+		      </rule>
+			  
+			  <rule>
+		        <r>.*Not attempting to re-login since the last re-login was attempted less than 600 seconds before.*</r>
+		        <period_second>60</period_second>
+		        <period_count>10</period_count>
+		        <send_msg>FI re-login fail.</send_msg>
+				<should_alarm>true</should_alarm>
+		        <auto_fix_cmd></auto_fix_cmd>
+				<alarm_id>334455</alarm_id>
+		      </rule>
+			  
+			  <rule>
+		        <r>.*Exception while killing job.*</r>
+		        <period_second>60</period_second>
+		        <period_count>10</period_count>
+		        <send_msg>killing job fail.</send_msg>
+				<should_alarm>true</should_alarm>
+		        <auto_fix_cmd></auto_fix_cmd>
+				<alarm_id>334455</alarm_id>
+		      </rule>
+			  
+			  <rule>
+		        <r>.*Failed with exception Unable to set permissions of hdfs.*</r>
+		        <period_second>60</period_second>
+		        <period_count>10</period_count>
+		        <send_msg></send_msg>
+				<should_alarm>false</should_alarm>
+		        <auto_fix_cmd></auto_fix_cmd>
+				<alarm_id>334455</alarm_id>
+		      </rule>
+			  
+			  <rule>
+		        <r>.*Failed with exception Unable to move results from hdfs.*</r>
+		        <period_second>60</period_second>
+		        <period_count>10</period_count>
+		        <send_msg></send_msg>
+				<should_alarm>false</should_alarm>
+		        <auto_fix_cmd></auto_fix_cmd>
+				<alarm_id>334455</alarm_id>
+		      </rule>
+			   
+			   <rule>
+		        <r>.*Failed with exception Unable to fetch table.*</r>
+		        <period_second>60</period_second>
+		        <period_count>10</period_count>
+		        <send_msg></send_msg>
+				<should_alarm>false</should_alarm>
+		        <auto_fix_cmd></auto_fix_cmd>
+				<alarm_id>334455</alarm_id>
+		      </rule>
+			  
+			   
+			  <rule>
+		        <r>.*Couldn't setup connection for hive/hadoop.hadoop.com.*</r>
+		        <period_second>0</period_second>
+		        <period_count>1</period_count>
+		        <send_msg>Fatal. account hive fail.</send_msg>
+				<should_alarm>true</should_alarm>
+		        <auto_fix_cmd></auto_fix_cmd>
+				<alarm_id>334455</alarm_id>
+		      </rule>
+			    
+			  <rule>
+		        <r>.*Exception: java.io.InterruptedIOException: Call interrupted.*</r>
+		        <period_second>60</period_second>
+		        <period_count>10</period_count>
+		        <send_msg>MapRedTask execute fail.</send_msg>
+				<should_alarm>true</should_alarm>
+		        <auto_fix_cmd></auto_fix_cmd>
+				<alarm_id>334455</alarm_id>
+		      </rule>
+			 
+			  <rule>
+		        <r>.*stop refresh warehouse size info.*</r>
+		        <period_second>60</period_second>
+		        <period_count>10</period_count>
+		        <send_msg>restart info.</send_msg>
+				<should_alarm>false</should_alarm>
+		        <auto_fix_cmd></auto_fix_cmd>
+				<alarm_id>334455</alarm_id>
+		      </rule>
+			  
+			  <rule>
+		        <r>.*stop refres resouce used info.*</r>
+		        <period_second>60</period_second>
+		        <period_count>10</period_count>
+		        <send_msg>restart info.</send_msg>
+				<should_alarm>false</should_alarm>
+		        <auto_fix_cmd></auto_fix_cmd>
+				<alarm_id>334455</alarm_id>
+		      </rule>
+			  
+			  <rule>
+		        <r>.*Exception while invoking class org.apache.hadoop.yarn.api.impl.pb.client.ApplicationClientProtocolPBClientImpl.getNewApplication over.*</r>
+		        <period_second>0</period_second>
+		        <period_count>1</period_count>
+		        <send_msg>submit job fail</send_msg>
+				<should_alarm>true</should_alarm>
+		        <auto_fix_cmd></auto_fix_cmd>
+				<alarm_id>334455</alarm_id>
+		      </rule>
+			  
+			  <rule>
+		        <r>.*MetaStoreClient lost connection. Attempting to reconnect.*</r>
+		        <period_second>60</period_second>
+		        <period_count>10</period_count>
+		        <send_msg>MetaStoreClient lost connection</send_msg>
+				<should_alarm>true</should_alarm>
+		        <auto_fix_cmd></auto_fix_cmd>
+				<alarm_id>334455</alarm_id>
+		      </rule>
+			  
+			  <rule>
+		        <r>.*Get DelegationToken failed.*</r>
+		        <period_second>60</period_second>
+		        <period_count>10</period_count>
+		        <send_msg>getDelegationToken fail</send_msg>
+				<should_alarm>true</should_alarm>
+		        <auto_fix_cmd></auto_fix_cmd>
+				<alarm_id>334455</alarm_id>
+		      </rule>
+			  
+			  <rule>
+		        <r>.*Error opening session.*</r>
+		        <period_second>60</period_second>
+		        <period_count>10</period_count>
+		        <send_msg> connect metastore fail</send_msg>
+				<should_alarm>true</should_alarm>
+		        <auto_fix_cmd></auto_fix_cmd>
+				<alarm_id>334455</alarm_id>
+		      </rule>
+			  
+			  <rule>
+		        <r>.*TThreadPoolServer.java:234.*</r>
+		        <period_second>0</period_second>
+		        <period_count>1</period_count>
+		        <send_msg> GSS error</send_msg>
+				<should_alarm>true</should_alarm>
+		        <auto_fix_cmd></auto_fix_cmd>
+				<alarm_id>334455</alarm_id>
+		      </rule>
+			</rules>
+			 
+    </rnode>
+</series>
+  
+</project>
