@@ -1,0 +1,656 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Defensics</title>
+<style type="text/css">
+
+body {
+    margin: 13px 15px 15px 15px;
+    padding-top: 0px;
+    font-family: Tahoma, Verdana, Arial, Helvetica, sans-serif;
+    background: #ffffff;
+    font-size: 10px;
+}
+
+
+p {
+    color: #444444;
+    max-width: 700px;
+}
+
+
+ul, ol, li {
+    color: #444444;
+    margin-left: 15px;
+    padding-left: 0;
+}
+
+
+hr {
+    border: 0;
+    background-color: #aaaaaa;
+    color: #aaaaaa;
+    height: 1px;
+    width: 80%;
+    max-width: 800px;
+    margin-left: 0;
+		margin-top: 10px;
+		margin-bottom: 10px;
+		text-align: left;
+}
+
+table {
+    margin: 0;
+    max-width: 800px;
+    width: 100%;
+    border: 0px #eeeeee solid;
+    font-size: 100%;
+    vertical-align:top;
+    border-spacing: 0px;
+}
+
+table.message {
+	background-color: #ffffff;
+	width: 100%;
+}
+
+th {
+    padding: 5px;
+    padding-right: 15px;
+    text-align: left;
+    vertical-align:top;
+}
+
+th.separator {
+	border-bottom: 1px #eeeeee solid;
+}
+
+
+td {
+    border: 0;
+    padding-left: 5px;
+	  padding-right: 5px;
+		padding-top: 1px;
+		padding-bottom: 1px;
+    vertical-align:top;
+}
+
+td.offset {
+	color: #808080;
+}
+
+
+.text-align-right {
+	text-align: right;
+}
+
+header {
+  font-family: Arial, Verdana, Helvetica;
+  #font-size: 25px;
+  font-size: 1.3em;
+  font-weight: normal;
+  color: #6fb121;
+  margin: 0px 0px 0px 0;
+  padding: 0 0 6px 0;
+}
+
+h1 {
+  font-family: Arial, Verdana, Helvetica;
+  font-size: 1.8em;
+  font-weight: normal;
+  color: #55565a;
+}
+
+h1.colored {
+  font-family: Arial, Verdana, Helvetica;
+  font-size: 1.8em;
+  font-weight: normal;
+  color: #ffffff;
+  width: 80%;
+  background-color: #c4d600;
+  padding: 5px;
+}
+
+groupfirst {
+	border-top-width: 1px;
+	border-top-style: solid;
+	border-top-color: #aaaaaa;
+}
+
+tr.colored {
+	background-color: #F9F9F9;
+}
+
+h2 {
+  font-family: Arial, Verdana, Helvetica;
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #55565a;
+}
+
+h3 {
+  font-family: Arial, Verdana, Helvetica;
+  font-size: 1.3em;
+  font-weight: bold;
+  color: #55565a;
+}
+
+h4 {
+  font-family: Arial, Verdana, Helvetica;
+  font-size: 1.1em;
+  font-weight: bold;
+  color: #55565a;
+}
+
+h5 {
+    font-size: 0.98em;
+    color: #55565a;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+a { 
+    color: #5a2b81;
+}
+
+a:link { 
+    color: #5a2b81;
+}
+
+a:visited { 
+    color: #5a2b81;
+}
+
+a:active {
+    background: none;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+img {
+  border: 0;
+}
+
+# Below there are defs from old that are not in the new.
+
+p.indent {
+    color: #444444;
+    max-width: 700px;
+    margin-left: 15px;
+}
+
+p.toc {
+	font-style:italic;
+}
+
+ul.toc {
+	list-style-type:circle;
+}
+
+
+dt {
+    color: #444444;
+    font-weight: bold;
+}
+
+dd {
+    color: #444444;
+    max-width: 700px;
+}
+
+pre {
+    font-size: 100%;
+}
+
+tr.output-row-odd {
+  background-color: rgb(236,252,228);
+}
+tr.output-row-even {
+  background-color: #ffffff;
+}
+tr.input-row-odd {
+  background-color: rgb(241,247,254);
+}
+tr.input-row-even {
+  background-color: #ffffff;
+}
+tr.anomaly-row-odd {
+  #background-color: rgb(255,237,251);
+  background-color: rgb(254,222,249);
+}
+tr.anomaly-row-even {
+  background-color: rgb(254,222,249);
+}
+
+table.basegroup: {
+    max-width: 600px;
+    width: 60%;
+}
+th.basegroup {
+    padding: 0px;
+    border: 0px #eeeeee solid;
+    text-align: center;
+    vertical-align:top;
+}
+td.suite {
+    border: 3px #000000 solid;
+    vertical-align:top;
+    background: #cccccc;
+}
+td.message {
+    border: 0;
+    vertical-align:top;
+    text-align: center;
+}
+td.topic {
+    border: 0;
+    vertical-align:top;
+    text-align: center;
+}
+td.in-message {
+    border: 0;
+    vertical-align:top;
+    text-align: right;
+}
+td.in-topic {
+    border: 0;
+    vertical-align:top;
+    text-align: center;
+}
+td.out-message {
+    border: 0;
+    vertical-align:top;
+    text-align: left;
+}
+td.out-topic {
+    border: 0;
+    vertical-align:top;
+    text-align: center;
+}
+td.sut {
+    border: 3px #000000 solid;
+#    padding: 5px;
+    vertical-align:top;
+    background: #cccccc;
+}
+
+strong {
+    color: #09478D;
+    font-size: 1.0em;
+}
+
+strong.red {
+    color: #e85016;
+}
+
+strong.green {
+    color: #c4d600;
+}
+
+code {
+    font-size: 1.0em;
+}
+
+/* Page separator (rfcmagic2) */
+span.grey {
+    color: #aaaaaa;
+}
+
+       </style>
+</head>
+<body>
+<h1>SSH2-Server/20160427-1905-34</h1>
+<a name="Summary"></a>
+<h1 class="colored">Summary</h1>
+<p>This is a test report of 0472bcfb-31d7-4513-a2d5-2114169ab738</p>
+<hr>
+<h2>Table of contents</h2>
+<ul class="toc">
+<li>
+<a href="#Summary">Summary</a>
+</li>
+<ul class="toc">
+<li>
+<a href="#Tableofcontents">Table of contents</a>
+</li>
+</ul>
+<li>
+<a href="#TestRuns">Test runs</a>
+</li>
+<ul class="toc">
+<li>
+<a href="#0472bcfb-31d7-4513-a2d5-2114169ab738">20160427-1905-34 : SSH2 Server Test Tool</a>
+</li>
+<ul class="toc">
+<li>
+<a href="#0472bcfb-31d7-4513-a2d5-2114169ab738Analyses">Analyses</a>
+</li>
+<ul class="toc">
+<li>
+<a href="#0472bcfb-31d7-4513-a2d5-2114169ab738DenialOfServiceAnalysis">Denial of service analysis</a>
+</li>
+<li>
+<a href="#0472bcfb-31d7-4513-a2d5-2114169ab738ResponseAnalysis">Response analysis</a>
+</li>
+</ul>
+</ul>
+</ul>
+</ul>
+<hr>
+<a name="TestRuns"></a>
+<h1 class="colored">Test runs</h1>
+<a name="0472bcfb-31d7-4513-a2d5-2114169ab738">
+<h2>[no name] Version: 
+    [no version]</h2>
+<h2>20160427-1905-34 : SSH2 Server Test Tool</h2>
+</a>
+<h3>Diagnoses</h3>
+<table style="width: auto;">
+<tr>
+<td>Connection based instrumentation</td><td>ENABLED</td>
+</tr>
+<tr>
+<td>Valid case instrumentation</td><td>ENABLED</td>
+</tr>
+<tr>
+<td>External instrumentation</td><td>DISABLED</td>
+</tr>
+<tr>
+<td>SNMP instrumentation</td><td>DISABLED</td>
+</tr>
+<tr>
+<td>SNMP Trap instrumentation</td><td>DISABLED</td>
+</tr>
+<tr>
+<td>ISASecure CCM instrumentation</td><td>DISABLED</td>
+</tr>
+<tr>
+<td>SafeGuard</td><td>DISABLED</td>
+</tr>
+<tr>
+<td>Syslog instrumentation</td><td>DISABLED</td>
+</tr>
+<tr>
+<td>
+				Instrumentation fail limit
+			</td><td></td>
+</tr>
+<tr>
+<td>
+				Instrumentation frequency
+			</td><td></td>
+</tr>
+</table>
+<p>Total of 285 cases were executed.</p>
+<table>
+<th>
+			  Combined overall verdict
+			</th><th><strong>PASS</strong></th><th></th>
+<tr>
+<td class="text-align-right"><b></b></td><td></td><td></td>
+</tr>
+<tr>
+<td class="text-align-right">Verdict from valid case / default instrumentation</td><td>pass</td><td>The test cases passed successfully. No flaws in the system under test were detected by the monitoring facility in context of these test cases.</td>
+</tr>
+<tr>
+<td class="text-align-right">0</td><td>fail</td><td>There is a reason to believe that the SUT crashed or malfunctioned in some other detectable way while executing these test cases.</td>
+</tr>
+<tr>
+<td class="text-align-right">257</td><td>pass</td><td>The test cases passed successfully. No flaws in the system under test were detected by the monitoring facility in context of these test cases.</td>
+</tr>
+<tr>
+<td class="text-align-right">28</td><td>skip</td><td>The system under test is not tested by the test case. It might be that the system under test does not support some feature that is required for the test case to complete. Also, it may be that due some configuration issue, the message containing the fuzz testing anomaly could not be delivered to the system under test.</td>
+</tr>
+</table>
+<hr>
+<h3>Benchmarking</h3>
+<table style="width: auto;">
+<tr>
+<th>Benchmarking</th><th>In this test run</th><th>Benchmark average</th>
+</tr>
+<tr>
+<td>Failures per executed cases</td><td>0.0%</td><td>&lt; 0.1%</td>
+</tr>
+<tr>
+<td>Time to first failure</td><td>
+								N/A
+							</td><td>04:14:07</td>
+</tr>
+<tr>
+<td>Mean time between failures</td><td>
+								N/A
+							</td><td>02:52:07</td>
+</tr>
+<tr>
+<td>Test case count</td><td>285</td><td>7174</td>
+</tr>
+<tr>
+<td>Run time</td><td>00:17:51</td><td>04:53:46</td>
+</tr>
+<tr>
+<td>Average cases per second</td><td>0.26</td><td>2.93</td>
+</tr>
+</table>
+<hr>
+<h3>Test run notes</h3>
+<table style="width: auto;">
+<tr>
+<th colspan="2">System under test</th>
+</tr>
+<tr>
+<td>Identity: </td><td>[NA]</td>
+</tr>
+<tr>
+<td>Name: </td><td>[no name]</td>
+</tr>
+<tr>
+<td>Version: </td><td>[NA]</td>
+</tr>
+<tr>
+<th colspan="2">Test setup</th>
+</tr>
+<tr>
+<td>Name of the tester: </td><td>[no name]</td>
+</tr>
+<tr>
+<td>Contact information: </td><td>[NA]</td>
+</tr>
+<tr>
+<td>Operating system: </td><td>Windows 7 / amd64 / 6.1</td>
+</tr>
+<tr>
+<td>Java: </td><td>1.8.0_66 / 25.66-b18</td>
+</tr>
+<tr>
+<th colspan="2">Test suite</th>
+</tr>
+<tr>
+<td>Name: </td><td>SSH2 Server Test Tool</td>
+</tr>
+<tr>
+<td>Version: </td><td>2.1.6 20141111 bl2014-01-10</td>
+</tr>
+<tr>
+<td>License: </td><td>Only for licensed use. Copyright (c) Codenomicon.</td>
+</tr>
+<tr>
+<th colspan="2">Test execution time</th>
+</tr>
+<tr>
+<td>Test runs started:</td><td class="text-align-right">20160427 19:05:34</td>
+</tr>
+<tr>
+<td>Test runs ended:</td><td class="text-align-right">20160427 19:23:25</td>
+</tr>
+<tr>
+<td>Running time:</td><td class="text-align-right">00:17:51</td>
+</tr>
+<tr>
+<td>Average cases per second:</td><td class="text-align-right">0.26</td>
+</tr>
+<tr>
+<th colspan="2">Options</th>
+</tr>
+<tr>
+<td>Sequence</td><td></td>
+</tr>
+<tr>
+<td>Test case selection mode</td><td>all</td>
+</tr>
+<tr>
+<td>Test run type</td><td>normal</td>
+</tr>
+</table>
+<hr>
+<a name="Failures0472bcfb-31d7-4513-a2d5-2114169ab738"></a>
+<h3 class="colored">Failure categories</h3>
+<p>0
+				failures were detected in this test run.
+			</p>
+<p>
+				Failures are grouped by the type of anomalous content. The failure categories are Injection, 
+				Integer, Overflow, Underflow and ASN1-BER. Failures are shown as a table for each anomaly group. 
+				Depending on the type and frequency of instrumentation, one failure could encompass multiple test cases. 
+				All test cases associated with each failure are written on separate rows.
+			</p>
+<p>Each failure shows timestamp and diagnosis values assigned by the applied instrumentation methods.
+			These diagnoses can be found from instrumentation method columns 'Valid case / external / connection based instrumentation', 'SNMP', 'SNMP Trap', 'CCM', 'Checks' and 'Syslog'.
+			Test group suggests the part of the implementation tested. Anomaly describes the kind of an anomalous
+			input in the associated test case.
+			</p>
+<table cellspacing="0" cellpadding="3"></table>
+<h4>Top test groups within failures</h4>
+<p>Unable to analyze.</p>
+<hr>
+<a name="0472bcfb-31d7-4513-a2d5-2114169ab738Analyses"></a>
+<h3>Analyses</h3>
+<a name="0472bcfb-31d7-4513-a2d5-2114169ab738DenialOfServiceAnalysis"></a>
+<h4>Denial of service analysis</h4>
+<p>
+        Total of  test cases
+        were detected to cause DOS situation.
+        The total run time was 
+        (hours:minutes:seconds).
+        </p>
+<table cellspacing="0" cellpadding="3">
+<tr>
+<th>Rank</th><th>Test case</th><th>Denial of service time</th><th>Instrumentation rounds</th><th>Diagnosis</th>
+</tr>
+</table>
+<dl>
+<dt>Rank</dt>
+<dd>
+          Rank among analyzed test cases.
+        </dd>
+<dt>Test case</dt>
+<dd>
+          Test case index.
+        </dd>
+<dt>Denial of service time</dt>
+<dd>
+          The time the SUT was in denial of service state in this test case
+          (hh:mm:ss.mmm).
+        </dd>
+<dt>Instrumentation rounds</dt>
+<dd>
+          Number of instrumentation rounds before the SUT responded 
+          when instrumenting.
+        </dd>
+<dt>Diagnosis</dt>
+<dd>
+          Test case verdict.
+        </dd>
+</dl>
+<h5>Top test groups within denial of service cases</h5>
+<h5>Top anomaly categories within denial of service cases</h5>
+<hr>
+<a name="0472bcfb-31d7-4513-a2d5-2114169ab738ResponseAnalysis"></a>
+<h4>Response analysis</h4>
+<p>
+		  The table below lists the 9 different 
+		  <dfn>status</dfn>
+		  values from the SUT which were collected during the test runs.
+		</p>
+<p>
+		  To take advantage of the results of this analysis, you may apply the following procedure:
+		  <ol>
+<li>
+			  Go through at least a single test case from each status.
+			</li>
+<li>
+			  Check that the response is acceptable from the SUT, i.e. it is allowed for the SUT to produce such as response.
+			</li>
+<li>Take forward the test cases which produced behavior unacceptable from the SUT.</li>
+</ol>
+</p>
+<p>
+		  Please note that the meaning of the different statuses
+		  depends on the test suite and the corresponding protocol.
+		  Refer to the test suite documentation and protocol
+		  specification to learn more about the statuses.
+		</p>
+<table cellspacing="0" cellpadding="3">
+<tr>
+<th>Rank</th><th>Status</th><th>Test case count</th><th>Representative cases</th>
+</tr>
+<tr>
+<td align="right">1.</td><td><i>SSH_MSG_USERAUTH_FAILURE</i></td><td align="right">123</td><td>5341 5342 5456 6721 6731 6736 6739 6742 6748 5290 5293 5334 5336 5338 5345 5350 5360 5370 5371 5378 5431 5441 5458 5463 5474 
+              ...            
+            </td>
+</tr>
+<tr>
+<td align="right">2.</td><td><i>SSH_MSG_CHANNEL_SUCCESS</i></td><td align="right">63</td><td>8620 8680 8681 8709 766 5016 5020 5026 6958 6968 6979 7031 7034 7035 7040 7047 7049 7054 7074 7079 7083 7098 7902 8026 8360 
+              ...            
+            </td>
+</tr>
+<tr>
+<td align="right">3.</td><td><i>SSH_MSG_USERAUTH_SUCCESS</i></td><td align="right">52</td><td>8200 8203 5731 5748 5749 5781 5798 5807 5844 5914 5925 5948 5960 5963 5964 5965 6002 6003 6061 6073 6089 8062 8063 8069 8084 
+              ...            
+            </td>
+</tr>
+<tr>
+<td align="right">4.</td><td><i>SSH_MSG_CHANNEL_OPEN_CONFIRMATION</i></td><td align="right">32</td><td>8525 8530 8457 8478 8486 8500 8502 8506 8509 8512 8514 8518 8527 8531 8537 8539 8546 8547 8549 8550 8560 8574 8578 8591 8600 
+              ...            
+            </td>
+</tr>
+<tr>
+<td align="right">5.</td><td><i>SSH_MSG_SERVICE_ACCEPT</i></td><td align="right">5</td><td>4930 4412 4452 4719 4931 </td>
+</tr>
+<tr>
+<td align="right">6.</td><td><i>SSH_MSG_KEXINIT</i></td><td align="right">5</td><td>1444 1529 1546 1669 2042 </td>
+</tr>
+<tr>
+<td align="right">7.</td><td><i>SSH_MSG_NEWKEYS</i></td><td align="right">3</td><td>4243 15113 15552 </td>
+</tr>
+<tr>
+<td align="right">8.</td><td><i>SERVER_VERSION</i></td><td align="right">1</td><td>346 </td>
+</tr>
+<tr>
+<td align="right">9.</td><td><i>SSH_MSG_REQUEST_FAILURE</i></td><td align="right">1</td><td>12296 </td>
+</tr>
+</table>
+<dl>
+<dt>Rank</dt>
+<dd>
+          Rank among analyzed test cases.
+        </dd>
+<dt>Status</dt>
+<dd>
+          The status string.
+        </dd>
+<dt>Test case count</dt>
+<dd>
+          Number of test cases with the status.
+        </dd>
+<dt>Representative cases</dt>
+<dd>
+          Some representative test cases with the status.
+        </dd>
+</dl>
+<hr>
+<hr>
+<p>For licensed use. Distribution prohibited.<br>Copyright(c) Synopsys, Inc. All rights reserved.</p>
+</body>
+</html>

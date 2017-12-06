@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Conf>
+	<!-- 数据入库任务,可分为2种：
+	HDFSLoad - HDFS数据导入MYSQL子任务
+	FileLoad  -  文件入库到HDFS子任务
+	-->
+	<DataLoad>
+	
+		<!--  文件入库到HDFS: action唯一标示一个Job ，全局唯一-->
+		<FileToHDFS action="filetohdfs_tmp_zzy_test1_7">	
+		    <!-- 文件配置信息 -->
+			<Fileconf>VMallProd</Fileconf>
+			<!-- 输入文件配置-->
+			<MultiInputFileConf>
+			    <!-- 输入文件列表-->
+			    <InputFileList>/home/z00215119/zzy/bak/tmp_zzy_test1_7/DATA_*.log</InputFileList>
+			    <!-- 输入文件个数  如果配置成-1，该参数无效，只考虑等待时间 -->
+			    <InputFileMinCount>1</InputFileMinCount>
+                            <!-- 空文件是否入库 默认true -->
+			    <DumpFileLoad>fasle</DumpFileLoad>
+			    <!-- 等待输入时间（分钟） -->
+			    <WaitInputMinutes>1</WaitInputMinutes>
+			    <!-- 超过等待时间是否检查文件个数，默认true -->
+			    <TimeOutCheckFile>true</TimeOutCheckFile>
+			    <!-- 文件列数 <=0表示不校验 -->
+			    <FileColumns>7</FileColumns>
+                            <!-- 文件字段的分割符，默认使用\\0x01 -->
+			    <Separator>,</Separator>
+			</MultiInputFileConf>
+			<!-- 表名 -->
+			<Tablename>tmp_zzy_test1_7</Tablename>
+			<!-- 表存储位置 -->
+			<Tablelocation>warehouse</Tablelocation>
+			<!-- 分区 none pt_y pt_m pt_d pt_h pt_min -->
+			<Partition>pt_d</Partition>
+		</FileToHDFS>
+
+                 <!--  文件入库到HDFS: action唯一标示一个Job ，全局唯一-->
+                <FileToHDFS action="filetohdfs_tmp_zzy_test1_7_bak">
+                    <!-- 文件配置信息 -->
+                        <Fileconf>VMallProd</Fileconf>
+                        <!-- 输入文件配置-->
+                        <MultiInputFileConf>
+                            <!-- 输入文件列表-->
+                            <InputFileList>/home/z00215119/zzy/bak/tmp_zzy_test1_7/DATA_*.log</InputFileList>
+                            <!-- 输入文件个数  如果配置成-1，该参数无效，只考虑等待时间 -->
+                            <InputFileMinCount>1</InputFileMinCount>
+                            <!-- 等待输入时间（分钟） -->
+                            <WaitInputMinutes>1</WaitInputMinutes>
+                        </MultiInputFileConf>
+                        <!-- 表名 -->
+                        <Tablename>tmp_zzy_test1_7</Tablename>
+                        <!-- 表存储位置 -->
+                        <Tablelocation>warehouse</Tablelocation>
+                        <!-- 分区 none pt_y pt_m pt_d pt_h pt_min -->
+                        <Partition>pt_d</Partition>
+                </FileToHDFS>
+
+                <!--  文件入库到HDFS: action唯一标示一个Job ，全局唯一-->
+                <FileToHDFS action="filetohdfs_tmp_zzy_test1_10">
+                    <!-- 文件配置信息 -->
+                        <Fileconf>VMallProd</Fileconf>
+                        <!-- 输入文件配置-->
+                        <MultiInputFileConf>
+                            <!-- 输入文件列表-->
+                            <InputFileList>/home/z00215119/zzy/bak/tmp_zzy_test1_7/DATA_*.log</InputFileList>
+                            <!-- 输入文件个数  如果配置成-1，该参数无效，只考虑等待时间 -->
+                            <InputFileMinCount>1</InputFileMinCount>
+                            <!-- 空文件是否入库 默认true -->
+                            <DumpFileLoad>fasle</DumpFileLoad>
+                            <!-- 等待输入时间（分钟） -->
+                            <WaitInputMinutes>1</WaitInputMinutes>
+                            <!-- 超过等待时间是否检查文件个数，默认true -->
+                            <TimeOutCheckFile>true</TimeOutCheckFile>
+                            <!-- 文件列数 <=0表示不校验 -->
+                            <FileColumns>7</FileColumns>
+                            <!-- 文件字段的分割符，默认使用\\0x01 -->
+                            <Separator>,</Separator>
+                        </MultiInputFileConf>
+                        <!-- 表名 -->
+                        <Tablename>tmp_zzy_test1_10</Tablename>
+                        <!-- 表存储位置 -->
+                        <Tablelocation>warehouse</Tablelocation>
+                        <!-- 分区 none pt_y pt_m pt_d pt_h pt_min -->
+                        <Partition>pt_d,version_code</Partition>
+                </FileToHDFS>
+
+                 <!--  文件入库到HDFS: action唯一标示一个Job ，全局唯一-->
+                <FileToHDFS action="filetohdfs_tmp_zzy_test1_11">
+                    <!-- 文件配置信息 -->
+                        <Fileconf>VMallProd</Fileconf>
+                        <!-- 输入文件配置-->
+                        <MultiInputFileConf>
+                            <!-- 输入文件列表-->
+                            <InputFileList>/home/z00215119/zzy/bak/tmp_zzy_test1_7/DATA_*.log</InputFileList>
+                            <!-- 输入文件个数  如果配置成-1，该参数无效，只考虑等待时间 -->
+                            <InputFileMinCount>1</InputFileMinCount>
+                            <!-- 空文件是否入库 默认true -->
+                            <DumpFileLoad>fasle</DumpFileLoad>
+                            <!-- 等待输入时间（分钟） -->
+                            <WaitInputMinutes>1</WaitInputMinutes>
+                            <!-- 超过等待时间是否检查文件个数，默认true -->
+                            <TimeOutCheckFile>true</TimeOutCheckFile>
+                            <!-- 文件列数 <=0表示不校验 -->
+                            <FileColumns>7</FileColumns>
+                            <!-- 文件字段的分割符，默认使用\\0x01 -->
+                            <Separator>,</Separator>
+                        </MultiInputFileConf>
+                        <!-- 表名 -->
+                        <Tablename>tmp_zzy_test1_11</Tablename>
+                        <!-- 表存储位置 -->
+                        <Tablelocation>warehouse</Tablelocation>
+                        <!-- 分区 none pt_y pt_m pt_d pt_h pt_min -->
+                        <Partition>pt_d,version_code,devip</Partition>
+                </FileToHDFS>
+
+
+                  <!--  文件入库到HDFS: action唯一标示一个Job ，全局唯一-->
+                <FileToHDFS action="filetohdfs_tmp_zzy_test1">
+                    <!-- 文件配置信息 -->
+                        <Fileconf>VMallProd</Fileconf>
+                        <!-- 输入文件配置-->
+                        <MultiInputFileConf>
+                            <!-- 输入文件列表-->
+                            <InputFileList>/home/z00215119/zzy/bak/tmp_zzy_test1_7/DATA_*.log</InputFileList>
+                            <!-- 输入文件个数  如果配置成-1，该参数无效，只考虑等待时间 -->
+                            <InputFileMinCount>1</InputFileMinCount>
+                            <!-- 空文件是否入库 默认true -->
+                            <DumpFileLoad>fasle</DumpFileLoad>
+                            <!-- 等待输入时间（分钟） -->
+                            <WaitInputMinutes>1</WaitInputMinutes>
+                            <!-- 超过等待时间是否检查文件个数，默认true -->
+                            <TimeOutCheckFile>true</TimeOutCheckFile>
+                            <!-- 文件列数 <=0表示不校验 -->
+                            <FileColumns>7</FileColumns>
+                            <!-- 文件字段的分割符，默认使用\\0x01 -->
+                            <Separator>,</Separator>
+                        </MultiInputFileConf>
+                        <!-- 表名 -->
+                        <Tablename>tmp_zzy_test1</Tablename>
+                        <!-- 表存储位置 -->
+                        <Tablelocation>warehouse</Tablelocation>
+                        <!-- 分区 none pt_y pt_m pt_d pt_h pt_min -->
+                        <Partition>none</Partition>
+                </FileToHDFS>
+	
+	
+		<!-- HDFS导出到MYSQL: action唯一标示一个Job ，全局唯一-->
+		<HDFSToDB action="hdfstodb_tmp_zzy_test1_7">
+			<!-- 源数据库标识，环境配置文件中获取 -->
+			<SourceDB>Hive</SourceDB>
+			<!-- 目标数据标识，环境配置文件中获取 -->
+			<DestDB>Mysql_FR</DestDB>
+			<!-- 抽取表名  表名和ExtractSql 必须有一个不是空 -->
+			<Tablename>tmp_zzy_test1_7</Tablename>
+			<!-- 抽取分区，默认规则如下
+			pt_d：pt_d >= ${startDate} and pt_d <= ${endDate} 
+			pt_w：pt_w = ${start-endDate}
+			pt_m：pt_m = ${startMonth}
+			-->
+			<Partition>pt_d</Partition>
+			<!-- 提取表的HIVE 数据提取SQL语句，此配置项目和表名、分区互斥，如果均配置以表名、分区优先
+			内置7个时间变量，入库工具会将其替换为实际值
+			${startDate}:            周期开始年月日，格式yyyyMMdd
+			${endDate}  ：         周期结束年月日，格式yyyyMMdd
+			${startWeek}  ：     周期开始年月日的第一个星期，格式yyyyMMdd-yyyyMMdd
+			${startMonth}  ：    周期开始年月，格式yyyyMM
+			${startHour}:            周期开始小时，格式hh
+			${startMinute}:        周期开始分钟，格式mm
+			${start-endDate}  ：周期开始结束年月日，格式yyyyMMdd-yyyyMMdd
+			-->
+			<ExtractSql>
+             <![CDATA[
+                 SELECT dev_id  FROM tmp_zzy_test1_7 WHERE pt_d=${startDate} or pt_d=${endDate}
+            ]]>
+            </ExtractSql>
+			<!-- mysql中对应的表名，如果hive和mysql对应的表名相同就不用配置
+                                      ExtractSql不为空时，AliasTablename也不能为空  -->
+			<AliasTablename>tmp_zzy_test1_7</AliasTablename>
+			<!-- 当出错记录数到达该门槛时，终止加载并告警，当为-1时表示不限制出错记录数 -->
+			<MaxErrorNumber>4</MaxErrorNumber>
+			<!-- 当出错记录百分比到达该门槛时，终止加载并告警，当为-1时表示不限制出错百分比-->
+			<MaxPercentNumber>32</MaxPercentNumber>
+		</HDFSToDB>
+		
+		<!-- HDFS导出到文件: action唯一标示一个Job ，全局唯一-->
+		<HDFSToFile action="hdfstofile_tmp_zzy_test1_7">
+			<!-- 源数据库标识，环境配置文件中获取 -->
+			<SourceDB>Hive</SourceDB>
+			<!-- 目标文件目录 -->
+			<DestFilePath>/data1/z00215119/temp/testfiletohdfs/exportdata</DestFilePath>
+			<!-- 导出文件字段的分割符，默认使用\001 -->
+			<Separator>,</Separator>
+			<!-- 抽取表名 -->
+			<Tablename>tmp_zzy_test1_7</Tablename>
+			<!-- 抽取分区，默认规则如下
+			pt_d：pt_d >= ${startDate} and pt_d <= ${endDate} 
+			pt_w：pt_w = ${start-endDate}
+			pt_m：pt_m = ${startMonth}
+			-->
+			<Partition>pt_d</Partition>
+			<!-- 提取表的HIVE 数据提取SQL语句，此配置项目和表名、分区互斥，如果均配置以表名、分区优先
+			内置7个时间变量，入库工具会将其替换为实际值
+			${startDate}:            周期开始时间，格式yyyyMMdd
+			${endDate}  ：         周期结束时间，格式yyyyMMdd
+			${startWeek}  ：     周期开始年月日的第一个星期，格式yyyyMMdd-yyyyMMdd
+			${startMonth}  ：    周期结束时间，格式yyyyMM
+			${startHour}:            周期开始时间，格式hh
+			${startMinute}:        周期开始时间，格式mm
+			${start-endDate}  ：周期结束时间，格式yyyyMMdd-yyyyMMdd
+			-->
+			<ExtractSql>
+            <![CDATA[
+                 SELECT dev_id , pt_d FROM tmp_zzy_test1_7 WHERE pt_d=${startWeek}
+            ]]>
+            </ExtractSql>
+			<!-- 导出的文件名
+			      如果导出文件名与和hive对应的表名相同就不用配置
+                                      入库工具也会将上述7个变量替换为实际值 -->
+			<AliasFilename>tmp_zzy_test1_7_2</AliasFilename>
+		</HDFSToFile>
+		
+	</DataLoad>
+</Conf>

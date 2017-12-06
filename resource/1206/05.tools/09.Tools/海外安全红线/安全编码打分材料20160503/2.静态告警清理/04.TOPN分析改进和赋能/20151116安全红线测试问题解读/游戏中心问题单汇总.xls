@@ -1,0 +1,569 @@
+<?xml version="1.0"?>
+<?mso-application progid="Excel.Sheet"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:o="urn:schemas-microsoft-com:office:office"
+ xmlns:x="urn:schemas-microsoft-com:office:excel"
+ xmlns:dt="uuid:C2F41010-65B3-11d1-A29F-00AA00C14882"
+ xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:html="http://www.w3.org/TR/REC-html40">
+ <DocumentProperties xmlns="urn:schemas-microsoft-com:office:office">
+  <LastAuthor>z00198697</LastAuthor>
+  <LastSaved>2015-11-16T12:06:34Z</LastSaved>
+  <Version>12.00</Version>
+ </DocumentProperties>
+ <CustomDocumentProperties xmlns="urn:schemas-microsoft-com:office:office">
+  <sflag dt:dt="string">1446186945</sflag>
+ </CustomDocumentProperties>
+ <ExcelWorkbook xmlns="urn:schemas-microsoft-com:office:excel">
+  <WindowHeight>10005</WindowHeight>
+  <WindowWidth>10005</WindowWidth>
+  <WindowTopX>120</WindowTopX>
+  <WindowTopY>135</WindowTopY>
+  <ProtectStructure>False</ProtectStructure>
+  <ProtectWindows>False</ProtectWindows>
+ </ExcelWorkbook>
+ <Styles>
+  <Style ss:ID="Default" ss:Name="Normal">
+   <Alignment ss:Vertical="Center"/>
+   <Borders/>
+   <Font ss:FontName="宋体" x:CharSet="134" ss:Size="12"/>
+   <Interior/>
+   <NumberFormat/>
+   <Protection/>
+  </Style>
+  <Style ss:ID="s62" ss:Name="超链接">
+   <Font ss:FontName="宋体" x:CharSet="134" ss:Size="12" ss:Color="#0000FF"
+    ss:Underline="Single"/>
+  </Style>
+  <Style ss:ID="s63">
+   <Interior ss:Color="#FFFFFF" ss:Pattern="Solid"/>
+  </Style>
+  <Style ss:ID="s64">
+   <Alignment ss:Horizontal="Left" ss:Vertical="Center"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+   </Borders>
+   <Font ss:FontName="宋体" x:CharSet="134" ss:Color="#333399" ss:Bold="1"/>
+   <Interior ss:Color="#FFFFFF" ss:Pattern="Solid"/>
+  </Style>
+  <Style ss:ID="s66" ss:Parent="s62">
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+   </Borders>
+   <Font ss:FontName="宋体" x:CharSet="134" ss:Size="12" ss:Color="#0000FF"
+    ss:Underline="Single"/>
+  </Style>
+  <Style ss:ID="s67">
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+   </Borders>
+  </Style>
+  <Style ss:ID="s68">
+   <Alignment ss:Vertical="Center" ss:WrapText="1"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+   </Borders>
+  </Style>
+  <Style ss:ID="s72">
+   <Alignment ss:Vertical="Center" ss:WrapText="1"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+   </Borders>
+   <Font ss:FontName="宋体" x:CharSet="134" ss:Size="12" ss:Color="#FF0000"/>
+  </Style>
+  <Style ss:ID="s73">
+   <Alignment ss:Vertical="Center" ss:WrapText="1"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+   </Borders>
+   <Font ss:FontName="宋体" x:CharSet="134" ss:Size="12"/>
+  </Style>
+ </Styles>
+ <Worksheet ss:Name="Sheet3">
+  <Table ss:ExpandedColumnCount="6" ss:ExpandedRowCount="50" x:FullColumns="1"
+   x:FullRows="1" ss:DefaultColumnWidth="54" ss:DefaultRowHeight="14.25">
+   <Column ss:AutoFitWidth="0" ss:Width="108.75"/>
+   <Column ss:AutoFitWidth="0" ss:Width="129.75"/>
+   <Column ss:AutoFitWidth="0" ss:Width="68.25"/>
+   <Column ss:Index="6" ss:AutoFitWidth="0" ss:Width="745.5"/>
+   <Row ss:AutoFitHeight="0" ss:StyleID="s63">
+    <Cell ss:StyleID="s64"><Data ss:Type="String">Ticket No.</Data></Cell>
+    <Cell ss:StyleID="s64"><Data ss:Type="String">Ticket Status</Data></Cell>
+    <Cell ss:StyleID="s64"><Data ss:Type="String">是否红线问题</Data></Cell>
+    <Cell ss:StyleID="s64"><Data ss:Type="String">Creator</Data></Cell>
+    <Cell ss:StyleID="s64"><Data ss:Type="String">Severity</Data></Cell>
+    <Cell ss:StyleID="s64"><Data ss:Type="String">Brief</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0" ss:StyleID="s63">
+    <Cell ss:StyleID="s64"><Data ss:Type="String">服务器</Data></Cell>
+    <Cell ss:StyleID="s64"/>
+    <Cell ss:StyleID="s64"/>
+    <Cell ss:StyleID="s64"/>
+    <Cell ss:StyleID="s64"/>
+    <Cell ss:StyleID="s64"/>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s66" ss:HRef="http://dts.huawei.com/net/dts/DTS/DTSWorkFlowPage.aspx?No=DTS2015101205372"><Data
+      ss:Type="String">DTS2015101205372</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">Root Cause Analysis</Data></Cell>
+    <Cell ss:StyleID="s67"/>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">马守亮</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">Major</Data></Cell>
+    <Cell ss:StyleID="s68"><Data ss:Type="String">【海外游戏中心】【安全测试】【服务器测试】【SDV2】CMS后台没有对输入参数进行校验，子TAB管理可以通过burpsuite修改参数绕过前台限制</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0" ss:Height="31.5">
+    <Cell ss:StyleID="s66" ss:HRef="http://dts.huawei.com/net/dts/DTS/DTSWorkFlowPage.aspx?No=DTS2015101205283"><Data
+      ss:Type="String">DTS2015101205283</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">Root Cause Analysis</Data></Cell>
+    <Cell ss:StyleID="s67"/>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">马守亮</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">Major</Data></Cell>
+    <Cell ss:StyleID="s68"><Data ss:Type="String">【海外游戏中心】【安全测试】【服务器测试】【SDV2】CMS后台没有对输入参数进行校验，人工干预资源管理可以通过burpsuite修改参数绕过前台限制</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0" ss:Height="29.25">
+    <Cell ss:StyleID="s66" ss:HRef="http://dts.huawei.com/net/dts/DTS/DTSWorkFlowPage.aspx?No=DTS2015101008406"><Data
+      ss:Type="String">DTS2015101008406</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">Ticket Review</Data></Cell>
+    <Cell ss:StyleID="s67"/>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">马守亮</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">Major</Data></Cell>
+    <Cell ss:StyleID="s68"><Data ss:Type="String">【海外游戏中心】【安全测试】【服务器测试】【SDV2】CMS后台没有对输入参数进行校验，可以通过burpsuite修改参数绕过前台限制，请统一排查和确认</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s66" ss:HRef="http://dts.huawei.com/net/dts/DTS/DTSWorkFlowPage.aspx?No=DTS2015100901800"><Data
+      ss:Type="String">DTS2015100901800</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">Close</Data></Cell>
+    <Cell ss:StyleID="s67"/>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">马守亮</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">Major</Data></Cell>
+    <Cell ss:StyleID="s68"><Data ss:Type="String">【海外游戏中心】【安全测试】【服务器测试】【SDV2】CMS使用HTTPS方式后APPSCAN扫描出部分SSL的漏洞</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s66" ss:HRef="http://dts.huawei.com/net/dts/DTS/DTSWorkFlowPage.aspx?No=DTS2015100900377"><Data
+      ss:Type="String">DTS2015100900377</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">Close</Data></Cell>
+    <Cell ss:StyleID="s67"/>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">马守亮</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">Major</Data></Cell>
+    <Cell ss:StyleID="s68"><Data ss:Type="String">【海外游戏中心】【安全测试】【服务器测试】【SDV2】SSL server支持的加密算法中有不安全的SSL加密算法，需要整改</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s66" ss:HRef="http://dts.huawei.com/net/dts/DTS/DTSWorkFlowPage.aspx?No=DTS2015093003975"><Data
+      ss:Type="String">DTS2015093003975</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">Root Cause Analysis</Data></Cell>
+    <Cell ss:StyleID="s67"/>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">胡浩</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">Major</Data></Cell>
+    <Cell ss:StyleID="s68"><Data ss:Type="String">【海外游戏中心】【安全测试】【SDV1】游戏中心的tomcat安全配置存在多项不符合安全要求项，请开发兼容业务进行修改！</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s66" ss:HRef="http://dts.huawei.com/net/dts/DTS/DTSWorkFlowPage.aspx?No=DTS2015092508066"><Data
+      ss:Type="String">DTS2015092508066</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">Close</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">B</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">zhangyue</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">Major</Data></Cell>
+    <Cell ss:StyleID="s72"><Data ss:Type="String">【海外游戏中心】【安全测试】【SDV1】【服务器安全】cms中审核管理功能，没有对上传文件大小做限制，不满足红线B的web安全</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s66" ss:HRef="http://dts.huawei.com/net/dts/DTS/DTSWorkFlowPage.aspx?No=DTS2015092309653"><Data
+      ss:Type="String">DTS2015092309653</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">Close</Data></Cell>
+    <Cell ss:StyleID="s67"/>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">马守亮</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">Minor</Data></Cell>
+    <Cell ss:StyleID="s68"><Data ss:Type="String">【海外游戏中心】【安全测试】【服务器测试】【SDV1】【WEB测试】APPSCAN扫描发现普遍存在缺少头域，风险级别属于低级别</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s66" ss:HRef="http://dts.huawei.com/net/dts/DTS/DTSWorkFlowPage.aspx?No=DTS2015092309609"><Data
+      ss:Type="String">DTS2015092309609</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">Close</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">B</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">马守亮</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">Major</Data></Cell>
+    <Cell ss:StyleID="s72"><Data ss:Type="String">【海外游戏中心】【安全测试】【服务器测试】【SDV1】【WEB测试】APPSCAN扫描存在多处高级别风险，存在跨站请求伪造攻击问题</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0" ss:Height="31.5">
+    <Cell ss:StyleID="s66" ss:HRef="http://dts.huawei.com/net/dts/DTS/DTSWorkFlowPage.aspx?No=DTS2015092207982"><Data
+      ss:Type="String">DTS2015092207982</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">Close</Data></Cell>
+    <Cell ss:StyleID="s67"/>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">马守亮</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">Major</Data></Cell>
+    <Cell ss:StyleID="s68"><Data ss:Type="String">【海外游戏中心】【安全测试】【服务器测试】【SDV1】【硬编码及配置文件测试】检查Store及CMS等多个服务器，发现均存在配置文件或者SQL文件的权限不符合红线要求，请统一进行排查</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0" ss:Height="30.75">
+    <Cell ss:StyleID="s66" ss:HRef="http://dts.huawei.com/net/dts/DTS/DTSWorkFlowPage.aspx?No=DTS2015092207881"><Data
+      ss:Type="String">DTS2015092207881</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">Close</Data></Cell>
+    <Cell ss:StyleID="s67"/>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">马守亮</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">Major</Data></Cell>
+    <Cell ss:StyleID="s68"><Data ss:Type="String">【海外游戏中心】【安全测试】【服务器测试】【SDV1】【硬编码及配置文件测试】在Store服务器环境中查看到存在没有使用AES加密的配置文件，请统一进行排查和确认</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s66" ss:HRef="http://dts.huawei.com/net/dts/DTS/DTSWorkFlowPage.aspx?No=DTS2015092203875"><Data
+      ss:Type="String">DTS2015092203875</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">Close</Data></Cell>
+    <Cell ss:StyleID="s67"/>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">zhangyue</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">Minor</Data></Cell>
+    <Cell ss:StyleID="s68"><Data ss:Type="String">【海外游戏中心】【安全测试】【SDV1】【服务器安全】cms管理台使用http方式传输敏感操作，存在被劫持风险，应改用https方式</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s66" ss:HRef="http://dts.huawei.com/net/dts/DTS/DTSWorkFlowPage.aspx?No=DTS2015092200860"><Data
+      ss:Type="String">DTS2015092200860</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">Close</Data></Cell>
+    <Cell ss:StyleID="s67"/>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">zhangyue</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">Major</Data></Cell>
+    <Cell ss:StyleID="s68"><Data ss:Type="String">【海外游戏中心】【安全测试】【SDV1】【服务器安全】cms退出功能是伪退出(会话id没有立即失效)，不满足红线B的web安全</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s66" ss:HRef="http://dts.huawei.com/net/dts/DTS/DTSWorkFlowPage.aspx?No=DTS2015092107420"><Data
+      ss:Type="String">DTS2015092107420</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">Close</Data></Cell>
+    <Cell ss:StyleID="s67"/>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">zhangyue</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">Major</Data></Cell>
+    <Cell ss:StyleID="s72"><Data ss:Type="String">【海外游戏中心】【安全测试】【SDV1】【服务器安全】对用户输入的参数没有对\r\n过虑，存在CLRF攻击风险</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s66" ss:HRef="http://dts.huawei.com/net/dts/DTS/DTSWorkFlowPage.aspx?No=DTS2015091906227"><Data
+      ss:Type="String">DTS2015091906227</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">Close</Data></Cell>
+    <Cell ss:StyleID="s67"/>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">zhangyue</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">Major</Data></Cell>
+    <Cell ss:StyleID="s68"><Data ss:Type="String">【海外游戏中心】【安全测试】【SDV1】【服务器安全】cms服务器4XX出错界面返回tomcat原始内容，未指定到错误界面</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s66" ss:HRef="http://dts.huawei.com/net/dts/DTS/DTSWorkFlowPage.aspx?No=DTS2015091707461"><Data
+      ss:Type="String">DTS2015091707461</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">Close</Data></Cell>
+    <Cell ss:StyleID="s67"/>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">zhangyue</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">Major</Data></Cell>
+    <Cell ss:StyleID="s72"><Data ss:Type="String">【海外游戏中心】【安全测试】【SDV1】【服务器安全】日志中不应该打印详细的sql语句</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s66" ss:HRef="http://dts.huawei.com/net/dts/DTS/DTSWorkFlowPage.aspx?No=DTS2015091607155"><Data
+      ss:Type="String">DTS2015091607155</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">Close</Data></Cell>
+    <Cell ss:StyleID="s67"/>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">马守亮</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">Minor</Data></Cell>
+    <Cell ss:StyleID="s68"><Data ss:Type="String">【海外游戏中心】【安全测试】【服务器测试】【SDV1】【代码测试】Store组件中存在网关调用的废弃代码，需要删除</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0" ss:Height="31.5">
+    <Cell ss:StyleID="s66" ss:HRef="http://dts.huawei.com/net/dts/DTS/DTSWorkFlowPage.aspx?No=DTS2015091606865"><Data
+      ss:Type="String">DTS2015091606865</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">Close</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">B</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">马守亮</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">Critical</Data></Cell>
+    <Cell ss:StyleID="s72"><Data ss:Type="String">【海外游戏中心】【安全测试】【服务器测试】【SDV1】【代码测试】Store组件中FileHelper.java存在使用到FTP协议上传文件，FTP是红线中指定的不安全协议，与开发沟通，可能此处是没有用到的废弃代码，需要删除</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0" ss:Height="30.75">
+    <Cell ss:StyleID="s66" ss:HRef="http://dts.huawei.com/net/dts/DTS/DTSWorkFlowPage.aspx?No=DTS2015091604032"><Data
+      ss:Type="String">DTS2015091604032</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">Close</Data></Cell>
+    <Cell ss:StyleID="s67"/>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">马守亮</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">Minor</Data></Cell>
+    <Cell ss:StyleID="s68"><Data ss:Type="String">【海外游戏中心】【安全测试】【服务器测试】【SDV1】【代码测试】代码中存在异常情况下打印加密参数的地方，与开发确认这一块代码没有使用到，需要删除废弃代码</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0" ss:Height="32.25">
+    <Cell ss:StyleID="s66" ss:HRef="http://dts.huawei.com/net/dts/DTS/DTSWorkFlowPage.aspx?No=DTS2015091603663"><Data
+      ss:Type="String">DTS2015091603663</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">Close</Data></Cell>
+    <Cell ss:StyleID="s67"/>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">马守亮</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">Major</Data></Cell>
+    <Cell ss:StyleID="s68"><Data ss:Type="String">【海外游戏中心】【安全测试】【服务器测试】【SDV1】【算法测试】代码中使用到SHA-256加密算法，但是没有用到盐值进行加密，建议采用HMAC（盐值+口令）的方式进行加密保存</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s66" ss:HRef="http://dts.huawei.com/net/dts/DTS/DTSWorkFlowPage.aspx?No=DTS2015091507423"><Data
+      ss:Type="String">DTS2015091507423</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">Close</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">B</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">zhangyue</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">Major</Data></Cell>
+    <Cell ss:StyleID="s72"><Data ss:Type="String">【海外游戏中心】【安全测试】【SDV1】【服务器安全】cms后台管理使用不安全的ftp上传文件，不满足红线B类访问通道控制</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0" ss:Height="29.25">
+    <Cell ss:StyleID="s66" ss:HRef="http://dts.huawei.com/net/dts/DTS/DTSWorkFlowPage.aspx?No=DTS2015091505595"><Data
+      ss:Type="String">DTS2015091505595</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">Close</Data></Cell>
+    <Cell ss:StyleID="s67"/>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">马守亮</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">Major</Data></Cell>
+    <Cell ss:StyleID="s68"><Data ss:Type="String">【海外游戏中心】【安全测试】【服务器测试】【SDV1】【加密算法】AES算法使用CBC模式，IvParameterSpec()的参数每次加密不得重用，需要重新生成，请统一排查和确认</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s66" ss:HRef="http://dts.huawei.com/net/dts/DTS/DTSWorkFlowPage.aspx?No=DTS2015091408602"><Data
+      ss:Type="String">DTS2015091408602</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">Close</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">A1</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">zhangyue</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">Major</Data></Cell>
+    <Cell ss:StyleID="s72"><Data ss:Type="String">【海外游戏中心】【安全测试】【SDV1】【服务器安全】CMS海外版本有未删除的发送邮件代码，易误解为未公开接口</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0" ss:Height="29.25">
+    <Cell ss:StyleID="s66" ss:HRef="http://dts.huawei.com/net/dts/DTS/DTSWorkFlowPage.aspx?No=DTS2015091104804"><Data
+      ss:Type="String">DTS2015091104804</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">Close</Data></Cell>
+    <Cell ss:StyleID="s67"/>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">马守亮</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">Minor</Data></Cell>
+    <Cell ss:StyleID="s68"><Data ss:Type="String">【海外游戏中心】【安全测试】【服务器测试】【SDV1】【日志检查】Store和CMS等多个组件中日志路径和日志文件的权限过大，其他用户也可以访问，如果日志不需要其他用户访问，请去掉其他用户的权限，请统一排查和确认</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0" ss:Height="29.25">
+    <Cell ss:StyleID="s66" ss:HRef="http://dts.huawei.com/net/dts/DTS/DTSWorkFlowPage.aspx?No=DTS2015091001383"><Data
+      ss:Type="String">DTS2015091001383</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">Close</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">B</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">马守亮</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">Critical</Data></Cell>
+    <Cell ss:StyleID="s73"><Data ss:Type="String">【海外游戏中心】【安全测试】【服务器测试】【SDV1】【安全算法】CMS和Store组件代码中多次使用到MD5算法进行加密，违反B类红线，请统一排查和确认</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s66" ss:HRef="http://dts.huawei.com/net/dts/DTS/DTSWorkFlowPage.aspx?No=DTS2015091001173"><Data
+      ss:Type="String">DTS2015091001173</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">Close</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">B</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">马守亮</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">Critical</Data></Cell>
+    <Cell ss:StyleID="s68"><Data ss:Type="String">【海外游戏中心】【安全测试】【服务器测试】【SDV1】【随机函数】CMS及Store组件代码中多次使用到不安全的随机函数java.util.Random，违反B类红线要求，请统一进行排查和确认</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0" ss:Height="29.25">
+    <Cell ss:StyleID="s66" ss:HRef="http://dts.huawei.com/net/dts/DTS/DTSWorkFlowPage.aspx?No=DTS2015090910506"><Data
+      ss:Type="String">DTS2015090910506</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">Close</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">B</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">马守亮</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">Critical</Data></Cell>
+    <Cell ss:StyleID="s68"><Data ss:Type="String">【海外游戏中心】【安全测试】【服务器测试】【SDV1】【加密算法】HashFile.java文件中使用到MD4的HASH算法，属于红线禁止使用的，请分析和确认</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0" ss:Height="30.75">
+    <Cell ss:StyleID="s66" ss:HRef="http://dts.huawei.com/net/dts/DTS/DTSWorkFlowPage.aspx?No=DTS2015090910320"><Data
+      ss:Type="String">DTS2015090910320</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">Close</Data></Cell>
+    <Cell ss:StyleID="s67"/>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">马守亮</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">Major</Data></Cell>
+    <Cell ss:StyleID="s68"><Data ss:Type="String">【海外游戏中心】【安全测试】【服务器测试】【SDV1】【加密算法】代码中存在红线中遗留算法AES-ECB算法，需要进行报备，请分析和确认</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s66" ss:HRef="http://dts.huawei.com/net/dts/DTS/DTSWorkFlowPage.aspx?No=DTS2015090910303"><Data
+      ss:Type="String">DTS2015090910303</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">Close</Data></Cell>
+    <Cell ss:StyleID="s67"/>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">马守亮</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">Major</Data></Cell>
+    <Cell ss:StyleID="s68"><Data ss:Type="String">【海外游戏中心】【安全测试】【服务器测试】【SDV1】【加密算法】RSA算法中有使用到1024位的，属于红线遗留算法，请分析确认</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0" ss:Height="29.25">
+    <Cell ss:StyleID="s66" ss:HRef="http://dts.huawei.com/net/dts/DTS/DTSWorkFlowPage.aspx?No=DTS2015090910252"><Data
+      ss:Type="String">DTS2015090910252</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">Close</Data></Cell>
+    <Cell ss:StyleID="s67"/>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">马守亮</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">Major</Data></Cell>
+    <Cell ss:StyleID="s68"><Data ss:Type="String">【海外游戏中心】【安全测试】【服务器测试】【SDV1】【加密算法】RSA算法中不能采用PKCS1Padding，尽量优先选择的是OAEP填充方式，代码中使用的是PKCS1Padding方式</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s66" ss:HRef="http://dts.huawei.com/net/dts/DTS/DTSWorkFlowPage.aspx?No=DTS2015090910205"><Data
+      ss:Type="String">DTS2015090910205</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">Close</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">B</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">马守亮</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">Critical</Data></Cell>
+    <Cell ss:StyleID="s68"><Data ss:Type="String">【海外游戏中心】【安全测试】【服务器测试】【SDV1】【加密算法】业务代码中数字签名使用到了sha1withRSA算法，违反红线要求</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s66" ss:HRef="http://dts.huawei.com/net/dts/DTS/DTSWorkFlowPage.aspx?No=DTS2015082504862"><Data
+      ss:Type="String">DTS2015082504862</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">Close</Data></Cell>
+    <Cell ss:StyleID="s67"/>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">zhangyue</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">Major</Data></Cell>
+    <Cell ss:StyleID="s68"><Data ss:Type="String">【海外游戏中心】【安全测试】【SDV1】【服务器安全】代码中的配置文件存在明文密码</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0" ss:Height="30.75">
+    <Cell ss:StyleID="s66" ss:HRef="http://dts.huawei.com/net/dts/DTS/DTSWorkFlowPage.aspx?No=DTS2015082403343"><Data
+      ss:Type="String">DTS2015082403343</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">Close</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">A2</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">马守亮</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">Major</Data></Cell>
+    <Cell ss:StyleID="s72"><Data ss:Type="String">【海外游戏中心】【安全测试】【SDV1】【服务器测试】对安全测试环境进行扫描时发现与通信矩阵所列端口不符，存在未公开接口风险，请确认</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0" ss:Height="30.75">
+    <Cell ss:StyleID="s66" ss:HRef="http://dts.huawei.com/net/dts/DTS/DTSWorkFlowPage.aspx?No=DTS2015082401330"><Data
+      ss:Type="String">DTS2015082401330</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">Close</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">A2</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">马守亮</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">Major</Data></Cell>
+    <Cell ss:StyleID="s72"><Data ss:Type="String">【海外游戏中心】【安全测试】【SDV1】【云侧】海外游戏中心通信矩阵存在多个动态侦听范围为0-65535，范围过大，违反A2类安全红线中“通信矩阵中描述的侦听接口须明确限定在一个合理的范围之内，并与实际的动态侦听接口范围保持一致。”中要求</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s62"/>
+    <Cell ss:Index="6" ss:StyleID="s68"/>
+   </Row>
+   <Row ss:AutoFitHeight="0" ss:StyleID="s63">
+    <Cell ss:StyleID="s64"><Data ss:Type="String">客户端</Data></Cell>
+    <Cell ss:StyleID="s64"/>
+    <Cell ss:StyleID="s64"/>
+    <Cell ss:StyleID="s64"/>
+    <Cell ss:StyleID="s64"/>
+    <Cell ss:StyleID="s68"/>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s66" ss:HRef="http://dts.huawei.com/net/dts/DTS/DTSWorkFlowPage.aspx?No=DTS2015090101207"><Data
+      ss:Type="String">DTS2015090101207</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">Root Cause Analysis</Data></Cell>
+    <Cell ss:StyleID="s67"/>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">马守亮</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">Major</Data></Cell>
+    <Cell ss:StyleID="s68"><Data ss:Type="String">【海外游戏中心】【安全测试】【APK】【SDV2】海外游戏中心服务器和客户端之前有没有证书校验，存在假冒服务器劫持的风险</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s66" ss:HRef="http://dts.huawei.com/net/dts/DTS/DTSWorkFlowPage.aspx?No=DTS2015083108826"><Data
+      ss:Type="String">DTS2015083108826</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">Root Cause Review</Data></Cell>
+    <Cell ss:StyleID="s67"/>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">马守亮</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">Minor</Data></Cell>
+    <Cell ss:StyleID="s68"><Data ss:Type="String">【海外游戏中心】【安全测试】【APK】【SDV2】游戏中心进行OTA升级的时候没有进行对下载的APK进行校验，存在被仿冒的风险</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s66" ss:HRef="http://dts.huawei.com/net/dts/DTS/DTSWorkFlowPage.aspx?No=DTS2015082907265"><Data
+      ss:Type="String">DTS2015082907265</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">Root Cause Analysis</Data></Cell>
+    <Cell ss:StyleID="s67"/>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">马守亮</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">Suggestion</Data></Cell>
+    <Cell ss:StyleID="s68"><Data ss:Type="String">【海外游戏中心】【安全测试】【APK】【SDV2】存在加密后密钥信息的消息使用了HTTP，建议使用HTTPS协议</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s66" ss:HRef="http://dts.huawei.com/net/dts/DTS/DTSWorkFlowPage.aspx?No=DTS2015082108050"><Data
+      ss:Type="String">DTS2015082108050</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">Root Cause Analysis</Data></Cell>
+    <Cell ss:StyleID="s67"/>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">马守亮</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">Minor</Data></Cell>
+    <Cell ss:StyleID="s68"><Data ss:Type="String">【海外游戏中心】【安全测试】【SDV1】扫描URIs时出现2个暴露的URIs，并且存在SQL注入风险，请开发帮忙分析确认</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s66" ss:HRef="http://dts.huawei.com/net/dts/DTS/DTSWorkFlowPage.aspx?No=DTS2015082107857"><Data
+      ss:Type="String">DTS2015082107857</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">Close</Data></Cell>
+    <Cell ss:StyleID="s67"/>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">马守亮</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">Minor</Data></Cell>
+    <Cell ss:StyleID="s68"><Data ss:Type="String">【海外游戏中心】【安全测试】【SDV1】写入文件内容时，使用try却没有进行finally块进行处理，如果写入异常就可能造成资源未被释放，存在风险</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s66" ss:HRef="http://dts.huawei.com/net/dts/DTS/DTSWorkFlowPage.aspx?No=DTS2015082107668"><Data
+      ss:Type="String">DTS2015082107668</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">Close</Data></Cell>
+    <Cell ss:StyleID="s67"/>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">马守亮</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">Minor</Data></Cell>
+    <Cell ss:StyleID="s68"><Data ss:Type="String">【海外游戏中心】【安全测试】【SDV1】代码中存在没有进行对文件名filename进行校验，可能存在风险</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s66" ss:HRef="http://dts.huawei.com/net/dts/DTS/DTSWorkFlowPage.aspx?No=DTS2015082107162"><Data
+      ss:Type="String">DTS2015082107162</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">Close</Data></Cell>
+    <Cell ss:StyleID="s67"/>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">马守亮</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">Major</Data></Cell>
+    <Cell ss:StyleID="s68"><Data ss:Type="String">【海外游戏中心】【安全测试】【SDV1】证书问题，允许所有服务器连接，可以造成中间人攻击</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s66" ss:HRef="http://dts.huawei.com/net/dts/DTS/DTSWorkFlowPage.aspx?No=DTS2015082105634"><Data
+      ss:Type="String">DTS2015082105634</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">Close</Data></Cell>
+    <Cell ss:StyleID="s67"/>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">马守亮</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">Major</Data></Cell>
+    <Cell ss:StyleID="s68"><Data ss:Type="String">【海外游戏中心】【安全测试】【SDV1】暴露的广播组件中String packageName = intent.getDataString().substring(8)确定从第八个开始，如果构造少于8位的输入会造成系统崩溃</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s66" ss:HRef="http://dts.huawei.com/net/dts/DTS/DTSWorkFlowPage.aspx?No=DTS2015081808827"><Data
+      ss:Type="String">DTS2015081808827</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">Close</Data></Cell>
+    <Cell ss:StyleID="s67"/>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">马守亮</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">Major</Data></Cell>
+    <Cell ss:StyleID="s68"><Data ss:Type="String">【海外游戏中心】【安全测试】【SDV1】权限滥用，&lt;uses-permission android:name=&quot;android.permission.REORDER_TASKS&quot; /&gt;权限需要删除</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s66" ss:HRef="http://dts.huawei.com/net/dts/DTS/DTSWorkFlowPage.aspx?No=DTS2015081808355"><Data
+      ss:Type="String">DTS2015081808355</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">Close</Data></Cell>
+    <Cell ss:StyleID="s67"/>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">马守亮</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">Minor</Data></Cell>
+    <Cell ss:StyleID="s68"><Data ss:Type="String">【海外游戏中心】【安全测试】【SDV1】APK代码中存在发生异常时，Fos, oswriter都未正常释放的情况，已与开发确认，此处是废弃代码</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s66" ss:HRef="http://dts.huawei.com/net/dts/DTS/DTSWorkFlowPage.aspx?No=DTS2015081805925"><Data
+      ss:Type="String">DTS2015081805925</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">Close</Data></Cell>
+    <Cell ss:StyleID="s67"/>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">马守亮</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">Suggestion</Data></Cell>
+    <Cell ss:StyleID="s68"><Data ss:Type="String">【海外游戏中心】【安全测试】【SDV1】【组件测试】APK的Manifest.xml文件中部分组件参数中没有设置exported属性为false，可能会导致被其他应用利用</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s66" ss:HRef="http://dts.huawei.com/net/dts/DTS/DTSWorkFlowPage.aspx?No=DTS2015081700951"><Data
+      ss:Type="String">DTS2015081700951</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">Close</Data></Cell>
+    <Cell ss:StyleID="s67"/>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">马守亮</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">Major</Data></Cell>
+    <Cell ss:StyleID="s68"><Data ss:Type="String">【海外游戏中心】【安全测试】【SDV1】【组件测试】APK组件存在暴露的Activity，启动这些Activity直接进入游戏中心，没有提示用户协议确认界面，存在风险。</Data></Cell>
+   </Row>
+  </Table>
+  <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+   <PageSetup>
+    <Header x:Margin="0.3"/>
+    <Footer x:Margin="0.3"/>
+    <PageMargins x:Bottom="0.75" x:Left="0.7" x:Right="0.7" x:Top="0.75"/>
+   </PageSetup>
+   <Unsynced/>
+   <Selected/>
+   <Panes>
+    <Pane>
+     <Number>3</Number>
+     <ActiveRow>17</ActiveRow>
+     <ActiveCol>5</ActiveCol>
+    </Pane>
+   </Panes>
+   <ProtectObjects>False</ProtectObjects>
+   <ProtectScenarios>False</ProtectScenarios>
+  </WorksheetOptions>
+ </Worksheet>
+</Workbook>

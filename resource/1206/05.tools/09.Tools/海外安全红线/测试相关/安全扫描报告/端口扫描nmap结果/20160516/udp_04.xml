@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE nmaprun>
+<?xml-stylesheet href="file:///usr/bin/../share/nmap/nmap.xsl" type="text/xsl"?>
+<!-- Nmap 7.12 scan initiated Mon May 16 11:18:13 2016 as: nmap -P0 -sU -n -p 1-65535 -oX udp_04.xml -sV 10.22.0.4 -->
+<nmaprun scanner="nmap" args="nmap -P0 -sU -n -p 1-65535 -oX udp_04.xml -sV 10.22.0.4" start="1463368693" startstr="Mon May 16 11:18:13 2016" version="7.12" xmloutputversion="1.04">
+<scaninfo type="udp" protocol="udp" numservices="65535" services="1-65535"/>
+<verbose level="0"/>
+<debugging level="0"/>
+<host starttime="1463368694" endtime="1463368807"><status state="up" reason="arp-response" reason_ttl="0"/>
+<address addr="10.22.0.4" addrtype="ipv4"/>
+<address addr="FA:16:3E:D6:D8:0D" addrtype="mac"/>
+<hostnames>
+</hostnames>
+<ports><extraports state="closed" count="65360">
+<extrareasons reason="port-unreaches" count="65360"/>
+</extraports>
+<extraports state="open|filtered" count="167">
+<extrareasons reason="no-responses" count="167"/>
+</extraports>
+<port protocol="udp" portid="111"><state state="open" reason="udp-response" reason_ttl="64"/><service name="rpcbind" version="2-4" extrainfo="RPC #100000" method="probed" conf="10"/></port>
+<port protocol="udp" portid="123"><state state="open" reason="udp-response" reason_ttl="64"/><service name="ntp" method="table" conf="3"/></port>
+<port protocol="udp" portid="894"><state state="open" reason="script-set" reason_ttl="0"/><service name="rpcbind" version="2-4" extrainfo="RPC #100000" method="probed" conf="10"/></port>
+<port protocol="udp" portid="39642"><state state="open" reason="udp-response" reason_ttl="0"/><service name="status" version="1" extrainfo="RPC #100024" method="probed" conf="10"/></port>
+<port protocol="udp" portid="41294"><state state="open" reason="udp-response" reason_ttl="0"/><service name="status" version="1" extrainfo="RPC #100024" method="probed" conf="10"/></port>
+<port protocol="udp" portid="45855"><state state="open" reason="udp-response" reason_ttl="0"/><service name="nlockmgr" version="1-4" extrainfo="RPC #100021" method="probed" conf="10"/></port>
+<port protocol="udp" portid="52527"><state state="open" reason="udp-response" reason_ttl="0"/><service name="status" version="1" extrainfo="RPC #100024" method="probed" conf="10"/></port>
+<port protocol="udp" portid="57297"><state state="open" reason="udp-response" reason_ttl="0"/><service name="status" version="1" extrainfo="RPC #100024" method="probed" conf="10"/></port>
+</ports>
+<times srtt="1175" rttvar="448" to="100000"/>
+</host>
+<runstats><finished time="1463368807" timestr="Mon May 16 11:20:07 2016" elapsed="113.62" summary="Nmap done at Mon May 16 11:20:07 2016; 1 IP address (1 host up) scanned in 113.62 seconds" exit="success"/><hosts up="1" down="0" total="1"/>
+</runstats>
+</nmaprun>

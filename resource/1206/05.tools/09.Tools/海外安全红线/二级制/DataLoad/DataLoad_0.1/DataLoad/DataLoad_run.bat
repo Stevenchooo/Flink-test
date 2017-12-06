@@ -1,0 +1,3 @@
+%~d0
+ cd %~dp0
+ java -Xms256M -Xmx1024M -cp ../lib/systemRoutines.jar;../lib/userRoutines.jar;.;dataload_0_1.jar;filetohdfs_0_1.jar;singlefiletohdfs_0_1.jar;dbextract_0_1.jar;../lib/commons-lang-2.6.jar;../lib/commons-logging-1.1.1.jar;../lib/commons-logging-api-1.0.4.jar;../lib/dataload_0.2.jar;../lib/dom4j-1.6.1.jar;../lib/filecopy.jar;../lib/hadoop-core-0.20.203.0.jar;../lib/hive-exec-0.7.1.jar;../lib/hive-jdbc-0.7.1.jar;../lib/hive-metastore-0.7.1.jar;../lib/hive-service-0.7.1.jar;../lib/libfb303.jar;../lib/log4j-1.2.15.jar;../lib/log4j-1.2.17.jar;../lib/mysql-connector-java-5.1.30-bin.jar;../lib/slf4j-api-1.6.1.jar;../lib/slf4j-log4j12-1.6.1.jar; bidataload.dataload_0_1.DataLoad --context=Default %* 

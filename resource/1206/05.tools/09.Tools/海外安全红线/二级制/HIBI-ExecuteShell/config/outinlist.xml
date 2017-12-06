@@ -1,0 +1,370 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<source>
+	<!--DW-->
+	<list>
+		<name>dw_hicloud_user_behavior_stat_dm.sql</name>
+		<in>dw_hicloud_user_behavior_hm</in>
+		<out>dw_hicloud_user_behavior_stat_dm</out>
+	</list>
+
+	<list>
+		<name>dw_hicloud_item_consumed_stat_dm.sql</name>
+		<in>dw_hicloud_user_behavior_hm</in>
+		<out>dw_hicloud_item_consumed_stat_dm</out>
+	</list>
+
+	<list>
+		<name>dw_hicloud_device_use_stat_dm.sql</name>
+		<in>dw_hicloud_user_behavior_hm</in>
+		<out>dw_hicloud_device_use_stat_dm</out>
+	</list>
+
+	<list>
+		<name>dw_hicloud_behavior_time_stat_dm.sql</name>
+		<in>dw_hicloud_user_behavior_hm</in>
+		<out>dw_hicloud_behavior_time_stat_dm</out>
+	</list>
+
+	<list>
+		<name>dw_hicloud_phone_update_version_stat_dm.sql</name>
+		<in>dw_hicloud_phone_upgrade_hm,DIM_HICLOUD_MS_VERSION_DS</in>
+		<out>dw_hicloud_phone_update_version_stat_dm</out>
+	</list>
+	
+	<list>
+		<name>dw_hicloud_user_behavior_hm.sql</name>
+		<in>
+			ODS_HISPACE_OPER_LOG_HM,ODS_HISPACE_USER_LOGON_HM,DIM_ITEM_INFO_DS,DIM_USER_DEVICE_INFO_DS,ODS_HISPACE_SEARCH_LOG_HM,ODS_HISPACE_SCORE_LOG_HM
+		</in>
+		<out>
+			O_DIM_ITEM_INFO_DS,O_DIM_USER_DEVICE_INFO_DS,O_DIM_USER_INFO_DS,O_DIM_USER_ACCT_INFO_DS,dw_search_log_hm,dw_hicloud_user_behavior_hm
+		</out>
+	</list>
+	<list>
+		<name>dw_hicloud_phone_upgrade_hm.sql</name>
+		<in>ODS_HICLOUD_MS_UPDATE_LOG_HM</in>
+		<out>dw_hicloud_phone_upgrade_hm</out>
+	</list>
+	
+	<list>
+		<name>dw_search_word_stat_dm.sql</name>
+		<in>dw_search_log_hm</in>
+		<out>dw_search_word_stat_dm</out>
+	</list>
+
+	<list>
+		<name>dw_wa_visit_site_hm.sql</name>
+		<in>ODS_PIWIK_VISIT_LOG_HM,ODS_PIWIK_WA_INFO_DM</in>
+		<out>dw_wa_visit_site_hm</out>
+	</list>
+	<list>
+		<name>dw_wa_visit_page_hm.sql</name>
+		<in>ODS_PIWIK_LINK_VISIT_LOG_HM,ODS_PIWIK_VISIT_LOG_HM</in>
+		<out>dw_wa_visit_page_hm</out>
+	</list>
+
+	<list>
+		<name>dw_wa_referrer_stat_dm.sql</name>
+		<in>dw_wa_visit_site_hm</in>
+		<out>dw_wa_referrer_stat_dm</out>
+	</list>
+	
+	<list>
+		<name>dw_wa_search_engine_stat_dm.sql</name>
+		<in>dw_wa_visit_site_hm</in>
+		<out>dw_wa_search_engine_stat_dm</out>
+	</list>
+	
+	<list>
+		<name>dw_wa_referrer_website_stat_dm.sql</name>
+		<in>dw_wa_visit_site_hm</in>
+		<out>dw_wa_referrer_website_stat_dm</out>
+	</list>
+	
+	<list>
+		<name>dw_wa_page_visit_stat_dm.sql</name>
+		<in>dw_wa_visit_site_hm,dw_wa_visit_page_hm</in>
+		<out>dw_wa_page_visit_stat_dm</out>
+	</list>
+	
+	<list>
+		<name>dw_wa_site_stat_dm.sql</name>
+		<in>dw_wa_visit_site_hm</in>
+		<out>dw_wa_site_stat_dm</out>
+	</list>
+	
+	<list>
+		<name>dw_wa_site_returning_dm.sql</name>
+		<in>dw_wa_visit_site_hm</in>
+		<out>dw_wa_site_returning_dm</out>
+	</list>
+	
+	<list>
+		<name>dw_wa_location_dm.sql</name>
+		<in>dw_wa_visit_site_hm</in>
+		<out>dw_wa_location_dm</out>
+	</list>
+	
+	<list>
+		<name>dw_wa_net_provider_dm.sql</name>
+		<in>dw_wa_visit_site_hm</in>
+		<out>dw_wa_net_provider_dm</out>
+	</list>
+	
+	<list>
+		<name>dw_wa_visit_time_dm.sql</name>
+		<in>dw_wa_visit_site_hm,dw_wa_visit_page_hm</in>
+		<out>dw_wa_visit_time_dm</out>
+	</list>
+	
+	<list>
+		<name>dw_wa_visitor_location_dm.sql</name>
+		<in>dw_wa_visit_site_hm</in>
+		<out>dw_wa_visitor_location_dm</out>
+	</list>
+	
+	<list>
+		<name>dw_appa_use_session_hm.sql</name>
+		<in>ODS_PIWIK_VISIT_LOG_HM,ODS_PIWIK_WA_INFO_DM,DIM_USER_DEVICE_INFO_DS</in>
+		<out>dw_appa_use_session_hm,sample_dw_appa_use_session_hm</out>
+	</list>
+	
+	<list>
+		<name>dw_appa_use_activity_hm.sql</name>
+		<in>ODS_PIWIK_LINK_VISIT_LOG_HM,ODS_PIWIK_WA_INFO_DM,DIM_USER_DEVICE_INFO_DS</in>
+		<out>dw_appa_use_activity_hm</out>
+	</list>
+	
+	<list>
+		<name>dw_appa_activity_stat_dm.sql</name>
+		<in>dw_appa_use_activity_hm,dw_appa_use_session_hm</in>
+		<out>dw_appa_activity_stat_dm</out>
+	</list>
+	
+	<list>
+		<name>dw_appa_app_stat_dm.sql</name>
+		<in>dw_appa_use_session_hm</in>
+		<out>dw_appa_app_stat_dm</out>
+	</list>
+	
+	<list>
+		<name>dw_appa_app_returning_dm.sql</name>
+		<in>dw_appa_use_session_hm</in>
+		<out>dw_appa_app_returning_dm</out>
+	</list>
+	
+	<list>
+		<name>dw_appa_location_dm.sql</name>
+		<in>dw_appa_use_session_hm</in>
+		<out>dw_appa_location_dm</out>
+	</list>
+	
+	<list>
+		<name>dw_appa_conn_type_dm.sql</name>
+		<in>dw_appa_use_session_hm</in>
+		<out>dw_appa_conn_type_dm</out>
+	</list>
+	
+	<list>
+		<name>dw_appa_net_provider_dm.sql</name>
+		<in>dw_appa_use_session_hm</in>
+		<out>dw_appa_net_provider_dm</out>
+	</list>
+	
+	<list>
+		<name>dw_appa_visit_time_dm.sql</name>
+		<in>dw_appa_use_session_hm</in>
+		<out>dw_appa_visit_time_dm</out>
+	</list>
+	
+	<list>
+		<name>dw_appa_visitor_os_dm.sql</name>
+		<in>dw_appa_use_session_hm</in>
+		<out>dw_appa_visitor_os_dm</out>
+	</list>
+	
+	<list>
+		<name>dw_appa_visitor_resolution_dm.sql</name>
+		<in>dw_appa_use_session_hm</in>
+		<out>dw_appa_visitor_resolution_dm</out>
+	</list>
+	
+	<list>
+		<name>dw_appa_version_dm.sql</name>
+		<in>dw_appa_use_session_hm</in>
+		<out>dw_appa_version_dm</out>
+	</list>
+	
+	<list>
+		<name>dw_appa_download_channel_dm.sql</name>
+		<in>dw_appa_use_session_hm</in>
+		<out>dw_appa_download_channel_dm</out>
+	</list>
+	
+	<!--  RPT -->
+	<list>
+		<name>rpt_user_visit_instant_hm.sql</name>
+		<in>dw_hicloud_behavior_time_stat_dm</in>
+		<out>rpt_user_visit_instant_hm</out>
+	</list>
+	
+	<list>
+		<name>rpt_service_visit_info_dm.sql</name>
+		<in>dw_hicloud_user_behavior_stat_dm,dim_user_info_ds,rpt_service_visit_info_dm</in>
+		<out>rpt_service_visit_info_dm</out>
+	</list>
+	
+	<list>
+		<name>rpt_service_visit_area_dm.sql</name>
+		<in>dw_wa_location_dm,dw_appa_location_dm,dw_account_oper_hm</in>
+		<out>rpt_service_visit_area_dm</out>
+	</list>
+	
+	<list>
+		<name>rpt_appclass_download_dtm.sql</name>
+		<in>dim_hispace_app_info_ds,DIM_ITEM_INFO_DS,dw_hicloud_item_consumed_stat_dm,rpt_appclass_download_dtm</in>
+		<out>rpt_appclass_download_dtm</out>
+	</list>
+	
+	<list>
+		<name>rpt_app_download_dtm.sql</name>
+		<in>DIM_ITEM_INFO_DS,dw_hicloud_item_consumed_stat_dm,rpt_app_download_dtm</in>
+		<out>rpt_app_download_dtm</out>
+	</list>
+	
+	<list>
+		<name>rpt_client_ver_info_dtm.sql</name>
+		<in>dw_appa_version_dm,rpt_client_ver_info_dtm</in>
+		<out>rpt_client_ver_info_dtm</out>
+	</list>
+	
+	<list>
+		<name>rpt_client_login_info_dm.sql</name>
+		<in>dw_hicloud_user_behavior_stat_dm</in>
+		<out>rpt_client_login_info_dm</out>
+	</list>
+	
+	<list>
+		<name>rpt_top_url_info_ym.sql</name>
+		<in>dw_wa_page_visit_stat_dm,DIM_WA_PAGE_URL_DS</in>
+		<out>rpt_top_url_info_ym</out>
+	</list>
+	
+	<list>
+		<name>rpt_pv_top_url_dm.sql</name>
+		<in>dw_wa_page_visit_stat_dm,DIM_WA_PAGE_URL_DS</in>
+		<out>rpt_pv_top_url_dm</out>
+	</list>
+	
+	<list>
+		<name>rpt_service_customer_info_dm.sql</name>
+		<in>dw_hicloud_user_behavior_stat_dm,dim_user_info_ds,rpt_service_customer_info_dm</in>
+		<out>rpt_service_customer_info_dm</out>
+	</list>
+	
+	<list>
+		<name>rpt_develop_app_submit_info_mm.sql</name>
+		<in>DIM_HISPACE_DEVELOPER_APP_DS</in>
+		<out>rpt_develop_app_submit_info_mm</out>
+	</list>
+	<list>
+		<name>rpt_hispace_accumulate_info_dtm.sql</name>
+		<in>dw_hicloud_user_behavior_stat_dm,dw_register_login_stat_hm,DIM_HISPACE_DEVELOPER_APP_DS,DIM_HISPACE_APP_INFO_DS,DIM_HISPACE_DEVELOPER_DS</in>
+		<out>rpt_hispace_accumulate_info_dtm</out>
+	</list>
+	<list>
+		<name>rpt_hispace_developer_info_dtm.sql</name>
+		<in>DIM_HISPACE_DEVELOPER_DS</in>
+		<out>rpt_hispace_developer_info_dtm</out>
+	</list>
+	<list>
+		<name>rpt_hispace_pricerange_download_dtm.sql</name>
+		<in>dw_hicloud_item_consumed_stat_dm,DIM_ITEM_INFO_DS,DIM_HISPACE_APP_INFO_DS</in>
+		<out>rpt_hispace_pricerange_download_dtm</out>
+	</list>
+	<list>
+		<name>rpt_develop_appclass_sheleved_mts.sql</name>
+		<in>DIM_HISPACE_DEVELOPER_APP_DS,DIM_HISPACE_APP_INFO_DS</in>
+		<out>rpt_develop_appclass_sheleved_mts</out>
+	</list>
+	<list>
+		<name>rtp_hicloud_content_visit_info_mm.sql</name>
+		<in>dw_wa_page_visit_stat_dm,DIM_WA_PAGE_URL_DS</in>
+		<out>rtp_hicloud_content_visit_info_mm</out>
+	</list>
+	<!-- DIM -->
+	<list>
+		<name>DIM_TERMINAL_DS.sql</name>
+		<in>ODS_HISPACE_TERMINAL_INFO_DM</in>
+		<out>DIM_TERMINAL_DS</out>
+	</list>
+
+        <list>
+		<name>DIM_USER_INFO_DS.sql</name>
+		<in>ODS_UP_USER_INFO_DM</in>
+		<out>DIM_USER_INFO_DS</out>
+	</list>
+        <list>
+		<name>DIM_USER_DEVICE_INFO_DS.sql</name>
+		<in>ODS_HISPACE_TERMINAL_INFO_DM</in>
+		<out>DIM_USER_DEVICE_INFO_DS, SAMPLE_DIM_USER_DEVICE_INFO_DS</out>
+	</list>
+        <list>
+		<name>DIM_USER_ACCT_INFO_DS.sql</name>
+		<in>ODS_UP_USER_ACCT_INFO_DM</in>
+		<out>DIM_USER_ACCT_INFO_DS, SAMPLE_DIM_USER_ACCT_INFO_DS</out>
+	</list>
+        <list>
+		<name>DIM_BIMKT_ACTIVITY_DS.sql</name>
+		<in>ODS_BIMKT_ACTIVITY_HM</in>
+		<out>DIM_BIMKT_ACTIVITY_DS</out>
+	</list>
+
+        <list>
+		<name> DIM_ITEM_INFO_DS.sql</name>
+		<in>ODS_HISPACE_APP_INFO_HM</in>
+		<out> DIM_ITEM_INFO_DS</out>
+	</list>
+        <list>
+		<name>DIM_HISPACE_APP_INFO_DS.sql</name>
+		<in>ODS_HISPACE_APP_INFO_HM</in>
+		<out>DIM_HISPACE_APP_INFO_DS</out>
+	</list>
+        <list>
+		<name>DIM_HISPACE_DEVELOPER_APP_DS.sql</name>
+		<in>ODS_HISPACE_APP_UP_HM</in>
+		<out>DIM_HISPACE_DEVELOPER_APP_DS</out>
+	</list>
+        <list>
+		<name>DIM_HISPACE_DEVELOPER_DS.sql</name>
+		<in>ODS_HISPACE_DEVELOPER_DM</in>
+		<out>DIM_HISPACE_DEVELOPER_DS</out>
+	</list>
+
+        <list>
+		<name>DIM_HICLOUD_UPDATE_SITE_DS.sql</name>
+		<in>ODS_HICLOUD_UPDATE_SITE_DM</in>
+		<out>DIM_HICLOUD_UPDATE_SITE_DS</out>
+	</list>
+        <list>
+		<name>DIM_HICLOUD_MS_VERSION_DS.sql</name>
+		<in>ODS_HISPACE_MS_VERSION_DM</in>
+		<out>DIM_HICLOUD_MS_VERSION_DS</out>
+	</list>
+
+        <list>
+		<name>DIM_WA_SITE_DS.sql</name>
+		<in>ODS_PIWIK_WA_INFO_DM</in>
+		<out>DIM_WA_SITE_DS</out>
+	</list>
+        <list>
+		<name>DIM_WA_PAGE_TITLE_DS.sql</name>
+		<in>ODS_PIWIK_ACTION_INFO_HM</in>
+		<out>DIM_WA_PAGE_TITLE_DS</out>
+	</list>
+        <list>
+		<name>DIM_WA_PAGE_URL_DS.sql</name>
+		<in>ODS_PIWIK_ACTION_INFO_HM</in>
+		<out>DIM_WA_PAGE_URL_DS</out>
+	</list>
+</source>
