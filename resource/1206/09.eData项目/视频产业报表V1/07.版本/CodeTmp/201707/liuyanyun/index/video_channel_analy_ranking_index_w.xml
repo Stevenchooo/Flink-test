@@ -1,0 +1,81 @@
+<reportIndexGroup>
+    <multiHqlReportIndexs>
+		<!--  新增注册用户{排序} newregisteruser  -->
+		<!--  渠道累计注册用户数 allregisteruser  -->
+		<!--  注册用户活跃数{排序} registeruseractive  -->
+		<!--  当期付费用户数{排序} newpayuser  -->
+		<!--  美元 当期 付费流水 newincome-->
+		<!--  本币 当期 付费流水 localnewincome-->
+		<!--  美元 当年累计收入{排序} yearallincome-->
+		<!--  本币 当年累计收入{排序} localyearallincome-->
+		<!--  channelname渠道名称：en_value,zh_value -->
+		<!--  201707 修改注册用户活跃数从中间表取t_mid_video_sdk_current_dw,取终端为ALL的数据-->
+        <multiHqlReportIndex>
+            <indexKey>video.channel.ranking.columns.w</indexKey>
+            <fieldName>newregisteruser,allregisteruser,newpayuser,newincome,localnewincome,yearallincome,localyearallincome,en_value,zh_value</fieldName>
+            <hql>
+                <![CDATA[
+				select projectid,activitychannelid,wtime,
+					   newregisteruser,
+					   allregisteruser,
+					   newpayuser,
+					   newincome,localnewincome,
+					   yearallincome,localyearallincome,
+					   en_value,zh_value
+				  from (select t1.projectid,
+							   if(t1.activitychannelid is null, 'ALL', t1.activitychannelid) activitychannelid,
+							   t2.wtime,
+							   if(t1.newregisteruser is null, 0, t1.newregisteruser) newregisteruser,
+							   if(t1.allregisteruser is null, 0, t1.allregisteruser) allregisteruser,
+							   if(t1.newpayuser is null, 0, t1.newpayuser) newpayuser,
+							   if(t1.newincome is null, 0, t1.newincome) newincome,
+							   if(t1.localnewincome is null, 0, t1.localnewincome) localnewincome,
+							   if(t1.yearallincome is null, 0, t1.yearallincome) yearallincome,
+							   if(t1.localyearallincome is null, 0, t1.localyearallincome) localyearallincome,
+							   t1.en_value,
+							   t1.zh_value
+						  from video.t_video_channel_analy_ranking_sd_hbase t1,
+							   (select t.wtime, t.dtime
+								  from video.t_bdi_muchtv_video_rundate t
+								 where t.wtime > '{STARTTIME}'
+								   and t.wtime < '{ENDTIME}'
+								   and t.weekdays = 7) t2
+						 where t1.dtime = t2.dtime) tt
+				 group by projectid,activitychannelid,wtime,
+						  newregisteruser,
+						  allregisteruser,
+						  newpayuser,
+						  newincome,localnewincome,
+						  yearallincome,localyearallincome,
+						  en_value,zh_value
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+
+		<!--  201707 修改注册用户活跃数从中间表取t_mid_video_sdk_current_dw,取终端为ALL的数据-->
+        <multiHqlReportIndex>
+            <indexKey>video.channel.ranking.registeractive.w</indexKey>
+            <fieldName>registeruseractive</fieldName>
+            <hql>
+                <![CDATA[
+				select projectid,activitychannelid,wtime,
+					   sum(registeruseractive) registeruseractive
+				  from (select t1.projectid,
+							   activitychannelid,
+							   t2.wtime,
+							   registeruseractive
+						  from video.t_mid_video_sdk_current_dw t1,
+							   (select t.wtime, t.dtime
+								  from video.t_bdi_muchtv_video_rundate t
+								 where t.wtime > '{STARTTIME}'
+								   and t.wtime < '{ENDTIME}'
+								   and t.weekdays = 7) t2
+						 where t1.dtime = t2.dtime
+						   and t1.platformid = 'ALL'
+						   and t1.activityid = 'ALL') tt
+				 group by projectid,activitychannelid,wtime
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+    </multiHqlReportIndexs>
+</reportIndexGroup>

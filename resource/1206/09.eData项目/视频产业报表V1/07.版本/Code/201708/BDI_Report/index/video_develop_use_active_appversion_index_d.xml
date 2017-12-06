@@ -1,0 +1,51 @@
+<reportIndexGroup>
+    <multiHqlReportIndexs>
+        <!--  当期 客户端版本 版本号数量  appvernum-->
+        <!--  当期 客户端版本 版本号占比=版本号数量/所有版本号数量 appverpercent -->
+
+        <multiHqlReportIndex>
+            <indexKey>video.develop.active.appversion.d</indexKey>
+            <fieldName>appvernum,appverpercent</fieldName>
+            <hql>
+                <![CDATA[           
+                 select  t1.projectid projectid,t1.platformid  platformid, t1.appversioncode appversioncode,t1.dtime dtime,
+                         cc appvernum,
+                         (cc/total) appverpercent
+                  from (select projectid,
+                               platformid,
+                               if( appversioncode is null ,"none" ,appversioncode )appversioncode,
+                               dtime,
+                               count(distinct(deviceid)) cc
+                         from  (select  deviceid,
+                                                projectid,
+                                                platformid,
+                                                appversioncode,
+                                                date dtime
+                                  from video.t_cdr_sdk_event_join_video_user t
+                                  where t.date > '{STARTTIME}'
+                                      and t.date < '{ENDTIME}' ) tt
+                         group by platformid,
+                                  appversioncode,
+								  projectid,
+								  dtime) t1
+                  left join
+                         (select projectid,
+                                 platformid,
+								 dtime,
+                                  count(distinct(deviceid)) total
+                           from  (select  deviceid,projectid,
+                                                  platformid,
+                                                  date dtime
+                                      from video.t_cdr_sdk_event_join_video_user t
+                                      where t.date > '{STARTTIME}'
+                                        and t.date < '{ENDTIME}' ) tt
+                            group by platformid,
+							         projectid,
+									 dtime) t2
+                  on t1.platformid = t2.platformid  and t1.projectid=t2.projectid and t1.dtime =t2.dtime
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+    </multiHqlReportIndexs>
+</reportIndexGroup>
+               

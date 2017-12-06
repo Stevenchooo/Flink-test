@@ -1,0 +1,112 @@
+<reportIndexGroup>
+    <multiHqlReportIndexs>
+		<!-- 
+		//新增游客数(newvisitor)
+		//在求留存率过程中已经求出该情况的结算数据，直接调用。
+		//修改从模型表中获取newvisitor,totalvisitor,neworderuser,loginuser
+		-->
+        <multiHqlReportIndex>
+            <indexKey>video.edp.user.grab.sdkuser.d</indexKey>
+            <fieldName>newvisitor,totalvisitor,neworderuser,loginuser</fieldName>
+            <hql>
+                <![CDATA[
+				 select projectid, activitychannelid,platformid,dtime, 
+				        sum(newvisitor) newvisitor,
+						sum(totalvisitor) totalvisitor,
+						sum(neworderuser)  neworderuser,
+						sum(loginuser)  loginuser
+			       from video.t_mid_video_sdk_current_d t
+			   	  where t.date > '{STARTTIME}'
+				    and t.date < '{ENDTIME}'
+				    and t.activityid ='ALL'
+				  group by projectid, activitychannelid,platformid, dtime
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+		
+		<!-- 
+		//[201703新增指标@EDP@zwx386873]
+		//游客用户总数(totalvisitor) 截止当日的累计的游客总数，根据设备ID去重；同一个用户更换设备，按照新的游客用户统计。
+		//去除totalvisitor，改为从t_video_sdk_current_d_hbase
+		-->
+		<!--
+		//当期 新增注册用户数 newregisteruser:  新增有注册行为的用户数量。
+		//actionType用户调用接口动作类型：1 注册、2 修改、3 删除。
+		-->
+		<!--  
+		//累计注册用户总数 allregisteruser: 当前有过注册行为的用户总数，用户注销后也计算一个注册用户数。
+		//201611指标名称为【注册用户总数】，201701指标名称修改，指标定义未修改。
+		-->
+		<!--  
+		//注册用户总数 totalregisteruser ：当前在注册状态的用户总数，用户注销后不计算注册用户总数。
+		//操作类型 actionType	用户调用接口动作类型：1 注册、2 修改、3 删除。[20170105@SE规定]：注销即为删除，注销字段为 actiontype = 3
+		-->
+        <multiHqlReportIndex>
+            <indexKey>video.edp.user.grab.columns.d</indexKey>
+            <fieldName>newregisteruser,allregisteruser,totalregisteruser</fieldName>
+            <hql>
+                <![CDATA[
+				 select projectid,activitychannelid,platformid,dtime,
+						newregisteruser,
+						allregisteruser,
+						totalregisteruser
+				  from (select projectid, 
+							   if(t.activitychannelid is null, 'ALL', t.activitychannelid) activitychannelid,
+							   'ALL' platformid,
+							   dtime,
+							   if(t.newregisteruser is null,0,t.newregisteruser) newregisteruser,
+							   if(t.allregisteruser is null,0,t.allregisteruser) allregisteruser,
+							   if(t.totalregisteruser is null,0,t.totalregisteruser) totalregisteruser
+						  from video.t_video_develop_user_active_d_hbase t
+						 where t.dtime > '{STARTTIME}'
+						   and t.dtime < '{ENDTIME}'
+						   and platformid is null
+					)tt
+				 group by projectid,activitychannelid,platformid,dtime,
+						  newregisteruser,
+						  allregisteruser,
+						  totalregisteruser
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+		
+		<!--  
+		//新增订购用户 neworderuser: 当期新增订购产品(包括套餐和按次)的用户数量（包含免费期用户数）
+		//订购信息表 video.t_cdr_top_order_info 操作类型actionType： 1：订购 ; 2：退订 ; 3：点播 ; 4 : 续订 ; 
+		-->
+		<!--当期 新增退订用户 newunsubscribeproduct : 当期有退订产品行为的用户数量-->
+        <multiHqlReportIndex>
+            <indexKey>video.edp.user.grab.orderuser.d</indexKey>
+            <fieldName>newunsubscribeproduct</fieldName>
+            <hql>
+                <![CDATA[
+				 select projectid,
+						activitychannelid,
+						'ALL' platformid,
+						dtime,
+						count(distinct(newlose)) newunsubscribeproduct
+				 from (  select projectid,
+								if(activitychannelid is null, 'none',activitychannelid) activitychannelid,
+								t.date dtime,
+								if(t.actiontype = 2,t.identityid,null) newlose,
+								identityid
+						   from video.t_cdr_top_order_info t 
+						  where t.date > '{STARTTIME}'
+							and t.date < '{ENDTIME}'
+						union all 
+						 select projectid,
+								'ALL' activitychannelid,
+								t.date dtime,
+								if(t.actiontype = 2,t.identityid,null) newlose,
+								identityid
+						   from video.t_cdr_top_order_info t 
+						  where t.date > '{STARTTIME}'
+							and t.date < '{ENDTIME}'
+					)tt
+				 group by projectid,activitychannelid,dtime
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+		
+    </multiHqlReportIndexs>
+</reportIndexGroup>

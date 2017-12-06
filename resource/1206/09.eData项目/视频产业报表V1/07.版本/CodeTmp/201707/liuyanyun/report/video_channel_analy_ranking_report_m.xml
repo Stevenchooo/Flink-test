@@ -1,0 +1,21 @@
+<reportSuite>
+    <reports>
+        <report tableName = "t_video_channel_analy_ranking_m" 
+				keyFields = "projectid,activitychannelid,mtime" 
+				period = "monthly" timeFormat = "yyyyMM" timeField = "mtime">
+            <fieldDefinition>
+                <field name="projectid" regular="[0-9a-zA-Z./-]*"/>
+				<field name="activitychannelid" regular="[0-9a-zA-Z./-]*"/>
+                <field name="mtime"  regular="[0-9a-zA-Z./-]*"/>				
+            </fieldDefinition>
+            <dimensions>
+                <dimension id = "0" >
+                    <reportIndex>
+                        video.channel.ranking.columns.m,
+                        video.channel.ranking.registeractive.m
+                    </reportIndex>
+                </dimension>
+            </dimensions>
+        </report>
+    </reports>
+</reportSuite>

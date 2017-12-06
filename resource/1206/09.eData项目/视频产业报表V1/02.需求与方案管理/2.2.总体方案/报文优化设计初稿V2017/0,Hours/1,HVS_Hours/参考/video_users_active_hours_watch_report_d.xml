@@ -1,0 +1,18 @@
+<reportSuite>
+    <reports>
+        <report tableName = "t_video_vod_active_hours_watch_d" keyFields = "projectid,activitychannelid,htime" period = "hourly" timeFormat = "yyyyMMddHH" timeField = "htime">
+            <fieldDefinition>
+                <field name="projectid" regular="[0-9a-zA-Z./-]*"/>
+				<field name="activitychannelid"  regular="[0-9a-zA-Z./-]*"/>
+				<field name="htime"  regular="[0-9a-zA-Z./-]*"/>
+            </fieldDefinition>
+            <dimensions>
+                <dimension id = "0" >
+                    <reportIndex>
+						video.vod.active.hours.hourswatch.d
+                    </reportIndex>
+                </dimension>
+            </dimensions>
+        </report>
+    </reports>
+</reportSuite>

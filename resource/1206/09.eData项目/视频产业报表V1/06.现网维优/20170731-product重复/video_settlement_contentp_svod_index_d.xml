@@ -1,0 +1,139 @@
+<reportIndexGroup>
+<!--
+//[CP结算统计-SVOD]	SVOD 和 TVOD 差别在于:productType(产品类型:1，商品[点播]、2，合约[cycleType 日套餐、周套餐、月套餐])
+//
+//[EDP]中SVOD(RS) 展示主键 {projectid[固定]、 providerid[筛选]、 cycletype[筛选]、 contentid}
+-->
+    <multiHqlReportIndexs>
+		<!--内容名称 contentname -->
+		<!--归属合作伙伴 companyname-->
+		<!--产品单价 originalPrice -->
+		<!--当期 付费用户SVOD播放时长 payuserplaytime 在正式订购套餐用户播放该内容的时长（免费期不计算时长）-->
+		<!--当期 SVOD播放总时长	totalplaytime 订购套餐用户播放套餐内容的总时长（含免费期播放时长）-->
+		<!--当期 付费订购用户 总共 付费金额 income[美元]、 localincome[本币]-->
+		<!--当期 付费订购用户数 subpayuser	正式订购该套餐产品，并成功付费的用户数-->
+		<multiHqlReportIndex>
+            <indexKey>video.contentp.settlement.svod.columns.d</indexKey>
+            <fieldName>productid,contentname,companyname,originalprice,payuserplaytime,totalplaytime,subpayuser</fieldName>
+            <hql>
+                <![CDATA[
+				select projectid,providerid,cycletype,contentid,dtime,productid,
+					   contentname,
+					   companyname,
+					   originalprice,
+					   sum(payuserplaytime) payuserplaytime,
+					   sum(totalplaytime) totalplaytime,
+					   sum(subpayuser) subpayuser
+				  from (select projectid,
+							   providerid,
+							   if(t.cycletype is null, 'none', t.cycletype) cycletype,
+							   contentid,
+							   dtime,
+							   productid,
+							   contentname,
+							   companyname,
+							   originalprice,
+							   if(t.playtime is null, 0, t.playtime) payuserplaytime,
+							   if(t.totalplaytime is null, 0, t.totalplaytime) totalplaytime,
+							   if(t.payuser is null, 0, t.payuser) subpayuser
+						  from video.t_video_settlement_content_single_d_hbase t
+						 where t.dtime > '{STARTTIME}'
+						   and t.dtime < '{ENDTIME}'
+						   and t.producttype = 2
+						) tt
+				 group by projectid, providerid, cycletype, contentid, dtime, productid, contentname, companyname,originalprice
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+
+		<!--SVOD播放时长占比 playtimeproportion = 付费用户SVOD播放时长/SVOD播放总时长-->
+		<!--
+		//20170503SE@规定：占比=单类型 付费用户SVOD播放时长/单项目 单类型 SVOD播放总时长之和
+		-->
+		<multiHqlReportIndex>
+            <indexKey>video.contentp.settlement.svod.playtimeproportion.d</indexKey>
+            <fieldName>playtimeproportion</fieldName>
+            <hql>
+                <![CDATA[
+				select projectid,providerid,cycletype,contentid,dtime,
+					   (payuserplaytime / sumtypeplaytime) playtimeproportion
+				  from (select t1.projectid,t1.providerid,t1.cycletype,t1.contentid,t1.dtime,
+							   if(t1.payuserplaytime is null, 0, t1.payuserplaytime) payuserplaytime,
+							   if(t2.sumtypeplaytime is null, 0, t2.sumtypeplaytime) sumtypeplaytime
+						  from (select projectid,providerid,if(t.cycletype is null, 'none', t.cycletype) cycletype,contentid,dtime,
+									   if(t.payuserplaytime is null,0,t.payuserplaytime) payuserplaytime
+								  from video.t_video_settlement_contentp_svod_d_hbase t
+								 where t.dtime > '{STARTTIME}'
+								   and t.dtime < '{ENDTIME}') t1
+						  left join (select projectid,cycletype,dtime,sum(totalplaytime) sumtypeplaytime
+									  from (select projectid,
+												   if(t.cycletype is null,'none',t.cycletype) cycletype,
+												   dtime,
+												   if(t.totalplaytime is null,0,t.totalplaytime) totalplaytime
+											  from video.t_video_settlement_contentp_svod_d_hbase t
+											 where t.dtime > '{STARTTIME}'
+											   and t.dtime < '{ENDTIME}') r
+									 group by projectid, cycletype, dtime) t2
+							on t1.projectid = t2.projectid
+						   and t1.cycletype = t2.cycletype
+						   and t1.dtime = t2.dtime) tt
+				 group by projectid,providerid,cycletype,contentid,dtime,
+						  (payuserplaytime / sumtypeplaytime)
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+		
+		<multiHqlReportIndex>
+            <indexKey>video.contentp.settlement.svod.income.d</indexKey>
+            <fieldName>income,localincome</fieldName>
+            <hql>
+                <![CDATA[
+				select projectid,providerid,cycletype,contentid,dtime,
+					   (income * prop) income,
+					   (localincome * prop) localincome
+				  from (select t1.projectid,t1.providerid,t1.cycletype,t1.contentid,t1.dtime,t1.prop,
+							   t2.income,t2.localincome
+						  from (select projectid,providerid,if(t.cycletype is null, 'none', t.cycletype) cycletype,contentid,dtime,
+									   if(t.playtimeproportion is null,0,t.playtimeproportion) prop
+								  from video.t_video_settlement_contentp_svod_d_hbase t
+								 where t.dtime > '{STARTTIME}'
+								   and t.dtime < '{ENDTIME}') t1
+						  left join (select projectid,cycletype,dtime,sum(fee) localincome,sum(fee_usd) income
+									  from (select t1.projectid,if(t2.cycletype is null,'none',t2.cycletype) cycletype,t1.dtime,
+												   if(t1.fee_usd is null, 0, t1.fee_usd) fee_usd,
+												   if(t1.fee is null, 0, t1.fee) fee
+											  from (select projectid,
+														   if(t.productnumber is null,'none',t.productnumber) productid,
+														   t.date dtime,
+														   if(t.fee_usd is null,0,t.fee_usd) fee_usd,
+														   if(t.fee is null,0,t.fee) fee
+													  from video.t_cdr_top_payment_info t
+													 where t.date > '{STARTTIME}'
+													   and t.date < '{ENDTIME}') t1
+											  left join (select aa.productid,aa.cycletype
+														  from (select productid,cycletype,
+														               row_number() over(partition by productid order by operationtime desc) as rn
+														          from video.t_cdr_top_product_info t) aa
+														 where aa.rn = 1) t2
+												on t1.productid = t2.productid) r
+									 group by projectid, cycletype, dtime) t2
+							on t1.projectid = t2.projectid
+						   and t1.cycletype = t2.cycletype
+						   and t1.dtime = t2.dtime) tt
+				 group by projectid,providerid,cycletype,contentid,dtime,
+						 (income * prop),(localincome * prop)
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+		<!--CP SVOD分成收入  hwincome[美元]、 hwincomelocal[本币] {注意：201700306@SE@不写}-->
+		<!--
+		CP播放时长占比CP（日套餐）=
+		（该CP当月日套餐1 SVOD播放总时长+该CP当月日套餐2 SVOD播放总时长+…++该CP当月日套餐N SVOD播放总时长）÷
+		（所有CP当月日套餐1 SVOD播放总时长+所有CP当月日套餐2 SVOD播放总时长+…++所有CP当月日套餐N SVOD播放总时长）
+		即：
+		某CP播放时长占比 = [相同cycleType]的套餐时长之和/所有CP[相同cycleType]的套餐时长之和
+		-->
+		
+
+    </multiHqlReportIndexs>
+</reportIndexGroup>

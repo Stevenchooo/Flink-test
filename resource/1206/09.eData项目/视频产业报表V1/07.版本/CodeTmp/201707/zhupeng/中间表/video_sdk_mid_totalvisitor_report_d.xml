@@ -1,0 +1,157 @@
+<reportSuite>
+    <reports>
+        <report tableName = "t_video_sdk_current_d"
+				keyFields = "projectid,activitychannelid,activityid,platformid,dtime" 
+				period = "daily" timeFormat = "yyyyMMdd" timeField = "dtime">
+            <fieldDefinition>
+                <field name="projectid" regular="[0-9a-zA-Z./-]*"/>
+				<field name="activitychannelid" regular="[0-9a-zA-Z./-]*"/>
+				<field name="activityid" regular="[0-9a-zA-Z./-]*"/>
+				<field name="platformid" regular="[0-9a-zA-Z./-]*"/>
+                <field name="dtime"  regular="[0-9a-zA-Z./-]*"/>
+            </fieldDefinition>
+			<!--
+			  新增游客总用户数，当天结算
+			-->
+			<materialViewers>
+				<materialViewer tableName = "video.t_mid_video_sdk_totalvisitor_d" clear="false" partition="id,date">
+					<hql>
+					<![CDATA[
+				 select projectid,platformid,activitychannelid,activityid,dtime,
+				 count(distinct(userid)) totalvisitor,projectid id, dtime date
+			  from (select t1.c1 projectid, 
+			               'none' activitychannelid, 
+						   'none' activityid,
+						   if(t1.platformid is null, 'none', t1.platformid) platformid,
+						   t2.dtime, 
+						   t1.userid
+					  from (select *
+							  from video.t_cdr_sdk_event_join_video_user t
+							 where t.eventname = 'login'
+							   and t.eventlabel = 'guest') t1,
+						   (select dtime
+							  from video.t_bdi_muchtv_video_rundate t
+							 where t.dtime > '{STARTTIME}'
+							   and t.dtime < '{ENDTIME}') t2
+					 where t1.date <= t2.dtime
+					 union all
+				    select t1.c1 projectid, 
+			               'none' activitychannelid, 
+						   'ALL' activityid,
+						   if(t1.platformid is null, 'none', t1.platformid) platformid,
+						   t2.dtime, 
+						   t1.userid
+					  from (select *
+							  from video.t_cdr_sdk_event_join_video_user t
+							 where t.eventname = 'login'
+							   and t.eventlabel = 'guest') t1,
+						   (select dtime
+							  from video.t_bdi_muchtv_video_rundate t
+							 where t.dtime > '{STARTTIME}'
+							   and t.dtime < '{ENDTIME}') t2
+					 where t1.date <= t2.dtime
+					 union all
+				    select t1.c1 projectid, 
+			               'ALL' activitychannelid, 
+						   'none' activityid,
+						   if(t1.platformid is null, 'none', t1.platformid) platformid,
+						   t2.dtime, 
+						   t1.userid
+					  from (select *
+							  from video.t_cdr_sdk_event_join_video_user t
+							 where t.eventname = 'login'
+							   and t.eventlabel = 'guest') t1,
+						   (select dtime
+							  from video.t_bdi_muchtv_video_rundate t
+							 where t.dtime > '{STARTTIME}'
+							   and t.dtime < '{ENDTIME}') t2
+					 where t1.date <= t2.dtime
+					 union all
+					select t1.c1 projectid, 
+			               'ALL' activitychannelid, 
+						   'ALL' activityid,
+						   if(t1.platformid is null, 'none', t1.platformid) platformid,
+						   t2.dtime, 
+						   t1.userid
+					  from (select *
+							  from video.t_cdr_sdk_event_join_video_user t
+							 where t.eventname = 'login'
+							   and t.eventlabel = 'guest') t1,
+						   (select dtime
+							  from video.t_bdi_muchtv_video_rundate t
+							 where t.dtime > '{STARTTIME}'
+							   and t.dtime < '{ENDTIME}') t2
+					 where t1.date <= t2.dtime
+					 union all
+				    select t1.c1 projectid, 
+			               'none' activitychannelid, 
+						   'ALL' activityid,
+						   'ALL' platformid,
+						   t2.dtime, 
+						   t1.userid
+					  from (select *
+							  from video.t_cdr_sdk_event_join_video_user t
+							 where t.eventname = 'login'
+							   and t.eventlabel = 'guest') t1,
+						   (select dtime
+							  from video.t_bdi_muchtv_video_rundate t
+							 where t.dtime > '{STARTTIME}'
+							   and t.dtime < '{ENDTIME}') t2
+					 where t1.date <= t2.dtime
+					 union all
+					select t1.c1 projectid, 
+			               'none' activitychannelid, 
+						   'none' activityid,
+						   'ALL' platformid,
+						   t2.dtime, 
+						   t1.userid
+					  from (select *
+							  from video.t_cdr_sdk_event_join_video_user t
+							 where t.eventname = 'login'
+							   and t.eventlabel = 'guest') t1,
+						   (select dtime
+							  from video.t_bdi_muchtv_video_rundate t
+							 where t.dtime > '{STARTTIME}'
+							   and t.dtime < '{ENDTIME}') t2
+					 where t1.date <= t2.dtime
+					 union all
+					 select t1.c1 projectid, 
+			               'ALL' activitychannelid, 
+						   'none' activityid,
+						   'ALL' platformid,
+						   t2.dtime, 
+						   t1.userid
+					  from (select *
+							  from video.t_cdr_sdk_event_join_video_user t
+							 where t.eventname = 'login'
+							   and t.eventlabel = 'guest') t1,
+						   (select dtime
+							  from video.t_bdi_muchtv_video_rundate t
+							 where t.dtime > '{STARTTIME}'
+							   and t.dtime < '{ENDTIME}') t2
+					 where t1.date <= t2.dtime
+					 union all
+					select t1.c1 projectid, 
+			               'ALL' activitychannelid, 
+						   'ALL' activityid,
+						   'ALL' platformid,
+						   t2.dtime, 
+						   t1.userid
+					  from (select *
+							  from video.t_cdr_sdk_event_join_video_user t
+							 where t.eventname = 'login'
+							   and t.eventlabel = 'guest') t1,
+						   (select dtime
+							  from video.t_bdi_muchtv_video_rundate t
+							 where t.dtime > '{STARTTIME}'
+							   and t.dtime < '{ENDTIME}') t2
+					 where t1.date <= t2.dtime
+					) tt
+			 group by projectid,activitychannelid,activityid,platformid,dtime
+					]]>
+					</hql>
+				</materialViewer>
+			</materialViewers>
+        </report>
+    </reports>
+</reportSuite>

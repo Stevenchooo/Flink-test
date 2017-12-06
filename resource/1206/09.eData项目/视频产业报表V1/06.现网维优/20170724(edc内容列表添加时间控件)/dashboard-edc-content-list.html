@@ -1,0 +1,514 @@
+<iframe src="exportModel.html" name="exportShow"  style="width:0;height:0"></iframe>
+<link rel="stylesheet" type="text/css" href="resources/default/css/eData/dashboard-user-situation.css"/>
+<link rel="stylesheet" type="text/css" href="resources/default/css/eData/dashboard-custom.css"/>
+<script type="text/javascript" src="js/base_common.js"></script>
+<script type="text/javascript" src="data/channel-data-video.js"></script>
+<script type="text/javascript" src="js/base_common_video.js"></script>
+<script type="text/javascript" src="js/dashboard-common-video.js"></script>
+<script type="text/javascript" src="js/toExcel/getTblDataFF.js"></script>
+<script type="text/javascript" src="js/toExcel/table2excel.js"></script>
+
+<script>
+function doExport(){
+    _edata.push(['setEvent','edp_channel_analysis','export']);
+    getXlsFromTbl('content-list-table','content-list-table.xls','');
+}
+
+
+</script>
+
+<style type="text/css">
+.edc-content-list{
+    text-decoration: underline;
+    }
+    #cooperation_details {
+    float: left;
+}
+.timeposRecent {
+    margin-top: 11px;
+    margin-left: 110px;
+}
+
+.querycontent{
+    margin-right: 30px;
+    margin-top: 2px;
+    float: right;
+    padding: 8px 15px;
+    width: 160px;
+    height: 18px!important;
+    line-height: 1.5;
+    border: none;
+    resize: none;
+    border-radius: 0px;
+    color: #3c4250;
+    font-size:22px;
+}
+
+.table-dashboard td {
+    text-align: center;
+}
+
+</style>
+
+<!-- 导出模板页面 -->
+<!-- <iframe src="exportModel.html" name="exportShow"  style="width:0;height:0"></iframe> -->
+
+
+<div class="content-body-wrap content-no-header">
+    <div class="content-title">
+         <div class="date-wrap float-left" id="nextDate"></div>
+         <div class="droplist-wrap float-right" id="groupDroplist"></div>
+    </div>
+    
+    <div class="data-trend-header clearfix">
+            <!--<div class="date-filter-wrap" id="recent-filter">
+                <span class="btn-date selected">Yesterday</span>
+            </div>           
+            
+            <div class="date-filter-wrap">
+            <span class="btn btnH24-opacity1" onclick="doExport()" id="export">Export</span>
+            </div>
+            -->
+            
+            
+            <div class="date-filter-wrap">
+                <span class="btn btnH24-opacity1" onclick="doQuery()" id="query">Query</span>
+            </div>
+            
+            <input type="text" name="querycontent"  id="querycontent" class="querycontent">
+            
+<!--            <div class="timepos">-->
+               <h3 id="trend" class="timepos float-left" >Details</h3><p id="trend_dtime" class="timeposRecent" style="color: #00B0FF;"></p>
+               
+<!--            </div>-->
+            
+            
+    </div>
+    
+    <div class="cut-line" style="margin-top:8px;"></div>
+    <div class="content-body-wrap" style='padding: 0px 0px 0;margin-top:15px;'>
+        <table id="content-list-table" class="table-dashboard" >
+            <colgroup>
+            <col width="14%"/>
+            <col width="14%"/>
+            <col width="14%"/>
+            <col width="14%"/>
+            <col width="14%"/>
+            <col width="14%"/>
+			<col width="16%"/>
+            </colgroup>
+            <thead>
+               <tr>
+                 <th>contentid</th>
+                 <th>contentname</th>
+                 <th>category</th>
+                 <th>companyname</th>
+                 <th>genreid</th>
+				 <th>language</th>
+                 <th>operation</th>
+               </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+      </div>
+        
+
+    <div class="page clearfix">
+          <div class="page-total" id="totalpage">
+            <div class="inline-block" >
+                Total:<span id="totalrn">--</span>
+            </div>
+          </div>
+            <!--右边按钮区-->
+          <div class="float-right" id="pageSplit">
+          </div>
+    </div>  
+    
+    
+
+</div>        
+<script>
+initChannel();
+function initChannel(){    
+
+ 
+    $("#content-list-table thead th").each(function(index){
+        $(this).html($.i18n.prop("edc.video.content.list.title_"+(parseInt(index))));
+    });    
+
+    $("#export").html($.i18n.prop("video.usertrend.retention.export"));
+    
+    $("#query").html($.i18n.prop("edc.video.content.list.query"));
+
+
+    $("#trend").html($.i18n.prop("edc.video.content.list"));
+ 
+    $("#totalpage .inline-block").html($.i18n.prop("video.usertrend.retention.total"));
+
+    $('#video_overview_all_partner').val($.i18n.prop('video_choose_cp'));
+    
+    $('#video_overview_all_project').val($.i18n.prop('video_choose_project'));      
+}; 
+
+$(document).ready(function(){
+    if ('zh' == getLanguage()){
+        $("#querycontent").attr("placeholder","请输入内容名称或ID");
+    }else{
+        $("#querycontent").attr("placeholder","Video ID or Name");
+    }
+}); 
+
+
+
+
+  
+
+//根据查询条件进行模糊查询
+function doQuery(){
+    
+    var queryvalue=$("#querycontent").val();
+    
+    if(queryvalue==""){
+        getListDataChannnel(endtime);
+    }else{
+   
+    endtime=endtime.replace(/-/g,"");
+    
+    var hql="edc_content_list_d";
+	Portal.getJsonWithCondition(hql,"{'CONTENTID':'"+contentid+"','ENDTIME':'"+endtime+"'}",  
+         
+         function(qResult){
+     
+             if(qResult==null)
+             {
+                 return;
+             }
+             var obj = JSON.parse(qResult);
+             
+             var TIME = obj.DTIME;
+                                      
+             var trendTime = new Array();
+             if (TIME instanceof Array)
+             {
+                 trendTime = TIME;
+             }
+             //一条数据的 后台未以数组返回
+             else
+             {
+                 trendTime[0] = TIME;
+             }
+                         
+             listDetailData = new Array();
+             
+             listContentid= new Array();
+      
+             for (i = 0;i < trendTime.length;i++)
+             { 
+                  
+                 listContentid[i]=new Array();
+                 
+                 listDetailData[i] = new Array();
+                 
+                 for( j=0;j<7;j++)
+                 {
+                     if(j==6)
+                     {    
+                         listContentid[i]=obj.CONTENTID[i];
+                         listDetailData[i][j]=$.i18n.prop("edc.video.common.btn.detail");
+                     }else{                     
+                         listDetailData[i][j] = obj[contentListTable[j]][i];
+                     }
+                         
+             }
+             }
+             var needRow = 0;
+             needRow = listDetailData.length;
+
+             if(needRow == "0")
+             {
+                 needRow= "1";
+             }
+             if (listDetailData.length > 0)
+             {
+                 addTableRows('content-list-table',needRow,listDetailData[0].length);        
+             }
+             else
+             {
+                 addTableRows('content-list-table',12,7);     
+             }
+			 
+             insertTableDetailContentListQuery('content-list-table',listDetailData,listContentid,endtime,queryvalue);
+                          
+             addPageDiv('pageSplit',needRow,12);
+             listSplit('content-list-table',12);
+         });
+    }    
+    
+}
+
+
+
+
+
+
+
+
+function insertTableDetailContentListQuery(table,data,listContentid,contentListTime,queryvalue){
+    
+    if(document.getElementById(table)==null){
+        return;
+    }
+   var oTBody = document.getElementById(table).tBodies[0];
+   //获得body体
+   var colDataRows = oTBody.rows;
+   //alert(JSON.stringify(colDataRows));
+   var rowNum = colDataRows.length;
+   
+   //alert("rowNum:   "+rowNum);
+   //alert("data.length:   "+data.length);
+   
+   
+   //清除表格体数据
+   for (var i = 0;i < rowNum;i++){
+          for (var j = 0;j < colDataRows[i].cells.length;j++){
+               $(colDataRows[i].cells[j]).text("");
+			   $(colDataRows[i].cells[j]).removeAttr('title');
+           }
+   }
+   //更新数据
+   if (data.length < rowNum){
+       rowNum = data.length;
+   }
+   
+   var totalRecords = 0;//定义总记录数
+   var flag = true;//定义布尔变量判断  
+   var tArray = new Array();   //定义一维数组
+   var m=0;//定义新数组下标
+    //alert("rowNum：  "+rowNum+"   colDataRows[0].cells.length  "+colDataRows[0].cells.length+"data.length：  "+data.length+"colDataRows.length：  "+colDataRows.length);
+  
+   for (var i = 0;i < rowNum;i++){
+      flag = true;
+      
+      for (var j = 0;j < colDataRows[i].cells.length;j++){
+	  
+	  
+			//$(colDataRows[i].cells[j]).removeAttr('title');
+       
+            var arrayone=data[i][0].toString();
+            var arraytwo=data[i][1].toString();
+            var queryvalue=queryvalue.toString();
+
+            if(arrayone.indexOf(queryvalue)!=-1){  
+                if (flag)
+                {
+                    totalRecords += 1;                                               
+                    tArray[m]=data[i];
+
+                    m++;
+                    flag = false;
+                }               
+            }else if(arraytwo.indexOf(queryvalue)!=-1){
+                if (flag)
+                {
+                    totalRecords += 1;                                               
+                    tArray[m]=data[i];
+                    
+                    m++;
+                    flag = false;
+                }
+            }           
+            
+        }
+       
+    }
+      
+ 
+
+    for(var i = 0;i < totalRecords;i++){
+       for (var j = 0;j < colDataRows[i].cells.length;j++){
+           
+         if(j==colDataRows[i].cells.length-1){
+		 
+              $(colDataRows[i].cells[j]).attr('class','edc-content-list');
+              $(colDataRows[i].cells[j]).attr('listcontentlisttime',contentListTime);              
+			  $(colDataRows[i].cells[j]).attr('listcontentlistcontentid',tArray[i][0]);
+          }
+		  else{
+                          
+              $(colDataRows[i].cells[j]).attr('title',tArray[i][j]); 
+
+          }  
+		  
+         $(colDataRows[i].cells[j]).text(tArray[i][j]);            
+       }
+    }    
+     $("#totalrn").html(totalRecords);
+   
+
+};
+
+
+
+//内容列表
+function getListDataChannnel(endtime){
+
+
+		var monthtime=endtime;
+
+
+
+       endtime=getBeforeGivenDateVideo(1,monthtime);
+       	endtime=endtime.replace(/-/g,"");
+        $("#trend_dtime").text("("+endtime+"~"+endtime+")");
+       var hql="edc_content_list_d";
+       
+       Portal.getJsonWithCondition(hql,"{'CONTENTID':'"+contentid+"','ENDTIME':'"+endtime+"'}",   
+         
+         function(qResult){
+     
+             if(qResult==null)
+             {
+                 return;
+             }
+			 
+			 
+             var obj = JSON.parse(qResult);
+             
+             var TIME = obj.DTIME;
+                                      
+             var trendTime = new Array();
+             if (TIME instanceof Array)
+             {
+                 trendTime = TIME;
+             }
+             //一条数据的 后台未以数组返回
+             else
+             {
+                 trendTime[0] = TIME;
+             }
+                         
+             listDetailData = new Array();
+             
+             listContentid= new Array();
+      
+             for (i = 0;i < trendTime.length;i++)
+             { 
+                  
+                 listContentid[i]=new Array();
+                 
+                 listDetailData[i] = new Array();
+                 
+                 for( j=0;j<7;j++)
+                 {
+                     if(j==6)
+                     {    
+                         listContentid[i]=obj.CONTENTID[i];
+                         listDetailData[i][j]=$.i18n.prop("edc.video.common.btn.detail");
+                     }else{                     
+                         listDetailData[i][j] = obj[contentListTable[j]][i];
+                     }
+                         
+             }
+             }
+             var needRow = 0;
+             needRow = listDetailData.length;
+
+             if(needRow == "0")
+             {
+                 needRow= "1";
+             }
+             if (listDetailData.length > 0)
+             {
+                 addTableRows('content-list-table',needRow,listDetailData[0].length);        
+             }
+             else
+             {
+                 addTableRows('content-list-table',12,7);     
+             }
+             insertTableDetailContentList('content-list-table',listDetailData,endtime,listContentid);
+             $("#totalrn").html(trendTime.length);
+             addPageDiv('pageSplit',needRow,12);
+             listSplit('content-list-table',12);
+         });
+};
+
+
+
+
+
+
+
+
+function getStartEndTime(starttime,endtime){
+starttime = getBeforeGivenDate(1,endtime);
+endtime=endtime.replace(/-/g,"");
+starttime=starttime.replace(/-/g,"");
+$("#dtime").text("("+starttime+"~"+endtime+")");
+//$("#cooperation_dtime").text("("+starttime+"~"+starttime+")");
+};
+
+//初始化日期
+var nextDate = new UCD.Date(null, "YYYY-MM-dd");
+nextDate.init();
+nextDate.setMode(1);
+nextDate.setAnchor($('#nextDate'));
+
+var newnextDate = new UCD.Date(null, "YYYY-MM-dd");
+newnextDate.init();
+newnextDate.setMode(1);
+newnextDate.setAnchor($('#newnextDate'));
+
+systime=newnextDate.getValue();
+systime=systime.replace(/-/g,"");
+
+var periodFlag = "0";
+var endtime = nextDate.getValue();
+var starttime = getBeforeGivenDate(1,endtime);
+
+var contentid = "ALL";
+var providerid = "ALL";
+var projectid = "ALL";
+
+
+$(function(){
+    nextDate.setOnChanged(function(self){
+
+		endtime=nextDate.getValue();
+
+
+       getListDataChannnel(endtime);
+    });
+    
+    initTabList(function(){
+        //tab 回调函数
+        
+    });
+    
+  // getStartEndTime(starttime,endtime);
+     getListDataChannnel(endtime);
+
+
+    
+    $("#content-list-table").on('click','.edc-content-list',function(){
+        var $parent = $(this);
+		
+        var listplaycontentid = $parent.attr('listcontentlistcontentid');
+		
+        var listplaytime=$parent.attr('listcontentlisttime');
+        
+        document.cookie="listplaycontentid="+listplaycontentid+",listplaytime="+listplaytime;  
+
+        $("#content-body").empty().load("video/dashboard-edc-play-operation-trend-detail.html");
+    });
+    
+      
+
+    
+
+            
+});
+
+
+
+</script>

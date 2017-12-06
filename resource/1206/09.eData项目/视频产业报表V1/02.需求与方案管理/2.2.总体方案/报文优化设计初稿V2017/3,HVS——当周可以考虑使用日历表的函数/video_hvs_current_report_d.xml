@@ -1,0 +1,45 @@
+<reportSuite>
+    <reports>
+        <report tableName = "t_video_hvs_current_d" 
+				keyFields = "projectid,activitychannelid,activityid,dtime" 
+				period = "daily" timeFormat = "yyyyMMdd" timeField = "dtime">
+            <fieldDefinition>
+                <field name="projectid" regular="[0-9a-zA-Z./-]*"/>
+				<field name="activitychannelid" regular="[0-9a-zA-Z./-]*"/>
+				<field name="activityid" regular="[0-9a-zA-Z./-]*"/>
+                <field name="dtime"  regular="[0-9a-zA-Z./-]*"/>
+            </fieldDefinition>
+            <dimensions>
+                <dimension id = "0" >
+                    <reportIndex>
+						video.hvs.current.vod.vodplay.d,
+						video.hvs.current.vod.vodplay.dw,
+                        video.hvs.current.vod.vodplay.dm,
+						video.hvs.current.live.liveplay.d,
+						video.hvs.current.live.liveplay.dw,
+						video.hvs.current.live.liveplay.dm
+                    </reportIndex>
+                </dimension>
+                <dimension id = "0" >
+                    <reportIndex>
+						video.hvs.current.vod.vodavg.d,
+						video.hvs.current.vod.vodtime.dw,
+						video.hvs.current.vod.vodtime.dm,
+						video.hvs.current.live.livetvavg.dw,
+						video.hvs.current.live.livetime.dw,
+						video.hvs.current.live.livetime.dm
+                    </reportIndex>
+                </dimension>
+                <dimension id = "0" >
+                    <reportIndex>
+						video.hvs.current.vod.vodavg.dw,
+						video.hvs.current.vod.vodavg.dm,
+						video.hvs.current.live.livetvavg.dw,
+						video.hvs.current.live.livetvavg.dm,
+						video.hvs.current.live.contentname.d
+                    </reportIndex>
+                </dimension>
+            </dimensions>
+        </report>
+    </reports>
+</reportSuite>

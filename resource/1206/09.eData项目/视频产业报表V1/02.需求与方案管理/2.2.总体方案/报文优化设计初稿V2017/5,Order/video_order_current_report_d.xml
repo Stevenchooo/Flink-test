@@ -1,0 +1,34 @@
+<reportSuite>
+    <reports>
+        <report tableName = "t_video_order_current_d" 
+				keyFields = "projectid,activitychannelid,productid,dtime" 
+				period = "daily" timeFormat = "yyyyMMdd" timeField = "dtime">
+            <fieldDefinition>
+                <field name="projectid" regular="[0-9a-zA-Z./-]*"/>
+				<field name="activitychannelid" regular="[0-9a-zA-Z./-]*"/>
+				<field name="productid"  regular="[0-9a-zA-Z./-]*"/>
+                <field name="dtime"  regular="[0-9a-zA-Z./-]*"/>				
+            </fieldDefinition>
+            <dimensions>
+                <dimension id = "0" >
+                    <reportIndex>
+                        video.order.current.orderuser.d,
+                        video.order.current.product.allorder.d,
+						video.order.current.activity.freeandregular.d,
+						video.order.current.activity.totalorderandlose.d,
+						video.order.current.orderuser.dw,
+						video.order.current.activity.freeandregular.dw,
+						video.order.current.product.orderuser.dm
+                    </reportIndex>
+                </dimension>
+                <dimension id = "0" >
+                    <reportIndex>
+						video.order.current.product.orderuserproportion.d
+                    </reportIndex>
+                </dimension>
+            </dimensions>
+        </report>
+    </reports>
+</reportSuite>
+
+

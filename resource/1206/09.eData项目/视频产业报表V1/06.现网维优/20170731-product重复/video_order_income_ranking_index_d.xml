@@ -1,0 +1,102 @@
+<reportIndexGroup>
+    <multiHqlReportIndexs>
+		<!--  按项目ID，取【支付话单】中，billtype为“400:一次性费用”的话单-->
+		<!--  美元 点播某产品 按次付费收入 newclickincome  -->
+		<!--  本币 点播某产品 按次付费收入 localnewclickincome  -->
+        <multiHqlReportIndex>
+            <indexKey>video.order.income.ranking.clickincome.d</indexKey>
+            <fieldName>newclickincome,localnewclickincome</fieldName>
+            <hql>
+                <![CDATA[
+				 select projectid,
+						activitychannelid,
+						productnumber,
+						dtime,
+						sum( fee_usd )newclickincome,
+						sum( fee ) localnewclickincome
+				 from (  select projectid,
+								if(activitychannelid is null, 'none', activitychannelid) activitychannelid,
+								productnumber,
+								t.date dtime,
+								if(fee_usd is null,0,fee_usd) fee_usd,
+								if(fee is null,0,fee) fee
+						   from video.t_cdr_top_payment_info t 
+						  where t.date > '{STARTTIME}'
+							and t.date < '{ENDTIME}'
+							and t.bill_type = '400'		
+						union all
+						 select projectid,
+								'ALL' activitychannelid,
+								productnumber,
+								t.date dtime,
+								if(fee_usd is null,0,fee_usd) fee_usd,
+								if(fee is null,0,fee) fee
+						   from video.t_cdr_top_payment_info t 
+						  where t.date > '{STARTTIME}'
+							and t.date < '{ENDTIME}'
+							and t.bill_type = '400'							
+					)tt
+				 group by projectid,activitychannelid,productnumber,dtime
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+		
+		<!--  美元 从当年1月1日起，访问点播某产品的累计收入 yearclickincome  -->
+		<!--  本币 从当年1月1日起，访问点播某产品的累计收入 localyearclickincome  -->
+        <multiHqlReportIndex>
+            <indexKey>video.order.income.ranking.yearclick.d</indexKey>
+            <fieldName>yearclickincome,localyearclickincome</fieldName>
+            <hql>
+                <![CDATA[
+				 select projectid,activitychannelid,productnumber,dtime,
+						sum( newclickincome ) yearclickincome,
+						sum( localnewclickincome ) localyearclickincome
+				 from (  select t1.projectid projectid,
+								if(t1.activitychannelid is null, 'ALL', t1.activitychannelid) activitychannelid,
+								t1.productnumber productnumber,
+								t2.dtime dtime,
+								if(t1.newclickincome is null,0,t1.newclickincome) newclickincome,
+								if(t1.localnewclickincome is null,0,t1.localnewclickincome) localnewclickincome
+						   from video.t_video_order_income_ranking_d_hbase t1,
+								(SELECT t.* FROM video.t_bdi_muchtv_video_rundate t 
+											WHERE t.dtime > '{STARTTIME}' AND t.dtime < '{ENDTIME}')t2
+						  where substr(t1.dtime,0,4)=substr(t2.dtime,0,4)
+						    and t1.dtime < from_unixtime(unix_timestamp(date_add(from_unixtime(unix_timestamp(t2.dtime,
+											'yyyyMMdd'),'yyyy-MM-dd'),1),'yyyy-MM-dd'), 'yyyyMMdd') 
+					)tt
+				 group by projectid,activitychannelid,productnumber,dtime
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+		<!--
+		//注意：productname需要放在年收入的后面，可能出现当前无流水，但是年流水存在
+		-->
+		<!--	点播某产品 名称 productname-->
+        <multiHqlReportIndex>
+            <indexKey>video.order.income.ranking.productname.d</indexKey>
+            <fieldName>productname</fieldName>
+            <hql>
+                <![CDATA[
+				 select projectid,activitychannelid,productnumber,dtime,productname
+				 from (  select t1.projectid,
+								if(t1.activitychannelid is null, 'ALL', t1.activitychannelid) activitychannelid,
+								t1.productnumber,
+								t1.dtime,
+								if(t2.productname is null,t1.productnumber,t2.productname) productname
+						   from (select * from video.t_video_order_income_ranking_d_hbase t
+								  where t.dtime > '{STARTTIME}' and t.dtime < '{ENDTIME}') t1
+						   left join
+								(select t.projectid,t.productid,t.productname 
+								   from (select projectid,productid,productname,
+								                row_number() over(partition by productid order by operationtime desc) as rn
+                   						   from video.t_cdr_top_product_info)t
+                   				   where t.rn=1)t2
+						     on t1.projectid =t2.projectid and t1.productnumber=t2.productid
+					)tt
+				 group by projectid,activitychannelid,productnumber,dtime,productname
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+		
+    </multiHqlReportIndexs>
+</reportIndexGroup>

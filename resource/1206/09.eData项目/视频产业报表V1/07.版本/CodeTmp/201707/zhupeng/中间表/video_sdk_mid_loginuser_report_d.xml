@@ -1,0 +1,118 @@
+<reportSuite>
+    <reports>
+        <report tableName = "t_video_sdk_current_d"
+				keyFields = "projectid,activitychannelid,activityid,platformid,dtime" 
+				period = "daily" timeFormat = "yyyyMMdd" timeField = "dtime">
+            <fieldDefinition>
+                <field name="projectid" regular="[0-9a-zA-Z./-]*"/>
+				<field name="activitychannelid" regular="[0-9a-zA-Z./-]*"/>
+				<field name="activityid" regular="[0-9a-zA-Z./-]*"/>
+				<field name="platformid" regular="[0-9a-zA-Z./-]*"/>
+                <field name="dtime"  regular="[0-9a-zA-Z./-]*"/>
+            </fieldDefinition>
+			<!--
+			  登录用户数，当天结算
+			-->
+			<materialViewers>
+				<materialViewer tableName = "video.t_mid_video_sdk_loginuser_d" clear="false" partition="id,date">
+					<hql>
+					<![CDATA[
+				 select projectid,platformid,activitychannelid,activityid,dtime,
+					    count(distinct(userid)) loginuser,
+					    projectid id, dtime date
+				  from ( select t.c1 projectid,
+								if(activitychannelid is null, 'none', activitychannelid) activitychannelid,
+								if(t.activityid is null, 'none', t.activityid) activityid,
+								if(platformid is null, 'none', platformid) platformid,
+								t.date dtime,
+								userid
+						   from video.t_cdr_sdk_event_join_video_user t
+						  where t.date > '{STARTTIME}'
+							and t.date < '{ENDTIME}'
+							and t.eventname = 'login'
+					      union all
+					     select t.c1 projectid,
+								'ALL' activitychannelid,
+								if(t.activityid is null, 'none', t.activityid) activityid,
+								if(platformid is null, 'none', platformid) platformid,
+								t.date dtime,
+								userid
+						   from video.t_cdr_sdk_event_join_video_user t
+						  where t.date > '{STARTTIME}'
+							and t.date < '{ENDTIME}'
+							and t.eventname = 'login'
+					      union all 
+					     select t.c1 projectid,
+								if(activitychannelid is null, 'none', activitychannelid) activitychannelid,
+								'ALL' activityid,
+								if(platformid is null, 'none', platformid) platformid,
+								t.date dtime,
+								userid
+						   from video.t_cdr_sdk_event_join_video_user t
+						  where t.date > '{STARTTIME}'
+							and t.date < '{ENDTIME}'
+							and t.eventname = 'login'
+					      union all 
+					     select t.c1 projectid,
+								if(activitychannelid is null, 'none', activitychannelid) activitychannelid,
+								if(t.activityid is null, 'none', t.activityid) activityid,
+								'ALL' platformid,
+								t.date dtime,
+								userid
+						   from video.t_cdr_sdk_event_join_video_user t
+						  where t.date > '{STARTTIME}'
+							and t.date < '{ENDTIME}'
+							and t.eventname = 'login'
+					      union all 
+					     select t.c1 projectid,
+								'ALL' activitychannelid,
+								'ALL' activityid,
+								if(platformid is null, 'none', platformid) platformid,
+								t.date dtime,
+								userid
+						   from video.t_cdr_sdk_event_join_video_user t
+						  where t.date > '{STARTTIME}'
+							and t.date < '{ENDTIME}'
+							and t.eventname = 'login'
+						  union all 
+					     select t.c1 projectid,
+								'ALL' activitychannelid,
+								if(t.activityid is null, 'none', t.activityid) activityid,
+								'ALL' platformid,
+								t.date dtime,
+								userid
+						   from video.t_cdr_sdk_event_join_video_user t
+						  where t.date > '{STARTTIME}'
+							and t.date < '{ENDTIME}'
+							and t.eventname = 'login'
+						  union all 
+					     select t.c1 projectid,
+								if(activitychannelid is null, 'none', activitychannelid) activitychannelid,
+								'ALL' activityid,
+								'ALL' platformid,
+								t.date dtime,
+								userid
+						   from video.t_cdr_sdk_event_join_video_user t
+						  where t.date > '{STARTTIME}'
+							and t.date < '{ENDTIME}'
+							and t.eventname = 'login'
+						  union all 
+					     select t.c1 projectid,
+								'ALL' activitychannelid,
+								'ALL' activityid,
+								'ALL' platformid,
+								t.date dtime,
+								userid
+						   from video.t_cdr_sdk_event_join_video_user t
+						  where t.date > '{STARTTIME}'
+							and t.date < '{ENDTIME}'
+							and t.eventname = 'login'
+				    )tt
+				 group by projectid,platformid,activitychannelid,activityid,dtime
+					]]>
+					</hql>
+				</materialViewer>
+			</materialViewers>
+        </report>
+    </reports>
+</reportSuite>

@@ -1,0 +1,121 @@
+<reportIndexGroup>
+    <multiHqlReportIndexs>
+		<!--  当期 内容提供商 播放次数 playTimes -->
+        <!--  当期 内容提供商 播放用户数 playUsers -->
+		<!--  当期 内容提供商 播放时长 playTime -->
+        <multiHqlReportIndex>
+            <indexKey>video.cooperation.playvod.d</indexKey>
+			<fieldName>playtimes,playusers,playtime</fieldName>
+            <hql>
+                <![CDATA[
+                 select projectid,activitychannelid,providerid,dtime,
+						count(subscriberid) playtimes,
+						count(distinct(subscriberid)) playusers,
+						sum(unix_timestamp(endtime, 'yyyyMMddHHmmss') - unix_timestamp(starttime, 'yyyyMMddHHmmss')) playtime
+				from   (select t1.projectid,
+							   if(t1.activitychannelid is null, 'none', t1.activitychannelid) activitychannelid,
+							   if(t1.providerid is null,'none',t1.providerid) providerid,
+							   t2.dtime dtime,
+							   if(substr(t1.starttime, 0, 8) < t2.dtime,
+								  from_unixtime(unix_timestamp(t2.dtime,'yyyyMMdd'),'yyyyMMddHHmmss'),
+								  t1.starttime) starttime,
+							   if(substr(t1.endtime, 0, 8) > t2.dtime,
+							      from_unixtime(unix_timestamp(date_add(from_unixtime(unix_timestamp(t2.dtime,
+										'yyyyMMdd'),'yyyy-MM-dd'),1),'yyyy-MM-dd'),'yyyyMMddHHmmss'),
+								  t1.endtime) endtime,
+							   subscriberid
+						  from video.t_cdr_vod_watch_event t1,
+							   (SELECT t.dtime
+								  FROM video.t_bdi_muchtv_video_rundate t
+								 WHERE t.dtime > '{STARTTIME}'
+								   AND t.dtime < '{ENDTIME}') t2
+						 where (t1.date < t2.dtime AND substr(t1.endtime, 0, 8) >= t2.dtime)
+							or  t1.date = t2.dtime
+					union all
+						select t1.projectid,
+							   'ALL' activitychannelid,
+							   if(t1.providerid is null,'none',t1.providerid) providerid,
+							   t2.dtime dtime,
+							   if(substr(t1.starttime, 0, 8) < t2.dtime,
+								  from_unixtime(unix_timestamp(t2.dtime,'yyyyMMdd'),'yyyyMMddHHmmss'),
+								  t1.starttime) starttime,
+							   if(substr(t1.endtime, 0, 8) > t2.dtime,
+							      from_unixtime(unix_timestamp(date_add(from_unixtime(unix_timestamp(t2.dtime,
+										'yyyyMMdd'),'yyyy-MM-dd'),1),'yyyy-MM-dd'),'yyyyMMddHHmmss'),
+								  t1.endtime) endtime,
+							   subscriberid
+						  from video.t_cdr_vod_watch_event t1,
+							   (SELECT t.dtime
+								  FROM video.t_bdi_muchtv_video_rundate t
+								 WHERE t.dtime > '{STARTTIME}'
+								   AND t.dtime < '{ENDTIME}') t2
+						 where (t1.date < t2.dtime AND substr(t1.endtime, 0, 8) >= t2.dtime)
+							or  t1.date = t2.dtime
+				)tt
+				group by projectid,activitychannelid,providerid,dtime
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+
+		
+		<!--  内容提供商 人均播放时长=播放时长/播放用户数 perCapitaPlayTime -->
+		<!--  内容提供商 人均播放次数 perCapitaPlay -->
+		<!--  内容提供商 次均播放时长=播放时长/播放次数 avgVideoTime -->
+        <multiHqlReportIndex>
+            <indexKey>video.cooperation.avgvod.d</indexKey>
+            <fieldName>percapitaplaytime,percapitaplay,avgvideotime</fieldName>
+            <hql>
+                <![CDATA[
+				select projectid,activitychannelid,providerid,dtime,
+					   (playtime / playusers) percapitaplaytime,
+					   (playtimes / playusers) percapitaplay,
+					   (playtime / playtimes) avgvideotime
+				  from (select projectid,
+							   if(activitychannelid is null, 'ALL', activitychannelid) activitychannelid,
+							   providerid,
+							   dtime,
+							   if(playtime is null, 0, playtime) playtime,
+							   if(playtimes is null, 0, playtimes) playtimes,
+							   if(playusers is null, 0, playusers) playusers
+						  from video.t_video_cooperation_portrait_d_hbase t
+						 where t.dtime > '{STARTTIME}'
+						   and t.dtime < '{ENDTIME}') tt
+				 group by projectid,activitychannelid,providerid,dtime,
+						  (playtime / playusers),
+						  (playtimes / playusers),
+						  (playtime / playtimes)
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+		
+		<!--  	   内容提供商 名称 companyname-->
+        <multiHqlReportIndex>
+            <indexKey>video.cooperation.companyname.d</indexKey>
+            <fieldName>companyname</fieldName>
+            <hql>
+                <![CDATA[
+				select projectid, activitychannelid, providerid, dtime, companyname
+				  from (select t1.projectid,
+							   if(t1.activitychannelid is null, 'ALL', t1.activitychannelid) activitychannelid,
+							   t1.providerid,
+							   t1.dtime,
+							   if(t2.partnerid is null, t1.providerid, t2.companyname) companyname
+						  from (select *
+								  from video.t_video_cooperation_portrait_d_hbase t
+								 where t.dtime > '{STARTTIME}'
+								   and t.dtime < '{ENDTIME}') t1
+						  left join ( select aa.provideridinlocal partnerid,aa.companyname
+									   from (
+											 select provideridinlocal, companyname,
+													row_number() over(partition by provideridinlocal order by companyname ) as rn
+												 from video.t_cdr_cp_relation
+									   ) aa
+									  where aa.rn=1) t2
+							on t1.providerid = t2.partnerid) tt
+				 group by projectid, activitychannelid, providerid, dtime, companyname
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+        
+    </multiHqlReportIndexs>
+</reportIndexGroup>

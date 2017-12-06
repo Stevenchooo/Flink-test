@@ -1,0 +1,35 @@
+<reportSuite>
+    <reports>
+        <report tableName = "t_video_useractivity_current_d" 
+				keyFields = "projectid,activitychannelid,activityid,dtime" 
+				period = "daily" timeFormat = "yyyyMMdd" timeField = "dtime">
+            <fieldDefinition>
+                <field name="projectid" regular="[0-9a-zA-Z./-]*"/>
+				<field name="activitychannelid" regular="[0-9a-zA-Z./-]*"/>
+				<field name="activityid"  regular="[0-9a-zA-Z./-]*"/>
+                <field name="dtime"  regular="[0-9a-zA-Z./-]*"/>				
+            </fieldDefinition>
+            <dimensions>
+                <dimension id = "0" >
+                    <reportIndex>
+                        video.ua.current.activity.clickrate.d,
+                        video.ua.current.settlement.cpclickrate.d,
+						video.ua.current.conversionquantity.d,
+						video.ua.current.activity.conversionquantity.dw,
+						video.ua.current.activity.clickrate.dm,
+						video.ua.current.settlement.cpclickrate.dm,
+						video.ua.current.conversionquantity.dm
+                    </reportIndex>
+                </dimension>
+                <dimension id = "0" >
+                    <reportIndex>
+						video.ua.current.activity.clickrate.dw,
+						video.ua.current.activity.clickrate.dm
+                    </reportIndex>
+                </dimension>
+            </dimensions>
+        </report>
+    </reports>
+</reportSuite>
+
+

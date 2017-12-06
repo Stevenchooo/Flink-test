@@ -1,0 +1,204 @@
+<reportIndexGroup>
+    <multiHqlReportIndexs>
+        <multiHqlReportIndex>
+            <indexKey>video.edp.2Bdata.device.d</indexKey>
+            <fieldName>newvisitor,activeusers,totalvisitor,registeruseractive</fieldName>
+            <hql>
+                <![CDATA[
+				select date dtime,
+					   projectid,
+					   newvisitor,           --设备业务激活
+					   activeusers,          --设备业务日活
+					   totalvisitor,         --总设备业务激活
+					   registeruseractive   --帐号日活
+				  from video.t_mid_video_sdk_current_d 
+				 where date > '{STARTTIME}' 
+				   and date < '{ENDTIME}'
+				   and activitychannelid='ALL'
+				   and activityid='ALL'
+				   and platformid='ALL';
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+		<multiHqlReportIndex>
+            <indexKey>video.edp.2Bdata.device_m.d</indexKey>
+            <fieldName>activeusers_m,registeruseractive_m</fieldName>
+            <hql>
+                <![CDATA[
+			select date dtime,
+				   projectid,
+				   activeusers   activeusers_m        --设备业务月活
+				   registeruseractive registeruseractive_m   --帐号月活
+			  from video.t_mid_video_sdk_current_dm 
+			 where date > '{STARTTIME}' 
+			   and date < '{ENDTIME}'
+			   and activitychannelid='ALL'
+			   and activityid='ALL'
+			   and platformid='ALL';
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+		<multiHqlReportIndex>
+            <indexKey>video.edp.2Bdata.account.d</indexKey>
+            <fieldName>newregisteruser,totalregisteruser,totalactiveaccount</fieldName>
+            <hql>
+                <![CDATA[
+			 select dtime,
+					projectid,
+					newregisteruser,                      --新注册帐号
+					totalregisteruser                     --总注册帐号
+					totalregisteruser totalactiveaccount  --总活跃帐号
+			   from video.t_video_develop_user_active_d_hbase 
+			  where dtime > '{STARTTIME}' 
+				and dtime < '{ENDTIME}'
+				and activitychannelid is null
+				and platformid is null;
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+		<multiHqlReportIndex>
+            <indexKey>video.edp.2Bdata.account_newpay.d</indexKey>
+            <fieldName>newpay</fieldName>
+            <hql>
+                <![CDATA[
+			  select date dtime,
+				     projectid,
+				     count(distinct identityid) newpay  --新支付帐号
+			    from video.t_cdr_top_payment_info t
+				left join ( select distinct r2.dtime dtime,r1.userid
+							  from video.t_cdr_sdk_event_join_video_user r1,
+								   (select t.dtime
+									  from video.t_bdi_muchtv_video_rundate t
+									 where t.dtime > '{STARTTIME}'
+									   and t.dtime < '{ENDTIME}') r2
+							 where r1.date >
+								   from_unixtime(unix_timestamp(date_sub(from_unixtime(unix_timestamp(r2.dtime,
+									'yyyyMMdd'),'yyyy-MM-dd'),30*6),'yyyy-MM-dd'),'yyyyMMdd')
+							   and r1.date <
+								   from_unixtime(unix_timestamp(date_add(from_unixtime(unix_timestamp(r2.dtime,
+									'yyyyMMdd'),'yyyy-MM-dd'),1),'yyyy-MM-dd'),'yyyyMMdd')
+							   and r1.eventname = 'login'
+							   and r1.eventlabel = 'guest'
+							)s
+				   on t.identityid = s.userid and t.date=s.dtime
+				where t.date > '{STARTTIME}'
+				  and t.date < '{ENDTIME}'
+				  and s.userid is null and s.dtime is null
+				group by date,
+						 projectid;
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+		<multiHqlReportIndex>
+            <indexKey>video.edp.2Bdata.account_pay.d</indexKey>
+            <fieldName>pay</fieldName>
+            <hql>
+                <![CDATA[
+			    select date dtime,
+					   projectid,
+					   count(distinct identityid) pay  --支付帐号日活
+				  from video.t_cdr_top_payment_info t
+				 where t.date > '{STARTTIME}'
+				   and t.date < '{ENDTIME}' 
+				 group by date,
+						  projectid;
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+		<multiHqlReportIndex>
+            <indexKey>video.edp.2Bdata.account_pay_m.d</indexKey>
+            <fieldName>pay_m</fieldName>
+            <hql>
+                <![CDATA[
+			       select t2.dtime,
+						  projectid,
+						  count(distinct identityid) pay_m  --支付帐号月活
+					from (select projectid,t.date dtime,identityid
+						  from video.t_cdr_top_payment_info t
+						 where substr(t.date, 0, 6) >= substr('{STARTTIME}', 0, 6)
+						   and substr(t.date, 0, 6) <= substr('{ENDTIME}', 0, 6)) t1,
+					   (select t.dtime
+						  from video.t_bdi_muchtv_video_rundate t
+						 where t.dtime > '{STARTTIME}'
+						   and t.dtime < '{ENDTIME}') t2
+				 where substr(t1.dtime, 0, 6) = substr(t2.dtime, 0, 6)
+				   and t1.dtime <= t2.dtime
+				 group by t2.dtime,
+						  projectid;
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+		<multiHqlReportIndex>
+            <indexKey>video.edp.2Bdata.account_paytotal.d</indexKey>
+            <fieldName>paytotal</fieldName>
+            <hql>
+                <![CDATA[
+			       select t2.dtime,
+						   projectid,
+						   count(distinct identityid) paytotal   --总支付帐号
+					  from video.t_cdr_top_payment_info t1,
+						   (select dtime
+							  from video.t_bdi_muchtv_video_rundate t
+							 where t.dtime > '{STARTTIME}'
+							   and t.dtime < '{ENDTIME}') t2
+					 where t1.date <= t2.dtime	
+					 group by t2.dtime,
+							  projectid 
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+		<multiHqlReportIndex>
+            <indexKey>video.edp.2Bdata.income.d</indexKey>
+            <fieldName>newincome,arpuincome</fieldName>
+            <hql>
+                <![CDATA[
+			     select dtime,
+						projectid,
+						newincome,     --消费流水
+						arpuincome     --支付帐号ARPU
+				   from video.t_video_order_income_analy_d_hbase t
+				  where t.dtime > '{STARTTIME}'
+					and t.dtime < '{ENDTIME}'
+					and activitychannelid is null;
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+			<multiHqlReportIndex>
+            <indexKey>video.edp.2Bdata.income.d</indexKey>
+            <fieldName>newincome,arpuincome</fieldName>
+            <hql>
+                <![CDATA[
+			    select dtime,
+					   projectid,
+					   videosnumber,     --点播内容数量
+					   playtimes,        --播放总次数
+					   playusers,        --播放总用户数
+					   playtime,         --播放总时长
+					   percapitaplaytime,--人均播放时长
+					   percapitaplay,    --人均播放次数
+					   avgvideotime      --次均播放时长
+				  from video.t_video_vod_content_analyse_d_hbase t
+				 where t.dtime > '{STARTTIME}'
+				   and t.dtime < '{ENDTIME}'
+				   and activitychannelid is null
+				   and contentid is null;
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+		<multiHqlReportIndex>
+            <indexKey>video.edp.2Bdata.income_rate.d</indexKey>
+            <fieldName>devicearpu,accountarpu</fieldName>
+            <hql>
+                <![CDATA[
+			     select dtime,
+				        projectid,
+						if(activeusers is null or activeusers=0,0,newincome/activeusers) devicearpu,                          --设备业务ARPU 
+						if(registeruseractive is null or registeruseractive=0,0, newincome/registeruseractive) accountarpu,   --帐号ARPU
+				   from video.t_video_2BData_data_d t
+				  where t.dtime > '{STARTTIME}'
+				    and t.dtime < '{ENDTIME}'
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+    </multiHqlReportIndexs>
+</reportIndexGroup>

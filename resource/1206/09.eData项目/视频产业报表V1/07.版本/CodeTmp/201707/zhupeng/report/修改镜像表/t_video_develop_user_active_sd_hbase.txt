@@ -1,0 +1,36 @@
+DROP TABLE video.t_video_develop_user_active_sd_hbase;
+CREATE EXTERNAL TABLE video.t_video_develop_user_active_sd_hbase
+(
+key string,
+projectid string,
+activitychannelid string,
+platformid string,
+dtime string,
+activeusers int,
+dayactiveusers int,
+registeruseractive int,
+registeruseractiverate double,
+watchusers int,
+totalregisteruser int,
+totalvisitor int,
+newregisteruser int,
+newcanceluser int
+)
+STORED BY 'org.apache.hadoop.hive.hbase.HBaseStorageHandler' 
+WITH SERDEPROPERTIES ("hbase.columns.mapping" = ":key,
+indexvalue:PROJECTID,
+indexvalue:ACTIVITYCHANNELID,
+indexvalue:PLATFORMID,
+indexvalue:DTIME,
+indexvalue:ACTIVEUSERS,
+indexvalue:DAYACTIVEUSERS,
+indexvalue:REGISTERUSERACTIVE,
+indexvalue:REGISTERUSERACTIVERATE,
+indexvalue:WATCHUSERS,
+indexvalue:TOTALREGISTERUSER,
+indexvalue:TOTALVISITOR,
+indexvalue:NEWREGISTERUSER,
+indexvalue:NEWCANCELUSER
+") 
+TBLPROPERTIES ("hbase.table.name" = "t_video_develop_user_active_sd");
+grant select,delete,insert on t_video_develop_user_active_sd_hbase to user mapred;

@@ -1,0 +1,41 @@
+thrift://100.109.19.66:21088,thrift://100.109.19.159:21088
+jdbc:hive2://ha-cluster/default;zk.quorum=100.109.19.66,100.109.19.159;zk.port=24002;sasl.qop=auth-conf;auth=KERBEROS;principal=hive/hadoop.hadoop.com@HADOOP.COM
+ where date = '#fmtTime(addhours(sysdate(),-24),"yyyyMMdd")#'
+ #system.video_hive_url#
+ #system.video_hive_jdbc#
+ 
+video_dashboard_hosting_#flow.Dtime#.txt
+ #system.twobdata_local#=/home/bdi/edata/video/2BData
+ #system.twobdata_remote#=/home/bdi/edata/video/2BDataremote
+ 
+ ftp：TWOBData|TWOBData
+
+
+select dtime,
+       projectid,
+	   if(newvisitor is null,0,newvisitor) newvisitor,                               --newdeivceactivate
+	   if(activeusers is null,0,activeusers) activeusers,                            --deivceactivate_d
+	   if(activeusers_m is null,0,activeusers_m) activeusers_m,                      --deivceactivate_m
+	   if(totalvisitor is null,0,totalvisitor) totalvisitor,                         --totaldeviceactivate
+	   if(newregisteruser is null,0,newregisteruser) newregisteruser,                --newregisteraccount
+	   if(registeruseractive is null,0,registeruseractive) registeruseractive,       --registeractivate_d
+	   if(registeruseractive_m is null,0,registeruseractive_m) registeruseractive_m, --registeractivate_m
+	   if(totalregisteruser is null,0,totalregisteruser) totalregisteruser,          --totalregisteraccount
+	   if(totalactiveaccount is null,0,totalactiveaccount) totalactiveaccount,       --totalactivate
+	   if(newpay is null,0,newpay) newpay,                                           --newpayaccount   
+       if(pay is null,0,pay) pay,                                                    --payaccountactivate_d	   
+	   if(pay_m is null,0,pay_m) pay_m,                                              --payaccountactivate_m
+	   if(paytotal is null,0,paytotal) paytotal,                                     --totalpayaccount
+	   round(if(newincome is null,0,newincome)) newincome,                           --payamount
+	   round(if(devicearpu is null,0,devicearpu)) devicearpu,                        --devicearpu
+	   round(if(accountarpu is null,0,accountarpu)) accountarpu,                     --accountarpu
+	   round(if(arpuincome is null,0,arpuincome)) arpuincome,                        --payaccountarpu
+	   if(videosnumber is null,0,videosnumber) videosnumber,                         --videos
+	   if(playtimes is null,0,playtimes) playtimes,                                  --views
+	   if(playusers is null,0,playusers) playusers,                                  --viewers
+	   if(playtime is null,0,playtime) playtime,                                     --totalviewminute
+	   round(if(percapitaplaytime is null,0,percapitaplaytime)) percapitaplaytime,   --avgviewminuteperviewer
+	   round(if(percapitaplay is null,0,percapitaplay)) percapitaplay,               --avgviewsperviewer
+	   round(if(avgvideotime is null,0,avgvideotime)) avgvideotime                   --avgminuteperview
+  from video.t_video_2BData_data_d_hbase
+ where dtime = '#fmtTime(addhours(sysdate(),-24),"yyyyMMdd")#'

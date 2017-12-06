@@ -1,0 +1,1146 @@
+<reportIndexGroup>
+    <multiHqlReportIndexs>
+        <!--新订购会员退订数,新订购会员主动退订数,新订购会员客服退订数-->  
+        <multiHqlReportIndex>
+            <indexKey>game.affiliation.tnewuserunsubusercnt_actunsubnumofnewsubmem_cusunsubnumofnewsubmem.d</indexKey>
+            <fieldName>tnewuserunsubusercnt,actunsubnumofnewsubmem,cusunsubnumofnewsubmem</fieldName>
+            <hql>
+                <![CDATA[
+                    select projectid,relchannel,affiliatechannelid,partnerid,chargechannelid,currency,activityid,dtime,
+                           sum(tnewuserunsubusercnt) tnewuserunsubusercnt,
+                           sum(actunsubnumofnewsubmem) actunsubnumofnewsubmem,
+                           sum(cusunsubnumofnewsubmem) cusunsubnumofnewsubmem
+                      from (select t1.projectid,
+                                   nvl(t1.relchannel, 'none') relchannel,
+                                   nvl(t1.affiliatechannelid, 'none') affiliatechannelid,
+                                   nvl(t2.activityid, 'none') activityid,
+                                   nvl(t1.partnerid, 'none') partnerid,
+                                   nvl(t1.chargechannelid, 'none') chargechannelid,
+                                   nvl(t1.currency, 'none') currency,
+                                   t1.dtime,
+                                   t1.tnewuserunsubusercnt,
+                                   t1.actunsubnumofnewsubmem,
+                                   t1.cusunsubnumofnewsubmem
+                              from (select t.projectid,
+                                           t.relchannel,
+                                           t.affiliatechannelid,
+                                           t.activityid,
+                                           t.promotioncpid partnerid,
+                                           t.chargechannelid,
+                                           t.currency,
+                                           t.dtime,
+                                           1 tnewuserunsubusercnt,
+                                           if(t.unsubtype = 1, 1, 0) actunsubnumofnewsubmem,
+                                           if(t.unsubtype in (2, 4), 1, 0) cusunsubnumofnewsubmem
+                                      from game.T_MID_JOIN_VIPSTATUS t
+                                     where t.chargetype = 4
+                                       and t.chargeresult = 0
+                                       and from_unixtime(unix_timestamp(substr(t.timestamp, 1, 10),
+                                                                        'yyyy-MM-dd'),
+                                                         'yyyyMMdd') = dtime
+                                       and datediff(t.timestamp, t.subscribetime) < 1
+                                       and t.dtime > '{STARTTIME}'
+                                       and t.dtime < '{ENDTIME}'
+                                       and t.projectid in ({PROJECTIDS})) t1
+                              left outer join game.t_bfm_activity t2
+                                on t1.projectid = t2.projectid
+                               and t1.activityid = t2.activityid
+                             where t2.activityid is not null) t
+                     group by projectid,relchannel,affiliatechannelid,partnerid,chargechannelid,currency,activityid,dtime
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+        <!--非新增会员退订数,非新增会员主动退订数,非新增会员客服代退订数 -->  
+        <multiHqlReportIndex>
+            <indexKey>game.affiliation.tunsubscribevips_tuserunsubusercnt_cusunsubnumofnotnewsubmem.d</indexKey>
+            <fieldName>tunsubscribevips,tuserunsubusercnt,cusunsubnumofnotnewsubmem</fieldName>
+            <hql>
+                <![CDATA[
+                    select projectid,relchannel,affiliatechannelid,partnerid,chargechannelid,currency,activityid,dtime,
+                           sum(tunsubscribevips) tunsubscribevips,
+                           sum(tuserunsubusercnt) tuserunsubusercnt,
+                           sum(cusunsubnumofnotnewsubmem) cusunsubnumofnotnewsubmem
+                      from (select t1.projectid,
+                                   nvl(t1.relchannel, 'none') relchannel,
+                                   nvl(t1.affiliatechannelid, 'none') affiliatechannelid,
+                                   nvl(t2.activityid, 'none') activityid,
+                                   nvl(t1.partnerid, 'none') partnerid,
+                                   nvl(t1.chargechannelid, 'none') chargechannelid,
+                                   nvl(t1.currency, 'none') currency,
+                                   t1.dtime,
+                                   t1.tunsubscribevips,
+                                   t1.tuserunsubusercnt,
+                                   t1.cusunsubnumofnotnewsubmem
+                              from (select t.projectid,
+                                           t.relchannel,
+                                           t.affiliatechannelid,
+                                           t.activityid,
+                                           t.promotioncpid partnerid,
+                                           t.chargechannelid,
+                                           t.currency,
+                                           t.dtime,
+                                           1 tunsubscribevips,
+                                           if(t.unsubtype = 1, 1, 0) tuserunsubusercnt,
+                                           if(t.unsubtype in (2, 4), 1, 0) cusunsubnumofnotnewsubmem
+                                      from game.T_MID_JOIN_VIPSTATUS t
+                                     where t.chargetype = 4
+                                       and t.chargeresult = 0
+                                       and from_unixtime(unix_timestamp(substr(t.timestamp, 1, 10),
+                                                                        'yyyy-MM-dd'),
+                                                         'yyyyMMdd') = dtime
+                                       and (t.subscribetime is null or
+                                           datediff(t.timestamp, t.subscribetime) >= 1)
+                                       and t.dtime > '{STARTTIME}'
+                                       and t.dtime < '{ENDTIME}'
+                                       and t.projectid in ({PROJECTIDS})) t1
+                              left outer join game.t_bfm_activity t2
+                                on t1.projectid = t2.projectid
+                               and t1.activityid = t2.activityid
+                             where t2.activityid is not null) t
+                     group by projectid,relchannel,affiliatechannelid,partnerid,chargechannelid,currency,activityid,dtime
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+        <!--新增会员数 -->
+        <multiHqlReportIndex>
+            <indexKey>game.affiliation.tnewvips.d</indexKey>
+            <fieldName>tnewvips</fieldName>
+            <hql>
+                <![CDATA[
+                select projectid,relchannel,affiliatechannelid,partnerid,chargechannelid,currency,activityid,dtime,tnewvips
+                  from (select t1.projectid,
+                               nvl(t1.relchannel, 'none') relchannel,
+                               nvl(t1.affiliatechannelid, 'none') affiliatechannelid,
+                               nvl(t2.activityid, 'none') activityid,
+                               nvl(t1.partnerid, 'none') partnerid,
+                               nvl(t1.chargechannelid, 'none') chargechannelid,
+                               nvl(t1.currency, 'none') currency,
+                               t1.dtime,
+                               count(t1.userid) tnewvips
+                          from (select t.projectid, t.relchannel, t.affiliatechannelid,  t.activityid, t.promotioncpid partnerid, t.chargechannelid, t.currency, t.dtime, t.userid
+                                  from game.T_MID_JOIN_VIPSTATUS t
+                                 where t.chargetype = 2
+                                   and t.chargeresult = 0
+                                   and from_unixtime(unix_timestamp(substr(t.timestamp, 1, 10), 'yyyy-MM-dd'), 'yyyyMMdd') = dtime
+                                   and t.dtime > '{STARTTIME}'
+                                   and t.dtime < '{ENDTIME}'
+                                   and t.projectid in ({PROJECTIDS})) t1
+                          left outer join game.t_bfm_activity t2
+                            on t1.projectid = t2.projectid
+                           and t1.activityid = t2.activityid
+                         where t2.activityid is not null
+                         group by t1.projectid,
+                                  nvl(t1.relchannel, 'none'),
+                                  nvl(t1.affiliatechannelid, 'none'),
+                                  nvl(t2.activityid, 'none'),
+                                  nvl(t1.partnerid, 'none'),
+                                  nvl(t1.chargechannelid, 'none'),
+                                  nvl(t1.currency, 'none'),
+                                  t1.dtime) tb
+                group by projectid,relchannel,affiliatechannelid,partnerid,chargechannelid,currency,activityid,dtime,tnewvips
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+        <!--7日留存会员数 -->
+        <multiHqlReportIndex>
+            <indexKey>game.affiliation.sevendaysrematevips.d</indexKey>
+            <fieldName>sevendaysrematevips</fieldName>
+            <hql>
+                <![CDATA[
+                select projectid,relchannel,affiliatechannelid,partnerid,chargechannelid,currency,activityid,dtime, count(distinct(userid)) sevendaysrematevips
+                  from (select t1.projectid,
+                               nvl(t1.relchannel, 'none') relchannel,
+                               nvl(t1.affiliatechannelid, 'none') affiliatechannelid,
+                               nvl(t1.promotioncpid, 'none') partnerid,
+                               nvl(t1.chargechannelid, 'none') chargechannelid,
+                               nvl(t1.activityid, 'none') activityid,
+                               nvl(t1.currency, 'none') currency,
+                               t1.dtime,
+                               t1.userid
+                          from game.T_MID_JOIN_SUBQUERYTWO t1) t
+                group by projectid,relchannel,affiliatechannelid,partnerid,chargechannelid,currency,activityid,dtime
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+        <!--应收租会员数 -->
+        <multiHqlReportIndex>
+            <indexKey>game.affiliation.grantcollectvips.d</indexKey>
+            <fieldName>grantcollectvips</fieldName>
+            <hql>
+                <![CDATA[
+                select projectid,relchannel,affiliatechannelid,partnerid,chargechannelid,currency,activityid,dtime,
+                       count(distinct(userid)) grantcollectvips
+                  from (select t1.projectid,
+                               nvl(t1.relchannel, 'none') relchannel,
+                               nvl(t1.affiliatechannelid, 'none') affiliatechannelid,
+                               nvl(t2.activityid, 'none') activityid,
+                               nvl(t1.promotioncpid, 'none') partnerid,
+                               nvl(t1.chargechannelid, 'none') chargechannelid,
+                               nvl(t1.currency, 'none') currency,
+                               t1.date dtime,
+                               t1.userid userid
+                          from (select t1.projectid,
+                                       t1.date,
+                                       t1.activityid,
+                                       t1.promotioncpid,
+                                       t1.relchannel,
+                                       t1.affiliatechannelid,
+                                       t1.chargechannelid,
+                                       t1.currency,
+                                       concat(t1.productid, t1.paymentaccountid) userid
+                                  from game.t_cdr_payment t1
+                                 where t1.subtype = 1
+                                   and (t1.producttype = 0 or t1.producttype = 1 or t1.producttype is null)
+                                   and t1.date > '{STARTTIME}'
+                                   and t1.date < '{ENDTIME}'
+                                   and t1.id in ({PROJECTIDS})) t1
+                          left outer join game.t_bfm_activity t2
+                            on t1.projectid = t2.projectid
+                           and t1.activityid = t2.activityid
+                         where t2.activityid is not null
+                         group by t1.projectid,
+                                  nvl(t1.relchannel, 'none'),
+                                  nvl(t1.affiliatechannelid, 'none'),
+                                  nvl(t2.activityid, 'none'),
+                                  nvl(t1.promotioncpid, 'none'),
+                                  nvl(t1.chargechannelid, 'none'),
+                                  nvl(t1.currency, 'none'),
+                                  t1.date,
+                                  t1.userid) t
+                 group by projectid,relchannel,affiliatechannelid,partnerid,chargechannelid,currency,activityid,dtime
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+        <!--成功收租会员数 -->
+        <multiHqlReportIndex>
+            <indexKey>game.affiliation.treceivablevips.d</indexKey>
+            <fieldName>treceivablevips</fieldName>
+            <hql>
+                <![CDATA[
+                select projectid,relchannel,affiliatechannelid,partnerid,chargechannelid,currency,activityid,dtime,
+                       count(distinct(userid)) treceivablevips
+                  from (select t1.projectid,
+                               nvl(t1.relchannel, 'none') relchannel,
+                               nvl(t1.affiliatechannelid, 'none') affiliatechannelid,
+                               nvl(t2.activityid, 'none') activityid,
+                               nvl(t1.promotioncpid, 'none') partnerid,
+                               nvl(t1.chargechannelid, 'none') chargechannelid,
+                               nvl(t1.currency, 'none') currency,
+                               t1.date dtime,
+                               t1.userid userid
+                          from (select t1.projectid,
+                                       t1.date,
+                                       t1.activityid,
+                                       t1.promotioncpid,
+                                       t1.relchannel,
+                                       t1.affiliatechannelid,
+                                       t1.chargechannelid,
+                                       t1.currency,
+                                       concat(t1.productid, t1.paymentaccountid) userid
+                                  from game.t_cdr_payment t1
+                                 where t1.subtype = 1
+                                   and t1.chargeresult = 0
+                                   and (t1.producttype = 0 or t1.producttype = 1 or t1.producttype is null)
+                                   and t1.date > '{STARTTIME}'
+                                   and t1.date < '{ENDTIME}'
+                                   and t1.id in ({PROJECTIDS})) t1
+                          left outer join game.t_bfm_activity t2
+                            on t1.projectid = t2.projectid
+                           and t1.activityid = t2.activityid
+                         where t2.activityid is not null
+                         group by t1.projectid,
+                                  nvl(t1.relchannel, 'none'),
+                                  nvl(t1.affiliatechannelid, 'none'),
+                                  nvl(t2.activityid, 'none'),
+                                  nvl(t1.promotioncpid, 'none'),
+                                  nvl(t1.chargechannelid, 'none'),
+                                  nvl(t1.currency, 'none'),
+                                  t1.date,
+                                  t1.userid) t
+                 group by projectid,relchannel,affiliatechannelid,partnerid,chargechannelid,currency,activityid,dtime
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+        <!--合作渠道流水,会员总流水 -->
+        <multiHqlReportIndex>
+            <indexKey>game.affiliation.tpartnerchannelrevenue_localtpartnerchannelrevenue_tviprevenue_localtviprevenue.d</indexKey>
+            <fieldName>tpartnerchannelrevenue,localtpartnerchannelrevenue,tviprevenue,localtviprevenue</fieldName>
+            <hql>
+                <![CDATA[
+                select projectid,relchannel,affiliatechannelid,partnerid,chargechannelid,currency,activityid,dtime,
+                       sum(tviprevenue) tviprevenue,
+                       sum(localtviprevenue) localtviprevenue,
+                       sum(tpartnerchannelrevenue) tpartnerchannelrevenue,
+                       sum(localtpartnerchannelrevenue) localtpartnerchannelrevenue
+                  from (select t1.projectid,
+                               nvl(t1.relchannel, 'none') relchannel,
+                               nvl(t1.affiliatechannelid, 'none') affiliatechannelid,
+                               nvl(t2.activityid, 'none') activityid,
+                               nvl(t1.promotioncpid, 'none') partnerid,
+                               nvl(t1.chargechannelid, 'none') chargechannelid,
+                               nvl(t1.currency, 'none') currency,
+                               t1.date dtime,
+                               t1.totalfee tviprevenue,
+                               t1.localtotalfee localtviprevenue,
+                               if(from_unixtime(unix_timestamp(t1.applytime), 'yyyyMMddHHmmss') <= t1.protectendtime, t1.totalfee,'0') tpartnerchannelrevenue,
+                               if(from_unixtime(unix_timestamp(t1.applytime), 'yyyyMMddHHmmss') <= t1.protectendtime, t1.localtotalfee,'0') localtpartnerchannelrevenue
+                          from (select t1.projectid,
+                                       t1.date,
+                                       t1.activityid,
+                                       t1.promotioncpid,
+                                       t1.relchannel,
+                                       t1.affiliatechannelid,
+                                       t1.chargechannelid,
+                                       t1.currency,
+                                       t1.applytime,
+                                       t1.protectendtime,
+                                       t1.totalfee,
+                                       t1.localtotalfee
+                                  from game.t_cdr_payment t1
+                                 where t1.subtype = '1'
+                                   and t1.chargeresult = '0'
+                                   and t1.paytype <> '37'
+                                   and (t1.producttype = '0' or t1.producttype = '1' or t1.producttype is null)
+                                   and length(t1.protectendtime) = 14
+                                   and t1.date > '{STARTTIME}'
+                                   and t1.date < '{ENDTIME}'
+                                   and t1.id in ({PROJECTIDS})) t1
+                          left outer join game.t_bfm_activity t2
+                            on t1.projectid = t2.projectid
+                           and t1.activityid = t2.activityid
+                         where t2.activityid is not null) t
+                 group by projectid,relchannel,affiliatechannelid,partnerid,chargechannelid,currency,activityid,dtime
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+        <!--合作渠道会员数 -->
+        <multiHqlReportIndex>
+            <indexKey>game.affiliation.tprotectvips.d</indexKey>
+            <fieldName>tprotectvips</fieldName>
+            <hql>
+                <![CDATA[
+                select projectid,relchannel,affiliatechannelid,partnerid,chargechannelid,currency,activityid,dtime,
+                       count(distinct(t.userid)) tprotectvips
+                  from (select t1.projectid,
+                               nvl(t1.relchannel, 'none') relchannel,
+                               nvl(t1.affiliatechannelid, 'none') affiliatechannelid,
+                               nvl(t2.activityid, 'none') activityid,
+                               nvl(t1.partnerid, 'none') partnerid,
+                               nvl(t1.chargechannelid, 'none') chargechannelid,
+                               nvl(t1.currency, 'none') currency,
+                               t1.dtime,
+                               t1.userid
+                          from (select t.projectid,
+                                       t.relchannel,
+                                       t.affiliatechannelid,
+                                       t.activityid,
+                                       t.promotioncpid partnerid,
+                                       t.chargechannelid,
+                                       t.currency,
+                                       t.dtime,
+                                       t.userid
+                                  from game.T_MID_JOIN_VIPSTATUS t
+                                 where substr(t.protectendtime, 0, 8) >= '{ENDTIME}'
+                                   and t.protectendtime is not null
+                                   and length(t.protectendtime) = 14
+                                   and ((chargetype = 2 and chargeresult = 0) or (chargetype = 3 and fee > 0))
+                                   and t.dtime > '{STARTTIME}'
+                                   and t.dtime < '{ENDTIME}'
+                                   and t.projectid in ({PROJECTIDS})) t1
+                          left outer join game.t_bfm_activity t2
+                            on t1.projectid = t2.projectid
+                           and t1.activityid = t2.activityid
+                         where t2.activityid is not null) t
+                 group by projectid,relchannel,affiliatechannelid,partnerid,chargechannelid,currency,activityid,dtime
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+        <!--免费期会员数,宽限期会员数,正式期会员数 -->
+        <multiHqlReportIndex>
+            <indexKey>game.affiliation.tfreevips_tgracevips_tnormalvips.d</indexKey>
+            <fieldName>tfreevips,tgracevips,tnormalvips</fieldName>
+            <hql>
+                <![CDATA[
+                    select projectid,relchannel,affiliatechannelid,partnerid,chargechannelid,currency,activityid,dtime,
+                           sum(tfreevips) tfreevips,
+                           sum(tgracevips) tgracevips,
+                           sum(tnormalvips) tnormalvips
+                      from (select t1.projectid,
+                                   nvl(t1.relchannel, 'none') relchannel,
+                                   nvl(t1.affiliatechannelid, 'none') affiliatechannelid,
+                                   nvl(t2.activityid, 'none') activityid,
+                                   nvl(t1.partnerid, 'none') partnerid,
+                                   nvl(t1.chargechannelid, 'none') chargechannelid,
+                                   nvl(t1.currency, 'none') currency,
+                                   t1.dtime,
+                                   tfreevips,
+                                   tgracevips,
+                                   tnormalvips
+                              from (select t.projectid,
+                                           t.relchannel,
+                                           t.affiliatechannelid,
+                                           t.activityid,
+                                           t.promotioncpid partnerid,
+                                           t.chargechannelid,
+                                           t.currency,
+                                           t.dtime,
+                                           if(t.chargeresult = 0 and t.chargetype=2 and t.fee = 0, 1, 0) tfreevips,
+                                           if(t.chargeresult <> 0 and t.chargetype = 3 and t.fee > 0, 1, 0) tgracevips,
+                                           if(t.chargeresult = 0 and chargetype in (2,3) and t.fee > 0, 1, 0) tnormalvips
+                                      from game.T_MID_JOIN_VIPSTATUS t
+                                     where t.dtime > '{STARTTIME}'
+                                       and t.dtime < '{ENDTIME}'
+                                       and t.projectid in ({PROJECTIDS})) t1
+                              left outer join game.t_bfm_activity t2
+                                on t1.projectid = t2.projectid
+                               and t1.activityid = t2.activityid
+                             where t2.activityid is not null) t
+                     group by projectid,relchannel,affiliatechannelid,partnerid,chargechannelid,currency,activityid,dtime
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+        <!--7日前订购会员总数-->
+        <multiHqlReportIndex>
+            <indexKey>game.affiliation.sevendayordervips.d</indexKey>
+            <fieldName>sevendayordervips</fieldName>
+            <hql>
+                <![CDATA[
+              select projectid,relchannel,affiliatechannelid,partnerid,chargechannelid,currency,activityid,dtime,(tnewvips + tnewuserunsubusercnt) sevendayordervips
+                from(select t2.projectid,
+                            t2.relchannel,
+                            t2.affiliatechannelid,
+                            t2.activityid,
+                            t2.partnerid,
+                            t2.chargechannelid,
+                            t2.currency,
+                            t2.dtime,
+                            if(t1.tnewvips is null,0,t1.tnewvips) tnewvips,
+                            if(t1.tnewuserunsubusercnt is null,0,t1.tnewuserunsubusercnt) tnewuserunsubusercnt
+                       from (select t1.projectid,
+                                    t1.relchannel,
+                                    t1.affiliatechannelid,
+                                    t1.activityid,
+                                    t1.partnerid,
+                                    t1.chargechannelid,
+                                    t1.currency,
+                                    t2.dtime,
+                                    t1.tnewvips,
+                                    t1.tnewuserunsubusercnt 
+                               from game.t_game_affiliation_d_hbase t1,
+                                    (select from_unixtime(unix_timestamp(dtime, 'yyyy-MM-dd'), 'yyyyMMdd') dtime
+                                       from game.t_bdi_rundate
+                                      where from_unixtime(unix_timestamp(dtime, 'yyyy-MM-dd'), 'yyyyMMdd') > '{STARTTIME}'
+                                        and from_unixtime(unix_timestamp(dtime, 'yyyy-MM-dd'), 'yyyyMMdd') < '{ENDTIME}') t2
+                              where t1.dtime  = from_unixtime(unix_timestamp(date_sub(from_unixtime(unix_timestamp(t2.dtime, 'yyyyMMdd'),'yyyy-MM-dd'),6),'yyyy-MM-dd'), 'yyyyMMdd')
+                                and t1.projectid in ({PROJECTIDS}))t1,
+                            (select t1.projectid,
+                                    t1.relchannel,
+                                    t1.affiliatechannelid,
+                                    t1.activityid,
+                                    t1.partnerid,
+                                    t1.chargechannelid,
+                                    t1.currency,
+                                    t1.dtime
+                               from game.t_game_affiliation_d_hbase t1
+                              where t1.dtime > '{STARTTIME}'
+                                and t1.dtime < '{ENDTIME}'
+                                and t1.projectid in ({PROJECTIDS})) t2
+                     where t1.projectid = t2.projectid
+                       and t1.relchannel = t2.relchannel
+                       and t1.affiliatechannelid = t2.affiliatechannelid 
+                       and t1.activityid = t2.activityid 
+                       and t1.partnerid = t2.partnerid
+                       and t1.chargechannelid = t2.chargechannelid
+                       and t1.currency = t2.currency
+                       and t1.dtime = t2.dtime )tt
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+        <!--7日留存率均值分母,分子-->
+        <multiHqlReportIndex>
+            <indexKey>game.affiliation.sevenrenratedenominator_sevenrenratenumerator.d</indexKey>
+            <fieldName>sevenrenratedenominator,sevenrenratenumerator</fieldName>
+            <hql>
+                <![CDATA[
+                select projectid,relchannel,affiliatechannelid,partnerid,chargechannelid,currency,activityid,dtime,
+                       sum(sevendayordervips) sevenrenratedenominator,
+                       sum(sevendaysrematevips) sevenrenratenumerator
+                  from (select t2.projectid,
+                               t2.relchannel,
+                               t2.affiliatechannelid,
+                               t2.activityid,
+                               t2.partnerid,
+                               t2.chargechannelid,
+                               t2.currency,
+                               t2.dtime,
+                               t1.sevendayordervips,
+                               t1.sevendaysrematevips 
+                          from (select t1.projectid,
+                                       t1.relchannel,
+                                       t1.affiliatechannelid,
+                                       t1.activityid,
+                                       t1.partnerid,
+                                       t1.chargechannelid,
+                                       t1.currency,
+                                       t2.dtime,
+                                       if(t1.sevendayordervips is null, 0, t1.sevendayordervips) sevendayordervips,
+                                       if(t1.sevendaysrematevips is null, 0, t1.sevendaysrematevips) sevendaysrematevips
+                                  from (select from_unixtime(unix_timestamp(dtime, 'yyyy-MM-dd'), 'yyyyMMdd') dtime
+                                          from game.t_bdi_rundate
+                                         where from_unixtime(unix_timestamp(dtime, 'yyyy-MM-dd'), 'yyyyMMdd') > '{STARTTIME}'
+                                           and from_unixtime(unix_timestamp(dtime, 'yyyy-MM-dd'), 'yyyyMMdd') < '{ENDTIME}') t2,
+                                       (select projectid,
+                                               relchannel,
+                                               affiliatechannelid,
+                                               activityid,
+                                               partnerid,
+                                               chargechannelid,
+                                               currency,
+                                               dtime,
+                                               sevendayordervips,
+                                               sevendaysrematevips
+                                          from game.t_game_affiliation_d_hbase t
+                                         where dtime >= from_unixtime(unix_timestamp(date_sub(from_unixtime(unix_timestamp('{STARTTIME}', 'yyyyMMdd'),
+                                                        'yyyy-MM-dd'), 6), 'yyyy-MM-dd'), 'yyyyMMdd')) t1
+                                 where t1.dtime >= from_unixtime(unix_timestamp(date_sub(from_unixtime(unix_timestamp(t2.dtime, 'yyyyMMdd'), 'yyyy-MM-dd'),
+                                                   6), 'yyyy-MM-dd'), 'yyyyMMdd')
+                                   and t1.dtime <= t2.dtime ) t1,
+                               (select t1.projectid,
+                                       t1.relchannel,
+                                       t1.affiliatechannelid,
+                                       t1.activityid,
+                                       t1.partnerid,
+                                       t1.chargechannelid,
+                                       t1.currency,
+                                       t1.dtime
+                                  from game.t_game_affiliation_d_hbase t1
+                                 where t1.dtime > '{STARTTIME}'
+                                   and t1.dtime < '{ENDTIME}') t2
+                         where t1.projectid = t2.projectid
+                           and t1.relchannel = t2.relchannel
+                           and t1.affiliatechannelid = t2.affiliatechannelid
+                           and t1.activityid = t2.activityid
+                           and t1.partnerid = t2.partnerid
+                           and t1.chargechannelid = t2.chargechannelid
+                           and t1.currency = t2.currency
+                           and t1.dtime = t2.dtime ) tt
+                 group by projectid,relchannel,affiliatechannelid,partnerid,chargechannelid,currency,activityid,dtime
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+        <!--推广渠道名称 -->
+        <multiHqlReportIndex>
+            <indexKey>game.affiliation.channelname.d</indexKey>
+            <fieldName>channelname</fieldName>
+            <hql>
+                <![CDATA[
+                select projectid,relchannel,affiliatechannelid,partnerid,chargechannelid,currency,activityid,dtime, channelname
+                  from (select t1.projectid,
+                               t1.relchannel,
+                               t1.affiliatechannelid,
+                               t1.activityid,
+                               t1.partnerid,
+                               t1.chargechannelid,
+                               t1.currency,
+                               t1.dtime,
+                               if(t2.channelname is null, t1.relchannel, t2.channelname) channelname
+                          from (select projectid,relchannel,affiliatechannelid,partnerid,chargechannelid,currency,activityid,dtime
+                                  from game.t_game_affiliation_d_hbase
+                                 where dtime > '{STARTTIME}'
+                                   and dtime < '{ENDTIME}') t1
+                          left outer join game.t_bfm_channelnew t2
+                            on t1.relchannel = t2.channelid
+                           and t1.projectid = t2.projectid) t
+                 group by projectid,relchannel,affiliatechannelid,partnerid,chargechannelid,currency,activityid,dtime, channelname
+                 ]]>
+            </hql>
+        </multiHqlReportIndex>
+        <!--支付渠道名称 -->
+        <multiHqlReportIndex>
+            <indexKey>game.affiliation.chargechannelname.d</indexKey>
+            <fieldName>chargechannelname</fieldName>
+            <hql>
+                <![CDATA[
+                select projectid,relchannel,affiliatechannelid,partnerid,chargechannelid,currency,activityid,dtime, chargechannelname
+                  from (select t1.projectid,
+                               t1.relchannel,
+                               t1.affiliatechannelid,
+                               t1.activityid,
+                               t1.partnerid,
+                               t1.chargechannelid,
+                               t1.currency,
+                               t1.dtime,
+                               if(t2.chargechannelname is null, t1.chargechannelid, t2.chargechannelname) chargechannelname
+                          from (select projectid, relchannel, affiliatechannelid, activityid, partnerid, chargechannelid,currency, dtime
+                                  from game.t_game_affiliation_d_hbase
+                                 where dtime > '{STARTTIME}'
+                                   and dtime < '{ENDTIME}') t1
+                          left outer join game.t_conf_chargechnnel t2
+                            on t1.projectid = t2.projectid
+                           and t1.chargechannelid = t2.chargechannelid) t
+                 group by projectid,relchannel,affiliatechannelid,partnerid,chargechannelid,currency,activityid,dtime, chargechannelname
+                 ]]>
+            </hql>
+        </multiHqlReportIndex>
+        <!--营销活动名称 -->
+        <multiHqlReportIndex>
+            <indexKey>game.affiliation.activityname.d</indexKey>
+            <fieldName>activityname</fieldName>
+            <hql>
+                <![CDATA[
+                select projectid,relchannel,affiliatechannelid,partnerid,chargechannelid,currency,activityid,dtime, activityname
+                  from (select t1.projectid,
+                               t1.relchannel,
+                               t1.affiliatechannelid,
+                               t1.activityid,
+                               t1.partnerid,
+                               t1.chargechannelid,
+                               t1.currency,
+                               dtime,
+                               if(t2.activityname is null, t1.activityid, t2.activityname) activityname
+                          from (select projectid, relchannel, affiliatechannelid, activityid, partnerid, chargechannelid,currency, dtime
+                                  from game.t_game_affiliation_d_hbase t
+                                 where dtime > '{STARTTIME}'
+                                   and dtime < '{ENDTIME}') t1
+                          left outer join game.t_bfm_activity t2
+                            on t1.activityid = t2.activityid
+                           and t1.projectid = t2.projectid) t
+                 group by projectid,relchannel,affiliatechannelid,partnerid,chargechannelid,currency,activityid,dtime, activityname
+                 ]]>
+            </hql>
+        </multiHqlReportIndex>
+        <!--合作伙伴名称 -->
+        <multiHqlReportIndex>
+            <indexKey>game.affiliation.partnername.d</indexKey>
+            <fieldName>partnername</fieldName>
+            <hql>
+                <![CDATA[
+                select projectid,relchannel,affiliatechannelid,partnerid,chargechannelid,currency,activityid,dtime, partnername
+                  from (select t3.projectid,
+                               t3.relchannel,
+                               t3.affiliatechannelid,
+                               t3.activityid,
+                               t3.partnerid,
+                               t3.chargechannelid,
+                               t3.currency,
+                               t3.dtime,
+                               case t3.promotiontype
+                                 when 1 then '#Huawei Promotion#'
+                                 when 3 then '#Boutique Promotion#'
+                                 else nvl(t4.partnername, t3.partnerid)
+                               end partnername
+                          from (select t1.projectid,
+                                       t1.relchannel,
+                                       t1.affiliatechannelid,
+                                       t1.activityid,
+                                       t1.partnerid,
+                                       t1.chargechannelid,
+                                       t1.currency,
+                                       t2.promotiontype,
+                                       t1.dtime
+                                  from (select projectid,relchannel,affiliatechannelid,partnerid,chargechannelid,currency,activityid,dtime
+                                          from game.t_game_affiliation_d_hbase t
+                                         where dtime > '{STARTTIME}'
+                                           and dtime < '{ENDTIME}') t1
+                                  left outer join game.t_bfm_activity t2
+                                    on t1.activityid = t2.activityid
+                                   and t1.projectid = t2.projectid) t3
+                          left outer join intouch.t_partner t4
+                            on t3.partnerid = t4.partnerid) t
+                group by projectid,relchannel,affiliatechannelid,partnerid,chargechannelid,currency,activityid,dtime, partnername
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+        <!--按项目,时间,分组求和-->
+        <multiHqlReportIndex>
+            <indexKey>game.affiliation.groupby_project_dtime.d</indexKey>
+            <fieldName>numacqrate_numerator,numacqrate_denominator,tnewuserunsubusercnt,actunsubnumofnewsubmem,cusunsubnumofnewsubmem,   
+                       tunsubscribevips,tuserunsubusercnt,cusunsubnumofnotnewsubmem,tnewvips,tpaysuccess,sevendaysrematevips,      
+                       sevendayordervips,sevenrenratenumerator,sevenrenratedenominator,grantcollectvips,treceivablevips,          
+                       tpartnerchannelrevenue,localtpartnerchannelrevenue,tviprevenue,localtviprevenue,tprotectvips,
+                       tfreevips,tgracevips,tnormalvips</fieldName>
+            <hql>
+                <![CDATA[
+                 select projectid,dtime,
+                        sum(numacqrate_numerator) numacqrate_numerator,   
+                        sum(numacqrate_denominator) numacqrate_denominator,   
+                        sum(tnewuserunsubusercnt) tnewuserunsubusercnt,     
+                        sum(actunsubnumofnewsubmem) actunsubnumofnewsubmem,   
+                        sum(cusunsubnumofnewsubmem) cusunsubnumofnewsubmem,   
+                        sum(tunsubscribevips) tunsubscribevips,         
+                        sum(tuserunsubusercnt) tuserunsubusercnt,        
+                        sum(cusunsubnumofnotnewsubmem) cusunsubnumofnotnewsubmem,
+                        sum(tnewvips) tnewvips,                 
+                        sum(tpaysuccess) tpaysuccess,              
+                        sum(sevendaysrematevips) sevendaysrematevips,      
+                        sum(sevendayordervips) sevendayordervips,        
+                        sum(sevenrenratenumerator) sevenrenratenumerator,    
+                        sum(sevenrenratedenominator) sevenrenratedenominator,  
+                        sum(grantcollectvips) grantcollectvips,         
+                        sum(treceivablevips) treceivablevips,          
+                        sum(tpartnerchannelrevenue) tpartnerchannelrevenue,   
+                        sum(localtpartnerchannelrevenue) localtpartnerchannelrevenue,   
+                        sum(tviprevenue) tviprevenue,              
+                        sum(localtviprevenue) localtviprevenue,              
+                        sum(tprotectvips) tprotectvips,             
+                        sum(tfreevips) tfreevips,                
+                        sum(tgracevips) tgracevips,              
+                        sum(tnormalvips) tnormalvips              
+                   from game.t_game_affiliation_d_hbase t
+                  where t.dtime > '{STARTTIME}'
+                    and t.dtime < '{ENDTIME}'
+                    and t.projectid in ({PROJECTIDS})
+                    and t.relchannel is not null
+                    and t.affiliatechannelid is not null
+                    and t.partnerid is not null
+                    and t.chargechannelid is not null
+                    and t.currency is not null
+                    and t.activityid is not null
+                  group by projectid,dtime
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+        <!--按项目,渠道,时间分组求和-->
+        <multiHqlReportIndex>
+            <indexKey>game.affiliation.groupby_project_channel_dtime.d</indexKey>
+            <fieldName>numacqrate_numerator,numacqrate_denominator,tnewuserunsubusercnt,actunsubnumofnewsubmem,cusunsubnumofnewsubmem,   
+                       tunsubscribevips,tuserunsubusercnt,cusunsubnumofnotnewsubmem,tnewvips,tpaysuccess,sevendaysrematevips,      
+                       sevendayordervips,sevenrenratenumerator,sevenrenratedenominator,grantcollectvips,treceivablevips,          
+                       tpartnerchannelrevenue,localtpartnerchannelrevenue,tviprevenue,localtviprevenue,tprotectvips,
+                       tfreevips,tgracevips,tnormalvips</fieldName>
+            <hql>
+                <![CDATA[
+                 select projectid,relchannel,dtime,
+                        sum(numacqrate_numerator) numacqrate_numerator,   
+                        sum(numacqrate_denominator) numacqrate_denominator,   
+                        sum(tnewuserunsubusercnt) tnewuserunsubusercnt,     
+                        sum(actunsubnumofnewsubmem) actunsubnumofnewsubmem,   
+                        sum(cusunsubnumofnewsubmem) cusunsubnumofnewsubmem,   
+                        sum(tunsubscribevips) tunsubscribevips,         
+                        sum(tuserunsubusercnt) tuserunsubusercnt,        
+                        sum(cusunsubnumofnotnewsubmem) cusunsubnumofnotnewsubmem,
+                        sum(tnewvips) tnewvips,                 
+                        sum(tpaysuccess) tpaysuccess,              
+                        sum(sevendaysrematevips) sevendaysrematevips,      
+                        sum(sevendayordervips) sevendayordervips,        
+                        sum(sevenrenratenumerator) sevenrenratenumerator,    
+                        sum(sevenrenratedenominator) sevenrenratedenominator,  
+                        sum(grantcollectvips) grantcollectvips,         
+                        sum(treceivablevips) treceivablevips,          
+                        sum(tpartnerchannelrevenue) tpartnerchannelrevenue,   
+                        sum(localtpartnerchannelrevenue) localtpartnerchannelrevenue,   
+                        sum(tviprevenue) tviprevenue,              
+                        sum(localtviprevenue) localtviprevenue,              
+                        sum(tprotectvips) tprotectvips,             
+                        sum(tfreevips) tfreevips,                
+                        sum(tgracevips) tgracevips,              
+                        sum(tnormalvips) tnormalvips              
+                   from game.t_game_affiliation_d_hbase t
+                  where t.dtime > '{STARTTIME}'
+                    and t.dtime < '{ENDTIME}'
+                    and t.projectid in ({PROJECTIDS})
+                    and t.relchannel is not null
+                    and t.affiliatechannelid is not null
+                    and t.partnerid is not null
+                    and t.chargechannelid is not null
+                    and t.currency is not null
+                    and t.activityid is not null
+                  group by projectid,relchannel,dtime
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+        <!--按项目,合作伙伴,时间分组求和-->
+        <multiHqlReportIndex>
+            <indexKey>game.affiliation.groupby_project_partner_dtime.d</indexKey>
+            <fieldName>numacqrate_numerator,numacqrate_denominator,tnewuserunsubusercnt,actunsubnumofnewsubmem,cusunsubnumofnewsubmem,   
+                       tunsubscribevips,tuserunsubusercnt,cusunsubnumofnotnewsubmem,tnewvips,tpaysuccess,sevendaysrematevips,      
+                       sevendayordervips,sevenrenratenumerator,sevenrenratedenominator,grantcollectvips,treceivablevips,          
+                       tpartnerchannelrevenue,localtpartnerchannelrevenue,tviprevenue,localtviprevenue,tprotectvips,
+                       tfreevips,tgracevips,tnormalvips</fieldName>
+            <hql>
+                <![CDATA[
+                 select projectid,partnerid,dtime,
+                        sum(numacqrate_numerator) numacqrate_numerator,   
+                        sum(numacqrate_denominator) numacqrate_denominator,   
+                        sum(tnewuserunsubusercnt) tnewuserunsubusercnt,     
+                        sum(actunsubnumofnewsubmem) actunsubnumofnewsubmem,   
+                        sum(cusunsubnumofnewsubmem) cusunsubnumofnewsubmem,   
+                        sum(tunsubscribevips) tunsubscribevips,         
+                        sum(tuserunsubusercnt) tuserunsubusercnt,        
+                        sum(cusunsubnumofnotnewsubmem) cusunsubnumofnotnewsubmem,
+                        sum(tnewvips) tnewvips,                 
+                        sum(tpaysuccess) tpaysuccess,              
+                        sum(sevendaysrematevips) sevendaysrematevips,      
+                        sum(sevendayordervips) sevendayordervips,        
+                        sum(sevenrenratenumerator) sevenrenratenumerator,    
+                        sum(sevenrenratedenominator) sevenrenratedenominator,  
+                        sum(grantcollectvips) grantcollectvips,         
+                        sum(treceivablevips) treceivablevips,          
+                        sum(tpartnerchannelrevenue) tpartnerchannelrevenue,   
+                        sum(localtpartnerchannelrevenue) localtpartnerchannelrevenue,   
+                        sum(tviprevenue) tviprevenue,              
+                        sum(localtviprevenue) localtviprevenue,              
+                        sum(tprotectvips) tprotectvips,             
+                        sum(tfreevips) tfreevips,                
+                        sum(tgracevips) tgracevips,              
+                        sum(tnormalvips) tnormalvips              
+                   from game.t_game_affiliation_d_hbase t
+                  where t.dtime > '{STARTTIME}'
+                    and t.dtime < '{ENDTIME}'
+                    and t.projectid in ({PROJECTIDS})
+                    and t.relchannel is not null
+                    and t.affiliatechannelid is not null
+                    and t.partnerid is not null
+                    and t.chargechannelid is not null
+                    and t.currency is not null
+                    and t.activityid is not null
+                  group by projectid,partnerid,dtime
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+        <!--按项目,渠道,合作伙伴,时间分组求和-->
+        <multiHqlReportIndex>
+            <indexKey>game.affiliation.groupby_project_channel_partner_dtime.d</indexKey>
+            <fieldName>numacqrate_numerator,numacqrate_denominator,tnewuserunsubusercnt,actunsubnumofnewsubmem,cusunsubnumofnewsubmem,   
+                       tunsubscribevips,tuserunsubusercnt,cusunsubnumofnotnewsubmem,tnewvips,tpaysuccess,sevendaysrematevips,      
+                       sevendayordervips,sevenrenratenumerator,sevenrenratedenominator,grantcollectvips,treceivablevips,          
+                       tpartnerchannelrevenue,localtpartnerchannelrevenue,tviprevenue,localtviprevenue,tprotectvips,
+                       tfreevips,tgracevips,tnormalvips</fieldName>
+            <hql>
+                <![CDATA[
+                 select projectid,relchannel,partnerid,dtime,
+                        sum(numacqrate_numerator) numacqrate_numerator,   
+                        sum(numacqrate_denominator) numacqrate_denominator,   
+                        sum(tnewuserunsubusercnt) tnewuserunsubusercnt,     
+                        sum(actunsubnumofnewsubmem) actunsubnumofnewsubmem,   
+                        sum(cusunsubnumofnewsubmem) cusunsubnumofnewsubmem,   
+                        sum(tunsubscribevips) tunsubscribevips,         
+                        sum(tuserunsubusercnt) tuserunsubusercnt,        
+                        sum(cusunsubnumofnotnewsubmem) cusunsubnumofnotnewsubmem,
+                        sum(tnewvips) tnewvips,                 
+                        sum(tpaysuccess) tpaysuccess,              
+                        sum(sevendaysrematevips) sevendaysrematevips,      
+                        sum(sevendayordervips) sevendayordervips,        
+                        sum(sevenrenratenumerator) sevenrenratenumerator,    
+                        sum(sevenrenratedenominator) sevenrenratedenominator,  
+                        sum(grantcollectvips) grantcollectvips,         
+                        sum(treceivablevips) treceivablevips,          
+                        sum(tpartnerchannelrevenue) tpartnerchannelrevenue,   
+                        sum(localtpartnerchannelrevenue) localtpartnerchannelrevenue,   
+                        sum(tviprevenue) tviprevenue,              
+                        sum(localtviprevenue) localtviprevenue,              
+                        sum(tprotectvips) tprotectvips,             
+                        sum(tfreevips) tfreevips,                
+                        sum(tgracevips) tgracevips,              
+                        sum(tnormalvips) tnormalvips              
+                   from game.t_game_affiliation_d_hbase t
+                  where t.dtime > '{STARTTIME}'
+                    and t.dtime < '{ENDTIME}'
+                    and t.projectid in ({PROJECTIDS})
+                    and t.relchannel is not null
+                    and t.affiliatechannelid is not null
+                    and t.partnerid is not null
+                    and t.chargechannelid is not null
+                    and t.currency is not null
+                    and t.activityid is not null
+                  group by projectid,relchannel,partnerid,dtime
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+        <!--按推广渠道-->
+        <multiHqlReportIndex>
+            <indexKey>game.affiliation.groupby_promotionchannel.d</indexKey>
+            <fieldName>numacqrate_numerator,numacqrate_denominator,tnewuserunsubusercnt,actunsubnumofnewsubmem,cusunsubnumofnewsubmem,   
+                       tunsubscribevips,tuserunsubusercnt,cusunsubnumofnotnewsubmem,tnewvips,tpaysuccess,sevendaysrematevips,      
+                       sevendayordervips,sevenrenratenumerator,sevenrenratedenominator,grantcollectvips,treceivablevips,          
+                       tpartnerchannelrevenue,localtpartnerchannelrevenue,tviprevenue,localtviprevenue,tprotectvips,
+                       tfreevips,tgracevips,tnormalvips,channelname,partnername</fieldName>
+            <hql>
+                <![CDATA[
+                 select projectid,relchannel,partnerid,currency,dtime,
+                        max(channelname) channelname,
+                        max(partnername) partnername,
+                        sum(numacqrate_numerator) numacqrate_numerator,   
+                        sum(numacqrate_denominator) numacqrate_denominator,   
+                        sum(tnewuserunsubusercnt) tnewuserunsubusercnt,     
+                        sum(actunsubnumofnewsubmem) actunsubnumofnewsubmem,   
+                        sum(cusunsubnumofnewsubmem) cusunsubnumofnewsubmem,   
+                        sum(tunsubscribevips) tunsubscribevips,         
+                        sum(tuserunsubusercnt) tuserunsubusercnt,        
+                        sum(cusunsubnumofnotnewsubmem) cusunsubnumofnotnewsubmem,
+                        sum(tnewvips) tnewvips,                 
+                        sum(tpaysuccess) tpaysuccess,              
+                        sum(sevendaysrematevips) sevendaysrematevips,      
+                        sum(sevendayordervips) sevendayordervips,        
+                        sum(sevenrenratenumerator) sevenrenratenumerator,    
+                        sum(sevenrenratedenominator) sevenrenratedenominator,  
+                        sum(grantcollectvips) grantcollectvips,         
+                        sum(treceivablevips) treceivablevips,          
+                        sum(tpartnerchannelrevenue) tpartnerchannelrevenue,   
+                        sum(localtpartnerchannelrevenue) localtpartnerchannelrevenue,   
+                        sum(tviprevenue) tviprevenue,              
+                        sum(localtviprevenue) localtviprevenue,              
+                        sum(tprotectvips) tprotectvips,             
+                        sum(tfreevips) tfreevips,                
+                        sum(tgracevips) tgracevips,              
+                        sum(tnormalvips) tnormalvips              
+                   from game.t_game_affiliation_d_hbase t
+                  where t.dtime > '{STARTTIME}'
+                    and t.dtime < '{ENDTIME}'
+                    and t.projectid in ({PROJECTIDS})
+                    and t.relchannel is not null
+                    and t.affiliatechannelid is not null
+                    and t.partnerid is not null
+                    and t.chargechannelid is not null
+                    and t.currency is not null
+                    and t.activityid is not null
+                  group by projectid,relchannel,partnerid,currency,dtime
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+        <!--按营销活动-->
+        <multiHqlReportIndex>
+            <indexKey>game.affiliation.groupby_promotionactivity.d</indexKey>
+            <fieldName>numacqrate_numerator,numacqrate_denominator,tnewuserunsubusercnt,actunsubnumofnewsubmem,cusunsubnumofnewsubmem,   
+                       tunsubscribevips,tuserunsubusercnt,cusunsubnumofnotnewsubmem,tnewvips,tpaysuccess,sevendaysrematevips,      
+                       sevendayordervips,sevenrenratenumerator,sevenrenratedenominator,grantcollectvips,treceivablevips,          
+                       tpartnerchannelrevenue,localtpartnerchannelrevenue,tviprevenue,localtviprevenue,tprotectvips,
+                       tfreevips,tgracevips,tnormalvips,channelname,partnername,activityname</fieldName>
+            <hql>
+                <![CDATA[
+                 select projectid,relchannel,affiliatechannelid,partnerid,currency,activityid,dtime,
+                        max(channelname) channelname,
+                        max(partnername) partnername,
+                        max(activityname) activityname,
+                        sum(numacqrate_numerator) numacqrate_numerator,   
+                        sum(numacqrate_denominator) numacqrate_denominator,   
+                        sum(tnewuserunsubusercnt) tnewuserunsubusercnt,     
+                        sum(actunsubnumofnewsubmem) actunsubnumofnewsubmem,   
+                        sum(cusunsubnumofnewsubmem) cusunsubnumofnewsubmem,   
+                        sum(tunsubscribevips) tunsubscribevips,         
+                        sum(tuserunsubusercnt) tuserunsubusercnt,        
+                        sum(cusunsubnumofnotnewsubmem) cusunsubnumofnotnewsubmem,
+                        sum(tnewvips) tnewvips,                 
+                        sum(tpaysuccess) tpaysuccess,              
+                        sum(sevendaysrematevips) sevendaysrematevips,      
+                        sum(sevendayordervips) sevendayordervips,        
+                        sum(sevenrenratenumerator) sevenrenratenumerator,    
+                        sum(sevenrenratedenominator) sevenrenratedenominator,  
+                        sum(grantcollectvips) grantcollectvips,         
+                        sum(treceivablevips) treceivablevips,          
+                        sum(tpartnerchannelrevenue) tpartnerchannelrevenue,   
+                        sum(localtpartnerchannelrevenue) localtpartnerchannelrevenue,   
+                        sum(tviprevenue) tviprevenue,              
+                        sum(localtviprevenue) localtviprevenue,              
+                        sum(tprotectvips) tprotectvips,             
+                        sum(tfreevips) tfreevips,                
+                        sum(tgracevips) tgracevips,              
+                        sum(tnormalvips) tnormalvips              
+                   from game.t_game_affiliation_d_hbase t
+                  where t.dtime > '{STARTTIME}'
+                    and t.dtime < '{ENDTIME}'
+                    and t.projectid in ({PROJECTIDS})
+                    and t.relchannel is not null
+                    and t.affiliatechannelid is not null
+                    and t.partnerid is not null
+                    and t.chargechannelid is not null
+                    and t.currency is not null
+                    and t.activityid is not null
+                  group by projectid,relchannel,affiliatechannelid,partnerid,currency,activityid,dtime
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+        <!--按支付渠道-->
+        <multiHqlReportIndex>
+            <indexKey>game.affiliation.groupby_chargechannle.d</indexKey>
+            <fieldName>numacqrate_numerator,numacqrate_denominator,tnewuserunsubusercnt,actunsubnumofnewsubmem,cusunsubnumofnewsubmem,   
+                       tunsubscribevips,tuserunsubusercnt,cusunsubnumofnotnewsubmem,tnewvips,tpaysuccess,sevendaysrematevips,      
+                       sevendayordervips,sevenrenratenumerator,sevenrenratedenominator,grantcollectvips,treceivablevips,          
+                       tpartnerchannelrevenue,localtpartnerchannelrevenue,tviprevenue,localtviprevenue,tprotectvips,
+                       tfreevips,tgracevips,tnormalvips,channelname,partnername,chargechannelname</fieldName>
+            <hql>
+                <![CDATA[
+                 select projectid,relchannel,partnerid,chargechannelid,currency,dtime,
+                        max(channelname) channelname,
+                        max(partnername) partnername,
+                        max(chargechannelname) chargechannelname,
+                        0 numacqrate_numerator,   
+                        0 numacqrate_denominator,   
+                        sum(tnewuserunsubusercnt) tnewuserunsubusercnt,     
+                        sum(actunsubnumofnewsubmem) actunsubnumofnewsubmem,   
+                        sum(cusunsubnumofnewsubmem) cusunsubnumofnewsubmem,   
+                        sum(tunsubscribevips) tunsubscribevips,         
+                        sum(tuserunsubusercnt) tuserunsubusercnt,        
+                        sum(cusunsubnumofnotnewsubmem) cusunsubnumofnotnewsubmem,
+                        sum(tnewvips) tnewvips,                 
+                        0 tpaysuccess,              
+                        sum(sevendaysrematevips) sevendaysrematevips,      
+                        sum(sevendayordervips) sevendayordervips,        
+                        sum(sevenrenratenumerator) sevenrenratenumerator,    
+                        sum(sevenrenratedenominator) sevenrenratedenominator,  
+                        sum(grantcollectvips) grantcollectvips,         
+                        sum(treceivablevips) treceivablevips,          
+                        sum(tpartnerchannelrevenue) tpartnerchannelrevenue,   
+                        sum(localtpartnerchannelrevenue) localtpartnerchannelrevenue,   
+                        sum(tviprevenue) tviprevenue,              
+                        sum(localtviprevenue) localtviprevenue,              
+                        sum(tprotectvips) tprotectvips,             
+                        sum(tfreevips) tfreevips,                
+                        sum(tgracevips) tgracevips,              
+                        sum(tnormalvips) tnormalvips              
+                   from game.t_game_affiliation_d_hbase t
+                  where t.dtime > '{STARTTIME}'
+                    and t.dtime < '{ENDTIME}'
+                    and t.projectid in ({PROJECTIDS})
+                    and t.relchannel is not null
+                    and t.affiliatechannelid is not null
+                    and t.partnerid is not null
+                    and t.chargechannelid is not null
+                    and t.currency is not null
+                    and t.activityid is not null
+                  group by projectid,relchannel,partnerid,chargechannelid,currency,dtime
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+         <!--追加按照项目,时间求和分组的号码获取率和订购成功信息-->
+        <multiHqlReportIndex>
+            <indexKey>game.affiliation.groupby_project_dtime_more.d</indexKey>
+            <fieldName>numacqrate_numerator,numacqrate_denominator,tpaysuccess</fieldName>
+            <hql>
+                <![CDATA[
+                 select projectid projectid,dtime dtime,
+                        sum(numacqrate_numerator) numacqrate_numerator,
+                        sum(numacqrate_denominator) numacqrate_denominator,
+                        sum(tpaysuccess) tpaysuccess 
+                   from game.t_mid_browser
+                  where dtime > '{STARTTIME}'
+                    and dtime < '{ENDTIME}'
+                  group by projectid,dtime
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+         <!--追加按照按项目,渠道,时间分组求和分组的号码获取率和订购成功信息-->
+        <multiHqlReportIndex>
+            <indexKey>game.affiliation.groupby_project_channel_dtime_more.d</indexKey>
+            <fieldName>numacqrate_numerator,numacqrate_denominator,tpaysuccess</fieldName>
+            <hql>
+                <![CDATA[
+                 select projectid projectid,relchannel relchannel,dtime dtime,
+                        sum(numacqrate_numerator) numacqrate_numerator,
+                        sum(numacqrate_denominator) numacqrate_denominator,
+                        sum(tpaysuccess) tpaysuccess 
+                   from game.t_mid_browser
+                  where dtime > '{STARTTIME}'
+                    and dtime < '{ENDTIME}'
+                  group by projectid,relchannel,dtime
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+         <!--追加按照按项目,合作伙伴,时间分组求和分组的号码获取率和订购成功信息-->
+        <multiHqlReportIndex>
+            <indexKey>game.affiliation.groupby_project_partner_dtime_more.d</indexKey>
+            <fieldName>numacqrate_numerator,numacqrate_denominator,tpaysuccess</fieldName>
+            <hql>
+                <![CDATA[
+                 select projectid projectid,partnerid partnerid,dtime dtime,
+                        sum(numacqrate_numerator) numacqrate_numerator,
+                        sum(numacqrate_denominator) numacqrate_denominator,
+                        sum(tpaysuccess) tpaysuccess 
+                   from game.t_mid_browser
+                  where dtime > '{STARTTIME}'
+                    and dtime < '{ENDTIME}'
+                  group by projectid,partnerid,dtime
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+         <!--追加按照按项目,渠道,合作伙伴,时间求和分组的号码获取率和订购成功信息-->
+        <multiHqlReportIndex>
+            <indexKey>game.affiliation.groupby_project_channel_partner_dtime_more.d</indexKey>
+            <fieldName>numacqrate_numerator,numacqrate_denominator,tpaysuccess</fieldName>
+            <hql>
+                <![CDATA[
+                 select projectid projectid,relchannel relchannel,partnerid partnerid,dtime dtime,
+                        sum(numacqrate_numerator) numacqrate_numerator,
+                        sum(numacqrate_denominator) numacqrate_denominator,
+                        sum(tpaysuccess) tpaysuccess 
+                   from game.t_mid_browser
+                  where dtime > '{STARTTIME}'
+                    and dtime < '{ENDTIME}'
+                  group by projectid,relchannel,partnerid,dtime
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+         <!--按推广渠道求和分组的号码获取率和订购成功信息-->
+        <multiHqlReportIndex>
+            <indexKey>game.affiliation.groupby_promotionchannel_more.d</indexKey>
+            <fieldName>numacqrate_numerator,numacqrate_denominator,tpaysuccess</fieldName>
+            <autoJoin>false</autoJoin>
+            <hql>
+                <![CDATA[
+          select t1.projectid projectid,t1.relchannel relchannel,t1.partnerid partnerid,t2.currency currency,t1.dtime dtime,t1.numacqrate_numerator numacqrate_numerator,t1.numacqrate_denominator numacqrate_denominator,t1.tpaysuccess tpaysuccess
+           from (select projectid,relchannel,partnerid,dtime,
+                        sum(numacqrate_numerator) numacqrate_numerator,
+                        sum(numacqrate_denominator) numacqrate_denominator,
+                        sum(tpaysuccess) tpaysuccess
+                   from game.t_mid_browser
+                  where dtime > '{STARTTIME}'
+                    and dtime < '{ENDTIME}'
+                  group by projectid,relchannel,partnerid,dtime) t1
+                  left outer join (select t.projectid,t.relchannel,t.partnerid,t.dtime,t.currency
+                                    from game.t_game_affiliation_d_hbase t
+                                   where t.dtime > '{STARTTIME}'
+                                     and t.dtime < '{ENDTIME}'
+                                     and t.relchannel is not null
+                                     and t.partnerid is not null
+                                     and t.affiliatechannelid is null
+                                     and t.activityid is null
+                                     and t.currency is not null
+                                     and t.chargechannelid is null
+                                     and t.numacqrate_numerator is null
+                                     and t.numacqrate_denominator is null) t2
+                         on t1.projectid = t2.projectid
+                        and t1.relchannel = t2.relchannel
+                        and t1.partnerid = t2.partnerid
+                        and t1.dtime = t2.dtime
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+         <!--追加按按营销活动分组的号码获取率和订购成功信息-->
+        <multiHqlReportIndex>
+            <indexKey>game.affiliation.groupby_promotionactivity_more.d</indexKey>
+            <fieldName>numacqrate_numerator,numacqrate_denominator,tpaysuccess</fieldName>
+            <autoJoin>false</autoJoin>
+            <hql>
+                <![CDATA[
+            select t1.projectid projectid,t1.relchannel relchannel,t1.affiliatechannelid affiliatechannelid,t1.partnerid partnerid,t2.currency currency,t1.activityid activityid,t1.dtime dtime,t1.numacqrate_numerator numacqrate_numerator,t1.numacqrate_denominator numacqrate_denominator,t1.tpaysuccess tpaysuccess
+              from (select projectid,relchannel,affiliatechannelid,partnerid,activityid,dtime,
+                        sum(numacqrate_numerator) numacqrate_numerator,
+                        sum(numacqrate_denominator) numacqrate_denominator,
+                        sum(tpaysuccess) tpaysuccess
+                   from game.t_mid_browser
+                  where dtime > '{STARTTIME}'
+                    and dtime < '{ENDTIME}'
+                  group by projectid,relchannel,affiliatechannelid,partnerid,activityid,dtime) t1
+                   left outer join (select t.projectid,t.relchannel,affiliatechannelid,t.partnerid,activityid,t.dtime,t.currency
+                                    from game.t_game_affiliation_d_hbase t
+                                   where t.dtime > '{STARTTIME}'
+                                     and t.dtime < '{ENDTIME}'
+                                     and t.relchannel is not null
+                                     and t.partnerid is not null
+                                     and t.affiliatechannelid is not null
+                                     and t.activityid is not null
+                                     and t.currency is not null
+                                     and t.chargechannelid is null
+                                     and t.numacqrate_numerator is null
+                                     and t.numacqrate_denominator is null) t2
+                        on t1.projectid = t2.projectid
+                        and t1.relchannel = t2.relchannel
+                        and t1.affiliatechannelid = t2.affiliatechannelid
+                        and t1.partnerid = t2.partnerid
+                        and t1.activityid = t2.activityid
+                        and t1.dtime = t2.dtime
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+    </multiHqlReportIndexs>
+</reportIndexGroup>

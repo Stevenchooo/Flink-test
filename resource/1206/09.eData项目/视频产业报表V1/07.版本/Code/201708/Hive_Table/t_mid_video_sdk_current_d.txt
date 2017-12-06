@@ -1,0 +1,27 @@
+drop table video.t_mid_video_sdk_current_d;
+create table video.t_mid_video_sdk_current_d
+(
+projectid string,
+platformid string,
+activitychannelid string,
+activityid  string,
+dtime string,
+newvisitor int,
+totalvisitor int,
+activeusers  int,
+registeruseractive int,
+neworderuser int,
+loginuser int,
+appdownload int ,
+newsubscriber int ,
+day01retentionrate double,
+day03retentionrate double,
+day07retentionrate double,
+day15retentionrate double,
+day30retentionrate double
+)
+partitioned by(
+date string
+)
+row format delimited fields terminated by '\t' map keys terminated by '&' stored as textfile;
+grant select,delete,insert on t_mid_video_sdk_current_d to user mapred;

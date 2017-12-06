@@ -1,0 +1,81 @@
+<reportIndexGroup>
+    <multiHqlReportIndexs>
+		<!--
+		//内容ID	含点播内容和直播内容
+		//内容名称 contentname = 按默认语言显示内容名字
+		//内容分类 category = Movie-电影；Episode-电视剧；LiveTV-直播频道
+		//归属合作伙伴 companyname = 归属的合作伙伴名称
+		//内容所属的区域ID region = category 为LiveTV时，该字段为空。
+		//内容类别 genreid	[category为LiveTV时，该字段为空。]
+		//内容语言 language [category为LiveTV时，该字段为空。]
+		//操作	点击内容进入到具体内容的分析页面[内容运营单内容界面]
+		-->
+		<multiHqlReportIndex>
+            <indexKey>video.edc.content.analyse.contentinfo.d</indexKey>
+            <fieldName>contentname,category,companyname,region,genreid,language</fieldName>
+            <hql>
+                <![CDATA[
+				select contentid,dtime,
+					   contentname,
+					   category,
+					   companyname,
+					   region,
+					   genreid,
+					   language
+				  from (select t1.contentid,
+							   t1.dtime,
+							   t1.contentname,
+							   t2.category,
+							   t1.companyname,
+							   t2.region,
+							   t2.genreid,
+							   t2.language
+						  from (select *
+								  from video.t_video_edc_vod_analyse_d_hbase t
+								 where t.dtime > '{STARTTIME}'
+								   and t.dtime < '{ENDTIME}'
+								   and t.projectid is null
+								   and t.providerid is not null
+								   and t.contentid is not null) t1
+						  left join (select t.code, t.category, t.region, t.genreid, t.language
+									   from (select code,category,region,genreid,language,
+									               row_number() over(partition by code order by operatetime desc) as rn
+									          from video.t_cdr_dic_content_manage
+									         ) t
+									  where t.rn = 1) t2
+							on t1.contentid = t2.code
+						union all
+						select t1.logicalchannelid contentid,
+							   t1.dtime,
+							   t1.contentname,
+							   t2.category,
+							   t1.companyname,
+							   t2.region,
+							   t2.genreid,
+							   t2.language
+						  from (select *
+								  from video.t_video_edc_livetv_analyse_d_hbase t
+								 where t.dtime > '{STARTTIME}'
+								   and t.dtime < '{ENDTIME}'
+								   and t.projectid is null
+								   and t.providerid is not null
+								   and t.logicalchannelid is not null) t1
+						  left join (select t.code, t.category, t.region, t.genreid, t.language
+									   from (select code,category,region,genreid,language,
+									                row_number() over(partition by code order by operatetime desc) as rn
+									           from video.t_cdr_dic_content_manage
+									          ) t
+									  where t.rn = 1) t2
+							on t1.logicalchannelid = t2.code) tt
+				 group by contentid,dtime,
+						  contentname,
+						  category,
+						  companyname,
+						  region,
+						  genreid,
+						  language
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+    </multiHqlReportIndexs>
+</reportIndexGroup>

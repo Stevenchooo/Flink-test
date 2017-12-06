@@ -1,0 +1,168 @@
+<reportIndexGroup>
+    <multiHqlReportIndexs>		
+<!--  设置周期为两天，即 观看时间 出现的情况是 跨一天 ！！！！【20161020】-->
+<!--  由于系统执行周期为两天，则【t1.date < t2.dtime AND substr(t1.endtime, 0, 8) >= t2.dtime】只能更新跨一天的两天的数据范围！！！-->
+
+<!--  若周期变动，而系统中的'{STARTTIME}'未变化，只需要修改 【t.dtime > '{STARTTIME}' AND t.dtime < '{ENDTIME}'】中的变量！！！设置视频周期为五天则修改：-->
+<!--  t.dtime > from_unixtime(unix_timestamp(date_sub(from_unixtime(unix_timestamp('{STARTTIME}','yyyyMMdd'),'yyyy-MM-dd'),5),'yyyy-MM-dd'), 'yyyyMMdd')-->
+
+<!--  若视频周期变动，系统的周期和视频周期相同，都是五天范围，只需按照下列修改:-->
+<!--  t.dtime > from_unixtime(unix_timestamp(date_sub(from_unixtime(unix_timestamp('{STARTTIME}','yyyyMMdd'),'yyyy-MM-dd'),10),'yyyy-MM-dd'), 'yyyyMMdd')-->
+	
+		<!--  每天实际 观看用户数  watch -->
+        <multiHqlReportIndex>
+            <indexKey>video.vod.day.watch.watchall.d</indexKey>
+            <fieldName>watch,h00watch,h01watch,h02watch,h03watch,h04watch,h05watch,h06watch,h07watch,h08watch,h09watch,h10watch,h11watch,h12watch,h13watch,h14watch,h15watch,h16watch,h17watch,h18watch,h19watch,h20watch,h21watch,h22watch,h23watch</fieldName>
+            <hql>
+                <![CDATA[
+				select projectid,activitychannelid,dtime,
+					   count(distinct(t.allusers)) watch,
+					   count(distinct(t.h00user)) h00watch,
+					   count(distinct(t.h01user)) h01watch,
+					   count(distinct(t.h02user)) h02watch,
+					   count(distinct(t.h03user)) h03watch,
+					   count(distinct(t.h04user)) h04watch,
+					   count(distinct(t.h05user)) h05watch,
+					   count(distinct(t.h06user)) h06watch,
+					   count(distinct(t.h07user)) h07watch,
+					   count(distinct(t.h08user)) h08watch,
+					   count(distinct(t.h09user)) h09watch,
+					   count(distinct(t.h10user)) h10watch,
+					   count(distinct(t.h11user)) h11watch,
+					   count(distinct(t.h12user)) h12watch,
+					   count(distinct(t.h13user)) h13watch,
+					   count(distinct(t.h14user)) h14watch,
+					   count(distinct(t.h15user)) h15watch,
+					   count(distinct(t.h16user)) h16watch,
+					   count(distinct(t.h17user)) h17watch,
+					   count(distinct(t.h18user)) h18watch,
+					   count(distinct(t.h19user)) h19watch,
+					   count(distinct(t.h20user)) h20watch,
+					   count(distinct(t.h21user)) h21watch,
+					   count(distinct(t.h22user)) h22watch,
+					   count(distinct(t.h23user)) h23watch
+				  from (select t1.projectid projectid,
+							   if(t1.activitychannelid is null,'none',t1.activitychannelid) activitychannelid,
+							   t2.dtime dtime,
+							   if(substr(t1.starttime,0,10) = concat(t2.dtime,'00'),t1.subscriberid,
+							   if(substr(t1.starttime,0,10) < concat(t2.dtime,'00') and substr(t1.endtime,0,10)  >= concat(t2.dtime,'00'),t1.subscriberid,null)) h00user,
+							   if(substr(t1.starttime,0,10) = concat(t2.dtime,'01'),t1.subscriberid,
+							   if(substr(t1.starttime,0,10) < concat(t2.dtime,'01') and substr(t1.endtime,0,10)  >= concat(t2.dtime,'01'),t1.subscriberid,null)) h01user,
+							   if(substr(t1.starttime,0,10) = concat(t2.dtime,'02'),t1.subscriberid,
+							   if(substr(t1.starttime,0,10) < concat(t2.dtime,'02') and substr(t1.endtime,0,10)  >= concat(t2.dtime,'02'),t1.subscriberid,null)) h02user,
+							   if(substr(t1.starttime,0,10) = concat(t2.dtime,'03'),t1.subscriberid,
+							   if(substr(t1.starttime,0,10) < concat(t2.dtime,'03') and substr(t1.endtime,0,10)  >= concat(t2.dtime,'03'),t1.subscriberid,null)) h03user,
+							   if(substr(t1.starttime,0,10) = concat(t2.dtime,'04'),t1.subscriberid,
+							   if(substr(t1.starttime,0,10) < concat(t2.dtime,'04') and substr(t1.endtime,0,10)  >= concat(t2.dtime,'04'),t1.subscriberid,null)) h04user,
+							   if(substr(t1.starttime,0,10) = concat(t2.dtime,'05'),t1.subscriberid,
+							   if(substr(t1.starttime,0,10) < concat(t2.dtime,'05') and substr(t1.endtime,0,10)  >= concat(t2.dtime,'05'),t1.subscriberid,null)) h05user,
+							   if(substr(t1.starttime,0,10) = concat(t2.dtime,'06'),t1.subscriberid,
+							   if(substr(t1.starttime,0,10) < concat(t2.dtime,'06') and substr(t1.endtime,0,10)  >= concat(t2.dtime,'06'),t1.subscriberid,null)) h06user,
+							   if(substr(t1.starttime,0,10) = concat(t2.dtime,'07'),t1.subscriberid,
+							   if(substr(t1.starttime,0,10) < concat(t2.dtime,'07') and substr(t1.endtime,0,10)  >= concat(t2.dtime,'07'),t1.subscriberid,null)) h07user,
+							   if(substr(t1.starttime,0,10) = concat(t2.dtime,'08'),t1.subscriberid,
+							   if(substr(t1.starttime,0,10) < concat(t2.dtime,'08') and substr(t1.endtime,0,10)  >= concat(t2.dtime,'08'),t1.subscriberid,null)) h08user,
+							   if(substr(t1.starttime,0,10) = concat(t2.dtime,'09'),t1.subscriberid,
+							   if(substr(t1.starttime,0,10) < concat(t2.dtime,'09') and substr(t1.endtime,0,10)  >= concat(t2.dtime,'09'),t1.subscriberid,null)) h09user,
+							   if(substr(t1.starttime,0,10) = concat(t2.dtime,'10'),t1.subscriberid,
+							   if(substr(t1.starttime,0,10) < concat(t2.dtime,'10') and substr(t1.endtime,0,10)  >= concat(t2.dtime,'10'),t1.subscriberid,null)) h10user,
+							   if(substr(t1.starttime,0,10) = concat(t2.dtime,'11'),t1.subscriberid,
+							   if(substr(t1.starttime,0,10) < concat(t2.dtime,'11') and substr(t1.endtime,0,10)  >= concat(t2.dtime,'11'),t1.subscriberid,null)) h11user,
+							   if(substr(t1.starttime,0,10) = concat(t2.dtime,'12'),t1.subscriberid,
+							   if(substr(t1.starttime,0,10) < concat(t2.dtime,'12') and substr(t1.endtime,0,10)  >= concat(t2.dtime,'12'),t1.subscriberid,null)) h12user,
+							   if(substr(t1.starttime,0,10) = concat(t2.dtime,'13'),t1.subscriberid,
+							   if(substr(t1.starttime,0,10) < concat(t2.dtime,'13') and substr(t1.endtime,0,10)  >= concat(t2.dtime,'13'),t1.subscriberid,null)) h13user,
+							   if(substr(t1.starttime,0,10) = concat(t2.dtime,'14'),t1.subscriberid,
+							   if(substr(t1.starttime,0,10) < concat(t2.dtime,'14') and substr(t1.endtime,0,10)  >= concat(t2.dtime,'14'),t1.subscriberid,null)) h14user,
+							   if(substr(t1.starttime,0,10) = concat(t2.dtime,'15'),t1.subscriberid,
+							   if(substr(t1.starttime,0,10) < concat(t2.dtime,'15') and substr(t1.endtime,0,10)  >= concat(t2.dtime,'15'),t1.subscriberid,null)) h15user,
+							   if(substr(t1.starttime,0,10) = concat(t2.dtime,'16'),t1.subscriberid,
+							   if(substr(t1.starttime,0,10) < concat(t2.dtime,'16') and substr(t1.endtime,0,10)  >= concat(t2.dtime,'16'),t1.subscriberid,null)) h16user,
+							   if(substr(t1.starttime,0,10) = concat(t2.dtime,'17'),t1.subscriberid,
+							   if(substr(t1.starttime,0,10) < concat(t2.dtime,'17') and substr(t1.endtime,0,10)  >= concat(t2.dtime,'17'),t1.subscriberid,null)) h17user,
+							   if(substr(t1.starttime,0,10) = concat(t2.dtime,'18'),t1.subscriberid,
+							   if(substr(t1.starttime,0,10) < concat(t2.dtime,'18') and substr(t1.endtime,0,10)  >= concat(t2.dtime,'18'),t1.subscriberid,null)) h18user,
+							   if(substr(t1.starttime,0,10) = concat(t2.dtime,'19'),t1.subscriberid,
+							   if(substr(t1.starttime,0,10) < concat(t2.dtime,'19') and substr(t1.endtime,0,10)  >= concat(t2.dtime,'19'),t1.subscriberid,null)) h19user,
+							   if(substr(t1.starttime,0,10) = concat(t2.dtime,'20'),t1.subscriberid,
+							   if(substr(t1.starttime,0,10) < concat(t2.dtime,'20') and substr(t1.endtime,0,10)  >= concat(t2.dtime,'20'),t1.subscriberid,null)) h20user,
+							   if(substr(t1.starttime,0,10) = concat(t2.dtime,'21'),t1.subscriberid,
+							   if(substr(t1.starttime,0,10) < concat(t2.dtime,'21') and substr(t1.endtime,0,10)  >= concat(t2.dtime,'21'),t1.subscriberid,null)) h21user,
+							   if(substr(t1.starttime,0,10) = concat(t2.dtime,'22'),t1.subscriberid,
+							   if(substr(t1.starttime,0,10) < concat(t2.dtime,'22') and substr(t1.endtime,0,10)  >= concat(t2.dtime,'22'),t1.subscriberid,null)) h22user,
+							   if(substr(t1.starttime,0,10) = concat(t2.dtime,'23'),t1.subscriberid,
+							   if(substr(t1.starttime,0,10) < concat(t2.dtime,'23') and substr(t1.endtime,0,10)  >= concat(t2.dtime,'23'),t1.subscriberid,null)) h23user,
+							   t1.subscriberid allusers
+						  from video.t_cdr_vod_watch_event t1,
+							   ( SELECT t.dtime, unix_timestamp(t.dtime,'yyyyMMdd') dtimestamp
+								   FROM video.t_bdi_muchtv_video_rundate t 
+								  WHERE t.dtime > '{STARTTIME}' AND t.dtime < '{ENDTIME}')t2
+						 where (t1.date < t2.dtime AND substr(t1.endtime, 0, 8) >= t2.dtime)
+							or  t1.date = t2.dtime
+					union all
+						select t1.projectid projectid,
+							   'ALL' activitychannelid,
+							   t2.dtime dtime,
+							   if(substr(t1.starttime,0,10) = concat(t2.dtime,'00'),t1.subscriberid,
+							   if(substr(t1.starttime,0,10) < concat(t2.dtime,'00') and substr(t1.endtime,0,10)  >= concat(t2.dtime,'00'),t1.subscriberid,null)) h00user,
+							   if(substr(t1.starttime,0,10) = concat(t2.dtime,'01'),t1.subscriberid,
+							   if(substr(t1.starttime,0,10) < concat(t2.dtime,'01') and substr(t1.endtime,0,10)  >= concat(t2.dtime,'01'),t1.subscriberid,null)) h01user,
+							   if(substr(t1.starttime,0,10) = concat(t2.dtime,'02'),t1.subscriberid,
+							   if(substr(t1.starttime,0,10) < concat(t2.dtime,'02') and substr(t1.endtime,0,10)  >= concat(t2.dtime,'02'),t1.subscriberid,null)) h02user,
+							   if(substr(t1.starttime,0,10) = concat(t2.dtime,'03'),t1.subscriberid,
+							   if(substr(t1.starttime,0,10) < concat(t2.dtime,'03') and substr(t1.endtime,0,10)  >= concat(t2.dtime,'03'),t1.subscriberid,null)) h03user,
+							   if(substr(t1.starttime,0,10) = concat(t2.dtime,'04'),t1.subscriberid,
+							   if(substr(t1.starttime,0,10) < concat(t2.dtime,'04') and substr(t1.endtime,0,10)  >= concat(t2.dtime,'04'),t1.subscriberid,null)) h04user,
+							   if(substr(t1.starttime,0,10) = concat(t2.dtime,'05'),t1.subscriberid,
+							   if(substr(t1.starttime,0,10) < concat(t2.dtime,'05') and substr(t1.endtime,0,10)  >= concat(t2.dtime,'05'),t1.subscriberid,null)) h05user,
+							   if(substr(t1.starttime,0,10) = concat(t2.dtime,'06'),t1.subscriberid,
+							   if(substr(t1.starttime,0,10) < concat(t2.dtime,'06') and substr(t1.endtime,0,10)  >= concat(t2.dtime,'06'),t1.subscriberid,null)) h06user,
+							   if(substr(t1.starttime,0,10) = concat(t2.dtime,'07'),t1.subscriberid,
+							   if(substr(t1.starttime,0,10) < concat(t2.dtime,'07') and substr(t1.endtime,0,10)  >= concat(t2.dtime,'07'),t1.subscriberid,null)) h07user,
+							   if(substr(t1.starttime,0,10) = concat(t2.dtime,'08'),t1.subscriberid,
+							   if(substr(t1.starttime,0,10) < concat(t2.dtime,'08') and substr(t1.endtime,0,10)  >= concat(t2.dtime,'08'),t1.subscriberid,null)) h08user,
+							   if(substr(t1.starttime,0,10) = concat(t2.dtime,'09'),t1.subscriberid,
+							   if(substr(t1.starttime,0,10) < concat(t2.dtime,'09') and substr(t1.endtime,0,10)  >= concat(t2.dtime,'09'),t1.subscriberid,null)) h09user,
+							   if(substr(t1.starttime,0,10) = concat(t2.dtime,'10'),t1.subscriberid,
+							   if(substr(t1.starttime,0,10) < concat(t2.dtime,'10') and substr(t1.endtime,0,10)  >= concat(t2.dtime,'10'),t1.subscriberid,null)) h10user,
+							   if(substr(t1.starttime,0,10) = concat(t2.dtime,'11'),t1.subscriberid,
+							   if(substr(t1.starttime,0,10) < concat(t2.dtime,'11') and substr(t1.endtime,0,10)  >= concat(t2.dtime,'11'),t1.subscriberid,null)) h11user,
+							   if(substr(t1.starttime,0,10) = concat(t2.dtime,'12'),t1.subscriberid,
+							   if(substr(t1.starttime,0,10) < concat(t2.dtime,'12') and substr(t1.endtime,0,10)  >= concat(t2.dtime,'12'),t1.subscriberid,null)) h12user,
+							   if(substr(t1.starttime,0,10) = concat(t2.dtime,'13'),t1.subscriberid,
+							   if(substr(t1.starttime,0,10) < concat(t2.dtime,'13') and substr(t1.endtime,0,10)  >= concat(t2.dtime,'13'),t1.subscriberid,null)) h13user,
+							   if(substr(t1.starttime,0,10) = concat(t2.dtime,'14'),t1.subscriberid,
+							   if(substr(t1.starttime,0,10) < concat(t2.dtime,'14') and substr(t1.endtime,0,10)  >= concat(t2.dtime,'14'),t1.subscriberid,null)) h14user,
+							   if(substr(t1.starttime,0,10) = concat(t2.dtime,'15'),t1.subscriberid,
+							   if(substr(t1.starttime,0,10) < concat(t2.dtime,'15') and substr(t1.endtime,0,10)  >= concat(t2.dtime,'15'),t1.subscriberid,null)) h15user,
+							   if(substr(t1.starttime,0,10) = concat(t2.dtime,'16'),t1.subscriberid,
+							   if(substr(t1.starttime,0,10) < concat(t2.dtime,'16') and substr(t1.endtime,0,10)  >= concat(t2.dtime,'16'),t1.subscriberid,null)) h16user,
+							   if(substr(t1.starttime,0,10) = concat(t2.dtime,'17'),t1.subscriberid,
+							   if(substr(t1.starttime,0,10) < concat(t2.dtime,'17') and substr(t1.endtime,0,10)  >= concat(t2.dtime,'17'),t1.subscriberid,null)) h17user,
+							   if(substr(t1.starttime,0,10) = concat(t2.dtime,'18'),t1.subscriberid,
+							   if(substr(t1.starttime,0,10) < concat(t2.dtime,'18') and substr(t1.endtime,0,10)  >= concat(t2.dtime,'18'),t1.subscriberid,null)) h18user,
+							   if(substr(t1.starttime,0,10) = concat(t2.dtime,'19'),t1.subscriberid,
+							   if(substr(t1.starttime,0,10) < concat(t2.dtime,'19') and substr(t1.endtime,0,10)  >= concat(t2.dtime,'19'),t1.subscriberid,null)) h19user,
+							   if(substr(t1.starttime,0,10) = concat(t2.dtime,'20'),t1.subscriberid,
+							   if(substr(t1.starttime,0,10) < concat(t2.dtime,'20') and substr(t1.endtime,0,10)  >= concat(t2.dtime,'20'),t1.subscriberid,null)) h20user,
+							   if(substr(t1.starttime,0,10) = concat(t2.dtime,'21'),t1.subscriberid,
+							   if(substr(t1.starttime,0,10) < concat(t2.dtime,'21') and substr(t1.endtime,0,10)  >= concat(t2.dtime,'21'),t1.subscriberid,null)) h21user,
+							   if(substr(t1.starttime,0,10) = concat(t2.dtime,'22'),t1.subscriberid,
+							   if(substr(t1.starttime,0,10) < concat(t2.dtime,'22') and substr(t1.endtime,0,10)  >= concat(t2.dtime,'22'),t1.subscriberid,null)) h22user,
+							   if(substr(t1.starttime,0,10) = concat(t2.dtime,'23'),t1.subscriberid,
+							   if(substr(t1.starttime,0,10) < concat(t2.dtime,'23') and substr(t1.endtime,0,10)  >= concat(t2.dtime,'23'),t1.subscriberid,null)) h23user,
+							   t1.subscriberid allusers
+						  from video.t_cdr_vod_watch_event t1,
+							   ( SELECT t.dtime, unix_timestamp(t.dtime,'yyyyMMdd') dtimestamp
+								   FROM video.t_bdi_muchtv_video_rundate t 
+								  WHERE t.dtime > '{STARTTIME}' AND t.dtime < '{ENDTIME}')t2
+						 where (t1.date < t2.dtime AND substr(t1.endtime, 0, 8) >= t2.dtime)
+							or  t1.date = t2.dtime
+					)t
+				group by projectid,activitychannelid,dtime
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+
+    </multiHqlReportIndexs>
+</reportIndexGroup>

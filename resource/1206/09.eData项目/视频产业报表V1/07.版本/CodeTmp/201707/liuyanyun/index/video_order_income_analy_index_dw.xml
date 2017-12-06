@@ -1,0 +1,191 @@
+<reportIndexGroup>
+    <multiHqlReportIndexs>	
+<!--  operationType 计费类型： 1：订购 ; 2：退订 ; 3：点播 ; 4 : 续订 ; 5 : 预售激活-->
+<!--  BILL_TYPE 帐单类型 ： 100:  话单费、 200:  月租费、 300:  优惠费用、 400:  一次性费用 -->
+<!--  货币分为：本币和美元，本币为，话单入库中的 if(fee is null,0,fee) fee, 美元需要BDI对本币进行汇率处理后得到 fee_usd -->
+		<!--  【支付话单】，根据支付时间（time）取当年的话单将fee字段累加 -->
+		<!--  美元 当年累计流水 yearallincome  -->
+		<!--  本币 当年累计流水 localyearallincome  -->
+        <multiHqlReportIndex>
+            <indexKey>video.order.income.analyse.yearincome.dw</indexKey>
+            <fieldName>yearallincome,localyearallincome</fieldName>
+            <hql>
+                <![CDATA[
+				select projectid,activitychannelid,dtime,
+					   yearallincome,
+					   localyearallincome
+				  from (select projectid,
+							   if(t.activitychannelid is null, 'ALL', t.activitychannelid) activitychannelid,
+							   dtime,
+							   yearallincome,
+							   localyearallincome
+						  from video.t_video_order_income_analy_d_hbase t
+						 where t.dtime > '{STARTTIME}'
+						   and t.dtime < '{ENDTIME}') tt
+				 group by projectid,activitychannelid,dtime,
+						  yearallincome,
+						  localyearallincome
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+		
+		<!--  
+		//当期 付费用户数 newpayuser
+		//美元 当期 付费流水 newincome
+		//本币 当期 付费流水 localnewincome
+		-->
+		<!--
+		//按项目ID，取【支付话单】中，billtype为“400:一次性费用”的话单
+		//当期 按次付费用户数 newclickuser
+		//美元 当期 按次付费流水  newclick
+		//本币 当期 按次付费流水  localnewclick
+		-->
+		<!--
+		//取【支付话单】中，billtype为“200:  月租费”
+		//当期 订阅用户数 newsubscribeuser
+		//美元 当期 订阅流水 newsubscribe
+		//本币 当期 订阅流水 localnewsubscribe
+		-->
+        <multiHqlReportIndex>
+            <indexKey>video.order.income.analyse.incomeanalyse.dw</indexKey>
+            <fieldName>newincome,localnewincome,newpayuser,newclick,localnewclick,newclickuser,newsubscribe,localnewsubscribe,newsubscribeuser</fieldName>
+            <hql>
+                <![CDATA[
+				select projectid,activitychannelid,dtime,
+					   sum(fee_usd) newincome,
+					   sum(fee) localnewincome,
+					   count(distinct(identityid)) newpayuser,
+					   sum(newclick) newclick,
+					   sum(localnewclick) localnewclick,
+					   count(distinct(newclickuser)) newclickuser,
+					   sum(newsubscribe) newsubscribe,
+					   sum(localnewsubscribe) localnewsubscribe,
+					   count(distinct(newsubscribeuser)) newsubscribeuser
+				  from (select t1.projectid,
+							   if(t1.activitychannelid is null, 'none', t1.activitychannelid) activitychannelid,
+							   t2.dtime,
+							   if(t1.fee_usd is null, 0, t1.fee_usd) fee_usd,
+							   if(t1.fee is null, 0, t1.fee) fee,
+							   t1.identityid,
+							   if(t1.bill_type = '400', t1.fee_usd, 0) newclick,
+							   if(t1.bill_type = '400', t1.fee, 0) localnewclick,
+							   if(t1.bill_type = '400', t1.identityid, null) newclickuser,
+							   if(t1.bill_type = '200', t1.fee_usd, 0) newsubscribe,
+							   if(t1.bill_type = '200', t1.fee, 0) localnewsubscribe,
+							   if(t1.bill_type = '200', t1.identityid, null) newsubscribeuser
+						  from (select projectid,activitychannelid,t.date dtime,fee_usd,fee,identityid,bill_type
+								  from video.t_cdr_top_payment_info t
+								 where t.date > from_unixtime(unix_timestamp(date_sub(from_unixtime(unix_timestamp('{STARTTIME}',
+												'yyyyMMdd'),'yyyy-MM-dd'),7),'yyyy-MM-dd'),'yyyyMMdd')
+								   and t.date < '{ENDTIME}') t1,
+							   (select t.dtime, t.weekdays
+								  from video.t_bdi_muchtv_video_rundate t
+								 where t.dtime > '{STARTTIME}'
+								   and t.dtime < '{ENDTIME}') t2
+						 where t1.dtime > from_unixtime(unix_timestamp(date_sub(from_unixtime(unix_timestamp(t2.dtime,
+											'yyyyMMdd'),'yyyy-MM-dd'),t2.weekdays),'yyyy-MM-dd'),'yyyyMMdd')
+						   and t1.dtime < from_unixtime(unix_timestamp(date_add(from_unixtime(unix_timestamp(t2.dtime,
+											'yyyyMMdd'),'yyyy-MM-dd'),1),'yyyy-MM-dd'),'yyyyMMdd')
+					union all
+						select t1.projectid,
+							   'ALL' activitychannelid,
+							   t2.dtime,
+							   if(t1.fee_usd is null, 0, t1.fee_usd) fee_usd,
+							   if(t1.fee is null, 0, t1.fee) fee,
+							   t1.identityid,
+							   if(t1.bill_type = '400', t1.fee_usd, 0) newclick,
+							   if(t1.bill_type = '400', t1.fee, 0) localnewclick,
+							   if(t1.bill_type = '400', t1.identityid, null) newclickuser,
+							   if(t1.bill_type = '200', t1.fee_usd, 0) newsubscribe,
+							   if(t1.bill_type = '200', t1.fee, 0) localnewsubscribe,
+							   if(t1.bill_type = '200', t1.identityid, null) newsubscribeuser
+						  from (select projectid,activitychannelid,t.date dtime,fee_usd,fee,identityid,bill_type
+								  from video.t_cdr_top_payment_info t
+								 where t.date > from_unixtime(unix_timestamp(date_sub(from_unixtime(unix_timestamp('{STARTTIME}',
+												'yyyyMMdd'),'yyyy-MM-dd'),7),'yyyy-MM-dd'),'yyyyMMdd')
+								   and t.date < '{ENDTIME}') t1,
+							   (select t.dtime, t.weekdays
+								  from video.t_bdi_muchtv_video_rundate t
+								 where t.dtime > '{STARTTIME}'
+								   and t.dtime < '{ENDTIME}') t2
+						 where t1.dtime > from_unixtime(unix_timestamp(date_sub(from_unixtime(unix_timestamp(t2.dtime,
+											'yyyyMMdd'),'yyyy-MM-dd'),t2.weekdays),'yyyy-MM-dd'),'yyyyMMdd')
+						   and t1.dtime < from_unixtime(unix_timestamp(date_add(from_unixtime(unix_timestamp(t2.dtime,
+											'yyyyMMdd'),'yyyy-MM-dd'),1),'yyyy-MM-dd'),'yyyyMMdd')
+						
+						) tt
+				 group by projectid, activitychannelid, dtime
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+
+		<!--hwx411690,20170306-->
+		<!--  newpayconvert 付费转换率= 当期付费用户数 / 注册用户总数  -->
+		<!--  用户活跃报表指标 t_video_develop_user_active_d_hbase 注册用户总数  totalregisteruser -->
+		<!-- 201707 t_video_develop_user_active_d_hbase增加了platformid字段，注册用户数需要增加platformid=ALL条件 -->
+        <multiHqlReportIndex>
+            <indexKey>video.order.income.analyse.newpayconvert.dw</indexKey>
+            <fieldName>newpayconvert</fieldName>
+            <hql>
+                <![CDATA[
+				select projectid,activitychannelid,dtime,
+					   (newpayuser / totalregisteruser) newpayconvert
+				  from (select t1.projectid,
+							   t1.activitychannelid,
+							   t1.dtime,
+							   t1.newpayuser,
+							   t2.totalregisteruser
+						  from (select projectid,
+									   if(t.activitychannelid is null,'ALL',t.activitychannelid) activitychannelid,
+									   dtime,
+									   if(t.newpayuser is null, 0, t.newpayuser) newpayuser
+								  from video.t_video_order_income_analy_sd_hbase t
+								 where t.dtime > '{STARTTIME}'
+								   and t.dtime < '{ENDTIME}') t1,
+							   (select projectid,
+									   if(t.activitychannelid is null,'ALL',t.activitychannelid) activitychannelid,
+									   dtime,
+									   if(t.totalregisteruser is null, 0, t.totalregisteruser) totalregisteruser
+								  from video.t_video_develop_user_active_d_hbase t
+								 where t.dtime > '{STARTTIME}'
+								   and t.dtime < '{ENDTIME}'
+								   and t.platformid is null) t2
+						 where t1.dtime = t2.dtime
+						   and t1.projectid = t2.projectid
+						   and t1.activitychannelid = t2.activitychannelid) ttt
+				 group by projectid,activitychannelid,dtime,
+						  (newpayuser / totalregisteruser)
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+		
+		<!--  ARPU每用户平均流水=当期付费流水 localnewincome /当期付费用户数 newpayuser  -->
+		<!--  美元 ARPU		arpuincome  -->
+		<!--  本币 ARPU		localarpuincome  -->
+        <multiHqlReportIndex>
+            <indexKey>video.order.income.analyse.arpu.d</indexKey>
+            <fieldName>arpuincome,localarpuincome</fieldName>
+            <hql>
+                <![CDATA[
+				select projectid,activitychannelid,dtime,
+					   (newincome / newpayuser) arpuincome,
+					   (localnewincome / newpayuser) localarpuincome
+				  from (select projectid,
+							   if(activitychannelid is null, 'ALL', activitychannelid) activitychannelid,
+							   dtime,
+							   if(t.newincome is null, 0, t.newincome) newincome,
+							   if(t.localnewincome is null, 0, t.localnewincome) localnewincome,
+							   if(t.newpayuser is null, 0, t.newpayuser) newpayuser
+						  from video.t_video_order_income_analy_sd_hbase t
+						 where t.dtime > '{STARTTIME}'
+						   and t.dtime < '{ENDTIME}') tt
+				 group by projectid,activitychannelid,dtime,
+						  (newincome / newpayuser),
+						  (localnewincome / newpayuser)
+
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+
+    </multiHqlReportIndexs>
+</reportIndexGroup>

@@ -1,0 +1,15 @@
+drop table video.t_mid_video_sdk_neworderuser_dw;
+create table video.t_mid_video_sdk_neworderuser_dw
+(
+projectid string,
+platformid string,
+activitychannelid string,
+activityid  string,
+dtime string,
+neworderuser int
+)
+partitioned by(
+date string
+)
+row format delimited fields terminated by '\t' map keys terminated by '&' stored as textfile;
+grant select,delete,insert on t_mid_video_sdk_neworderuser_dw to user mapred;

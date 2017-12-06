@@ -1,0 +1,184 @@
+<reportIndexGroup>
+    <multiHqlReportIndexs>
+<!--
+//下面结算数据key类型有：
+//[点播内容观看排行]
+//projectid@8601#activitychannelid@aa#contentid@110#dtime@20170215# 或者 projectid@8601#contentid@110#dtime@20170215#
+//
+//[点播内容运营趋势]
+//projectid@8601#activitychannelid@aa#dtime@20170215# 或者 projectid@8601#dtime@20170215#
+//
+//20170216备注：
+//下面的SQL逻辑是考虑观看跨天的情况数据。由于不能明确视频最大时长，故无法确定针对跨天数据的(starttime)
+//故统计次数、用户数和时长指标时候采取全表扫描。等确定最大时长进行指标优化。
+-->
+<!--
+[20170309@SE]初步设定视频周期为三天 即观看时间记录不会超过48小时
+-->
+		<!--  当期 点播某VOD总次数 playTimes -->
+		<!--  当期 点播VOD内容数量 videosNumber -->
+		<!--  当期 点播某VOD总用户数 playUsers -->
+		<!--  当期 点播某VOD总时长 playTime -->
+		<multiHqlReportIndex>
+            <indexKey>video.edp.vod.content.playvod.d</indexKey>
+            <fieldName>playtimes,videosnumber,playusers,playtime</fieldName>
+            <hql>
+                <![CDATA[
+select projectid,activitychannelid,contentid,dtime,playtimes,videosnumber,playusers,playtime
+from(	select projectid,activitychannelid,contentid,dtime,
+					   count(subscriberid) playtimes,
+					   'none' videosnumber,
+					   count(distinct(subscriberid)) playusers,
+					   sum(unix_timestamp(endtime, 'yyyyMMddHHmmss') - unix_timestamp(starttime, 'yyyyMMddHHmmss')) playtime
+				  from (select t1.projectid,
+							   if(t1.activitychannelid is null, 'none', t1.activitychannelid) activitychannelid,
+							   if(t1.contentid is null, 'none', t1.contentid) contentid,
+							   t2.dtime dtime,
+							   if(t1.dtime = t2.dtime,t1.starttime,from_unixtime(unix_timestamp(t2.dtime, 'yyyyMMdd'),'yyyyMMddHHmmss')) starttime,
+							   if(substr(t1.endtime, 0, 8) > t2.dtime,
+							   from_unixtime(unix_timestamp(date_add(from_unixtime(unix_timestamp(t2.dtime,'yyyyMMdd'),'yyyy-MM-dd'),1),'yyyy-MM-dd'),'yyyyMMddHHmmss'),t1.endtime) endtime,
+							   subscriberid
+						  from (select projectid,activitychannelid,contentid,starttime,endtime,subscriberid,t.date dtime
+								  from video.t_cdr_vod_watch_event t
+								 where t.date > from_unixtime(unix_timestamp(date_sub(from_unixtime(unix_timestamp('{STARTTIME}',
+												'yyyyMMdd'),'yyyy-MM-dd'),3),'yyyy-MM-dd'),'yyyyMMddHHmmss')
+								   and t.date < '{ENDTIME}') t1,
+							   (select t.dtime
+								  from video.t_bdi_muchtv_video_rundate t
+								 where t.dtime > '{STARTTIME}'
+								   and t.dtime < '{ENDTIME}') t2
+						 where (t1.dtime < t2.dtime AND substr(t1.endtime, 0, 8) >= t2.dtime) or t1.dtime = t2.dtime
+						union all
+						select t1.projectid,
+							   'ALL' activitychannelid,
+							   if(t1.contentid is null, 'none', t1.contentid) contentid,
+							   t2.dtime dtime,
+							   if(t1.dtime = t2.dtime,t1.starttime,from_unixtime(unix_timestamp(t2.dtime, 'yyyyMMdd'),'yyyyMMddHHmmss')) starttime,
+							   if(substr(t1.endtime, 0, 8) > t2.dtime,
+							   from_unixtime(unix_timestamp(date_add(from_unixtime(unix_timestamp(t2.dtime,'yyyyMMdd'),'yyyy-MM-dd'),1),'yyyy-MM-dd'),'yyyyMMddHHmmss'),t1.endtime) endtime,
+							   subscriberid
+						  from (select projectid,activitychannelid,contentid,starttime,endtime,subscriberid,t.date dtime
+								  from video.t_cdr_vod_watch_event t
+								 where t.date > from_unixtime(unix_timestamp(date_sub(from_unixtime(unix_timestamp('{STARTTIME}',
+												'yyyyMMdd'),'yyyy-MM-dd'),3),'yyyy-MM-dd'),'yyyyMMddHHmmss')
+								   and t.date < '{ENDTIME}') t1,
+							   (select t.dtime
+								  from video.t_bdi_muchtv_video_rundate t
+								 where t.dtime > '{STARTTIME}'
+								   and t.dtime < '{ENDTIME}') t2
+						 where (t1.dtime < t2.dtime AND substr(t1.endtime, 0, 8) >= t2.dtime) or t1.dtime = t2.dtime
+					) tt
+				 group by projectid, activitychannelid, contentid, dtime
+				union all
+				select projectid,activitychannelid,'ALL' contentid,dtime,playtimes,videosnumber,playusers,playtime
+				  from (select projectid,activitychannelid,dtime,
+							   count(subscriberid) playtimes,
+							   count(distinct(contentid)) videosnumber,
+							   count(distinct(subscriberid)) playusers,
+							   sum(unix_timestamp(endtime, 'yyyyMMddHHmmss') - unix_timestamp(starttime, 'yyyyMMddHHmmss')) playtime
+						  from (select t1.projectid,
+									   if(t1.activitychannelid is null,'none',t1.activitychannelid) activitychannelid,
+									   t1.contentid,
+									   t2.dtime dtime,
+									   if(t1.dtime = t2.dtime,t1.starttime,from_unixtime(unix_timestamp(t2.dtime, 'yyyyMMdd'),'yyyyMMddHHmmss')) starttime,
+									   if(substr(t1.endtime, 0, 8) > t2.dtime,
+									   from_unixtime(unix_timestamp(date_add(from_unixtime(unix_timestamp(t2.dtime,'yyyyMMdd'),'yyyy-MM-dd'),1),'yyyy-MM-dd'),'yyyyMMddHHmmss'),t1.endtime) endtime,
+									   subscriberid
+								  from (select projectid,activitychannelid,contentid,starttime,endtime,subscriberid,t.date dtime
+										  from video.t_cdr_vod_watch_event t
+										 where t.date > from_unixtime(unix_timestamp(date_sub(from_unixtime(unix_timestamp('{STARTTIME}',
+														'yyyyMMdd'),'yyyy-MM-dd'),3),'yyyy-MM-dd'),'yyyyMMddHHmmss')
+										   and t.date < '{ENDTIME}') t1,
+									   (select t.dtime
+										  from video.t_bdi_muchtv_video_rundate t
+										 where t.dtime > '{STARTTIME}'
+										   and t.dtime < '{ENDTIME}') t2
+								 where (t1.dtime < t2.dtime AND substr(t1.endtime, 0, 8) >= t2.dtime) or t1.dtime = t2.dtime
+								union all
+								select t1.projectid,
+									   'ALL' activitychannelid,
+									   t1.contentid,
+									   t2.dtime dtime,
+									   if(t1.dtime = t2.dtime,t1.starttime,from_unixtime(unix_timestamp(t2.dtime, 'yyyyMMdd'),'yyyyMMddHHmmss')) starttime,
+									   if(substr(t1.endtime, 0, 8) > t2.dtime,
+									   from_unixtime(unix_timestamp(date_add(from_unixtime(unix_timestamp(t2.dtime,'yyyyMMdd'),'yyyy-MM-dd'),1),'yyyy-MM-dd'),'yyyyMMddHHmmss'),t1.endtime) endtime,
+									   subscriberid
+								  from (select projectid,activitychannelid,contentid,starttime,endtime,subscriberid,t.date dtime
+										  from video.t_cdr_vod_watch_event t
+										 where t.date > from_unixtime(unix_timestamp(date_sub(from_unixtime(unix_timestamp('{STARTTIME}',
+														'yyyyMMdd'),'yyyy-MM-dd'),3),'yyyy-MM-dd'),'yyyyMMddHHmmss')
+										   and t.date < '{ENDTIME}') t1,
+									   (select t.dtime
+										  from video.t_bdi_muchtv_video_rundate t
+										 where t.dtime > '{STARTTIME}'
+										   and t.dtime < '{ENDTIME}') t2
+								 where (t1.dtime < t2.dtime AND substr(t1.endtime, 0, 8) >= t2.dtime) or t1.dtime = t2.dtime
+							) tt
+					group by projectid, activitychannelid, dtime
+					)ttt)tb
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+
+		<!--  当期 VOD人均播放时长=播放时长 playtime/ 播放用户数 playusers  perCapitaPlayTime -->
+		<!--  当期 VOD人均播放次数=播放次数 playtimes / 播放用户数 playusers perCapitaPlay -->
+		<!--  当期 VOD次均播放时长=播放时长 playtime/播放次数 playtimes avgVideoTime -->
+        <multiHqlReportIndex>
+            <indexKey>video.edp.vod.content.avgvod.d</indexKey>
+            <fieldName>percapitaplaytime,percapitaplay,avgvideotime</fieldName>
+            <hql>
+                <![CDATA[
+				select projectid,activitychannelid,contentid,dtime,
+					   (playtime / playusers) percapitaplaytime,
+					   (playtimes / playusers) percapitaplay,
+					   (playtime / playtimes) avgvideotime
+				  from (select projectid,
+							   if(activitychannelid is null, 'ALL', activitychannelid) activitychannelid,
+							   if(contentid is null, 'ALL', contentid) contentid,
+							   dtime,
+							   if(playtime is null, 0, playtime) playtime,
+							   if(playtimes is null, 0, playtimes) playtimes,
+							   if(playusers is null, 0, playusers) playusers
+						  from video.t_video_vod_content_analyse_d_hbase t
+						 where t.dtime > '{STARTTIME}'
+						   and t.dtime < '{ENDTIME}') tt
+				 group by projectid,activitychannelid,contentid,dtime,
+						  (playtime / playusers),
+						  (playtimes / playusers),
+						  (playtime / playtimes)
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+		
+		<!--  当期 点播某VOD内容 的名称 contentName  -->
+        <multiHqlReportIndex>
+            <indexKey>video.edp.vod.content.contentname.d</indexKey>
+            <fieldName>contentname</fieldName>
+            <hql>
+                <![CDATA[
+				select projectid, activitychannelid, contentid, dtime, contentname
+				  from (select t1.projectid,
+							   if(t1.activitychannelid is null,'ALL',t1.activitychannelid) activitychannelid,
+							   t1.contentid,
+							   t1.dtime,
+							   if(t2.contentname is null,t1.contentid,t2.contentname) contentname
+						  from (select *
+								  from video.t_video_vod_content_analyse_d_hbase t
+								 where t.dtime > '{STARTTIME}'
+								   and t.dtime < '{ENDTIME}'
+								   and t.contentid is not null) t1
+						  left join (select t.code,t.contentname
+									   from (select code,name contentname,
+									                row_number() over(partition by code order by operatetime desc) as rn
+									           from video.t_cdr_dic_content_manage
+									         ) t
+									  where t.rn = 1) t2
+							on t1.contentid = t2.code
+						) tt
+				 group by projectid,activitychannelid,contentid,dtime,contentname
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+
+    </multiHqlReportIndexs>
+</reportIndexGroup>

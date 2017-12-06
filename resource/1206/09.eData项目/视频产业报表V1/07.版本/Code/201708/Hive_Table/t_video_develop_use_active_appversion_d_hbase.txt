@@ -1,0 +1,23 @@
+DROP TABLE video.t_video_develop_use_active_appversion_d_hbase;
+CREATE EXTERNAL TABLE video.t_video_develop_use_active_appversion_d_hbase
+(
+key string,
+projectid int,
+platformid string,
+appversioncode string,
+appvernum int,
+appverpercent double,
+dtime string
+
+)
+STORED BY 'org.apache.hadoop.hive.hbase.HBaseStorageHandler'
+WITH SERDEPROPERTIES ("hbase.columns.mapping" = ":key,
+indexvalue:PROJECTID,
+indexvalue:PLATFORMID,
+indexvalue:APPVERSIONCODE,
+indexvalue:APPVERNUM,
+indexvalue:APPVERPERCENT,
+indexvalue:DTIME
+")
+TBLPROPERTIES ("hbase.table.name" = "t_video_develop_use_active_appversion_d");
+grant select,delete,insert on t_video_develop_use_active_appversion_d_hbase to user mapred;

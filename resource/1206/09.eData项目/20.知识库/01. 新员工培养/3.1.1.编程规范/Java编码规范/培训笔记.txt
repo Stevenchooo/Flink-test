@@ -1,0 +1,71 @@
+web.xml
+struts.xml
+business.xml
+
+
+ x --> function  source(param)   [source,xxxx]
+ --> --> passthrough
+ function sink(param) 
+ 
+ 
+ sql :
+ input = getParameter()  =====  source   -------[]
+ x = "select xxx from where = " + input ;
+ replace(x)...
+ execSQL(x)              =====  sink     -------[] 
+ 
+ bme_executeSQL(x)       
+ 
+ 
+ 
+ 
+ XML（XXE）:
+ (1)request.getInputStream<xml?> ---- HTTP POST 消息体
+ (2)inputStream                  ---- upload
+ (3)2007 office (xlsx,docx) 禁用外部实体引用 ---- upload
+ (4)request.getparameter --> xml文件中的一部分【未过滤输入】 
+ 
+ 输入过滤ReplaceAll：
+ 数字，字母  正则表达式[0-9A-Za-z]
+ 白名单安全性[正则表达式pattern] > 黑名单安全性
+ x.ReplaceAll("script","")
+ sscriptcript ==> script
+ sRCript
+ 
+ servlet,filter:
+ web.xml ---  WEB-INF/web.xml
+ WEB-INF: lib(jar，排除第三方)，classes(.class文件，找com目录下的)
+ com.huawei.xxx
+ web.xml ---  servlet
+ 
+ search&replace 搜索 servlet
+ jar包默认用jd gui 打开
+ 
+ /xxx/business.action
+ /xxx/verifycode (url-pattern)
+ 
+ struts2: action,interceptor
+ *struts.xml
+ 
+ business.action?xxxxxxx
+ authenticate.action?xxxxx
+ yyyy.action....
+ 
+ 
+ 上传zip:
+ (1)解压后的数据大小
+ (2)后缀检查
+ (3)zip解压目录跨越  11111.txt   ../../1.txt
+ 
+ 
+ client ---> id=xx -->server
+ client -->input -->filter -->modified --> server  
+ client (javascript hide)
+ 
+ 
+ 
+ xxxxxx = <script>alert(1)</script>
+ html.encode(xxxxxxxxx)
+ 
+ 
+ 

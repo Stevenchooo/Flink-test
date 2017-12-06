@@ -1,0 +1,345 @@
+<reportIndexGroup>
+<!--
+//[2017年2月23日]变动
+//活跃用户数指标，改为全部取客户端上报的事件（包含注册用户和游客），根据userID去重计数。
+-->
+<multiHqlReportIndexs>
+	<!--
+	//当期 活跃的的用户数量 activeusers [游客和注册用户数]
+	//注意更新：全部取客户端上报的事件（组合表不再使用）
+	201707需求，从中间表直接获取activeusers,registeruseractive,totalvisitor
+	201708需求，从t_mid_video_sdk_current_d获取appdownload
+	-->
+	<multiHqlReportIndex>
+		<indexKey>video.edp.user.active.sdkusers.d</indexKey>
+		<fieldName>activeusers,registeruseractive,totalvisitor,appdownload</fieldName>
+		<hql>
+		<![CDATA[
+			select projectid,activitychannelid,platformid,dtime,
+				   sum(activeusers) activeusers,
+				   sum(registeruseractive) registeruseractive,
+				   sum(totalvisitor) totalvisitor,
+				   sum(appdownload) appdownload
+			 from video.t_mid_video_sdk_current_d t
+			where t.date > '{STARTTIME}'
+			  and t.date < '{ENDTIME}'
+			  and t.activityid ='ALL'
+			 group by projectid, activitychannelid,platformid, dtime
+			]]>
+		</hql>
+	</multiHqlReportIndex>
+
+	<!--
+	//当期 注册用户活跃数 registeruseractive: 注册用户中有登陆、浏览、播放行为的数量 
+	//当前已注册用户 和 当前客户端上报的事件关联处理获取
+	//
+	//[20170306@SE]
+	//注册用户活跃数根据[SDK话单中的 C2：用户类型（guest、subscriber、vip）]c2 <> guest 为注册用户数
+	201707需求，从中间表直接获取
+	-->
+	
+	<!--当期 新增注册用户数 newregisteruser:  新增有注册行为的用户数量。-->
+	<!--当期 新增注销用户数 newcanceluser:    新增有注销行为的用户数量。-->
+	<!--操作类型 actionType	用户调用接口动作类型：1 注册、2 修改、3 删除(注销)。-->
+	<multiHqlReportIndex>
+		<indexKey>video.edp.user.active.userstatus.d</indexKey>
+		<fieldName>newregisteruser,newcanceluser</fieldName>
+		<hql>
+			<![CDATA[
+			select projectid,activitychannelid,platformid,dtime,
+				   count(distinct(newregister)) newregisteruser,
+				   count(distinct(newcancel)) newcanceluser
+			  from (select t.projectid projectid,
+						   if(t.activitychannelid is null, 'none', t.activitychannelid) activitychannelid,
+						   'ALL' platformid,
+						   t.date dtime,
+						   if(t.actiontype = 1, t.identityid, null) newregister,
+						   if(t.actiontype = 3, t.identityid, null) newcancel
+					  from video.t_cdr_top_user_info t
+					 where t.date > '{STARTTIME}'
+					   and t.date < '{ENDTIME}'
+					union all
+					select projectid,
+						   'ALL' activitychannelid,
+						   'ALL' platformid,
+						   t.date dtime,
+						   if(t.actiontype = 1, t.identityid, null) newregister,
+						   if(t.actiontype = 3, t.identityid, null) newcancel
+					  from video.t_cdr_top_user_info t
+					 where t.date > '{STARTTIME}'
+					   and t.date < '{ENDTIME}'
+					) tt
+			 group by projectid, activitychannelid,platformid, dtime
+			]]>
+		</hql>
+	</multiHqlReportIndex>
+	
+	<!-- 
+	//注册用户总数 totalregisteruser ：当前在注册状态的用户总数，用户注销后不计算注册用户总数。
+	//
+	//累计注册用户总数 allregisteruser: 当前有过注册行为的用户总数，用户注销后也计算一个注册用户数。
+	//201611指标名称为【注册用户总数】，201701指标名称修改，指标定义未修改。
+	-->
+	<multiHqlReportIndex>
+		<indexKey>video.edp.user.active.totalregisteruser.d</indexKey>
+		<fieldName>totalregisteruser</fieldName>
+		<hql>
+			<![CDATA[
+			 select projectid,activitychannelid,platformid,dtime,
+					count(distinct(identityid)) totalregisteruser
+			  from ( select projectid, 
+							if(tb.activitychannelid is null,'none',tb.activitychannelid) activitychannelid,
+							tb.platformid, 
+							dtime,
+							identityid
+					  from (select s2.projectid,s2.activitychannelid,s2.platformid,s1.dtime,s2.identityid,s2.actiontype,s2.time,
+								   row_number() over(partition by s2.projectid, s2.activitychannelid,s2.platformid, s2.identityid, s1.dtime order by s2.time desc) as rank
+							  from (select dtime
+									  from video.t_bdi_muchtv_video_rundate t
+									 where t.dtime > '{STARTTIME}'
+									   and t.dtime < '{ENDTIME}') s1,
+								   (select projectid,activitychannelid,'ALL' platformid,identityid,actiontype,time,t.date dtime
+									  from video.t_cdr_top_user_info t
+									 where t.actiontype in (1, 3)) s2
+							 where s2.dtime <= s1.dtime) tb
+					 where tb.rank = 1
+					   and tb.actiontype = 1
+				union all
+					 select projectid, 
+							'ALL' activitychannelid, 
+							platformid,
+							dtime, 
+							identityid
+					  from (select s2.projectid,s2.activitychannelid,s2.platformid,s1.dtime,s2.identityid,s2.actiontype,s2.time,
+								   row_number() over(partition by s2.projectid, s2.activitychannelid,s2.platformid, s2.identityid, s1.dtime order by s2.time desc) as rank
+							  from (select dtime
+									  from video.t_bdi_muchtv_video_rundate t
+									 where t.dtime > '{STARTTIME}'
+									   and t.dtime < '{ENDTIME}') s1,
+								   (select projectid,activitychannelid,'ALL' platformid,identityid,actiontype,time,t.date dtime
+									  from video.t_cdr_top_user_info t
+									 where t.actiontype in (1, 3)) s2
+							 where s2.dtime <= s1.dtime) tb
+					 where tb.rank = 1
+					   and tb.actiontype = 1
+				)tt
+			group by projectid,activitychannelid,platformid,dtime
+			]]>
+		</hql>
+	</multiHqlReportIndex>
+	
+	<multiHqlReportIndex>
+		<indexKey>video.edp.user.active.allregisteruser.d</indexKey>
+		<fieldName>allregisteruser</fieldName>
+		<hql>
+			<![CDATA[
+				select projectid,activitychannelid,platformid,dtime,
+					   count(identityid) allregisteruser
+				  from (select t1.projectid projectid,
+							   if(t1.activitychannelid is null, 'none', t1.activitychannelid) activitychannelid,
+							   'ALL' platformid,
+							   t2.dtime dtime,
+							   t1.identityid identityid
+						  from video.t_cdr_top_user_info t1,
+							   (select t.dtime
+								  from video.t_bdi_muchtv_video_rundate t
+								 where t.dtime > '{STARTTIME}'
+								   and t.dtime < '{ENDTIME}') t2
+						 where t1.date <= t2.dtime
+						   and t1.actiontype = 1
+						union all
+						select t1.projectid projectid,
+							   'ALL' activitychannelid,
+							   'ALL' platformid,
+							   t2.dtime dtime,
+							   t1.identityid identityid
+						  from video.t_cdr_top_user_info t1,
+							   (select t.dtime
+								  from video.t_bdi_muchtv_video_rundate t
+								 where t.dtime > '{STARTTIME}'
+								   and t.dtime < '{ENDTIME}') t2
+						 where t1.date <= t2.dtime
+						   and t1.actiontype = 1) tt
+				 group by projectid, activitychannelid,platformid, dtime
+			]]>
+		</hql>
+	</multiHqlReportIndex>
+	
+	<!--  当期 观看用户数 VariousTVWatchUsers: 注意：所有种类,但是目前只有两种(VOD 和 liveTV)。-->
+	<!--
+	[20170309@SE]初步设定视频周期为三天 即观看时间记录不会超过48小时
+	-->
+	<multiHqlReportIndex>
+		<indexKey>video.edp.user.active.watchusers.d</indexKey>
+		<fieldName>watchusers</fieldName>
+		<hql>
+			<![CDATA[
+			select projectid, 
+				   activitychannelid, 
+				   platformid,
+				   dtime, 
+				   count(distinct(subscriberid)) watchusers
+			  from (select t1.projectid,
+						   if(t1.activitychannelid is null, 'none', t1.activitychannelid) activitychannelid,
+						   t1.platformid,
+						   t2.dtime dtime,
+						   subscriberid
+					  from (select projectid,activitychannelid,'ALL' platformid, starttime,endtime,subscriberid,t.date dtime
+							  from video.t_cdr_vod_watch_event t
+							 where t.date > from_unixtime(unix_timestamp(date_sub(from_unixtime(unix_timestamp('{STARTTIME}',
+											'yyyyMMdd'),'yyyy-MM-dd'),3),'yyyy-MM-dd'),'yyyyMMddHHmmss')
+							   and t.date < '{ENDTIME}') t1,
+						   (select t.dtime
+							  from video.t_bdi_muchtv_video_rundate t
+							 where t.dtime > '{STARTTIME}'
+							   and t.dtime < '{ENDTIME}') t2
+					 where (t1.dtime < t2.dtime and substr(t1.endtime, 0, 8) >= t2.dtime)
+						or  t1.dtime = t2.dtime
+				union all
+					select t1.projectid,
+						   'ALL' activitychannelid,
+						   t1.platformid,
+						   t2.dtime dtime,
+						   subscriberid
+					  from (select projectid,activitychannelid,'ALL' platformid,starttime,endtime,subscriberid,t.date dtime
+							  from video.t_cdr_vod_watch_event t
+							 where t.date > from_unixtime(unix_timestamp(date_sub(from_unixtime(unix_timestamp('{STARTTIME}',
+											'yyyyMMdd'),'yyyy-MM-dd'),3),'yyyy-MM-dd'),'yyyyMMddHHmmss')
+							   and t.date < '{ENDTIME}') t1,
+						   (select t.dtime
+							  from video.t_bdi_muchtv_video_rundate t
+							 where t.dtime > '{STARTTIME}'
+							   and t.dtime < '{ENDTIME}') t2
+					 where (t1.dtime < t2.dtime and substr(t1.endtime, 0, 8) >= t2.dtime)
+						or  t1.dtime = t2.dtime
+				union all
+					select t1.projectid,
+						   if(t1.activitychannelid is null, 'none', t1.activitychannelid) activitychannelid,
+						   t1.platformid,
+						   t2.dtime dtime,
+						   subscriberid
+					  from (select projectid,activitychannelid,'ALL' platformid,starttime,endtime,subscriberid,t.date dtime
+							  from video.t_cdr_livetv_watch_event t
+							 where t.date > from_unixtime(unix_timestamp(date_sub(from_unixtime(unix_timestamp('{STARTTIME}',
+											'yyyyMMdd'),'yyyy-MM-dd'),3),'yyyy-MM-dd'),'yyyyMMddHHmmss')
+							   and t.date < '{ENDTIME}') t1,
+						   (select t.dtime
+							  from video.t_bdi_muchtv_video_rundate t
+							 where t.dtime > '{STARTTIME}'
+							   and t.dtime < '{ENDTIME}') t2
+					 where (t1.dtime < t2.dtime and substr(t1.endtime, 0, 8) >= t2.dtime)
+						or  t1.dtime = t2.dtime
+				union all
+					select t1.projectid,
+						   'ALL' activitychannelid,
+						   t1.platformid,
+						   t2.dtime dtime,
+						   subscriberid
+					  from (select projectid,activitychannelid,'ALL' platformid,starttime,endtime,subscriberid,t.date dtime
+							  from video.t_cdr_livetv_watch_event t
+							 where t.date > from_unixtime(unix_timestamp(date_sub(from_unixtime(unix_timestamp('{STARTTIME}',
+											'yyyyMMdd'),'yyyy-MM-dd'),3),'yyyy-MM-dd'),'yyyyMMddHHmmss')
+							   and t.date < '{ENDTIME}') t1,
+						   (select t.dtime
+							  from video.t_bdi_muchtv_video_rundate t
+							 where t.dtime > '{STARTTIME}'
+							   and t.dtime < '{ENDTIME}') t2
+					 where (t1.dtime < t2.dtime and substr(t1.endtime, 0, 8) >= t2.dtime)
+						or  t1.dtime = t2.dtime
+				)tt
+			 group by projectid,activitychannelid,platformid,dtime
+			]]>
+		</hql>
+	</multiHqlReportIndex>
+
+	<!-- 
+	//[201703新增指标@EDP@zwx386873]
+	//游客用户总数(totalvisitor) 截止当日的累计的游客总数，根据设备ID去重；同一个用户更换设备，按照新的游客用户统计。
+	-->
+	
+	<!-- 
+	20170614修改：游客 当前的计算规则中是否要保留：projectid is null  and  t.userid = t.deviceid， 根据游客 这个指标的定义，
+	SE 瞿成兵咨询了之前易数的SE 宋立岩，答复没有特别的要求，
+	SE 建议也可以去掉，只保留t.eventname = 'login'  and t.eventlabel = 'guest'
+	201707需求，修改从中间表获取
+	-->
+	
+	<!--
+	//[201703新增指标@EDP@zwx386873]
+	//当期 日活用户数 dayactiveusers
+	//统计所在月份内，注册用户中有登陆、浏览、播放行为的数量的平均值；
+	//粒度选择：
+	//日为当天日活，月为当月平均日活，年为年平均日活；
+	//日期选择：当周期未结束，根据实际天数计算平均，呈现最新的日活数据；
+	201707需求，增加终端分组字段
+	-->
+	<!--当期 注册用户活跃率 registeruseractiverate: 活跃用户/注册用户总数*100% -->
+	<multiHqlReportIndex>
+		<indexKey>video.edp.user.active.columns.d</indexKey>
+		<fieldName>dayactiveusers,registeruseractiverate</fieldName>
+		<hql>
+			<![CDATA[
+			 select projectid,activitychannelid,platformid,dtime,
+					registeruseractive dayactiveusers,
+					(registeruseractive/totalregisteruser) registeruseractiverate  
+			   from (select projectid,
+							if(t.activitychannelid is null,'ALL',t.activitychannelid) activitychannelid,
+							if(t.platformid is null,'ALL',t.platformid) platformid,
+							dtime,
+							if(t.registeruseractive is null,0,t.registeruseractive) registeruseractive,
+							if(t.totalregisteruser is null,0,t.totalregisteruser) totalregisteruser
+					   from video.t_video_develop_user_active_d_hbase t
+					  where t.dtime > '{STARTTIME}'
+						and t.dtime < '{ENDTIME}'
+				)tt
+			group by projectid,activitychannelid,platformid,dtime,registeruseractive,(registeruseractive/totalregisteruser)
+			]]>
+		</hql>
+	</multiHqlReportIndex>
+	
+<!--
+//总 订购用户占比 = 单产品订购用户数/（产品）总订购用户数（allproductorder）*100% orderuserproportion
+//分母值[中间值]
+-->
+	<multiHqlReportIndex>
+		<indexKey>video.edp.user.active.allproductorder.d</indexKey>
+		<fieldName>allproductorder</fieldName>
+		<hql>
+			<![CDATA[
+			select projectid,activitychannelid,platformid,dtime,
+				   count(distinct(identityid)) allproductorder
+			  from (select t1.projectid,
+						   if(t1.activitychannelid is null,'none',t1.activitychannelid) activitychannelid,
+						   t1.platformid,
+						   t2.dtime,
+						   t1.identityid
+					  from (select projectid,activitychannelid,'ALL' platformid,t.date dtime,identityid
+							  from video.t_cdr_top_order_info t
+							 where t.actiontype in (1, 3)) t1,
+						   (select t.dtime
+							  from video.t_bdi_muchtv_video_rundate t
+							 where t.dtime > '{STARTTIME}'
+							   and t.dtime < '{ENDTIME}') t2
+					 where t1.dtime <= t2.dtime
+					union all
+					select t1.projectid, 
+						   'ALL' activitychannelid,
+						   t1.platformid, 
+						   t2.dtime,
+						   t1.identityid
+					  from (select projectid,activitychannelid,'ALL' platformid,t.date dtime,identityid
+							  from video.t_cdr_top_order_info t
+							 where t.actiontype in (1, 3)) t1,
+						   (select t.dtime
+							  from video.t_bdi_muchtv_video_rundate t
+							 where t.dtime > '{STARTTIME}'
+							   and t.dtime < '{ENDTIME}') t2
+					 where t1.dtime <= t2.dtime
+				) tt
+			 group by projectid, activitychannelid,platformid, dtime
+			]]>
+		</hql>
+	</multiHqlReportIndex>
+
+</multiHqlReportIndexs>
+</reportIndexGroup>

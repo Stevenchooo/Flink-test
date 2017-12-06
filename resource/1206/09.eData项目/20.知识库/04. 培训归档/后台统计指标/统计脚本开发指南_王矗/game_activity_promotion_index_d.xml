@@ -1,0 +1,2376 @@
+<reportIndexGroup>
+    <macroList>
+        <macro>
+            <name>VIPSQL</name>
+            <value>
+            <![CDATA[
+            select projectid,relchannel,activityid,dtime,subchannelid,{INDEXNAME}
+            from(
+                select projectid,relchannel,activityid,dtime,subchannelid, count(distinct(t.userid)) {INDEXNAME}
+                from (
+                    select  t.projectid,t.dtime,t.userid, nvl(t.relchannel,'none') relchannel,concat(nvl(t.relchannel,'none'), nvl(t.affiliatechannelid,'none')) subchannelid,t2.activityid
+                    {FROM_WHERE_CLAUST}
+					group by t.projectid,t.dtime,t.userid, nvl(t.relchannel,'none'),concat(nvl(t.relchannel,'none'), nvl(t.affiliatechannelid,'none')),t2.activityid
+                    union all
+                    select  t.projectid,t.dtime,t.userid,'ALL' relchannel, 'ALL' subchannelid,'ALL' activityid
+                    {FROM_WHERE_CLAUST}
+					group by t.projectid,t.dtime,t.userid,'ALL','ALL','ALL'
+                    union all
+                    select  t.projectid,t.dtime,t.userid, nvl(t.relchannel,'none') relchannel,'ALL' subchannelid,t2.activityid
+                    {FROM_WHERE_CLAUST}
+					group by t.projectid,t.dtime,t.userid, nvl(t.relchannel,'none'),'ALL',t2.activityid
+                    union all
+                    select  t.projectid,t.dtime,t.userid,'ALL' relchannel, 'ALL' subchannelid,t2.activityid
+                    {FROM_WHERE_CLAUST}
+					group by t.projectid,t.dtime,t.userid,'ALL','ALL',t2.activityid
+                    union all
+                    select  t.projectid,t.dtime,t.userid, nvl(t.relchannel,'none') relchannel,'ALL' subchannelid,'ALL' activityid
+                    {FROM_WHERE_CLAUST}
+					group by t.projectid,t.dtime,t.userid,nvl(t.relchannel,'none'),'ALL','ALL'
+                ) t 
+                group by projectid,relchannel,activityid,dtime,subchannelid
+            )t
+            group by projectid,relchannel,activityid,dtime,subchannelid,{INDEXNAME}
+             ]]>
+            </value>
+        </macro>
+    </macroList>
+    
+    <multiHqlReportIndexs>
+        <!--号码获取率分子: 浏览话单中活动id不为空，且linktyp=1/4部分的话单中，填写MSISDN的数量
+            号码获取率分母：浏览话单中活动id不为空，且linktyp=1/4部分的话单数量-->  
+        <multiHqlReportIndex>
+            <indexKey>game.promotion.numacqrate_numerator_denominator.d</indexKey>
+            <macroList>
+                <macro>
+                    <name>RELCHANNEL</name>
+                    <value>
+                        <![CDATA[
+                            case
+                                when t1.channelid is null then 'none'
+                                when trim(t1.channelid) = '' then 'none'
+                                when substr(t1.channelid,4) is null then 'none'
+                                else substr(t1.channelid,4) 
+                            end
+                        ]]>
+                    </value>
+                </macro>
+                <macro>
+                    <name>FROM_WHERE_CLAUST</name>
+                    <value>
+                        <![CDATA[
+                            from    game.t_cdr_browser t1
+                            left outer join game.t_bfm_activity t2
+                            on      t1.projectid = t2.projectid
+                            and     t1.activityid = t2.activityid
+                            where  t1.linktype in (1, 4)
+                            and    t2.activityid is not null
+                            and    t1.date > '{STARTTIME}' AND t1.date < '{ENDTIME}'
+                        ]]>
+                    </value>
+                </macro>
+            </macroList>
+            <fieldName>numacqrate_numerator,numacqrate_denominator</fieldName>
+            <hql>
+                <![CDATA[
+                select projectid,relchannel,activityid,dtime,subchannelid,count(msisdn) numacqrate_numerator, count(1) numacqrate_denominator
+                from (
+                    select  t1.projectid,
+                            t2.activityid,
+                            {RELCHANNEL} as relchannel,
+                            concat({RELCHANNEL}, nvl(t1.subchannelid,'none')) subchannelid,
+                            from_unixtime(unix_timestamp(substr(t1.browsedate, 0, 10),'yyyy-MM-dd'),'yyyyMMdd') dtime,
+                            t1.msisdn
+                    {FROM_WHERE_CLAUST}
+                    union all
+                    select  t1.projectid,
+                            'ALL' activityid,
+                            'ALL' relchannel,
+                            'ALL' subchannelid,
+                            from_unixtime(unix_timestamp(substr(t1.browsedate, 0, 10),'yyyy-MM-dd'),'yyyyMMdd') dtime,
+                            t1.msisdn
+                    {FROM_WHERE_CLAUST}
+                    union all
+                    select  t1.projectid,
+                            t2.activityid,
+                            {RELCHANNEL} as relchannel,
+                            'ALL' subchannelid,
+                            from_unixtime(unix_timestamp(substr(t1.browsedate, 0, 10),'yyyy-MM-dd'),'yyyyMMdd') dtime,
+                            t1.msisdn
+                    {FROM_WHERE_CLAUST}
+                    union all
+                    select  t1.projectid,
+                            t2.activityid,
+                            'ALL' relchannel,
+                            'ALL' subchannelid,
+                            from_unixtime(unix_timestamp(substr(t1.browsedate, 0, 10),'yyyy-MM-dd'),'yyyyMMdd') dtime,
+                            t1.msisdn
+                    {FROM_WHERE_CLAUST}
+                    union all
+                    select  t1.projectid,
+                            'ALL' activityid,
+                            {RELCHANNEL} as relchannel,
+                            'ALL' subchannelid,
+                            from_unixtime(unix_timestamp(substr(t1.browsedate, 0, 10),'yyyy-MM-dd'),'yyyyMMdd') dtime,
+                            t1.msisdn
+                    {FROM_WHERE_CLAUST}
+                ) t
+                group by projectid,activityid,relchannel,subchannelid,dtime          
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+        
+        <!--号码获取率
+            号码获取率分子/号码获取率分母
+        -->  
+        <multiHqlReportIndex>
+            <indexKey>game.promotion.numacqrate.d</indexKey>
+            <fieldName>numacqrate</fieldName>
+            <hql>
+                <![CDATA[
+                select projectid,relchannel,activityid,dtime,subchannelid,numacqrate
+                from (
+                    select  projectid, dtime,
+                            if(relchannel is null, 'ALL', relchannel) relchannel,
+                            if(subchannelid is null, 'ALL', subchannelid) subchannelid,
+                            if(activityid is null, 'ALL', activityid) activityid,
+                            if(numacqrate_denominator = 0 ,-1 , numacqrate_numerator/numacqrate_denominator) numacqrate
+                    from game.t_game_promotion_d_hbase t 
+                    where t.dtime> '{STARTTIME}' AND t.dtime< '{ENDTIME}'
+                ) t
+                group by projectid,relchannel,activityid,dtime,subchannelid,numacqrate
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+               
+        <!--新订购会员退订数
+            退订记录中 根据 退订时间-订购时间，小于1天
+        -->  
+        <multiHqlReportIndex>
+            <indexKey>game.promotion.tnewuserunsubusercnt.d</indexKey>
+            <macroList>
+                <macro>
+                    <name>FROM_WHERE_CLAUST</name>
+                    <value>
+                        <![CDATA[
+                        from  (select t.projectid,t.dtime,t.userid,t.relchannel,t.affiliatechannelid,t.activityid from  game.T_MID_ACTIVITY_VIPSTATUS t
+						where t.chargetype = 4 and t.chargeresult = 0
+                        and     from_unixtime(unix_timestamp(substr(t.timestamp,1,10),'yyyy-MM-dd'),'yyyyMMdd') = dtime
+                        and     datediff(t.timestamp, t.subscribetime) < 1
+                        and     t.dtime > '{STARTTIME}' and t.dtime < '{ENDTIME}' 
+                        and     t.projectid in ({PROJECTIDS})
+						group by t.projectid,t.dtime,t.userid,t.relchannel,t.affiliatechannelid,t.activityid)t
+                        left outer join game.t_bfm_activity t2
+                        on      t.projectid = t2.projectid
+                        and     t.activityid = t2.activityid
+                        and t2.activityid is not null
+                        ]]>
+                    </value>
+                </macro>
+                <macro>
+                    <name>INDEXNAME</name>
+                    <value>
+                        <![CDATA[
+                            tnewuserunsubusercnt
+                        ]]>
+                    </value>
+                </macro>
+            </macroList>
+            <fieldName>tnewuserunsubusercnt</fieldName>
+            <hql>
+                <![CDATA[
+                    {VIPSQL}
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+        
+        <!--新订购会员主动退订数
+            新订购会员退订基础上，unsubtype=1：用户主动退订
+        -->  
+        <multiHqlReportIndex>
+            <indexKey>game.promotion.actunsubnumofnewsubmem.d</indexKey>
+            <macroList>
+                <macro>
+                    <name>FROM_WHERE_CLAUST</name>
+                    <value>
+                        <![CDATA[
+                        from (select t.projectid,t.dtime,t.userid,t.relchannel,t.affiliatechannelid,t.activityid from  game.T_MID_ACTIVITY_VIPSTATUS t
+						where t.chargetype = 4 and t.chargeresult = 0
+                        and     t.unsubtype = 1
+                        and     from_unixtime(unix_timestamp(substr(t.timestamp,1,10),'yyyy-MM-dd'),'yyyyMMdd') = dtime
+                        and     datediff(t.timestamp, t.subscribetime) < 1
+                        and     t.dtime > '{STARTTIME}' and t.dtime < '{ENDTIME}' 
+                        and     t.projectid in ({PROJECTIDS})
+						group by t.projectid,t.dtime,t.userid,t.relchannel,t.affiliatechannelid,t.activityid
+						)t
+                        left outer join game.t_bfm_activity t2
+                        on      t.projectid = t2.projectid
+                        and     t.activityid = t2.activityid
+                        and   t2.activityid is not null
+                        ]]>
+                    </value>
+                </macro>
+                <macro>
+                    <name>INDEXNAME</name>
+                    <value>
+                        <![CDATA[
+                            actunsubnumofnewsubmem
+                        ]]>
+                    </value>
+                </macro>
+            </macroList>
+            <fieldName>actunsubnumofnewsubmem</fieldName>
+            <hql>
+                <![CDATA[
+                    {VIPSQL}
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+        
+        <!--新订购会员客服退订数
+            新订购会员退订基础上，unsubtype 2：客服代客退订；4：局方客服退订
+        -->  
+        <multiHqlReportIndex>
+            <indexKey>game.promotion.cusunsubnumofnewsubmem.d</indexKey>
+            <macroList>
+                <macro>
+                    <name>FROM_WHERE_CLAUST</name>
+                    <value>
+                        <![CDATA[
+                        from   (select t.projectid,t.dtime,t.userid, t.relchannel ,t.affiliatechannelid,t.activityid  from game.T_MID_ACTIVITY_VIPSTATUS t
+						where t.chargetype = 4 and t.chargeresult = 0
+                        and     t.unsubtype in (2,4)
+                        and     from_unixtime(unix_timestamp(substr(t.timestamp,1,10),'yyyy-MM-dd'),'yyyyMMdd') = dtime
+                        and     datediff(t.timestamp, t.subscribetime) < 1
+                        and     t.dtime > '{STARTTIME}' and t.dtime < '{ENDTIME}' 
+                        and     t.projectid in ({PROJECTIDS})
+						group by t.projectid,t.dtime,t.userid,t.relchannel,t.affiliatechannelid,t.activityid
+						)t
+                        left outer join game.t_bfm_activity t2
+                        on      t.projectid = t2.projectid
+                        and     t.activityid = t2.activityid
+						and  t2.activityid is not null
+                        ]]>
+                    </value>
+                </macro>
+                <macro>
+                    <name>INDEXNAME</name>
+                    <value>
+                        <![CDATA[
+                            cusunsubnumofnewsubmem
+                        ]]>
+                    </value>
+                </macro>
+            </macroList>
+            <fieldName>cusunsubnumofnewsubmem</fieldName>
+            <hql>
+                <![CDATA[
+                    {VIPSQL}       
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+        
+        <!--非新增会员退订数
+            退订记录中 退订时间-订购时间，大于等于1天的 或 订购时间为空 为非新增会员退订
+        -->  
+        <multiHqlReportIndex>
+            <indexKey>game.promotion.tunsubscribevips.d</indexKey>
+            <macroList>
+                <macro>
+                    <name>FROM_WHERE_CLAUST</name>
+                    <value>
+                        <![CDATA[
+                        from (select t.projectid,t.dtime,t.userid,t.relchannel,t.affiliatechannelid,t.activityid from   game.T_MID_ACTIVITY_VIPSTATUS t
+						where 	t.chargetype = 4 and t.chargeresult = 0
+                        and     from_unixtime(unix_timestamp(substr(t.timestamp,1,10),'yyyy-MM-dd'),'yyyyMMdd') = dtime
+                        and     (t.subscribetime is null or datediff(t.timestamp, t.subscribetime) >= 1)   
+                        and     t.dtime > '{STARTTIME}' and t.dtime < '{ENDTIME}' 
+                        and     t.projectid in ({PROJECTIDS})
+						group by t.projectid,t.dtime,t.userid,t.relchannel,t.affiliatechannelid,t.activityid
+						)t
+                        left outer join game.t_bfm_activity t2
+                        on      t.projectid = t2.projectid
+                        and     t.activityid = t2.activityid
+                        and   t2.activityid is not null
+                        ]]>
+                    </value>
+                </macro>
+                <macro>
+                    <name>INDEXNAME</name>
+                    <value>
+                        <![CDATA[
+                            tunsubscribevips
+                        ]]>
+                    </value>
+                </macro>
+            </macroList>
+            <fieldName>tunsubscribevips</fieldName>
+            <hql>
+                <![CDATA[
+                    {VIPSQL}
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+        
+        <!--非新增会员主动退订数
+            非新增会员退订数中，unsubtype=1：用户主动退订
+        -->  
+        <multiHqlReportIndex>
+            <indexKey>game.promotion.tuserunsubusercnt.d</indexKey>
+            <macroList>
+                <macro>
+                    <name>FROM_WHERE_CLAUST</name>
+                    <value>
+                        <![CDATA[
+                        from (select t.projectid,t.dtime,t.userid,t.relchannel,t.affiliatechannelid,t.activityid from  game.T_MID_ACTIVITY_VIPSTATUS t
+						where t.chargetype = 4 and t.chargeresult = 0
+                        and     t.unsubtype = 1
+                        and     from_unixtime(unix_timestamp(substr(t.timestamp,1,10),'yyyy-MM-dd'),'yyyyMMdd') = dtime
+                        and     (t.subscribetime is null or datediff(t.timestamp, t.subscribetime) >= 1)
+                        and     t.dtime > '{STARTTIME}' and t.dtime < '{ENDTIME}' 
+                        and     t.projectid in ({PROJECTIDS})
+						group by t.projectid,t.dtime,t.userid,t.relchannel,t.affiliatechannelid,t.activityid)t
+                        left outer join game.t_bfm_activity t2
+                        on      t.projectid = t2.projectid
+                        and     t.activityid = t2.activityid
+                        and   t2.activityid is not null
+                        ]]>
+                    </value>
+                </macro>
+                <macro>
+                    <name>INDEXNAME</name>
+                    <value>
+                        <![CDATA[
+                            tuserunsubusercnt
+                        ]]>
+                    </value>
+                </macro>
+            </macroList>
+            <fieldName>tuserunsubusercnt</fieldName>
+            <hql>
+                <![CDATA[
+                    {VIPSQL}
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+        
+        <!--非新增会员客服代退订数
+            非新增会员退订数中，unsubtype=2,4     2：客服代客退订；4：局方客服退订
+        -->  
+        <multiHqlReportIndex>
+            <indexKey>game.promotion.cusunsubnumofnotnewsubmem.d</indexKey>
+            <macroList>
+                <macro>
+                    <name>FROM_WHERE_CLAUST</name>
+                    <value>
+                        <![CDATA[
+                        from (select t.projectid,t.dtime,t.userid,t.relchannel,t.affiliatechannelid,t.activityid from  game.T_MID_ACTIVITY_VIPSTATUS t
+						where t.chargetype = 4 and t.chargeresult = 0
+                        and     t.unsubtype in (2,4)
+                        and     from_unixtime(unix_timestamp(substr(t.timestamp,1,10),'yyyy-MM-dd'),'yyyyMMdd') = dtime
+                        and     (t.subscribetime is null or datediff(t.timestamp, t.subscribetime) >= 1)
+                        and     t.dtime > '{STARTTIME}' and t.dtime < '{ENDTIME}' 
+                        and     t.projectid in ({PROJECTIDS})
+						group by t.projectid,t.dtime,t.userid,t.relchannel,t.affiliatechannelid,t.activityid
+						)t
+                        left outer join game.t_bfm_activity t2
+                        on      t.projectid = t2.projectid
+                        and     t.activityid = t2.activityid
+                        and   t2.activityid is not null
+                        ]]>
+                    </value>
+                </macro>
+                <macro>
+                    <name>INDEXNAME</name>
+                    <value>
+                        <![CDATA[
+                            cusunsubnumofnotnewsubmem
+                        ]]>
+                    </value>
+                </macro>
+            </macroList>
+            <fieldName>cusunsubnumofnotnewsubmem</fieldName>
+            <hql>
+                <![CDATA[
+                    {VIPSQL}
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+        
+        <!-- 新增会员数 加子渠道维度-->
+        <multiHqlReportIndex>
+            <indexKey>game.promotion.tnewvips.d</indexKey>
+            <fieldName>tnewvips</fieldName>
+            <macroList>
+                <macro>
+                    <name>FROM_WHERE_CLAUST</name>
+                    <value>
+                        <![CDATA[
+                        from  (select t.projectid,t.dtime,t.userid,t.relchannel,t.affiliatechannelid,t.activityid from  game.T_MID_ACTIVITY_VIPSTATUS t
+						where  t.chargetype = 2
+						and     from_unixtime(unix_timestamp(substr(t.timestamp,1,10),'yyyy-MM-dd'),'yyyyMMdd') = dtime
+                        and     t.dtime> '{STARTTIME}' AND t.dtime< '{ENDTIME}' and t.projectid in ({PROJECTIDS})
+                        and     t.chargeresult = 0 
+						group by t.projectid,t.dtime,t.userid,t.relchannel,t.affiliatechannelid,t.activityid)t
+                        left outer join game.t_bfm_activity t2
+                        on      t.projectid = t2.projectid
+                        and     t.activityid = t2.activityid
+                        and     t2.activityid is not null
+                        ]]>
+                    </value>
+                </macro>
+            </macroList>
+            <hql>
+                <![CDATA[
+                select projectid,relchannel,activityid,dtime,subchannelid, count(distinct(t.userid)) tnewvips
+                    from 
+                    (
+                        select  t.projectid ,t.dtime, t.userid, t2.activityid, nvl(t.relchannel,'none') relchannel, concat(nvl(t.relchannel,'none'), nvl(t.affiliatechannelid,'none')) subchannelid
+                        {FROM_WHERE_CLAUST}
+						group by t.projectid ,t.dtime, t.userid, t2.activityid, nvl(t.relchannel,'none'),concat(nvl(t.relchannel,'none'), nvl(t.affiliatechannelid,'none'))
+                        union all
+                        select  t.projectid,t.dtime,t.userid, 'ALL' activityid, 'ALL' relchannel, 'ALL' subchannelid
+                        {FROM_WHERE_CLAUST}
+						group by t.projectid,t.dtime,t.userid
+                        union all
+                        select  t.projectid,t.dtime,t.userid, 'ALL' activityid, nvl(t.relchannel,'none') relchannel,'ALL' subchannelid
+                        {FROM_WHERE_CLAUST}
+						group by t.projectid,t.dtime,t.userid,nvl(t.relchannel,'none')
+                        union all
+                        select  t.projectid,t.dtime,t.userid, t2.activityid,'ALL' relchannel, 'ALL' subchannelid
+                        {FROM_WHERE_CLAUST}
+						group by t.projectid,t.dtime,t.userid, t2.activityid
+                        union all
+                        select  t.projectid,t.dtime,t.userid,t2.activityid,nvl(t.relchannel,'none') relchannel, 'ALL' subchannelid
+                        {FROM_WHERE_CLAUST}
+						group by t.projectid,t.dtime,t.userid,t2.activityid,nvl(t.relchannel,'none')
+                    ) t 
+					group by projectid,relchannel,activityid,dtime,subchannelid
+                
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+        
+        <!-- 非新增会员数 总会员数ttotalvips-新增会员数tnewvips -->  
+        <multiHqlReportIndex>
+            <indexKey>game.promotion.unnewvips.d</indexKey>
+            <fieldName>unnewvips</fieldName>
+            <hql>
+                <![CDATA[
+                    select projectid,relchannel,activityid,dtime,subchannelid,unnewvips
+                    from (
+                        select  projectid, dtime,
+                                if(relchannel is null, 'ALL', relchannel) relchannel,
+                                if(subchannelid is null, 'ALL', subchannelid) subchannelid,
+                                if(activityid is null, 'ALL', activityid) activityid,
+                                if(ttotalvips is null,0,ttotalvips) - if(tnewvips is null,0,tnewvips) unnewvips 
+                        from game.t_game_promotion_d_hbase t 
+                        where t.dtime> '{STARTTIME}' AND t.dtime< '{ENDTIME}'
+                    ) t 
+                    group by projectid,relchannel,activityid,dtime,subchannelid,unnewvips      
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+         <!--点击次数-->
+        <multiHqlReportIndex>
+            <indexKey>game.promotion.thitcnt.d</indexKey>
+            <macroList>
+                <macro>
+                    <name>RELCHANNEL</name>
+                    <value>
+                        <![CDATA[
+                            case
+                                when t1.channelid is null then 'none'
+                                when trim(t1.channelid) = '' then 'none'
+                                when substr(t1.channelid,4) is null then 'none'
+                                else substr(t1.channelid,4) 
+                            end
+                        ]]>
+                    </value>
+                </macro>
+                <macro>
+                    <name>WHERE_CLAUST</name>
+                    <value>
+                        <![CDATA[
+                            where  t1.contentid <> concat(t1.projectid,'1000000')
+                            and    t1.channelid like 'l%'
+                            and    t1.date > '{STARTTIME}' AND t1.date < '{ENDTIME}'
+                            
+                        ]]>
+                    </value>
+                </macro>
+            </macroList>
+            <fieldName>thitcnt</fieldName>
+            <hql>
+             <![CDATA[
+                select projectid,relchannel,activityid,dtime,subchannelid,thitcnt
+                from(
+                    select projectid,relchannel,activityid,dtime,subchannelid,
+                    count(1) thitcnt
+                    from (
+                            select  t1.projectid,
+                                    from_unixtime(unix_timestamp(substr(t1.browsedate, 0, 10),'yyyy-MM-dd'),'yyyyMMdd') dtime,
+                                    {RELCHANNEL} relchannel,
+                                    concat({RELCHANNEL},nvl(t1.subchannelid,'none')) subchannelid,
+                                    t2.activityid activityid
+                            from  (select t1.projectid,t1.browsedate,t1.channelid,t1.subchannelid from  game.t_cdr_browser t1
+							{WHERE_CLAUST}
+							group by t1.projectid,t1.browsedate,t1.channelid,t1.subchannelid
+							)t1
+                            left outer join game.t_bfm_activity t2
+                            on      t1.projectid = t2.projectid
+                            and     t1.activityid = t2.activityid
+                            and    t2.activityid is not null
+							group by t1.projectid,from_unixtime(unix_timestamp(substr(t1.browsedate, 0, 10),'yyyy-MM-dd'),'yyyyMMdd'),
+							{RELCHANNEL},concat({RELCHANNEL},nvl(t1.subchannelid,'none')),t2.activityid
+                        union all
+                            select  t1.projectid,
+                                    from_unixtime(unix_timestamp(substr(t1.browsedate, 0, 10),'yyyy-MM-dd'),'yyyyMMdd') dtime,
+                                    {RELCHANNEL} relchannel,
+                                    'ALL' subchannelid,
+                                    'ALL' activityid
+                            from    (select t1.projectid,t1.browsedate,t1.channelid,t1.subchannelid from  game.t_cdr_browser t1
+							{WHERE_CLAUST}
+							group by t1.projectid,t1.browsedate,t1.channelid,t1.subchannelid
+							)t1
+                            left outer join game.t_bfm_activity t2
+                            on      t1.projectid = t2.projectid
+                            and     t1.activityid = t2.activityid
+                            and     t2.activityid is not null
+							group by t1.projectid,from_unixtime(unix_timestamp(substr(t1.browsedate, 0, 10),'yyyy-MM-dd'),'yyyyMMdd'),
+									{RELCHANNEL}
+                        union all
+                            select  t1.projectid,
+                                    from_unixtime(unix_timestamp(substr(t1.browsedate, 0, 10),'yyyy-MM-dd'),'yyyyMMdd') dtime,
+                                    'ALL' relchannel,
+                                    'ALL' subchannelid,
+                                    t2.activityid activityid
+                            from    (select t1.projectid,t1.browsedate,t1.channelid,t1.subchannelid from  game.t_cdr_browser t1
+							{WHERE_CLAUST}
+							group by t1.projectid,t1.browsedate,t1.channelid,t1.subchannelid
+							)t1
+                            left outer join game.t_bfm_activity t2
+                            on      t1.projectid = t2.projectid
+                            and     t1.activityid = t2.activityid
+                            and     t2.activityid is not null
+							group by t1.projectid,from_unixtime(unix_timestamp(substr(t1.browsedate, 0, 10),'yyyy-MM-dd'),'yyyyMMdd'),t2.activityid
+                        union all 
+                            select  t1.projectid,
+                                    from_unixtime(unix_timestamp(substr(t1.browsedate, 0, 10),'yyyy-MM-dd'),'yyyyMMdd') dtime,
+                                    'ALL' relchannel,
+                                    'ALL' subchannelid,
+                                    'ALL' activityid
+                            from    (select t1.projectid,t1.browsedate,t1.channelid,t1.subchannelid from  game.t_cdr_browser t1
+							{WHERE_CLAUST}
+							group by t1.projectid,t1.browsedate,t1.channelid,t1.subchannelid
+							)t1
+                            left outer join game.t_bfm_activity t2
+                            on      t1.projectid = t2.projectid
+                            and     t1.activityid = t2.activityid
+                            and     t2.activityid is not null
+							group by t1.projectid,from_unixtime(unix_timestamp(substr(t1.browsedate, 0, 10),'yyyy-MM-dd'),'yyyyMMdd')
+                        union all 
+                            select  t1.projectid,
+                                    from_unixtime(unix_timestamp(substr(t1.browsedate, 0, 10),'yyyy-MM-dd'),'yyyyMMdd') dtime,
+                                    {RELCHANNEL},
+                                    'ALL' subchannelid,
+                                    t2.activityid activityid
+                            from   (select t1.projectid,t1.browsedate,t1.channelid,t1.subchannelid from  game.t_cdr_browser t1
+							{WHERE_CLAUST}
+							group by t1.projectid,t1.browsedate,t1.channelid,t1.subchannelid
+							)t1
+                            left outer join game.t_bfm_activity t2
+                            on      t1.projectid = t2.projectid
+                            and     t1.activityid = t2.activityid
+                            and     t2.activityid is not null
+							group by t1.projectid,from_unixtime(unix_timestamp(substr(t1.browsedate, 0, 10),'yyyy-MM-dd'),'yyyyMMdd'),
+							{RELCHANNEL},t2.activityid
+                    ) t
+                    group by projectid,relchannel,activityid,dtime,subchannelid
+                )t
+                group by projectid,relchannel,activityid,dtime,subchannelid,thitcnt
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+        
+        <!-- 一键订购订购成功数量 -->
+        <multiHqlReportIndex>
+            <indexKey>game.promotion.tpaysuccess.d</indexKey>
+            <fieldName>tpaysuccess</fieldName>
+            <hql>
+                <![CDATA[
+                select projectid,relchannel,activityid,dtime,subchannelid,tpaysuccess
+                from (
+                    select projectid,relchannel,activityid,dtime,subchannelid,
+                    count(distinct(t.userid)) tpaysuccess
+                    from (
+                        select  t1.oaoperatorid projectid,
+                                from_unixtime(unix_timestamp(substr(t1.timestamp, 0, 10),'yyyy-MM-dd'),'yyyyMMdd') dtime,
+                                if(substr(t1.vipsubchannelid, 0, 1) = 'l', substr(t1.vipsubchannelid, 4), if(t1.vipsubchannelid is null, 'none', if(t1.accesschannel = 214, concat_ws('%', CONV(t1.accesschannel,10,10),t1.vipsubchannelid), t1.vipsubchannelid))) relchannel,
+                                t2.activityid activityid,
+                                'ALL' subchannelid,
+                                t1.original_msisdn userid 
+                        from    game.t_cdr_order t1
+                        left outer join game.t_bfm_activity t2
+                        on      t1.oaoperatorid = t2.projectid
+                        and     t1.activityid = t2.activityid
+                        where   t1.chargeresult=0
+                        and     t1.chargetype=2
+                        and     t2.activityid is not null
+                        and     t1.date > '{STARTTIME}' AND t1.date < '{ENDTIME}'
+                        and     t1.id in ({PROJECTIDS})
+                        union all
+                        select  t1.oaoperatorid projectid,
+                                from_unixtime(unix_timestamp(substr(t1.timestamp, 0, 10),'yyyy-MM-dd'),'yyyyMMdd') dtime,
+                                if(substr(t1.vipsubchannelid, 0, 1) = 'l', substr(t1.vipsubchannelid, 4), if(t1.vipsubchannelid is null, 'none', if(t1.accesschannel = 214, concat_ws('%', CONV(t1.accesschannel,10,10),t1.vipsubchannelid), t1.vipsubchannelid))) relchannel,
+                                'ALL' activityid,
+                                'ALL' subchannelid,
+                                t1.original_msisdn userid 
+                        from    game.t_cdr_order t1
+                        left outer join game.t_bfm_activity t2
+                        on      t1.oaoperatorid = t2.projectid
+                        and     t1.activityid = t2.activityid
+                        where   t1.chargeresult=0
+                        and     t1.chargetype=2
+                        and     t2.activityid is not null
+                        and     t1.date > '{STARTTIME}' AND t1.date < '{ENDTIME}'
+                        and     t1.id in ({PROJECTIDS})
+                        union all
+                        select  t1.oaoperatorid projectid,
+                                from_unixtime(unix_timestamp(substr(t1.timestamp, 0, 10),'yyyy-MM-dd'),'yyyyMMdd') dtime,
+                                'ALL' relchannel,
+                                t2.activityid activityid,
+                                'ALL' subchannelid,
+                                t1.original_msisdn userid 
+                        from    game.t_cdr_order t1
+                        left outer join game.t_bfm_activity t2
+                        on      t1.oaoperatorid = t2.projectid
+                        and     t1.activityid = t2.activityid
+                        where   t1.chargeresult=0
+                        and     t1.chargetype=2
+                        and     t2.activityid is not null
+                        and     t1.date > '{STARTTIME}' AND t1.date < '{ENDTIME}'
+                        and     t1.id in ({PROJECTIDS})
+                        union all
+                        select  t1.oaoperatorid projectid,
+                                from_unixtime(unix_timestamp(substr(t1.timestamp, 0, 10),'yyyy-MM-dd'),'yyyyMMdd') dtime,
+                                'ALL' relchannel,
+                                'ALL' activityid, 
+                                'ALL' subchannelid,
+                                t1.original_msisdn userid 
+                        from    game.t_cdr_order t1
+                        left outer join game.t_bfm_activity t2
+                        on      t1.oaoperatorid = t2.projectid
+                        and     t1.activityid = t2.activityid
+                        where   t1.chargeresult=0
+                        and     t1.chargetype=2
+                        and     t2.activityid is not null
+                        and     t1.date > '{STARTTIME}' AND t1.date < '{ENDTIME}'
+                        and     t1.id in ({PROJECTIDS})
+                        union all
+                        select t1.projectid projectid,t1.dtime dtime,t1.relchannel relchannel,t1.activityid activityid,concat(relchannel,nvl(subchannelid,'none')) subchannelid,t1.userid userid 
+                        from(
+                        select  t1.oaoperatorid projectid,
+                                from_unixtime(unix_timestamp(substr(t1.timestamp, 0, 10),'yyyy-MM-dd'),'yyyyMMdd') dtime,
+                                if(substr(t1.vipsubchannelid, 0, 1) = 'l', substr(t1.vipsubchannelid, 4), if(t1.vipsubchannelid is null, 'none', if(t1.accesschannel = 214, concat_ws('%', CONV(t1.accesschannel,10,10),t1.vipsubchannelid), t1.vipsubchannelid))) relchannel,
+                                t2.activityid activityid,
+                                nvl(t1.affiliateChannelID,'none') subchannelid,
+                                t1.original_msisdn userid 
+                        from    game.t_cdr_order t1
+                        left outer join game.t_bfm_activity t2
+                        on      t1.oaoperatorid = t2.projectid
+                        and     t1.activityid = t2.activityid
+                        where   t1.chargeresult=0
+                        and     t1.chargetype=2
+                        and     t2.activityid is not null
+                        and     t1.date > '{STARTTIME}' AND t1.date < '{ENDTIME}'
+                        and     t1.id in ({PROJECTIDS})
+                            )t1
+                        ) t
+                    group by projectid,relchannel,activityid,dtime,subchannelid
+                )t
+                group by projectid,relchannel,activityid,dtime,subchannelid,tpaysuccess
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+        <!-- 订购转换率 -->
+        <multiHqlReportIndex>
+            <indexKey>game.promotion.orderconrate.d</indexKey>
+            <fieldName>orderconrate</fieldName>
+            <hql>
+                <![CDATA[
+                select 
+                select  t1.projectid projectid,
+                        t1.relchannel relchannel,
+                        t1.activityid activityid,
+                        t1.dtime dtime,
+                        t1.subchannelid subchannelid,
+                        if(t1.thitcnt = 0 , -1 , t1.tpaysuccess/t1.thitcnt) orderconrate
+                from    game.t_game_promotion_d_hbase t1
+                where   t1.dtime > '{STARTTIME}' AND t1.dtime < '{ENDTIME}'
+                and     t1.projectid in ({PROJECTIDS})
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+        
+        <!-- 7日留存会员数 -->
+        <multiHqlReportIndex>
+            <indexKey>game.promotion.sevendaysrematevips.d</indexKey>
+            <fieldName>sevendaysrematevips</fieldName>
+            <hql>
+                <![CDATA[
+                select projectid,relchannel,activityid,dtime,subchannelid,sevendaysrematevips
+                from (
+                    select projectid,relchannel,activityid,dtime,subchannelid,count(distinct(userid)) sevendaysrematevips 
+                    from (
+                    select t1.projectid projectid,
+                           t1.dtime dtime,
+                           'ALL' activityid,
+                           'ALL' relchannel,
+                           'ALL' subchannelid,
+                           t1.userid userid
+                    from        
+					 game.T_MID_SUBQUERYTWO t1
+                    union all
+                    select t1.projectid projectid,
+                           t1.dtime dtime,
+                           t1.activityid activityid,
+                           'ALL' relchannel,
+                           'ALL' subchannelid,
+                           t1.userid userid
+                    from game.T_MID_SUBQUERYTWO t1
+                    union all 
+                    select t1.projectid projectid,
+                           t1.dtime dtime,
+                           t1.activityid activityid,
+                           nvl(t1.relchannel,'none') relchannel,
+                           'ALL' subchannelid,
+                           t1.userid userid
+                    from        
+                    game.T_MID_SUBQUERYTWO t1
+                    union all
+                    select t1.projectid projectid,
+                           t1.dtime dtime,
+                           'ALL' activityid,
+                           nvl(t1.relchannel,'none') relchannel,
+                           'ALL' subchannelid,
+                           t1.userid userid
+                    from        
+                     game.T_MID_SUBQUERYTWO t1
+                    union all
+                    select t1.projectid projectid,
+                           t1.dtime dtime,
+                           t1.activityid activityid,
+                           nvl(t1.relchannel,'none') relchannel,
+                           concat(nvl(t1.relchannel,'none'),if(t1.subchannelid is null,'none',t1.subchannelid)) subchannelid,
+                           t1.userid userid
+                    from        
+                     game.T_MID_SUBQUERYTWO t1
+                    ) t
+                    group by projectid,dtime,activityid,relchannel,subchannelid
+                ) t
+                group by projectid,relchannel,activityid,dtime,subchannelid,sevendaysrematevips
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+        <!--7日前订购会员总数-->
+        <multiHqlReportIndex>
+            <indexKey>game.promotion.sevendayordervips.d</indexKey>
+            <fieldName>sevendayordervips</fieldName>
+            <hql>
+                <![CDATA[
+                select projectid,relchannel,activityid,dtime,subchannelid,tnewvips+tnewuserunsubusercnt sevendayordervips
+				from (
+				select t2.projectid projectid,
+				t2.relchannel relchannel,
+				t2.activityid activityid,
+				t2.dtime dtime,
+				t2.subchannelid subchannelid,
+				if(t1.tnewvips is null,0,t1.tnewvips) tnewvips,
+				if(t1.tnewuserunsubusercnt is null,0,t1.tnewuserunsubusercnt) tnewuserunsubusercnt
+				from (
+				select  t1.projectid projectid,
+                        nvl(t1.relchannel,'ALL') relchannel,
+                        nvl(t1.activityid,'ALL') activityid,
+                        t2.dtime dtime,
+                        nvl(t1.subchannelid,'ALL') subchannelid,
+                        t1.tnewvips  tnewvips,
+						t1.tnewuserunsubusercnt  tnewuserunsubusercnt
+                    from    game.t_game_promotion_d_hbase t1,
+                    (select from_unixtime(unix_timestamp(dtime,
+                                                                        'yyyy-MM-dd'),
+                                                         'yyyyMMdd') dtime
+                                      from game.t_bdi_rundate
+                                     where from_unixtime(unix_timestamp(dtime,
+                                                                        'yyyy-MM-dd'),
+                                                         'yyyyMMdd') > '{STARTTIME}'
+                                       AND from_unixtime(unix_timestamp(dtime,
+                                                                        'yyyy-MM-dd'),
+                                                         'yyyyMMdd') < '{ENDTIME}') t2
+                    where   t1.dtime  = from_unixtime(unix_timestamp(date_sub(from_unixtime(unix_timestamp(t2.dtime,
+                                                'yyyyMMdd'),'yyyy-MM-dd'),6),'yyyy-MM-dd'), 'yyyyMMdd')
+                      and     t1.projectid in ({PROJECTIDS}))t1,(
+				select t1.projectid projectid,
+						nvl(t1.relchannel,'ALL') relchannel,
+						nvl(t1.activityid,'ALL') activityid,
+						nvl(t1.subchannelid,'ALL') subchannelid,
+						t1.dtime dtime
+						from game.t_game_promotion_d_hbase t1
+						where t1.dtime > '{STARTTIME}'
+						and t1.dtime < '{ENDTIME}') t2
+						where t1.projectid = t2.projectid
+						and t1.relchannel = t2.relchannel
+						and t1.dtime = t2.dtime
+						and t1.activityid = t2.activityid 
+						and t1.subchannelid = t2.subchannelid)tt
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+        
+        <!--7日留存率 -->
+        <multiHqlReportIndex>
+            <indexKey>game.promotion.sevendayretentrate.d</indexKey>
+            <fieldName>sevendayretentrate</fieldName>
+            <hql>
+                <![CDATA[
+                select projectid,relchannel,activityid,dtime,subchannelid,sevendayretentrate
+                from(
+                    select  t1.projectid projectid,
+                            nvl(t1.relchannel,'ALL') relchannel,
+                            nvl(t1.activityid,'ALL') activityid,
+                            t1.dtime dtime,
+                            nvl(t1.subchannelid,'ALL') subchannelid,
+                            if(t1.sevendayordervips = 0,-1,t1.sevendaysrematevips/t1.sevendayordervips) sevendayretentrate
+                    from    game.t_game_promotion_d_hbase t1
+                    where   t1.dtime > '{STARTTIME}' AND t1.dtime < '{ENDTIME}'
+                    and     t1.projectid in ({PROJECTIDS})
+                )tt 
+                group by projectid,relchannel,activityid,dtime,subchannelid,sevendayretentrate
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+        <!-- 7日留存率均值分母-->
+        <multiHqlReportIndex>
+            <indexKey>game.promotion.sevenrenratedenominator.d</indexKey>
+            <fieldName>sevenrenratedenominator,sevenrenratenumerator</fieldName>
+            <hql>
+                <![CDATA[
+                select projectid,
+       relchannel,
+       activityid,
+       dtime,
+       subchannelid,
+       sum(sevendayordervips) sevenrenratedenominator,
+       sum(sevendaysrematevips) sevenrenratenumerator
+  from (select t2.projectid           projectid,
+               t2.relchannel          relchannel,
+               t2.activityid          activityid,
+               t2.dtime               dtime,
+               t2.subchannelid        subchannelid,
+               t1.sevendayordervips   sevendayordervips,
+               t1.sevendaysrematevips sevendaysrematevips
+          from (select t1.projectid projectid,
+                       nvl(t1.relchannel, 'ALL') relchannel,
+                       nvl(t1.activityid, 'ALL') activityid,
+                       t2.dtime dtime,
+                       nvl(t1.subchannelid, 'ALL') subchannelid,
+                       if(t1.sevendayordervips is null,
+                          0,
+                          t1.sevendayordervips) sevendayordervips,
+                       if(t1.sevendaysrematevips is null,
+                          0,
+                          t1.sevendaysrematevips) sevendaysrematevips
+                  from (select from_unixtime(unix_timestamp(dtime,
+                                                            'yyyy-MM-dd'),
+                                             'yyyyMMdd') dtime
+                          from game.t_bdi_rundate
+                         where from_unixtime(unix_timestamp(dtime,
+                                                            'yyyy-MM-dd'),
+                                             'yyyyMMdd') > '{STARTTIME}'
+                           AND from_unixtime(unix_timestamp(dtime,
+                                                            'yyyy-MM-dd'),
+                                             'yyyyMMdd') < '{ENDTIME}') t2,
+                       (select projectid,
+                               relchannel,
+                               activityid,
+                               dtime,
+                               subchannelid,
+                               sevendayordervips,
+                               sevendaysrematevips
+                          from game.t_game_promotion_d_hbase t
+                         where dtime >= from_unixtime(unix_timestamp(date_sub(from_unixtime(unix_timestamp('{STARTTIME}',
+                                                                                                           'yyyyMMdd'),
+                                                                                            'yyyy-MM-dd'),
+                                                                              6),
+                                                                     'yyyy-MM-dd'),
+                                                      'yyyyMMdd')) t1
+                 where t1.dtime >= from_unixtime(unix_timestamp(date_sub(from_unixtime(unix_timestamp(t2.dtime,
+                                                                                                      'yyyyMMdd'),
+                                                                                       'yyyy-MM-dd'),
+                                                                         6),
+                                                                'yyyy-MM-dd'),
+                                                 'yyyyMMdd')
+                   and t1.dtime <= t2.dtime
+                
+                ) t1,
+               (select t1.projectid projectid,
+                       nvl(t1.relchannel, 'ALL') relchannel,
+                       nvl(t1.activityid, 'ALL') activityid,
+                       nvl(t1.subchannelid, 'ALL') subchannelid,
+                       t1.dtime dtime
+                  from game.t_game_promotion_d_hbase t1
+                 where t1.dtime > '{STARTTIME}'
+                   and t1.dtime < '{ENDTIME}') t2
+         where t1.projectid = t2.projectid
+           and t1.relchannel = t2.relchannel
+           and t1.dtime = t2.dtime
+           and t1.activityid = t2.activityid
+           and t1.subchannelid = t2.subchannelid) tt
+ group by projectid, relchannel, activityid, dtime, subchannelid
+
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+        <!--7日留存率（7日均值） -->
+        <multiHqlReportIndex>
+            <indexKey>game.promotion.sevendayretentrateavg.d</indexKey>
+            <fieldName>sevendayretentrateavg</fieldName>
+            <hql>
+                <![CDATA[
+                select projectid,relchannel,activityid,dtime,subchannelid,sevendayretentrateavg
+                from(
+                select  t1.projectid projectid,
+                                nvl(t1.relchannel,'ALL') relchannel,
+                                nvl(t1.activityid,'ALL') activityid,
+                                t1.dtime dtime,
+                                nvl(t1.subchannelid,'ALL') subchannelid,
+                                if(t1.sevenrenratedenominator = 0 ,-1 ,t1.sevenrenratenumerator/t1.sevenrenratedenominator) sevendayretentrateavg
+                        from    game.t_game_promotion_d_hbase t1
+                        where   t1.dtime > '{STARTTIME}' AND t1.dtime < '{ENDTIME}'
+                        and     t1.projectid in ({PROJECTIDS})
+                )t
+                group by projectid,relchannel,activityid,dtime,subchannelid,sevendayretentrateavg
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+        <!--应收租会员数 -->
+        <multiHqlReportIndex>
+            <indexKey>game.promotion.grantcollectvips.d</indexKey>
+            <fieldName>grantcollectvips</fieldName>
+            <hql>
+                <![CDATA[
+                select projectid,relchannel,activityid,dtime,subchannelid,grantcollectvips
+                from(
+                select projectid,relchannel,activityid,dtime,subchannelid,count(distinct(userid)) grantcollectvips
+                    from(
+                        select  t1.projectid projectid,
+                                t1.date dtime,
+                                t2.activityid activityid,
+                                nvl(t1.relchannel,'none') relchannel,
+                                concat(nvl(t1.relchannel,'none'),nvl(t1.affiliatechannelid,'none')) subchannelid,
+                                t1.userid userid
+                        from (select t1.projectid,t1.date,t1.activityid,t1.relchannel,t1.affiliatechannelid,concat(productid,paymentaccountid) userid  from  game.t_cdr_payment t1
+						where t1.date > '{STARTTIME}' AND t1.date < '{ENDTIME}'
+                        and     t1.subtype = 1
+                        and     (t1.producttype = 0 or t1.producttype = 1 or t1.producttype is null)
+                        and     t1.projectid in ({PROJECTIDS})
+						group by t1.projectid,t1.date,t1.activityid,t1.relchannel,t1.affiliatechannelid,concat(productid,paymentaccountid)
+						) t1
+                        left outer join game.t_bfm_activity t2
+                        on      t1.projectid = t2.projectid
+                        and     t1.activityid = t2.activityid
+                        and     t2.activityid is not null
+						group by  t1.projectid,t1.date,t2.activityid,nvl(t1.relchannel,'none'),
+						concat(nvl(t1.relchannel,'none'),nvl(t1.affiliatechannelid,'none')),
+						t1.userid
+                        union all
+                        select  t1.projectid projectid,
+                                t1.date dtime,
+                                t2.activityid activityid,
+                                'ALL' relchannel,
+                                'ALL' subchannelid,
+                                t1.userid userid
+                        from    (select t1.projectid,t1.date,t1.activityid,t1.relchannel,t1.affiliatechannelid,concat(productid,paymentaccountid) userid  from  game.t_cdr_payment t1
+						where   t1.date > '{STARTTIME}' AND t1.date < '{ENDTIME}'
+                        and     t1.subtype = 1
+                        and     (t1.producttype = 0 or t1.producttype = 1 or t1.producttype is null)
+                        and     t1.projectid in ({PROJECTIDS})
+						group by t1.projectid,t1.date,t1.activityid,t1.relchannel,t1.affiliatechannelid,concat(productid,paymentaccountid)
+						) t1
+                        left outer join game.t_bfm_activity t2
+                        on      t1.projectid = t2.projectid
+                        and     t1.activityid = t2.activityid
+                        and     t2.activityid is not null  
+						group by t1.projectid,t1.date,t2.activityid,t1.userid
+                        union all
+                        select  t1.projectid projectid,
+                                t1.date dtime,
+                                'ALL' activityid,
+                                nvl(t1.relchannel,'none') relchannel,
+                                'ALL' subchannelid,
+                                t1.userid userid
+                        from    (select t1.projectid,t1.date,t1.activityid,t1.relchannel,t1.affiliatechannelid,concat(productid,paymentaccountid) userid  from  game.t_cdr_payment t1
+						where   t1.date > '{STARTTIME}' AND t1.date < '{ENDTIME}'
+                        and     t1.subtype = 1
+                        and     (t1.producttype = 0 or t1.producttype = 1 or t1.producttype is null)
+                        and     t1.projectid in ({PROJECTIDS})
+						group by t1.projectid,t1.date,t1.activityid,t1.relchannel,t1.affiliatechannelid,concat(productid,paymentaccountid)
+						) t1
+                        left outer join game.t_bfm_activity t2
+                        on      t1.projectid = t2.projectid
+                        and     t1.activityid = t2.activityid
+                        and     t2.activityid is not null  
+						group by t1.projectid,t1.date,nvl(t1.relchannel,'none'),t1.userid
+                        union all 
+                        select  t1.projectid projectid,
+                                t1.date dtime,
+                                'ALL' activityid,
+                                'ALL' relchannel,
+                                'ALL' subchannelid,
+                                t1.userid userid
+                        from    (select t1.projectid,t1.date,t1.activityid,t1.relchannel,t1.affiliatechannelid,concat(productid,paymentaccountid) userid  from  game.t_cdr_payment t1
+						where   t1.date > '{STARTTIME}' AND t1.date < '{ENDTIME}'
+                        and     t1.subtype = 1
+                        and     (t1.producttype = 0 or t1.producttype = 1 or t1.producttype is null)
+                        and     t1.projectid in ({PROJECTIDS})
+						group by t1.projectid,t1.date,t1.activityid,t1.relchannel,t1.affiliatechannelid,concat(productid,paymentaccountid)
+						) t1
+                        left outer join game.t_bfm_activity t2
+                        on      t1.projectid = t2.projectid
+                        and     t1.activityid = t2.activityid
+                        and     t2.activityid is not null
+						group by t1.projectid,t1.date,t1.userid
+                        union all
+                        select  t1.projectid projectid,
+                                t1.date dtime,
+                                t2.activityid activityid,
+                                nvl(t1.relchannel,'none') relchannel,
+                                'ALL' subchannelid,
+                                t1.userid userid
+                        from    (select t1.projectid,t1.date,t1.activityid,t1.relchannel,t1.affiliatechannelid,concat(productid,paymentaccountid) userid  from  game.t_cdr_payment t1
+						where   t1.date > '{STARTTIME}' AND t1.date < '{ENDTIME}'
+                        and     t1.subtype = 1
+                        and     (t1.producttype = 0 or t1.producttype = 1 or t1.producttype is null)
+                        and     t1.projectid in ({PROJECTIDS})
+						group by t1.projectid,t1.date,t1.activityid,t1.relchannel,t1.affiliatechannelid,concat(productid,paymentaccountid)
+						) t1
+                        left outer join game.t_bfm_activity t2
+                        on      t1.projectid = t2.projectid
+                        and     t1.activityid = t2.activityid
+                        and     t2.activityid is not null 
+						group by t1.projectid,t1.date,t2.activityid,nvl(t1.relchannel,'none'),t1.userid
+                        ) t
+                        group by projectid,dtime,activityid,relchannel,subchannelid
+                    )t 
+                    group by projectid,relchannel,activityid,dtime,subchannelid,grantcollectvips
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+        <!--成功收租会员数 -->
+        <multiHqlReportIndex>
+            <indexKey>game.promotion.treceivablevips.d</indexKey>
+            <fieldName>treceivablevips</fieldName>
+            <hql>
+                <![CDATA[
+                select projectid,relchannel,activityid,dtime,subchannelid,treceivablevips
+                from (
+                select projectid,relchannel,activityid,dtime,subchannelid,count(distinct(userid)) treceivablevips
+                    from(
+                        select  t1.projectid projectid,
+                                t1.date dtime,
+                                t2.activityid activityid,
+                                nvl(t1.relchannel,'none') relchannel,
+                                concat(nvl(t1.relchannel,'none'),nvl(t1.affiliatechannelid,'none')) subchannelid,
+                                t1.userid userid
+                        from    (select t1.projectid,t1.date,t1.activityid,t1.relchannel,t1.affiliatechannelid,concat(productid,paymentaccountid) userid  from  game.t_cdr_payment t1
+						where   t1.date > '{STARTTIME}' AND t1.date < '{ENDTIME}'
+                        and     t1.subtype = 1
+                        and     (t1.producttype = 0 or t1.producttype = 1 or t1.producttype is null)
+                        and     chargeresult = '0'
+                        and     t1.projectid in ({PROJECTIDS})
+						group by t1.projectid,t1.date,t1.activityid,t1.relchannel,t1.affiliatechannelid,concat(productid,paymentaccountid)
+						) t1
+                        left outer join game.t_bfm_activity t2
+                        on      t1.projectid = t2.projectid
+                        and     t1.activityid = t2.activityid
+                        and     t2.activityid is not null  
+						group by t1.projectid,t1.date,t2.activityid,nvl(t1.relchannel,'none'),concat(nvl(t1.relchannel,'none'),nvl(t1.affiliatechannelid,'none')),
+									t1.userid
+                        union all
+                        select  t1.projectid projectid,
+                                t1.date dtime,
+                                t2.activityid activityid,
+                                'ALL' relchannel,
+                                'ALL' subchannelid,
+                                t1.userid userid
+                        from    (select t1.projectid,t1.date,t1.activityid,t1.relchannel,t1.affiliatechannelid,concat(productid,paymentaccountid) userid  from  game.t_cdr_payment t1
+						where   t1.date > '{STARTTIME}' AND t1.date < '{ENDTIME}'
+                        and     t1.subtype = 1
+                        and     (t1.producttype = 0 or t1.producttype = 1 or t1.producttype is null)
+                        and     chargeresult = '0'
+                        and     t1.projectid in ({PROJECTIDS})
+						group by t1.projectid,t1.date,t1.activityid,t1.relchannel,t1.affiliatechannelid,concat(productid,paymentaccountid)
+						) t1
+                        left outer join game.t_bfm_activity t2
+                        on      t1.projectid = t2.projectid
+                        and     t1.activityid = t2.activityid
+                        and     t2.activityid is not null  
+						group by t1.projectid,t1.date,t2.activityid,t1.userid
+                        union all
+                        select  t1.projectid projectid,
+                                t1.date dtime,
+                                'ALL' activityid,
+                                nvl(t1.relchannel,'none') relchannel,
+                                'ALL' subchannelid,
+                                t1.userid userid
+                        from    (select t1.projectid,t1.date,t1.activityid,t1.relchannel,t1.affiliatechannelid,concat(productid,paymentaccountid) userid  from  game.t_cdr_payment t1
+						where   t1.date > '{STARTTIME}' AND t1.date < '{ENDTIME}'
+                        and     t1.subtype = 1
+                        and     (t1.producttype = 0 or t1.producttype = 1 or t1.producttype is null)
+                        and     chargeresult = '0'
+                        and     t1.projectid in ({PROJECTIDS})
+						group by t1.projectid,t1.date,t1.activityid,t1.relchannel,t1.affiliatechannelid,concat(productid,paymentaccountid)
+						) t1
+                        left outer join game.t_bfm_activity t2
+                        on      t1.projectid = t2.projectid
+                        and     t1.activityid = t2.activityid
+                        and     t2.activityid is not null
+						group  by t1.projectid,t1.date,nvl(t1.relchannel,'none'),t1.userid
+                        union all 
+                        select  t1.projectid projectid,
+                                t1.date dtime,
+                                'ALL' activityid,
+                                'ALL' relchannel,
+                                'ALL' subchannelid,
+                                t1.userid userid
+                        from    (select t1.projectid,t1.date,t1.activityid,t1.relchannel,t1.affiliatechannelid,concat(productid,paymentaccountid) userid  from  game.t_cdr_payment t1
+						where   t1.date > '{STARTTIME}' AND t1.date < '{ENDTIME}'
+                        and     t1.subtype = 1
+                        and     (t1.producttype = 0 or t1.producttype = 1 or t1.producttype is null)
+                        and     chargeresult = '0'
+                        and     t1.projectid in ({PROJECTIDS})
+						group by t1.projectid,t1.date,t1.activityid,t1.relchannel,t1.affiliatechannelid,concat(productid,paymentaccountid)
+						) t1
+                        left outer join game.t_bfm_activity t2
+                        on      t1.projectid = t2.projectid
+                        and     t1.activityid = t2.activityid
+                        and     t2.activityid is not null
+						group by t1.projectid,t1.date,t1.userid
+                        union all
+                        select  t1.projectid projectid,
+                                t1.date dtime,
+                                t2.activityid activityid,
+                                nvl(t1.relchannel,'none') relchannel,
+                                'ALL' subchannelid,
+                                t1.userid userid
+                        from    (select t1.projectid,t1.date,t1.activityid,t1.relchannel,t1.affiliatechannelid,concat(productid,paymentaccountid) userid  from  game.t_cdr_payment t1
+						where   t1.date > '{STARTTIME}' AND t1.date < '{ENDTIME}'
+                        and     t1.subtype = 1
+                        and     (t1.producttype = 0 or t1.producttype = 1 or t1.producttype is null)
+                        and     chargeresult = '0'
+                        and     t1.projectid in ({PROJECTIDS})
+						group by t1.projectid,t1.date,t1.activityid,t1.relchannel,t1.affiliatechannelid,concat(productid,paymentaccountid)
+						) t1
+                        left outer join game.t_bfm_activity t2
+                        on      t1.projectid = t2.projectid
+                        and     t1.activityid = t2.activityid
+                        and     t2.activityid is not null
+						group by t1.projectid,t1.date,t2.activityid,nvl(t1.relchannel,'none'),t1.userid
+                        )t
+                        group by projectid,dtime,activityid,relchannel,subchannelid
+                    )t 
+                    group by projectid,relchannel,activityid,dtime,subchannelid,treceivablevips
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+        <!-- 合作渠道流水 -->
+        <multiHqlReportIndex>
+            <indexKey>game.promotion.tpartnerchannelrevenue.d</indexKey>
+            <fieldName>tpartnerchannelrevenue</fieldName>
+            <hql>
+                <![CDATA[
+                select projectid,relchannel,activityid,dtime,subchannelid,tpartnerchannelrevenue
+                from(
+                select projectid,relchannel,activityid,dtime,subchannelid,
+                    sum(totalfee) tpartnerchannelrevenue
+                    from (
+                    select  t1.projectid projectid,
+                                'ALL' relchannel,
+                                'ALL' activityid,
+                                'ALL' subchannelid,
+                                t1.date dtime,
+                                if(t1.totalfee is null, '0', t1.totalfee) totalfee
+                        from    game.t_cdr_payment t1
+                        left outer join game.t_bfm_activity t2
+                        on      t1.projectid = t2.projectid
+                        and     t1.activityid = t2.activityid
+                        where   t1.subtype ='1' 
+                        and     t1.chargeresult = '0'
+                        and     t1.paytype <> '37'
+                        and     (t1.producttype = '0' or t1.producttype = '1' or t1.producttype is null)
+                        and     t2.activityid is not null
+                        and     from_unixtime(unix_timestamp(t1.applytime),'yyyyMMddHHmmss') <= t1.protectendtime 
+                        and      length(t1.protectendtime) = 14
+                        and     t1.date > '{STARTTIME}'
+                        and     t1.date < '{ENDTIME}'
+                        and     t1.id in ({PROJECTIDS})
+                        union all
+                    select  t1.projectid projectid,
+                                nvl(t1.relchannel,'none') relchannel,
+                                'ALL' activityid,
+                                'ALL' subchannelid,
+                                t1.date dtime,
+                                if(t1.totalfee is null, '0', t1.totalfee) totalfee
+                        from    game.t_cdr_payment t1
+                        left outer join game.t_bfm_activity t2
+                        on      t1.projectid = t2.projectid
+                        and     t1.activityid = t2.activityid
+                        where   t1.subtype ='1' 
+                        and     t1.chargeresult = '0'
+                        and     t1.paytype <> '37'
+                        and     (t1.producttype = '0' or t1.producttype = '1' or t1.producttype is null)
+                        and     t2.activityid is not null
+                        and     from_unixtime(unix_timestamp(t1.applytime),'yyyyMMddHHmmss') <= t1.protectendtime 
+                        and      length(t1.protectendtime) = 14
+                        and     t1.date > '{STARTTIME}'
+                        and     t1.date < '{ENDTIME}'
+                        and     t1.id in ({PROJECTIDS})
+                        union all
+                    select  t1.projectid projectid,
+                                'ALL' relchannel,
+                                t2.activityid activityid,
+                                'ALL' subchannelid,
+                                t1.date dtime,
+                                if(t1.totalfee is null, '0', t1.totalfee) totalfee
+                        from    game.t_cdr_payment t1
+                        left outer join game.t_bfm_activity t2
+                        on      t1.projectid = t2.projectid
+                        and     t1.activityid = t2.activityid
+                        where   t1.subtype ='1' 
+                        and     t1.chargeresult = '0'
+                        and     t1.paytype <> '37'
+                        and     (t1.producttype = '0' or t1.producttype = '1' or t1.producttype is null)
+                        and     t2.activityid is not null
+                        and     from_unixtime(unix_timestamp(t1.applytime),'yyyyMMddHHmmss') <= t1.protectendtime 
+                        and      length(t1.protectendtime) = 14
+                        and     t1.date > '{STARTTIME}'
+                        and     t1.date < '{ENDTIME}'
+                        and     t1.id in ({PROJECTIDS})
+                        union all
+                   select  t1.projectid projectid,
+                                nvl(t1.relchannel,'none') relchannel,
+                                t1.activityid activityid,
+                                'ALL' subchannelid,
+                                t1.date dtime,
+                                if(t1.totalfee is null, '0', t1.totalfee) totalfee
+                        from    game.t_cdr_payment t1
+                        left outer join game.t_bfm_activity t2
+                        on      t1.projectid = t2.projectid
+                        and     t1.activityid = t2.activityid
+                        where   t1.subtype ='1' 
+                        and     t1.chargeresult = '0'
+                        and     t1.paytype <> '37'
+                        and     (t1.producttype = '0' or t1.producttype = '1' or t1.producttype is null)
+                        and     t2.activityid is not null
+                        and     from_unixtime(unix_timestamp(t1.applytime),'yyyyMMddHHmmss') <= t1.protectendtime 
+                        and      length(t1.protectendtime) = 14
+                        and     t1.date > '{STARTTIME}'
+                        and     t1.date < '{ENDTIME}'
+                        and     t1.id in ({PROJECTIDS})
+                        union all 
+               select  t1.projectid projectid,
+                                nvl(t1.relchannel,'none') relchannel,
+                                t2.activityid activityid,
+                                concat(nvl(t1.relchannel,'none'),nvl(t1.affiliatechannelid,'none')) subchannelid,
+                                t1.date dtime,
+                                if(t1.totalfee is null, '0', t1.totalfee) totalfee
+                        from    game.t_cdr_payment t1
+                        left outer join game.t_bfm_activity t2
+                        on      t1.projectid = t2.projectid
+                        and     t1.activityid = t2.activityid
+                        where   t1.subtype ='1' 
+                        and     t1.chargeresult = '0'
+                        and     t1.paytype <> '37'
+                        and     (t1.producttype = '0' or t1.producttype = '1' or t1.producttype is null)
+                        and     t2.activityid is not null
+                        and     from_unixtime(unix_timestamp(t1.applytime),'yyyyMMddHHmmss') <= t1.protectendtime 
+                        and      length(t1.protectendtime) = 14
+                        and     t1.date > '{STARTTIME}'
+                        and     t1.date < '{ENDTIME}'
+                        and     t1.id in ({PROJECTIDS})
+                    ) t
+                 group by projectid,relchannel,activityid,dtime,subchannelid
+                 )t
+                 group by projectid,relchannel,activityid,dtime,subchannelid,tpartnerchannelrevenue
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+        <!-- 订阅流水-->
+        <multiHqlReportIndex>
+            <indexKey>game.promotion.subscriptrevenue.d</indexKey>
+            <fieldName>subscriptrevenue</fieldName>
+            <hql>
+                <![CDATA[
+				select projectid,
+					   relchannel,
+					   activityid,
+					   dtime,
+					   subchannelid,
+					   sum(totalfee) subscriptrevenue
+				  from (select t1.projectid projectid,
+							   'ALL' relchannel,
+							   'ALL' activityid,
+							   'ALL' subchannelid,
+							   t1.date dtime,
+							   if(t1.totalfee is null, '0', t1.totalfee) totalfee
+						  from (select projectid, activityid, date, totalfee
+								  from game.t_cdr_payment t0
+								 where t0.subtype = '1'
+								   and t0.chargeresult = '0'
+								   and t0.paytype <> '37'
+								   and (t0.producttype = '0' or t0.producttype = '1' or
+									   t0.producttype is null)
+								   and (from_unixtime(unix_timestamp(t0.applytime),
+													  'yyyyMMddHHmmss') > t0.protectendtime or
+									   t0.protectendtime is null or
+									   length(t0.protectendtime) < 14)
+								   and t0.date > '{STARTTIME}'
+								   and t0.date < '{ENDTIME}'
+								   and t0.id in ({PROJECTIDS}) ) t1,
+							   (select projectid, activityid
+								  from game.t_bfm_activity t00
+								 where t00.activityid is not null) t2
+						 where t1.projectid = t2.projectid
+						   and t1.activityid = t2.activityid
+						union all
+						select t1.projectid projectid,
+							   nvl(t1.relchannel, 'none') relchannel,
+							   'ALL' activityid,
+							   'ALL' subchannelid,
+							   t1.date dtime,
+							   if(t1.totalfee is null, '0', t1.totalfee) totalfee
+						  from (select projectid, activityid, date, relchannel, totalfee
+								  from game.t_cdr_payment t0
+								 where t0.subtype = '1'
+								   and t0.chargeresult = '0'
+								   and t0.paytype <> '37'
+								   and (t0.producttype = '0' or t0.producttype = '1' or
+									   t0.producttype is null)
+								   and (from_unixtime(unix_timestamp(t0.applytime),
+													  'yyyyMMddHHmmss') > t0.protectendtime or
+									   t0.protectendtime is null or
+									   length(t0.protectendtime) < 14)
+								   and t0.date > '{STARTTIME}'
+								   and t0.date < '{ENDTIME}'
+								   and t0.id in ({PROJECTIDS}) ) t1,
+							   (select projectid, activityid
+								  from game.t_bfm_activity t00
+								 where t00.activityid is not null) t2
+						 where t1.projectid = t2.projectid
+						   and t1.activityid = t2.activityid
+						union all
+						select t1.projectid projectid,
+							   'ALL' relchannel,
+							   t2.activityid activityid,
+							   'ALL' subchannelid,
+							   t1.date dtime,
+							   if(t1.totalfee is null, '0', t1.totalfee) totalfee
+						  from (select projectid, activityid, date, relchannel, totalfee
+								  from game.t_cdr_payment t0
+								 where t0.subtype = '1'
+								   and t0.chargeresult = '0'
+								   and t0.paytype <> '37'
+								   and (t0.producttype = '0' or t0.producttype = '1' or
+									   t0.producttype is null)
+								   and (from_unixtime(unix_timestamp(t0.applytime),
+													  'yyyyMMddHHmmss') > t0.protectendtime or
+									   t0.protectendtime is null or
+									   length(t0.protectendtime) < 14)
+								   and t0.date > '{STARTTIME}'
+								   and t0.date < '{ENDTIME}'
+								   and t0.id in ({PROJECTIDS})) t1,
+							   (select projectid, activityid
+								  from game.t_bfm_activity t00
+								 where t00.activityid is not null) t2
+						 where t1.projectid = t2.projectid
+						   and t1.activityid = t2.activityid
+						union all
+						select t1.projectid projectid,
+							   nvl(t1.relchannel, 'none') relchannel,
+							   t2.activityid activityid,
+							   'ALL' subchannelid,
+							   t1.date dtime,
+							   if(t1.totalfee is null, '0', t1.totalfee) totalfee
+						  from (select projectid, activityid, date, relchannel, totalfee
+								  from game.t_cdr_payment t0
+								 where t0.subtype = '1'
+								   and t0.chargeresult = '0'
+								   and t0.paytype <> '37'
+								   and (t0.producttype = '0' or t0.producttype = '1' or
+									   t0.producttype is null)
+								   and (from_unixtime(unix_timestamp(t0.applytime),
+													  'yyyyMMddHHmmss') > t0.protectendtime or
+									   t0.protectendtime is null or
+									   length(t0.protectendtime) < 14)
+								   and t0.date > '{STARTTIME}'
+								   and t0.date < '{ENDTIME}'
+								   and t0.id in ({PROJECTIDS})) t1,
+							   (select projectid, activityid
+								  from game.t_bfm_activity t00
+								 where t00.activityid is not null) t2
+						 where t1.projectid = t2.projectid
+						   and t1.activityid = t2.activityid
+						union all
+						select t1.projectid projectid,
+							   nvl(t1.relchannel, 'none') relchannel,
+							   t2.activityid activityid,
+							   concat(nvl(t1.relchannel, 'none'),
+									  nvl(t1.affiliatechannelid, 'none')) subchannelid,
+							   t1.date dtime,
+							   if(t1.totalfee is null, '0', t1.totalfee) totalfee
+						  from (select projectid,
+									   activityid,
+									   date,
+									   relchannel,
+									   affiliatechannelid,
+									   totalfee
+								  from game.t_cdr_payment t0
+								 where t0.subtype = '1'
+								   and t0.chargeresult = '0'
+								   and t0.paytype <> '37'
+								   and (t0.producttype = '0' or t0.producttype = '1' or
+									   t0.producttype is null)
+								   and (from_unixtime(unix_timestamp(t0.applytime),
+													  'yyyyMMddHHmmss') > t0.protectendtime or
+									   t0.protectendtime is null or
+									   length(t0.protectendtime) < 14)
+								   and t0.date > '{STARTTIME}'
+								   and t0.date < '{ENDTIME}'
+								   and t0.id in ({PROJECTIDS})) t1,
+							   (select projectid, activityid
+								  from game.t_bfm_activity t00
+								 where t00.activityid is not null) t2
+						 where t1.projectid = t2.projectid
+						   and t1.activityid = t2.activityid) t
+				 group by projectid, relchannel, activityid, dtime, subchannelid
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+		
+		<!-- 订阅流水 本币-->
+        <multiHqlReportIndex>
+            <indexKey>game.promotion.localsubscriptrevenue.d</indexKey>
+            <fieldName>localsubscriptrevenue</fieldName>
+            <hql>
+                <![CDATA[
+				select projectid,
+					   relchannel,
+					   activityid,
+					   dtime,
+					   subchannelid,
+					   sum(localtotalfee) localsubscriptrevenue
+				  from (select t1.projectid projectid,
+							   'ALL' relchannel,
+							   'ALL' activityid,
+							   'ALL' subchannelid,
+							   t1.date dtime,
+							   if(t1.localtotalfee is null, '0', t1.localtotalfee) localtotalfee
+						  from (select projectid, activityid, date, localtotalfee
+								  from game.t_cdr_payment t0
+								 where t0.subtype = '1'
+								   and t0.chargeresult = '0'
+								   and t0.paytype <> '37'
+								   and (t0.producttype = '0' or t0.producttype = '1' or
+									   t0.producttype is null)
+								   and (from_unixtime(unix_timestamp(t0.applytime),
+													  'yyyyMMddHHmmss') > t0.protectendtime or
+									   t0.protectendtime is null or
+									   length(t0.protectendtime) < 14)
+								   and t0.date > '{STARTTIME}'
+								   and t0.date < '{ENDTIME}'
+								   and t0.id in ({PROJECTIDS}) ) t1,
+							   (select projectid, activityid
+								  from game.t_bfm_activity t00
+								 where t00.activityid is not null) t2
+						 where t1.projectid = t2.projectid
+						   and t1.activityid = t2.activityid
+						union all
+						select t1.projectid projectid,
+							   nvl(t1.relchannel, 'none') relchannel,
+							   'ALL' activityid,
+							   'ALL' subchannelid,
+							   t1.date dtime,
+							   if(t1.localtotalfee is null, '0', t1.localtotalfee) localtotalfee
+						  from (select projectid, activityid, date, relchannel, localtotalfee
+								  from game.t_cdr_payment t0
+								 where t0.subtype = '1'
+								   and t0.chargeresult = '0'
+								   and t0.paytype <> '37'
+								   and (t0.producttype = '0' or t0.producttype = '1' or
+									   t0.producttype is null)
+								   and (from_unixtime(unix_timestamp(t0.applytime),
+													  'yyyyMMddHHmmss') > t0.protectendtime or
+									   t0.protectendtime is null or
+									   length(t0.protectendtime) < 14)
+								   and t0.date > '{STARTTIME}'
+								   and t0.date < '{ENDTIME}'
+								   and t0.id in ({PROJECTIDS}) ) t1,
+							   (select projectid, activityid
+								  from game.t_bfm_activity t00
+								 where t00.activityid is not null) t2
+						 where t1.projectid = t2.projectid
+						   and t1.activityid = t2.activityid
+						union all
+						select t1.projectid projectid,
+							   'ALL' relchannel,
+							   t2.activityid activityid,
+							   'ALL' subchannelid,
+							   t1.date dtime,
+							   if(t1.localtotalfee is null, '0', t1.localtotalfee) localtotalfee
+						  from (select projectid, activityid, date, relchannel, localtotalfee
+								  from game.t_cdr_payment t0
+								 where t0.subtype = '1'
+								   and t0.chargeresult = '0'
+								   and t0.paytype <> '37'
+								   and (t0.producttype = '0' or t0.producttype = '1' or
+									   t0.producttype is null)
+								   and (from_unixtime(unix_timestamp(t0.applytime),
+													  'yyyyMMddHHmmss') > t0.protectendtime or
+									   t0.protectendtime is null or
+									   length(t0.protectendtime) < 14)
+								   and t0.date > '{STARTTIME}'
+								   and t0.date < '{ENDTIME}'
+								   and t0.id in ({PROJECTIDS})) t1,
+							   (select projectid, activityid
+								  from game.t_bfm_activity t00
+								 where t00.activityid is not null) t2
+						 where t1.projectid = t2.projectid
+						   and t1.activityid = t2.activityid
+						union all
+						select t1.projectid projectid,
+							   nvl(t1.relchannel, 'none') relchannel,
+							   t2.activityid activityid,
+							   'ALL' subchannelid,
+							   t1.date dtime,
+							   if(t1.localtotalfee is null, '0', t1.localtotalfee) localtotalfee
+						  from (select projectid, activityid, date, relchannel, localtotalfee
+								  from game.t_cdr_payment t0
+								 where t0.subtype = '1'
+								   and t0.chargeresult = '0'
+								   and t0.paytype <> '37'
+								   and (t0.producttype = '0' or t0.producttype = '1' or
+									   t0.producttype is null)
+								   and (from_unixtime(unix_timestamp(t0.applytime),
+													  'yyyyMMddHHmmss') > t0.protectendtime or
+									   t0.protectendtime is null or
+									   length(t0.protectendtime) < 14)
+								   and t0.date > '{STARTTIME}'
+								   and t0.date < '{ENDTIME}'
+								   and t0.id in ({PROJECTIDS})) t1,
+							   (select projectid, activityid
+								  from game.t_bfm_activity t00
+								 where t00.activityid is not null) t2
+						 where t1.projectid = t2.projectid
+						   and t1.activityid = t2.activityid
+						union all
+						select t1.projectid projectid,
+							   nvl(t1.relchannel, 'none') relchannel,
+							   t2.activityid activityid,
+							   concat(nvl(t1.relchannel, 'none'),
+									  nvl(t1.affiliatechannelid, 'none')) subchannelid,
+							   t1.date dtime,
+							   if(t1.localtotalfee is null, '0', t1.localtotalfee) localtotalfee
+						  from (select projectid,
+									   activityid,
+									   date,
+									   relchannel,
+									   affiliatechannelid,
+									   localtotalfee
+								  from game.t_cdr_payment t0
+								 where t0.subtype = '1'
+								   and t0.chargeresult = '0'
+								   and t0.paytype <> '37'
+								   and (t0.producttype = '0' or t0.producttype = '1' or
+									   t0.producttype is null)
+								   and (from_unixtime(unix_timestamp(t0.applytime),
+													  'yyyyMMddHHmmss') > t0.protectendtime or
+									   t0.protectendtime is null or
+									   length(t0.protectendtime) < 14)
+								   and t0.date > '{STARTTIME}'
+								   and t0.date < '{ENDTIME}'
+								   and t0.id in ({PROJECTIDS})) t1,
+							   (select projectid, activityid
+								  from game.t_bfm_activity t00
+								 where t00.activityid is not null) t2
+						 where t1.projectid = t2.projectid
+						   and t1.activityid = t2.activityid) t
+				 group by projectid, relchannel, activityid, dtime, subchannelid
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+		
+		
+		
+		
+        <!-- 渠道名称 -->
+         <multiHqlReportIndex>
+            <indexKey>game.promotion.channelname.d</indexKey>
+            <fieldName>channelname</fieldName>
+            <hql>
+                <![CDATA[
+                select projectid,relchannel,activityid,dtime,subchannelid, channelname
+                    from (
+                        select  t1.projectid,
+                                dtime,
+                                t1.relchannel relchannel,
+                                t1.subchannelid subchannelid,
+                                if(t2.channelname is null, t1.relchannel, t2.channelname) channelname,
+                                t1.activityid
+                        from    (select projectid,dtime,nvl(relchannel,'ALL') relchannel,nvl(subchannelid,'ALL') subchannelid,if(activityid is null, 'ALL',activityid) activityid
+                                from game.t_game_promotion_d_hbase 
+                                where relchannel is not null and dtime > '{STARTTIME}' AND dtime < '{ENDTIME}' 
+                                ) t1
+                        left outer join  game.t_bfm_channelnew t2
+                        on      t1.relchannel=t2.channelid
+                        and     t1.projectid=t2.projectid
+                    ) t
+                    group by projectid,relchannel,activityid,dtime,subchannelid, channelname
+               ]]>
+            </hql>
+        </multiHqlReportIndex>
+    
+        <!-- 活动名称 -->
+        <multiHqlReportIndex>
+            <indexKey>game.promotion.activityname.d</indexKey>
+            <fieldName>activityname</fieldName>
+            <hql>
+                <![CDATA[
+                select projectid,relchannel,activityid,dtime,subchannelid,activityname
+                from (
+                select projectid,relchannel,subchannelid,dtime,activityid,activityname
+                    from (
+                        select  t1.projectid,
+                                dtime,
+                                t1.relchannel relchannel,
+                                t1.subchannelid subchannelid,
+                                if(t2.activityname is null, t1.activityid, t2.activityname) activityname,
+                                t1.activityid
+                        from    (select projectid,dtime,nvl(relchannel,'ALL') relchannel,nvl(subchannelid,'ALL') subchannelid,if(activityid is null, 'ALL',activityid) activityid
+                                from game.t_game_promotion_d_hbase t
+                                where activityid is not null and dtime > '{STARTTIME}' AND dtime < '{ENDTIME}'
+                                ) t1 
+                        left outer join  game.t_bfm_activity t2
+                        on      t1.activityid=t2.activityid
+                        and     t1.projectid=t2.projectid
+                    ) t
+                    ) t
+                group by projectid,relchannel,subchannelid,dtime,activityid,activityname
+               ]]>
+            </hql>
+        </multiHqlReportIndex>
+    
+        <!-- 合作伙伴名称 -->
+        <multiHqlReportIndex>
+            <indexKey>game.promotion.partnername.d</indexKey>
+            <fieldName>partnername</fieldName>
+            <hql>
+                <![CDATA[
+               select projectid, relchannel, activityid, dtime, subchannelid, partnername
+                from (select t3.projectid,
+                           t3.dtime,
+                           nvl(t3.relchannel,'ALL') relchannel,
+                           nvl(t3.subchannelid,'ALL') subchannelid,
+                           nvl(t3.activityid,'ALL') activityid,
+                           case t3.promotiontype
+                             when 1 then
+                              '#Huawei Promotion#'
+                             when 3 then
+                              '#Boutique Promotion#'
+                             when 2 then
+                              if(t4.partnername is null, t3.partnerid, t4.partnername)
+                           end partnername
+                      from (select t1.projectid,
+                                   dtime,
+                                   t1.relchannel,
+                                   t1.subchannelid,
+                                   t1.activityid,
+                                   t2.promotiontype,
+                                   if(t2.promotioncpid is null, 'none', t2.promotioncpid) partnerid
+                              from (select projectid,
+                                           dtime,
+                                           relchannel,
+                                           subchannelid,
+                                           activityid
+                                      from game.t_game_promotion_d_hbase t
+                                     where activityid is not null
+                                       and dtime > '{STARTTIME}'
+                                       AND dtime < '{ENDTIME}'
+									   group by projectid,dtime,relchannel,subchannelid,activityid) t1
+                              left outer join game.t_bfm_activity t2
+                                on t1.activityid = t2.activityid
+                               and t1.projectid = t2.projectid) t3
+                      left outer join intouch.t_partner t4
+                        on t3.partnerid = t4.partnerid) t
+                group by projectid, relchannel, activityid, dtime, subchannelid, partnername
+              ]]>
+            </hql>
+        </multiHqlReportIndex>
+        
+        <!-- 会员总流水 -->
+        <multiHqlReportIndex>
+            <indexKey>game.promotion.tviprevenue.d</indexKey>
+            <fieldName>tviprevenue</fieldName>
+            <hql>
+                <![CDATA[
+                select projectid,relchannel,activityid,dtime,subchannelid,tviprevenue
+                from(
+                select projectid,relchannel,activityid,dtime,subchannelid,
+                    sum(totalfee) tviprevenue
+                    from (
+                        select  t1.projectid,
+                                'ALL' relchannel,
+                                'ALL' activityid,
+                                'ALL' subchannelid,
+                                from_unixtime(unix_timestamp(substr(t1.recordtime, 0, 10),'yyyy-MM-dd'),'yyyyMMdd') dtime,
+                                if(t1.totalfee is null, '0', t1.totalfee) totalfee
+                        from    game.t_cdr_payment t1
+                        left outer join game.t_bfm_activity t2
+                        on      t1.projectid = t2.projectid
+                        and     t1.activityid = t2.activityid
+                        where   t1.subtype ='1' 
+                        and     t1.chargeresult = '0'
+                        and     (t1.producttype = '0' or t1.producttype = '1' or t1.producttype is null)
+                        and     t1.paytype <> '37'
+                        and     t2.activityid is not null
+                        and     t1.date > '{STARTTIME}' AND t1.date < '{ENDTIME}'
+                        and     t1.id in ({PROJECTIDS})
+                        union all
+                        select  t1.projectid,
+                                if(t1.relchannel is null, 'none', t1.relchannel) relchannel,
+                                'ALL' activityid,
+                                'ALL' subchannelid,
+                                from_unixtime(unix_timestamp(substr(t1.recordtime, 0, 10),'yyyy-MM-dd'),'yyyyMMdd') dtime,
+                                if(t1.totalfee is null, '0', t1.totalfee) totalfee
+                        from    game.t_cdr_payment t1
+                        left outer join game.t_bfm_activity t2
+                        on      t1.projectid = t2.projectid
+                        and     t1.activityid = t2.activityid
+                        where   t1.subtype ='1' 
+                        and     t1.chargeresult = '0'
+                        and     (t1.producttype = '0' or t1.producttype = '1' or t1.producttype is null)
+                        and     t1.paytype <> '37'
+                        and     t2.activityid is not null
+                        and     t1.date > '{STARTTIME}' AND t1.date < '{ENDTIME}'
+                        and     t1.id in ({PROJECTIDS})
+                        union all
+                        select  t1.projectid,
+                                'ALL' relchannel,
+                                t2.activityid activityid,
+                                'ALL' subchannelid,
+                                from_unixtime(unix_timestamp(substr(t1.recordtime, 0, 10),'yyyy-MM-dd'),'yyyyMMdd') dtime,
+                                if(t1.totalfee is null, '0', t1.totalfee) totalfee
+                        from    game.t_cdr_payment t1
+                        left outer join game.t_bfm_activity t2
+                        on      t1.projectid = t2.projectid
+                        and     t1.activityid = t2.activityid
+                        where   t1.subtype ='1' 
+                        and     t1.chargeresult = '0'
+                        and     (t1.producttype = '0' or t1.producttype = '1' or t1.producttype is null)
+                        and     t1.paytype <> '37'
+                        and     t2.activityid is not null
+                        and     t1.date > '{STARTTIME}' AND t1.date < '{ENDTIME}'
+                        and     t1.id in ({PROJECTIDS})
+                        union all
+                        select  t1.projectid,
+                                if(t1.relchannel is null, 'none', t1.relchannel) relchannel,
+                                t2.activityid activityid,
+                                'ALL' subchannelid,
+                                from_unixtime(unix_timestamp(substr(t1.recordtime, 0, 10),'yyyy-MM-dd'),'yyyyMMdd') dtime,
+                                if(t1.totalfee is null, '0', t1.totalfee) totalfee
+                        from    game.t_cdr_payment t1
+                        left outer join game.t_bfm_activity t2
+                        on      t1.projectid = t2.projectid
+                        and     t1.activityid = t2.activityid
+                        where   t1.subtype ='1' 
+                        and     t1.chargeresult = '0'
+                        and     (t1.producttype = '0' or t1.producttype = '1' or t1.producttype is null)
+                        and     t1.paytype <> '37'
+                        and     t2.activityid is not null
+                        and     t1.date > '{STARTTIME}' AND t1.date < '{ENDTIME}'
+                        and     t1.id in ({PROJECTIDS})
+                        union all
+                        select  t1.projectid,
+                                if(t1.relchannel is null, 'none', t1.relchannel) relchannel,
+                                t2.activityid activityid,
+                                concat(if(t1.relchannel is null, 'none', t1.relchannel), nvl(t1.affiliateChannelID,'none')) subchannelid,
+                                from_unixtime(unix_timestamp(substr(t1.recordtime, 0, 10),'yyyy-MM-dd'),'yyyyMMdd') dtime,
+                                if(t1.totalfee is null, '0', t1.totalfee) totalfee
+                        from    game.t_cdr_payment t1
+                        left outer join game.t_bfm_activity t2
+                        on      t1.projectid = t2.projectid
+                        and     t1.activityid = t2.activityid
+                        where   t1.subtype ='1' 
+                        and     t1.chargeresult = '0'
+                        and     (t1.producttype = '0' or t1.producttype = '1' or t1.producttype is null)
+                        and     t1.paytype <> '37'
+                        and     t2.activityid is not null
+                        and     t1.date > '{STARTTIME}' AND t1.date < '{ENDTIME}'
+                        and     t1.id in ({PROJECTIDS})
+                    ) t
+                 group by projectid,relchannel,subchannelid,activityid,dtime
+                 )t 
+                 group by projectid,relchannel,activityid,dtime,subchannelid,tviprevenue
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+		
+		<!-- 会员总流水 本币-->
+        <multiHqlReportIndex>
+            <indexKey>game.promotion.localtviprevenue.d</indexKey>
+            <fieldName>localtviprevenue</fieldName>
+            <hql>
+                <![CDATA[
+                select projectid,relchannel,activityid,dtime,subchannelid,localtviprevenue
+                from(
+                select projectid,relchannel,activityid,dtime,subchannelid,
+                    sum(localtotalfee) localtviprevenue
+                    from (
+                        select  t1.projectid,
+                                'ALL' relchannel,
+                                'ALL' activityid,
+                                'ALL' subchannelid,
+                                from_unixtime(unix_timestamp(substr(t1.recordtime, 0, 10),'yyyy-MM-dd'),'yyyyMMdd') dtime,
+                                if(t1.localtotalfee is null, '0', t1.localtotalfee) localtotalfee
+                        from    game.t_cdr_payment t1
+                        left outer join game.t_bfm_activity t2
+                        on      t1.projectid = t2.projectid
+                        and     t1.activityid = t2.activityid
+                        where   t1.subtype ='1' 
+                        and     t1.chargeresult = '0'
+                        and     (t1.producttype = '0' or t1.producttype = '1' or t1.producttype is null)
+                        and     t1.paytype <> '37'
+                        and     t2.activityid is not null
+                        and     t1.date > '{STARTTIME}' AND t1.date < '{ENDTIME}'
+                        and     t1.id in ({PROJECTIDS})
+                        union all
+                        select  t1.projectid,
+                                if(t1.relchannel is null, 'none', t1.relchannel) relchannel,
+                                'ALL' activityid,
+                                'ALL' subchannelid,
+                                from_unixtime(unix_timestamp(substr(t1.recordtime, 0, 10),'yyyy-MM-dd'),'yyyyMMdd') dtime,
+                                if(t1.localtotalfee is null, '0', t1.localtotalfee) localtotalfee
+                        from    game.t_cdr_payment t1
+                        left outer join game.t_bfm_activity t2
+                        on      t1.projectid = t2.projectid
+                        and     t1.activityid = t2.activityid
+                        where   t1.subtype ='1' 
+                        and     t1.chargeresult = '0'
+                        and     (t1.producttype = '0' or t1.producttype = '1' or t1.producttype is null)
+                        and     t1.paytype <> '37'
+                        and     t2.activityid is not null
+                        and     t1.date > '{STARTTIME}' AND t1.date < '{ENDTIME}'
+                        and     t1.id in ({PROJECTIDS})
+                        union all
+                        select  t1.projectid,
+                                'ALL' relchannel,
+                                t2.activityid activityid,
+                                'ALL' subchannelid,
+                                from_unixtime(unix_timestamp(substr(t1.recordtime, 0, 10),'yyyy-MM-dd'),'yyyyMMdd') dtime,
+                                if(t1.localtotalfee is null, '0', t1.localtotalfee) localtotalfee
+                        from    game.t_cdr_payment t1
+                        left outer join game.t_bfm_activity t2
+                        on      t1.projectid = t2.projectid
+                        and     t1.activityid = t2.activityid
+                        where   t1.subtype ='1' 
+                        and     t1.chargeresult = '0'
+                        and     (t1.producttype = '0' or t1.producttype = '1' or t1.producttype is null)
+                        and     t1.paytype <> '37'
+                        and     t2.activityid is not null
+                        and     t1.date > '{STARTTIME}' AND t1.date < '{ENDTIME}'
+                        and     t1.id in ({PROJECTIDS})
+                        union all
+                        select  t1.projectid,
+                                if(t1.relchannel is null, 'none', t1.relchannel) relchannel,
+                                t2.activityid activityid,
+                                'ALL' subchannelid,
+                                from_unixtime(unix_timestamp(substr(t1.recordtime, 0, 10),'yyyy-MM-dd'),'yyyyMMdd') dtime,
+                                if(t1.localtotalfee is null, '0', t1.localtotalfee) localtotalfee
+                        from    game.t_cdr_payment t1
+                        left outer join game.t_bfm_activity t2
+                        on      t1.projectid = t2.projectid
+                        and     t1.activityid = t2.activityid
+                        where   t1.subtype ='1' 
+                        and     t1.chargeresult = '0'
+                        and     (t1.producttype = '0' or t1.producttype = '1' or t1.producttype is null)
+                        and     t1.paytype <> '37'
+                        and     t2.activityid is not null
+                        and     t1.date > '{STARTTIME}' AND t1.date < '{ENDTIME}'
+                        and     t1.id in ({PROJECTIDS})
+                        union all
+                        select  t1.projectid,
+                                if(t1.relchannel is null, 'none', t1.relchannel) relchannel,
+                                t2.activityid activityid,
+                                concat(if(t1.relchannel is null, 'none', t1.relchannel), nvl(t1.affiliateChannelID,'none')) subchannelid,
+                                from_unixtime(unix_timestamp(substr(t1.recordtime, 0, 10),'yyyy-MM-dd'),'yyyyMMdd') dtime,
+                                if(t1.localtotalfee is null, '0', t1.localtotalfee) localtotalfee
+                        from    game.t_cdr_payment t1
+                        left outer join game.t_bfm_activity t2
+                        on      t1.projectid = t2.projectid
+                        and     t1.activityid = t2.activityid
+                        where   t1.subtype ='1' 
+                        and     t1.chargeresult = '0'
+                        and     (t1.producttype = '0' or t1.producttype = '1' or t1.producttype is null)
+                        and     t1.paytype <> '37'
+                        and     t2.activityid is not null
+                        and     t1.date > '{STARTTIME}' AND t1.date < '{ENDTIME}'
+                        and     t1.id in ({PROJECTIDS})
+                    ) t
+                 group by projectid,relchannel,subchannelid,activityid,dtime
+                 )t 
+                 group by projectid,relchannel,activityid,dtime,subchannelid,localtviprevenue
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+        
+        <!-- 累计会员数 -->
+        <multiHqlReportIndex>
+            <indexKey>game.promotion.ttotalvips.d</indexKey>
+            <fieldName>ttotalvips</fieldName>
+            <hql>
+                <![CDATA[
+                select  projectid,relchannel,activityid,dtime,subchannelid,ttotalvips
+                from (
+                select  projectid, dtime,if(relchannel is null, 'ALL', relchannel) relchannel,nvl(subchannelid,'ALL') subchannelid,if(activityid is null, 'ALL', activityid) activityid,
+                        if(tfreevips is null,0,tfreevips)+if(tgracevips is null,0,tgracevips)+if(tnormalvips is null,0,tnormalvips)  ttotalvips 
+                        from game.t_game_promotion_d_hbase t where t.dtime> '{STARTTIME}' AND t.dtime< '{ENDTIME}' and t.projectid in ({PROJECTIDS})
+                     ) t
+                group by projectid, dtime,relchannel,activityid,subchannelid,ttotalvips                     
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+        
+        <!-- 合作渠道会员数 -->
+        <multiHqlReportIndex>
+            <indexKey>game.promotion.tprotectvips.d</indexKey>
+            <fieldName>tprotectvips</fieldName>
+            <hql>
+                <![CDATA[
+                select projectid,relchannel,activityid,dtime,subchannelid,tprotectvips
+                from 
+                (
+                    select projectid, 'ALL' relchannel, 'ALL' subchannelid, 'ALL' activityid,dtime, count(distinct(t.userid)) tprotectvips
+                    from 
+                    (
+                        select  t.projectid ,dtime,t.userid
+                        from   game.T_MID_ACTIVITY_VIPSTATUS t
+                        left outer join game.t_bfm_activity t2
+                        on      t.projectid = t2.projectid
+                        and     t.activityid = t2.activityid
+                        where substr(t.protectendtime,0,8) >= '{ENDTIME}' 
+                        and  t.protectendtime is not null
+                        and   length(t.protectendtime) = 14
+                        and   ((chargetype = 2 and chargeresult = 0 ) or (chargetype = 3 and fee > 0 ))
+                        and     t2.activityid is not null
+                        and  t.dtime> '{STARTTIME}' AND t.dtime< '{ENDTIME}' and t.projectid in ({PROJECTIDS}) 
+                    ) t
+                    group by projectid, dtime
+                    union all
+                    select projectid,relchannel, 'ALL' subchannelid, 'ALL' activityid,dtime, count(distinct(t.userid)) tprotectvips
+                    from 
+                    (
+                        select  t.projectid ,dtime,t.userid, nvl(t.relchannel,'none') relchannel
+                        from   game.T_MID_ACTIVITY_VIPSTATUS t
+                        left outer join game.t_bfm_activity t2
+                        on      t.projectid = t2.projectid
+                        and     t.activityid = t2.activityid
+                        where substr(t.protectendtime,0,8) >= '{ENDTIME}' 
+                        and  t.protectendtime is not null
+                        and   length(t.protectendtime) = 14
+                        and   ((chargetype = 2 and chargeresult = 0 ) or (chargetype = 3 and fee > 0 ))
+                        and     t2.activityid is not null
+                        and  t.dtime> '{STARTTIME}' AND t.dtime< '{ENDTIME}' and t.projectid in ({PROJECTIDS}) 
+                    ) t
+                    group by projectid, dtime,relchannel
+                    union all
+                    select projectid, 'ALL' relchannel, 'ALL' subchannelid, activityid,dtime, count(distinct(t.userid)) tprotectvips
+                    from 
+                    (
+                        select  t.projectid ,dtime,t.userid, t2.activityid
+                        from   game.T_MID_ACTIVITY_VIPSTATUS t
+                        left outer join game.t_bfm_activity t2
+                        on      t.projectid = t2.projectid
+                        and     t.activityid = t2.activityid
+                        where substr(t.protectendtime,0,8) >= '{ENDTIME}' 
+                        and  t.protectendtime is not null
+                        and   length(t.protectendtime) = 14
+                        and   ((chargetype = 2 and chargeresult = 0 ) or (chargetype = 3 and fee > 0 ))
+                        and     t2.activityid is not null
+                        and  t.dtime> '{STARTTIME}' AND t.dtime< '{ENDTIME}' and t.projectid in ({PROJECTIDS}) 
+                    ) t
+                    group by projectid, dtime,activityid
+                    union all
+                    select projectid, relchannel, 'ALL' subchannelid, activityid,dtime, count(distinct(t.userid)) tprotectvips
+                    from 
+                    (
+                        select  t.projectid ,dtime,t.userid, nvl(t.relchannel,'none') relchannel,t2.activityid
+                        from   game.T_MID_ACTIVITY_VIPSTATUS t
+                        left outer join game.t_bfm_activity t2
+                        on      t.projectid = t2.projectid
+                        and     t.activityid = t2.activityid
+                        where substr(t.protectendtime,0,8) >= '{ENDTIME}' 
+                        and  t.protectendtime is not null
+                        and   length(t.protectendtime) = 14
+                        and   ((chargetype = 2 and chargeresult = 0 ) or (chargetype = 3 and fee > 0 ))
+                        and     t2.activityid is not null
+                        and  t.dtime> '{STARTTIME}' AND t.dtime< '{ENDTIME}' and t.projectid in ({PROJECTIDS}) 
+                    ) t
+                    group by projectid, dtime, relchannel,activityid
+                    union all
+                    select projectid, relchannel, subchannelid, activityid,dtime, count(distinct(t.userid)) tprotectvips
+                    from 
+                    (
+                        select  t.projectid ,dtime,t.userid, nvl(t.relchannel,'none') relchannel,concat(nvl(t.relchannel,'none'), nvl(t.affiliatechannelid,'none')) subchannelid,t2.activityid
+                        from   game.T_MID_ACTIVITY_VIPSTATUS t
+                        left outer join game.t_bfm_activity t2
+                        on      t.projectid = t2.projectid
+                        and     t.activityid = t2.activityid
+                        where substr(t.protectendtime,0,8) >= '{ENDTIME}' 
+                        and  t.protectendtime is not null
+                        and   length(t.protectendtime) = 14
+                        and   ((chargetype = 2 and chargeresult = 0 ) or (chargetype = 3 and fee > 0 ))
+                        and     t2.activityid is not null
+                        and  t.dtime> '{STARTTIME}' AND t.dtime< '{ENDTIME}' and t.projectid in ({PROJECTIDS}) 
+                    ) t
+                    group by projectid, dtime, relchannel,subchannelid,activityid
+                ) t
+                group by projectid,relchannel,activityid,dtime,subchannelid,tprotectvips
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+        
+        <!-- 订阅存量会员数 -->
+        <multiHqlReportIndex>
+            <indexKey>game.promotion.tretainedvips.d</indexKey>
+            <fieldName>tretainedvips</fieldName>
+            <hql>
+                <![CDATA[
+                select projectid,relchannel,activityid,dtime,subchannelid,tretainedvips
+                from(
+                select  projectid, if(relchannel is null, 'ALL', relchannel) relchannel,if(activityid is null, 'ALL', activityid) activityid,dtime,nvl(subchannelid,'ALL') subchannelid,
+                        if(tfreevips is null,0,tfreevips)+if(tgracevips is null,0,tgracevips)+if(tnormalvips is null,0,tnormalvips)-if(tprotectvips is null,0,tprotectvips) tretainedvips 
+                        from game.t_game_promotion_d_hbase t where t.dtime> '{STARTTIME}' AND t.dtime< '{ENDTIME}' and t.projectid in ({PROJECTIDS}) 
+                ) t
+                group by projectid,relchannel,activityid,dtime,subchannelid,tretainedvips
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+
+        <!-- 免费期会员数 -->
+        <multiHqlReportIndex>
+            <indexKey>game.promotion.tfreevips.d</indexKey>
+            <fieldName>tfreevips</fieldName>
+            <hql>
+                <![CDATA[
+                select projectid,relchannel,activityid,dtime,subchannelid, tfreevips
+                from 
+                (
+                    select projectid, 'ALL' relchannel, 'ALL' subchannelid, 'ALL' activityid,dtime, count(distinct(t.userid)) tfreevips
+                    from 
+                    (
+                        select  t.projectid ,dtime,t.userid
+                        from   game.T_MID_ACTIVITY_VIPSTATUS t
+                        left outer join game.t_bfm_activity t2
+                        on      t.projectid = t2.projectid
+                        and     t.activityid = t2.activityid
+                        where t.chargeresult = 0
+                        and   t.chargetype=2
+                        and   t.fee = 0
+                        and     t2.activityid is not null
+                        and  t.dtime> '{STARTTIME}' AND t.dtime< '{ENDTIME}' and t.projectid in ({PROJECTIDS}) 
+                    ) t
+                    group by projectid, dtime
+                    union all
+                    select projectid, relchannel, 'ALL' subchannelid, 'ALL' activityid,dtime, count(distinct(t.userid)) tfreevips
+                    from 
+                    (
+                        select  t.projectid ,dtime,t.userid, nvl(t.relchannel,'none') relchannel
+                        from   game.T_MID_ACTIVITY_VIPSTATUS t
+                        left outer join game.t_bfm_activity t2
+                        on      t.projectid = t2.projectid
+                        and     t.activityid = t2.activityid
+                        where t.chargeresult = 0
+                        and   t.chargetype=2
+                        and   t.fee = 0
+                        and     t2.activityid is not null
+                        and  t.dtime> '{STARTTIME}' AND t.dtime< '{ENDTIME}' and t.projectid in ({PROJECTIDS}) 
+                    ) t
+                    group by projectid, dtime,relchannel
+                    union all
+                    select projectid, 'ALL' relchannel, 'ALL' subchannelid, activityid,dtime, count(distinct(t.userid)) tfreevips
+                    from 
+                    (
+                        select  t.projectid ,dtime,t.userid, t2.activityid
+                        from   game.T_MID_ACTIVITY_VIPSTATUS t
+                        left outer join game.t_bfm_activity t2
+                        on      t.projectid = t2.projectid
+                        and     t.activityid = t2.activityid
+                        where t.chargeresult = 0
+                        and   t.chargetype=2
+                        and   t.fee = 0
+                        and     t2.activityid is not null
+                        and  t.dtime> '{STARTTIME}' AND t.dtime< '{ENDTIME}' and t.projectid in ({PROJECTIDS}) 
+                    ) t
+                    group by projectid, dtime,activityid
+                    union all
+                    select projectid, relchannel, 'ALL' subchannelid, activityid,dtime, count(distinct(userid)) tfreevips
+                    from 
+                    (
+                        select  t.projectid ,dtime,t.userid,nvl(t.relchannel,'none') relchannel, t2.activityid
+                        from   game.T_MID_ACTIVITY_VIPSTATUS t
+                        left outer join game.t_bfm_activity t2
+                        on      t.projectid = t2.projectid
+                        and     t.activityid = t2.activityid
+                        where t.chargeresult = 0
+                        and   t.chargetype=2
+                        and   t.fee = 0
+                        and     t2.activityid is not null
+                        and  t.dtime> '{STARTTIME}' AND t.dtime< '{ENDTIME}' and t.projectid in ({PROJECTIDS}) 
+                    ) t
+                    group by projectid, dtime,relchannel,activityid
+                    union all
+                    select projectid, relchannel, subchannelid, activityid,dtime, count(distinct(userid)) tfreevips
+                    from 
+                    (
+                        select  t.projectid ,dtime,t.userid,nvl(t.relchannel,'none') relchannel, concat(nvl(t.relchannel,'none'), nvl(t.affiliatechannelid,'none')) subchannelid, t2.activityid
+                        from   game.T_MID_ACTIVITY_VIPSTATUS t
+                        left outer join game.t_bfm_activity t2
+                        on      t.projectid = t2.projectid
+                        and     t.activityid = t2.activityid
+                        where t.chargeresult = 0
+                        and   t.chargetype=2
+                        and   t.fee = 0
+                        and     t2.activityid is not null
+                        and  t.dtime> '{STARTTIME}' AND t.dtime< '{ENDTIME}' and t.projectid in ({PROJECTIDS}) 
+                    ) t
+                    group by projectid, dtime,relchannel,subchannelid,activityid
+                ) t
+                group by projectid,relchannel,activityid,dtime,subchannelid, tfreevips
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+
+        <!-- 宽限期会员数 -->
+        <multiHqlReportIndex>
+            <indexKey>game.promotion.tgracevips.d</indexKey>
+            <fieldName>tgracevips</fieldName>
+            <hql>
+                <![CDATA[
+                select projectid,relchannel,activityid,dtime,subchannelid,tgracevips
+                from 
+                (
+                    select projectid, 'ALL' relchannel, 'ALL' subchannelid, 'ALL' activityid,dtime, count(distinct(t.userid)) tgracevips
+                    from 
+                    (
+                        select  t.projectid ,dtime,t.userid
+                        from   game.T_MID_ACTIVITY_VIPSTATUS t
+                        left outer join game.t_bfm_activity t2
+                        on      t.projectid = t2.projectid
+                        and     t.activityid = t2.activityid
+                        where t.chargeresult <> 0
+                        and   t.chargetype = 3
+                        and   t.fee > 0
+                        and     t2.activityid is not null
+                        and  t.dtime> '{STARTTIME}' AND t.dtime< '{ENDTIME}' and t.projectid in ({PROJECTIDS}) 
+                    ) t
+                    group by projectid, dtime
+                    union all
+                    select projectid, relchannel, 'ALL' subchannelid,'ALL' activityid,dtime, count(distinct(userid)) tgracevips
+                    from 
+                    (
+                        select  t.projectid ,dtime,t.userid, nvl(t.relchannel,'none') relchannel
+                        from   game.T_MID_ACTIVITY_VIPSTATUS t
+                        left outer join game.t_bfm_activity t2
+                        on      t.projectid = t2.projectid
+                        and     t.activityid = t2.activityid
+                        where t.chargeresult <> 0
+                        and   t.chargetype = 3
+                        and   t.fee > 0
+                        and     t2.activityid is not null
+                        and  t.dtime> '{STARTTIME}' AND t.dtime< '{ENDTIME}' and t.projectid in ({PROJECTIDS}) 
+                    ) t
+                    group by projectid, dtime,relchannel
+                    union all
+                    select projectid,  'ALL' relchannel, 'ALL' subchannelid, activityid,dtime, count(distinct(t.userid)) tgracevips
+                    from 
+                    (
+                        select  t.projectid ,dtime,t.userid, t2.activityid
+                        from   game.T_MID_ACTIVITY_VIPSTATUS t
+                        left outer join game.t_bfm_activity t2
+                        on      t.projectid = t2.projectid
+                        and     t.activityid = t2.activityid
+                        where t.chargeresult <> 0
+                        and   t.chargetype = 3
+                        and   t.fee > 0
+                        and     t2.activityid is not null
+                        and  t.dtime> '{STARTTIME}' AND t.dtime< '{ENDTIME}' and t.projectid in ({PROJECTIDS}) 
+                    ) t
+                    group by projectid, dtime,activityid
+                    union all
+                    select projectid, relchannel, 'ALL' subchannelid, activityid,dtime, count(distinct(t.userid)) tgracevips
+                    from 
+                    (
+                        select  t.projectid ,dtime,t.userid, nvl(t.relchannel,'none') relchannel, t2.activityid
+                        from   game.T_MID_ACTIVITY_VIPSTATUS t
+                        left outer join game.t_bfm_activity t2
+                        on      t.projectid = t2.projectid
+                        and     t.activityid = t2.activityid
+                        where t.chargeresult <> 0
+                        and   t.chargetype = 3
+                        and   t.fee > 0
+                        and     t2.activityid is not null
+                        and  t.dtime> '{STARTTIME}' AND t.dtime< '{ENDTIME}' and t.projectid in ({PROJECTIDS}) 
+                    ) t
+                    group by projectid, dtime, relchannel,activityid
+                    union all
+                    select projectid, relchannel, subchannelid, activityid,dtime, count(distinct(t.userid)) tgracevips
+                    from 
+                    (
+                        select  t.projectid ,dtime,t.userid, nvl(t.relchannel,'none') relchannel, concat(nvl(t.relchannel,'none'), nvl(t.affiliatechannelid,'none')) subchannelid, t2.activityid
+                        from   game.T_MID_ACTIVITY_VIPSTATUS t
+                        left outer join game.t_bfm_activity t2
+                        on      t.projectid = t2.projectid
+                        and     t.activityid = t2.activityid
+                        where t.chargeresult <> 0
+                        and   t.chargetype = 3
+                        and   t.fee > 0
+                        and     t2.activityid is not null
+                        and  t.dtime> '{STARTTIME}' AND t.dtime< '{ENDTIME}' and t.projectid in ({PROJECTIDS}) 
+                    ) t
+                    group by projectid, dtime, relchannel,subchannelid,activityid
+                ) tt
+                group by projectid,relchannel,activityid,dtime,subchannelid,tgracevips
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+        
+        <!-- 正式期会员数 -->
+        <multiHqlReportIndex>
+            <indexKey>game.promotion.tnormalvips.d</indexKey>
+            <fieldName>tnormalvips</fieldName>
+            <hql>
+                <![CDATA[
+                select projectid,relchannel,activityid,dtime,subchannelid,tnormalvips
+                from 
+                (
+                    select projectid, 'ALL' relchannel, 'ALL' subchannelid, 'ALL' activityid,dtime, count(distinct(t.userid)) tnormalvips
+                    from 
+                    (
+                        select  t.projectid ,dtime,t.userid
+                        from   game.T_MID_ACTIVITY_VIPSTATUS t
+                        left outer join game.t_bfm_activity t2
+                        on      t.projectid = t2.projectid
+                        and     t.activityid = t2.activityid
+                        where fee>0 
+                        and   chargetype in (2,3)
+                        and   chargeresult=0
+                        and     t2.activityid is not null
+                        and  t.dtime> '{STARTTIME}' AND t.dtime< '{ENDTIME}' and t.projectid in ({PROJECTIDS}) 
+                    ) t
+                    group by projectid, dtime
+                    union all
+                    select projectid, relchannel, 'ALL' subchannelid, 'ALL' activityid,dtime, count(distinct(t.userid)) tnormalvips
+                    from 
+                    (
+                        select  t.projectid ,dtime,t.userid, nvl(t.relchannel,'none') relchannel
+                        from   game.T_MID_ACTIVITY_VIPSTATUS t
+                        left outer join game.t_bfm_activity t2
+                        on      t.projectid = t2.projectid
+                        and     t.activityid = t2.activityid
+                        where fee>0 
+                        and   chargetype in (2,3)
+                        and   chargeresult=0
+                        and     t2.activityid is not null
+                        and  t.dtime> '{STARTTIME}' AND t.dtime< '{ENDTIME}' and t.projectid in ({PROJECTIDS}) 
+                    ) t
+                    group by projectid, dtime,relchannel
+                    union all
+                    select projectid, 'ALL' relchannel, 'ALL' subchannelid, activityid,dtime, count(distinct(t.userid)) tnormalvips
+                    from 
+                    (
+                        select  t.projectid ,dtime,t.userid, t2.activityid
+                        from   game.T_MID_ACTIVITY_VIPSTATUS t
+                        left outer join game.t_bfm_activity t2
+                        on      t.projectid = t2.projectid
+                        and     t.activityid = t2.activityid
+                        where fee>0 
+                        and   chargetype in (2,3)
+                        and   chargeresult=0
+                        and     t2.activityid is not null
+                        and  t.dtime> '{STARTTIME}' AND t.dtime< '{ENDTIME}' and t.projectid in ({PROJECTIDS}) 
+                    ) t
+                    group by projectid, dtime,activityid
+                    union all
+                    select projectid, relchannel, 'ALL' subchannelid, activityid,dtime, count(distinct(t.userid)) tnormalvips
+                    from 
+                    (
+                        select  t.projectid ,dtime,t.userid,nvl(t.relchannel,'none') relchannel,t2.activityid
+                        from   game.T_MID_ACTIVITY_VIPSTATUS t
+                        left outer join game.t_bfm_activity t2
+                        on      t.projectid = t2.projectid
+                        and     t.activityid = t2.activityid
+                        where fee>0 
+                        and   chargetype in (2,3)
+                        and   chargeresult=0
+                        and     t2.activityid is not null
+                        and  t.dtime> '{STARTTIME}' AND t.dtime< '{ENDTIME}' and t.projectid in ({PROJECTIDS}) 
+                    ) t
+                    group by projectid, dtime, relchannel,activityid
+                    union all
+                    select projectid, relchannel, subchannelid, activityid,dtime, count(distinct(t.userid)) tnormalvips
+                    from 
+                    (
+                        select  t.projectid ,dtime,t.userid,nvl(t.relchannel,'none') relchannel, concat(nvl(t.relchannel,'none'), nvl(t.affiliatechannelid,'none')) subchannelid, t2.activityid
+                        from   game.T_MID_ACTIVITY_VIPSTATUS t
+                        left outer join game.t_bfm_activity t2
+                        on      t.projectid = t2.projectid
+                        and     t.activityid = t2.activityid
+                        where fee>0 
+                        and   chargetype in (2,3)
+                        and   chargeresult=0
+                        and     t2.activityid is not null
+                        and  t.dtime> '{STARTTIME}' AND t.dtime< '{ENDTIME}' and t.projectid in ({PROJECTIDS}) 
+                    ) t
+                    group by projectid, dtime, relchannel, subchannelid, activityid
+                ) t 
+                group by projectid,relchannel,activityid,dtime,subchannelid,tnormalvips
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+        <!-- 子渠道id 截取subchannelid--> 
+        <multiHqlReportIndex>
+        <indexKey>game.promotion.affiliatechannelid.d</indexKey> 
+        <fieldName>affiliatechannelid</fieldName>
+        <hql>
+        <![CDATA[
+        select projectid,relchannel,activityid,dtime,subchannelid,affiliatechannelid
+        from (
+            select projectid,relchannel,activityid,dtime,subchannelid,
+                   if(affiliatechannelid = '' or affiliatechannelid is null,"none",affiliatechannelid) affiliatechannelid
+            from (
+                select  t.projectid, 
+                        t.dtime,
+                        nvl(t.relchannel,'ALL') relchannel,
+                        nvl(t.subchannelid,'ALL') subchannelid,
+                        nvl(t.activityid,'ALL') activityid,
+                        substr(t.subchannelid, length(t.relchannel)+1 ) affiliatechannelid
+                from    game.t_game_promotion_d_hbase t 
+                where   t.dtime> '{STARTTIME}' AND t.dtime< '{ENDTIME}'
+            ) t 
+        )t
+        group by projectid,relchannel,activityid,dtime,subchannelid,affiliatechannelid
+        ]]>
+        </hql>
+        </multiHqlReportIndex>
+
+    </multiHqlReportIndexs>
+</reportIndexGroup>

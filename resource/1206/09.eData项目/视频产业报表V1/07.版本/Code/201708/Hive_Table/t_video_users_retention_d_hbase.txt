@@ -1,0 +1,42 @@
+DROP TABLE video.t_video_users_retention_d_hbase;
+CREATE EXTERNAL TABLE video.t_video_users_retention_d_hbase
+(
+key string,
+projectid string,
+platformid string,
+activitychannelid string,
+activityid string,
+dtime string,
+newsubscriber      int,
+day01retentionrate double,
+day03retentionrate double,
+day07retentionrate double,
+day15retentionrate double,
+day30retentionrate double,
+avgday01retentionrate double,
+avgday03retentionrate double,
+avgday07retentionrate double,
+avgday15retentionrate double,
+avgday30retentionrate double
+)
+STORED BY 'org.apache.hadoop.hive.hbase.HBaseStorageHandler' 
+WITH SERDEPROPERTIES ("hbase.columns.mapping" = ":key,
+indexvalue:PROJECTID,
+indexvalue:PLATFORMID,
+indexvalue:ACTIVITYCHANNELID,
+indexvalue:ACTIVITYID,
+indexvalue:DTIME,
+indexvalue:NEWSUBSCRIBER,
+indexvalue:DAY01RETENTIONRATE,
+indexvalue:DAY03RETENTIONRATE,
+indexvalue:DAY07RETENTIONRATE,
+indexvalue:DAY15RETENTIONRATE,
+indexvalue:DAY30RETENTIONRATE,
+indexvalue:AVGDAY01RETENTIONRATE,
+indexvalue:AVGDAY03RETENTIONRATE,
+indexvalue:AVGDAY07RETENTIONRATE,
+indexvalue:AVGDAY15RETENTIONRATE,
+indexvalue:AVGDAY30RETENTIONRATE
+") 
+TBLPROPERTIES ("hbase.table.name" = "t_video_users_retention_d");
+grant select,delete,insert on video.t_video_users_retention_d_hbase to user mapred;

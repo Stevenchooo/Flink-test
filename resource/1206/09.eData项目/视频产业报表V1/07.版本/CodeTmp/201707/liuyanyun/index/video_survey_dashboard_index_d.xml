@@ -1,0 +1,159 @@
+<reportIndexGroup>
+    <multiHqlReportIndexs>		
+		<!--  新增注册用户数{排序} newregisteruser  --> 
+		<!--  注册用户总数 allregisteruser  -->
+		<!--  镜像表为【用户发展】主界面的【用户获取】 t_video_develop_user_grab_d_hbase 报表中的 新增注册用户、注册用户总数 -->
+		<!--
+		//[201703增加]
+		//新增游客用户数(newvisitor)
+		//累计游客用户总数(totalvisitor)
+		//201707 修改newvisitor,totalvisitor 从中间表t_mid_video_sdk_current_d获取，platformid=all
+		-->
+        <multiHqlReportIndex>
+            <indexKey>video.survey.dashboard.usergrab.d</indexKey>
+            <fieldName>newregisteruser,totalregisteruser</fieldName>
+            <hql>
+                <![CDATA[
+				select projectid,activitychannelid,dtime,
+					   newregisteruser,
+					   totalregisteruser
+				  from (select projectid,
+							   if(activitychannelid is null,'ALL',activitychannelid) activitychannelid,
+							   dtime,
+							   if(newregisteruser is null,0,newregisteruser) newregisteruser,
+							   if(totalregisteruser is null,0,totalregisteruser) totalregisteruser
+						  from video.t_video_develop_user_grab_d_hbase t
+					     where t.dtime > '{STARTTIME}'
+						   and t.dtime < '{ENDTIME}'
+                           and t.platformid is null						   
+					)tt
+				group by projectid,activitychannelid,dtime,
+						 newregisteruser,
+						 totalregisteruser
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+		<!-- //201707 修改newvisitor,totalvisitor 从中间表t_video_sdk_current_d_hbase获取，platformid=all -->
+		<multiHqlReportIndex>
+            <indexKey>video.survey.dashboard.activeusergrab.d</indexKey>
+            <fieldName>newvisitor,totalvisitor</fieldName>
+            <hql>
+                <![CDATA[
+				select projectid,activitychannelid,dtime,
+					   sum(newvisitor) newvisitor,
+					   sum(totalvisitor) totalvisitor
+				  from (select projectid,
+							   activitychannelid,
+							   dtime,
+							   if(newvisitor is null,0,newvisitor) newvisitor,
+							   if(totalvisitor is null,0,totalvisitor) totalvisitor
+						  from video.t_mid_video_sdk_current_d t
+					     where t.dtime > '{STARTTIME}'
+						   and t.dtime < '{ENDTIME}'
+						   and t.platformid = 'ALL'	
+						   and t.activityid = 'ALL'			  
+					)tt
+				group by projectid,activitychannelid,dtime
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+		<!--  注册用户活跃数 registeruseractive  -->
+		<!--  注册用户活跃率   registeruseractiverate  -->
+		<!--  注册用户活跃率镜像表为【用户发展】主界面的【用户活跃】 t_video_develop_user_active_d_hbase 报表中的 注册用户活跃数、注册用户活跃率-->
+		
+        <multiHqlReportIndex>
+            <indexKey>video.survey.dashboard.useractiverate.d</indexKey>
+            <fieldName>registeruseractiverate</fieldName>
+            <hql>
+                <![CDATA[
+				select projectid,activitychannelid,dtime,
+					   registeruseractiverate
+				  from (select projectid,
+							   activitychannelid,
+							   dtime,
+							   if(registeruseractiverate is null,0,registeruseractiverate) registeruseractiverate
+						  from video.t_video_develop_user_active_d_hbase t
+					     where t.dtime > '{STARTTIME}'
+						   and t.dtime < '{ENDTIME}'
+						   and t.platformid is null
+					)tt
+				group by projectid,activitychannelid,dtime,registeruseractiverate
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+		
+		<!-- 201707 注册用户活跃数从 t_video_develop_user_active_d_hbase修改为从中间表t_mid_video_sdk_current_d取，取platformid为AL的数据-->
+        <multiHqlReportIndex>
+            <indexKey>video.survey.dashboard.useractive.d</indexKey>
+            <fieldName>registeruseractive</fieldName>
+            <hql>
+                <![CDATA[
+				select projectid,activitychannelid,dtime,
+					   sum(registeruseractive) registeruseractive
+				  from (select projectid,
+							   activitychannelid,
+							   dtime,
+							   if(registeruseractive is null,0,registeruseractive) registeruseractive
+						  from video.t_mid_video_sdk_current_d t
+					     where t.dtime > '{STARTTIME}'
+						   and t.dtime < '{ENDTIME}'
+						   and t.platformid = 'ALL'	
+						   and t.activityid = 'ALL'			  
+					)tt
+				group by projectid,activitychannelid,dtime
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+		<!--  当期按次付费收入 本币   localnewclick  -->
+		<!--  当期按次付费收入 美元   newclick  -->
+		<!--  当期订阅收入 本币   localnewsubscribe  -->
+		<!--  当期订阅收入 美元   newsubscribe  -->
+		<!--  当期付费用户数   newpayuser  -->
+		<!--  付费转换率   newpayconvert  -->
+		<!--  ARPPU每用户平均收入 本币 localarpuincome-->
+		<!--  ARPPU每用户平均收入 美元 arpuincome-->
+		<!--  镜像表为【收入分析】主界面的【付费分析】 t_video_order_income_analy_d_hbase 报表中 -->
+        <multiHqlReportIndex>
+            <indexKey>video.survey.dashboard.orderincome.d</indexKey>
+            <fieldName>localnewclick,newclick,localnewsubscribe,newsubscribe,newpayuser,newpayconvert,localarpuincome,arpuincome</fieldName>
+            <hql>
+                <![CDATA[
+				select projectid,activitychannelid,dtime,
+					   localnewclick,
+					   newclick,
+					   localnewsubscribe,
+					   newsubscribe,
+					   newpayuser,
+					   newpayconvert,
+					   localarpuincome,
+					   arpuincome
+				  from (select projectid,
+							   if(activitychannelid is null,'ALL',activitychannelid) activitychannelid,
+							   dtime,
+							   if(localnewclick is null,0,localnewclick) localnewclick,
+							   if(newclick is null,0,newclick) newclick,
+							   if(localnewsubscribe is null,0,localnewsubscribe) localnewsubscribe,
+							   if(newsubscribe is null,0,newsubscribe) newsubscribe,
+							   if(newpayuser is null,0,newpayuser) newpayuser,
+							   if(newpayconvert is null,0,newpayconvert) newpayconvert,
+							   if(localarpuincome is null,0,localarpuincome) localarpuincome,
+							   if(arpuincome is null,0,arpuincome) arpuincome
+						  from video.t_video_order_income_analy_d_hbase t
+					     where t.dtime > '{STARTTIME}'
+						   and t.dtime < '{ENDTIME}'				  
+					)tt
+				group by projectid,activitychannelid,dtime,
+						 localnewclick,
+						 newclick,
+						 localnewsubscribe,
+						 newsubscribe,
+						 newpayuser,
+						 newpayconvert,
+						 localarpuincome,
+						 arpuincome
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+
+    </multiHqlReportIndexs>
+</reportIndexGroup>

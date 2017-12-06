@@ -1,0 +1,18 @@
+<reportSuite>
+    <reports>
+        <report tableName = "t_video_users_order_product_hours_analyse_h" keyFields = "projectid,activitychannelid,htime" period = "daily" timeFormat = "yyyyMMdd" timeField = "htime">
+            <fieldDefinition>
+                <field name="projectid" regular="[0-9a-zA-Z./-]*"/>
+				<field name="activitychannelid"  regular="[0-9a-zA-Z./-]*"/>
+				<field name="htime"  regular="[0-9a-zA-Z./-]*"/>
+            </fieldDefinition>
+            <dimensions>
+                <dimension id = "0" >
+                    <reportIndex>
+						video.order.product.analyse.hours.dayorderproduct.h
+                    </reportIndex>
+                </dimension>
+            </dimensions>
+        </report>
+    </reports>
+</reportSuite>

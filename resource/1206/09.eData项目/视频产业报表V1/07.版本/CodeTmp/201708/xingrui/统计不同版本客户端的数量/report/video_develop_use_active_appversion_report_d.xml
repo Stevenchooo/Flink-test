@@ -1,0 +1,30 @@
+<reportSuite>
+    <reports>
+        <report tableName = "t_video_develop_use_active_appversion_d"
+                keyFields = "projectid,platformid,appversioncode,dtime"
+                period = "daily" timeFormat = "yyyyMMdd" timeField = "dtime">
+            <fieldDefinition>
+                <field name="projectid" regular="[0-9a-zA-Z./-]*"/>
+                <field name="platformid" regular="[0-9a-zA-Z./-]*"/>
+                <field name="appversioncode" regular="[0-9a-zA-Z./-]*"/>
+                <field name="dtime" regular="[0-9a-zA-Z./-]*"/>
+            </fieldDefinition>
+            <indexs>
+                <index  key="projectid,dtime"
+                        rowKeyRule="^projectid@[0-9a-zA-Z./-]*#platformid@[0-9a-zA-Z./-]*#appversioncode@[0-9a-zA-Z:./-]*#dtime@[0-9a-zA-Z./-]*#$"
+                        secondRowKey="projectid@{projectid}#dtime@{dtime}#"/>
+                <index  key="projectid,platformid,dtime"
+                        rowKeyRule="^projectid@[0-9a-zA-Z./-]*#platformid@[0-9a-zA-Z./-]*#appversioncode@[0-9a-zA-Z:./-]*#dtime@[0-9a-zA-Z./-]*#$"
+                        secondRowKey="projectid@{projectid}#platformid@{platformid}#dtime@{dtime}#"/>
+            </indexs>
+            <dimensions>
+                <dimension id = "0" >
+                    <reportIndex>
+                        video.develop.active.appversion.d
+                    </reportIndex>
+                </dimension>
+
+            </dimensions>
+        </report>
+    </reports>
+</reportSuite>

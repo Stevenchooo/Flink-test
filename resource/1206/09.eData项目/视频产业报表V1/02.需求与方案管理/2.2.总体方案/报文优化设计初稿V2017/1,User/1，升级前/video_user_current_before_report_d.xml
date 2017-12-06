@@ -1,0 +1,25 @@
+<reportSuite>
+    <reports>
+        <report tableName = "t_video_user_current_d" 
+				keyFields = "projectid,activitychannelid,activityid,dtime" 
+				period = "daily" timeFormat = "yyyyMMdd" timeField = "dtime">
+            <fieldDefinition>
+                <field name="projectid" regular="[0-9a-zA-Z./-]*"/>
+				<field name="activitychannelid" regular="[0-9a-zA-Z./-]*"/>
+				<field name="activityid" regular="[0-9a-zA-Z./-]*"/>
+                <field name="dtime"  regular="[0-9a-zA-Z./-]*"/>
+            </fieldDefinition>
+            <dimensions>
+                <dimension id = "0" >
+                    <reportIndex>
+						video.current.before.newusers.d,
+						video.current.before.allregisteruser.d,
+                        video.current.before.totalregisteruser.d,
+						video.current.before.newusers.dw,
+						video.current.before.newusers.dm
+                    </reportIndex>
+                </dimension>
+            </dimensions>
+        </report>
+    </reports>
+</reportSuite>

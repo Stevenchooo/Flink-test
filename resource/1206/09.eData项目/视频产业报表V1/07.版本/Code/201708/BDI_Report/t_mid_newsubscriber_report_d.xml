@@ -1,0 +1,103 @@
+<reportSuite>
+    <reports>
+        <report tableName = "t_video_sdk_current_d"
+				keyFields = "projectid,activitychannelid,platformid,dtime" 
+				period = "daily" timeFormat = "yyyyMMdd" timeField = "dtime">
+            <fieldDefinition>
+                <field name="projectid" regular="[0-9a-zA-Z./-]*"/>
+				<field name="activitychannelid" regular="[0-9a-zA-Z./-]*"/>
+				<field name="platformid" regular="[0-9a-zA-Z./-]*"/>
+                <field name="dtime"  regular="[0-9a-zA-Z./-]*"/>
+            </fieldDefinition>
+			<materialViewers>
+				<materialViewer tableName = "video.T_MID_DAY_NOTCONVERT_REGISTEREDUSERS" clear="false" partition="date">
+				<!--
+			******************************************************************************************
+			//物化视图
+			//新增非游客转化的注册用户数 newregisterusers
+			//	新增注册用户数需要扣除由新增游客转化过来的用户，
+			//	其中具体计算根据注册话单中的DID如果找到之前（30天内）有游客登录话单则不算新增注册用户。
+			//若在浏览器中一键注册后，又进行注销操作，
+			
+			修改：重新创建T_MID_DAY_NOTCONVERT_REGISTEREDUSERS表，获取新增注册和新增游客去重的数据
+			
+			drop table video.T_MID_DAY_NOTCONVERT_REGISTEREDUSERS;
+			create table video.T_MID_DAY_NOTCONVERT_REGISTEREDUSERS
+			(
+			projectid          string,
+			platformid         string,
+			activitychannelid  string,
+			activityid         string,
+			dtime              string,
+			identityid         string
+			)
+			partitioned by(
+			id string,
+			date string
+			)
+			row format delimited fields terminated by '\t' map keys terminated by '&' stored as textfile;
+			grant select,delete,insert on T_MID_DAY_NOTCONVERT_REGISTEREDUSERS to user mapred;
+			
+			分母不区分终端，区分渠道和活动id（游客没有渠道和活动，新增注册用户有渠道和活动id）
+			分子区分终端和渠道，活动id
+			******************************************************************************************
+			-->
+					<hql>
+					<![CDATA[
+			select distinct projectid,platformid,activitychannelid,activityid,dtime,identityid,dtime date
+			  from (
+					select projectid,
+					       'none' platformid,
+					       if(activitychannelid is null,'none',activitychannelid) activitychannelid,
+						   if(activityid is null,'none',activityid) activityid,
+						   identityid,
+						   date dtime
+					  from video.t_cdr_top_user_info t
+					 where t.date > '{STARTTIME}'
+					   and t.date < '{ENDTIME}'
+					   and t.actiontype = 1		
+                     union all
+                    select projectid,
+					       'none' platformid,
+						   'none' activitychannelid,
+						   'none' activityid,
+						   userid identityid,
+						   date dtime
+                      from video.t_mid_day_newlogin_visitor t
+                     where t.date > '{STARTTIME}'
+					   and t.date < '{ENDTIME}'	
+                     )tt					   
+					]]>
+					</hql>
+				</materialViewer>
+				<!-- newsubscriber-->
+				<materialViewer tableName = "video.t_mid_newsubscriber_tmp" clear="false" partition="date">
+					<hql>
+					<![CDATA[
+				    select projectid,
+					       if(platformid is null,'ALL',platformid) platformid,
+					       if(activitychannelid is null,'ALL',activitychannelid) activitychannelid,
+						   if(activityid is null,'ALL',activityid) activityid,
+						   dtime,
+						   count(distinct identityid ) newsubscriber,
+						   dtime date
+					  from video.T_MID_DAY_NOTCONVERT_REGISTEREDUSERS 
+					 group by projectid,activitychannelid,activityid,platformid,dtime
+				  grouping sets
+				       (
+					     (projectid,activitychannelid,activityid,platformid,dtime),
+						 (projectid,activityid,platformid,dtime),
+						 (projectid,activitychannelid,platformid,dtime),
+						 (projectid,activitychannelid,activityid,dtime),
+						 (projectid,activitychannelid,dtime),
+						 (projectid,activityid,dtime),
+						 (projectid,platformid,dtime),
+						 (projectid,dtime)
+					   )
+					]]>
+					</hql>
+				</materialViewer>
+			</materialViewers>
+        </report>
+    </reports>
+</reportSuite>

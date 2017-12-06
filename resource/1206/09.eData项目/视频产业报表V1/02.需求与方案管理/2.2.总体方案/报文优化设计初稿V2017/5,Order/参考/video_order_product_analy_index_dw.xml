@@ -1,0 +1,140 @@
+<reportIndexGroup>
+    <multiHqlReportIndexs>
+		<!--  订购 某产品 的 总用户数 allorderuser  -->
+		<!--  总订购次数 allordertimes  -->
+		<!--  当期 相关产品的名称   productname  -->
+		<!--  当期 相关产品类型   productCatalog  -->
+		<!--  当期 相关产品 订购 类型   productordertype -->
+        <multiHqlReportIndex>
+            <indexKey>video.edp.order.product.columns.dw</indexKey>
+            <fieldName>productname,productcatalog,productordertype,allordertimes,allorderuser</fieldName>
+            <hql>
+                <![CDATA[
+				select projectid,activitychannelid,productid,dtime,
+					   productname,
+					   productcatalog,
+					   productordertype,
+					   allordertimes,
+					   allorderuser
+				  from (select projectid,
+							   if(t.activitychannelid is null, 'ALL', t.activitychannelid) activitychannelid,
+							   productid,
+							   dtime,
+							   productname,
+							   productcatalog,
+							   productordertype,
+							   if(t.allordertimes is null, 0, t.allordertimes) allordertimes,
+							   if(t.allorderuser is null, 0, t.allorderuser) allorderuser
+						  from video.t_video_order_product_analy_d_hbase t
+						 where t.dtime > '{STARTTIME}'
+						   and t.dtime < '{ENDTIME}') tt
+				 group by projectid,activitychannelid,productid,dtime,
+						  productname,
+						  productcatalog,
+						  productordertype,
+						  allordertimes,
+						  allorderuser
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+		
+		<!--  当期 某一产品 新增 订购用户数： neworderuser  -->
+		<!--  当期 新增订购次数 newordertimes -->
+		<!--  当期 某一产品 取消 订购用户数： loseorderuser  -->
+		<!--  当期 取消订购次数 loseordertimes  -->
+        <multiHqlReportIndex>
+            <indexKey>video.edp.order.product.orderuser.dw</indexKey>
+            <fieldName>newordertimes,neworderuser,loseordertimes,loseorderuser</fieldName>
+            <hql>
+                <![CDATA[
+				select projectid,activitychannelid,productid,dtime,
+					   count(neworder) newordertimes,
+					   count(distinct(neworder)) neworderuser,
+					   count(loseorder) loseordertimes,
+					   count(distinct(loseorder)) loseorderuser
+				  from (select t1.projectid,
+							   if(t1.activitychannelid is null, 'none', t1.activitychannelid) activitychannelid,
+							   if(t1.productid is null, 'none', t1.productid) productid,
+							   t2.dtime,
+							   if(t1.actiontype = 1 OR t1.actiontype = 3, t1.identityid, null) neworder,
+							   if(t1.actiontype = 2, t1.identityid, null) loseorder
+						  from (select projectid,activitychannelid,productid,t.date dtime,identityid,actiontype
+								  from video.t_cdr_top_order_info t
+								 where t.date > from_unixtime(unix_timestamp(date_sub(from_unixtime(unix_timestamp('{STARTTIME}',
+												'yyyyMMdd'),'yyyy-MM-dd'),7),'yyyy-MM-dd'),'yyyyMMdd')
+								   and t.date < '{ENDTIME}') t1,
+							   (select t.dtime, t.weekdays
+								  from video.t_bdi_muchtv_video_rundate t
+								 where t.dtime > '{STARTTIME}'
+								   and t.dtime < '{ENDTIME}') t2
+						 where t1.dtime > from_unixtime(unix_timestamp(date_sub(from_unixtime(unix_timestamp(t2.dtime,
+										 'yyyyMMdd'),'yyyy-MM-dd'),t2.weekdays),'yyyy-MM-dd'),'yyyyMMdd')
+						   and t1.dtime < from_unixtime(unix_timestamp(date_add(from_unixtime(unix_timestamp(t2.dtime,
+										 'yyyyMMdd'),'yyyy-MM-dd'),1),'yyyy-MM-dd'),'yyyyMMdd')
+					union all
+						select t1.projectid,
+							   'ALL' activitychannelid,
+							   if(t1.productid is null, 'none', t1.productid) productid,
+							   t2.dtime,
+							   if(t1.actiontype = 1 OR t1.actiontype = 3, t1.identityid, null) neworder,
+							   if(t1.actiontype = 2, t1.identityid, null) loseorder
+						  from (select projectid,activitychannelid,productid,t.date dtime,identityid,actiontype
+								  from video.t_cdr_top_order_info t
+								 where t.date > from_unixtime(unix_timestamp(date_sub(from_unixtime(unix_timestamp('{STARTTIME}',
+												'yyyyMMdd'),'yyyy-MM-dd'),7),'yyyy-MM-dd'),'yyyyMMdd')
+								   and t.date < '{ENDTIME}') t1,
+							   (select t.dtime, t.weekdays
+								  from video.t_bdi_muchtv_video_rundate t
+								 where t.dtime > '{STARTTIME}'
+								   and t.dtime < '{ENDTIME}') t2
+						 where t1.dtime > from_unixtime(unix_timestamp(date_sub(from_unixtime(unix_timestamp(t2.dtime,
+										 'yyyyMMdd'),'yyyy-MM-dd'),t2.weekdays),'yyyy-MM-dd'),'yyyyMMdd')
+						   and t1.dtime < from_unixtime(unix_timestamp(date_add(from_unixtime(unix_timestamp(t2.dtime,
+										 'yyyyMMdd'),'yyyy-MM-dd'),1),'yyyy-MM-dd'),'yyyyMMdd')						   
+						) tt
+				 group by projectid, activitychannelid, productid, dtime
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+		
+		<!--  
+		//总 订购用户占比 = 单产品订购用户数/（产品）总订购用户数*100% orderuserproportion  
+		//注意【单产品订购用户数】为某一产品订购的总用户
+		//在 DM 上编写时加上 *100%
+		-->
+        <multiHqlReportIndex>
+            <indexKey>video.edp.order.product.orderuserproportion.dw</indexKey>
+            <fieldName>orderuserproportion</fieldName>
+            <hql>
+                <![CDATA[
+				select projectid,activitychannelid,productid,dtime,
+					   (allorderuser / allproductorder) orderuserproportion
+				  from (select t1.projectid,
+							   t1.activitychannelid,
+							   t1.productid,
+							   t1.dtime,
+							   t1.allorderuser,
+							   t2.allproductorder
+						  from (select projectid,
+									   if(t.activitychannelid is null, 'ALL', t.activitychannelid) activitychannelid,
+									   productid,
+									   dtime,
+									   if(t.allorderuser is null, 0, t.allorderuser) allorderuser
+								  from video.t_video_order_product_analy_sd_hbase t
+								 where t.dtime > '{STARTTIME}'
+								   and t.dtime < '{ENDTIME}') t1,
+							   (select projectid, dtime, allproductorder
+								  from video.t_video_develop_user_active_d_hbase t
+								 where t.dtime > '{STARTTIME}'
+								   and t.dtime < '{ENDTIME}'
+								   and t.activitychannelid is null) t2
+						 where t1.projectid = t2.projectid
+						   and t1.dtime = t2.dtime) tt
+				 group by projectid,activitychannelid,productid,dtime,
+						  (allorderuser / allproductorder)
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+				     
+    </multiHqlReportIndexs>
+</reportIndexGroup>

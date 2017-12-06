@@ -1,0 +1,29 @@
+<reportSuite>
+    <reports>
+        <report tableName = "t_video_order_product_analy_d" 
+				keyFields = "projectid,activitychannelid,productid,dtime" 
+				period = "daily" timeFormat = "yyyyMMdd" timeField = "dtime">
+            <fieldDefinition>
+                <field name="projectid" regular="[0-9a-zA-Z./-]*"/>
+				<field name="activitychannelid" regular="[0-9a-zA-Z./-]*"/>
+				<field name="productid"  regular="[0-9a-zA-Z./-]*"/>
+                <field name="dtime"  regular="[0-9a-zA-Z./-]*"/>				
+            </fieldDefinition>
+            <dimensions>
+                <dimension id = "0" >
+                    <reportIndex>
+                        video.edp.order.product.allorder.d,
+                        video.edp.order.product.orderuser.d
+                    </reportIndex>
+                </dimension>
+                <dimension id = "0" >
+                    <reportIndex>
+						video.edp.order.product.orderuserproportion.d
+                    </reportIndex>
+                </dimension>
+            </dimensions>
+        </report>
+    </reports>
+</reportSuite>
+
+

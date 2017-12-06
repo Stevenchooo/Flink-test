@@ -1,0 +1,64 @@
+<reportIndexGroup>
+<!--
+//星期天到星期六
+//wtime : 1,7
+-->
+    <multiHqlReportIndexs>
+
+		<!--  当期 新增游客数(newvisitor)-->
+		<!--	   游客用户总数(totalvisitor) 截止当日的累计的游客总数，根据设备ID去重；同一个用户更换设备，按照新的游客用户统计。-->
+		<!--  当期 新增注册用户数 newregisteruser: 当期新增有注册行为的用户数量-->
+		<!--  当期 新增订购用户 neworderuser: 当期新增订购产品(包括套餐和按次)的用户数量-->
+		<!--  当期 登录用户数 loginuser: 当期使用客户端登录的用户数量-->
+		<!--       累计注册用户总数 allregisteruser: 当前有过注册行为的用户总数，用户注销后也计算一个注册用户数。-->
+		<!--       注册用户总数 totalregisteruser ：当前在注册状态的用户总数，用户注销后不计算注册用户总数。-->
+		<!--  当期 新增退订用户 newunsubscribeproduct : 当期有退订产品行为的用户数量-->
+        <multiHqlReportIndex>
+            <indexKey>video.edp.user.grab.columns.w</indexKey>
+            <fieldName>newvisitor,totalvisitor,newregisteruser,neworderuser,loginuser,allregisteruser,totalregisteruser,newunsubscribeproduct</fieldName>
+            <hql>
+                <![CDATA[
+				select projectid,activitychannelid,platformid,wtime,
+					   newvisitor,
+					   totalvisitor,
+					   newregisteruser,
+					   neworderuser,
+					   loginuser,
+					   allregisteruser,
+					   totalregisteruser,
+					   newunsubscribeproduct
+				  from (select t1.projectid,
+							   if(t1.activitychannelid is null,'ALL',t1.activitychannelid) activitychannelid,
+							   if(t1.platformid is null,'ALL',t1.platformid) platformid,
+							   t2.wtime,
+							   if(t1.newvisitor is null, 0, t1.newvisitor) newvisitor,
+							   if(t1.totalvisitor is null, 0, t1.totalvisitor) totalvisitor,
+							   if(t1.newregisteruser is null, 0, t1.newregisteruser) newregisteruser,
+							   if(t1.neworderuser is null, 0, t1.neworderuser) neworderuser,
+							   if(t1.loginuser is null, 0, t1.loginuser) loginuser,
+							   if(t1.allregisteruser is null, 0, t1.allregisteruser) allregisteruser,
+							   if(t1.totalregisteruser is null, 0, t1.totalregisteruser) totalregisteruser,
+							   if(t1.newunsubscribeproduct is null, 0, t1.newunsubscribeproduct) newunsubscribeproduct
+						  from video.t_video_develop_user_grab_sd_hbase t1,
+							   (select t.wtime,t.dtime
+								  from video.t_bdi_muchtv_video_rundate t
+								 where t.wtime > '{STARTTIME}'
+								   and t.wtime < '{ENDTIME}'
+								   and t.weekdays =7 ) t2
+						  where t1.dtime = t2.dtime
+					) tt
+				 group by projectid,activitychannelid,platformid,wtime,
+						  newvisitor,
+						  totalvisitor,
+						  newregisteruser,
+						  neworderuser,
+						  loginuser,
+						  allregisteruser,
+						  totalregisteruser,
+						  newunsubscribeproduct
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+
+    </multiHqlReportIndexs>
+</reportIndexGroup>

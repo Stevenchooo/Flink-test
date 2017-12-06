@@ -1,0 +1,34 @@
+<reportSuite>
+    <reports>
+        <report tableName = "t_video_client_flow_analyse_m" 
+				keyFields = "projectid,networktype,platformid,mtime" 
+				period = "monthly" timeFormat = "yyyyMM" timeField = "mtime">
+            <fieldDefinition>
+                <field name="projectid" regular="[0-9a-zA-Z./-]*"/>
+				<field name="networktype" regular="[0-9a-zA-Z./-]*"/>
+				<field name="platformid" regular="[0-9a-zA-Z./-]*"/>
+                <field name="mtime"  regular="[0-9a-zA-Z./-]*"/>
+            </fieldDefinition>
+            <dimensions>
+                <dimension id = "0" >
+                    <reportIndex>
+						video.client.flow.analyse.columns.m
+                    </reportIndex>
+                </dimension>
+                <dimension id = "0" >
+                    <reportIndex>
+						video.client.flow.analyse.douflow.m
+                    </reportIndex>
+                </dimension>
+            </dimensions>
+        </report>
+    </reports>
+</reportSuite>
+<!--
+总播放流量 totalflow
+点播流量 vodflow
+直播流量 livetvflow
+平均每用户消耗点播流量 avgvodflow
+平均每用户消耗直播流量 avglivetvflow
+活跃用户DOU douflow
+-->

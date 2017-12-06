@@ -1,0 +1,83 @@
+<reportIndexGroup>
+    <multiHqlReportIndexs>
+		<!--
+		//点击量 clickvolume
+		//一键注册转化量 keyorderpromotion
+		//一键订购转化量 keyregisterpromotion
+		//活跃用户{排序} activeuser
+		//当期付费用户数{排序} newpayuser
+		//当期付费流水
+		//当年累计流水{排序}
+		-->
+        <multiHqlReportIndex>
+            <indexKey>video.edp.activity.operation.list.indexs.d</indexKey>
+            <fieldName>activityname,clickvolume,keyorderpromotion,keyregisterpromotion,activeuser,newpayuser,newincome,localnewincome,yearallincome,localyearallincome</fieldName>
+            <hql>
+                <![CDATA[
+ 				 select projectid,activitychannelid,activityid,dtime,
+						activityname,clickvolume,
+						keyorderpromotion,
+						keyregisterpromotion,
+						activeuser,
+						newpayuser,
+						newincome,
+						localnewincome,
+						yearallincome,
+						localyearallincome
+				 from (  select projectid,
+								if(t.activitychannelid is null, 'ALL', t.activitychannelid) activitychannelid,
+								activityid,
+								dtime,activityname,
+								if(t.clickvolume is null, 0, t.clickvolume) clickvolume,
+								if(t.keyorderpromotion is null, 0, t.keyorderpromotion) keyorderpromotion,
+								if(t.keyregisterpromotion is null, 0, t.keyregisterpromotion) keyregisterpromotion,
+								if(t.activeuser is null, 0, t.activeuser) activeuser,
+								if(t.newpayuser is null, 0, t.newpayuser) newpayuser,
+								if(t.newincome is null, 0, t.newincome) newincome,
+								if(t.localnewincome is null, 0, t.localnewincome) localnewincome,
+								if(t.yearallincome is null, 0, t.yearallincome) yearallincome,
+								if(t.localyearallincome is null, 0, t.localyearallincome) localyearallincome
+						   from video.t_video_activity_operation_analyse_d_hbase t 
+						  where t.dtime > '{STARTTIME}'
+							and t.dtime < '{ENDTIME}'
+					)tt
+				group by projectid,activitychannelid,activityid,dtime,activityname,
+						clickvolume,
+						keyorderpromotion,
+						keyregisterpromotion,
+						activeuser,
+						newpayuser,
+						newincome,
+						localnewincome,
+						yearallincome,
+						localyearallincome
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+		<!--
+		//次日留存率 day01retentionrate
+		//七日留存率 day07retentionrate
+		-->
+        <multiHqlReportIndex>
+            <indexKey>video.edp.activity.operation.list.retentionrate.d</indexKey>
+            <fieldName>day01retentionrate,day07retentionrate</fieldName>
+            <hql>
+                <![CDATA[
+ 				         select projectid,
+								if(t.activitychannelid is null, 'ALL', t.activitychannelid) activitychannelid,
+								activityid,
+								date dtime,
+								sum(if(t.day01retentionrate is null, 0, t.day01retentionrate)) day01retentionrate,
+								sum(if(t.day07retentionrate is null, 0, t.day07retentionrate)) day07retentionrate
+						   from video.t_mid_video_sdk_current_d t 
+						  where t.date > '{STARTTIME}'
+						   and t.date < '{ENDTIME}'
+						   and t.activityid<>'ALL'
+						   and t.platformid='ALL'
+						 group by projectid,activityid,activitychannelid,date
+
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+    </multiHqlReportIndexs>
+</reportIndexGroup>

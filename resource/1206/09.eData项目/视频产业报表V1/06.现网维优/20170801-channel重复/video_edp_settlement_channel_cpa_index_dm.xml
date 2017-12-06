@@ -1,0 +1,140 @@
+<reportIndexGroup>
+    <multiHqlReportIndexs>
+<!--
+//渠道ID（可选择渠道ID的CPA明细数据）	渠道ID
+//
+//渠道名称	渠道名称
+//点击量	通过渠道点击前转到TOP的请求数
+//订购转化量	订购成功次数；
+-->		
+		<!--当期 点击量	clickvolume 通过渠道点击前转到TOP的请求数(一键订购所有点击)-->
+		<multiHqlReportIndex>
+            <indexKey>video.edp.channel.cpa.clickvolume.dm</indexKey>
+            <fieldName>clickvolume</fieldName>
+            <hql>
+                <![CDATA[
+				select projectid,activitychannelid,dtime,
+					   count(transactionid) clickvolume
+				  from (select t1.projectid,
+							   if(t1.activitychannelid is null, 'none', t1.activitychannelid) activitychannelid,
+							   t2.dtime,
+							   t1.transactionid
+						  from (select projectid,activitychannelid,t.date dtime,transactionid
+								  from video.t_cdr_top_useractivityinfo t
+								 where substr(t.date, 0, 6) >= substr('{STARTTIME}', 0, 6)
+								   and substr(t.date, 0, 6) <= substr('{ENDTIME}', 0, 6)
+								   and t.activitytype = 0) t1,
+							   (select t.dtime
+								  from video.t_bdi_muchtv_video_rundate t
+								 where t.dtime > '{STARTTIME}'
+								   and t.dtime < '{ENDTIME}') t2
+						 where substr(t1.dtime, 0, 6) = substr(t2.dtime, 0, 6)
+						   and t1.dtime <= t2.dtime
+						union all
+						select t1.projectid,
+							   'ALL' activitychannelid,
+							   t2.dtime,
+							   transactionid
+						  from (select projectid,activitychannelid,t.date dtime,transactionid
+								  from video.t_cdr_top_useractivityinfo t
+								 where substr(t.date, 0, 6) >= substr('{STARTTIME}', 0, 6)
+								   and substr(t.date, 0, 6) <= substr('{ENDTIME}', 0, 6)
+								   and t.activitytype = 0) t1,
+							   (select t.dtime
+								  from video.t_bdi_muchtv_video_rundate t
+								 where t.dtime > '{STARTTIME}'
+								   and t.dtime < '{ENDTIME}') t2
+						 where substr(t1.dtime, 0, 6) = substr(t2.dtime, 0, 6)
+						   and t1.dtime <= t2.dtime) tt
+				 group by projectid, activitychannelid, dtime
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+		
+		<!--
+		//一键订购转化量 keyorderpromotion : 一键订购用户成功次数；
+		//taskstatus 	处理任务状态: 0：处理中; 1:  操作成功; 2:  操作失败
+		//activitytype  被推广对象的类型(属性) : 0: 一键订购推广活动; 1: 一键注册推广活动; 2: WEB URL推广活动
+		//transactionStatus	活动事务状态: 0: 等待处理 1: 处理完成
+		-->
+		<multiHqlReportIndex>
+            <indexKey>video.edp.channel.cpa.keyorderpromotion.dm</indexKey>
+            <fieldName>keyorderpromotion</fieldName>
+            <hql>
+                <![CDATA[
+				select projectid,activitychannelid,dtime,
+					   count(transactionid) keyorderpromotion
+				  from (select t1.projectid,
+							   if(t1.activitychannelid is null, 'none', t1.activitychannelid) activitychannelid,
+							   t2.dtime,
+							   t1.transactionid
+						  from (select projectid,activitychannelid,t.date dtime,transactionid
+								  from video.t_cdr_top_useractivityinfo t
+								 where substr(t.date, 0, 6) >= substr('{STARTTIME}', 0, 6)
+								   and substr(t.date, 0, 6) <= substr('{ENDTIME}', 0, 6)
+								   and t.activitytype = 0
+								   and t.taskstatus = 1
+								   and t.transactionstatus = 1) t1,
+							   (select t.dtime
+								  from video.t_bdi_muchtv_video_rundate t
+								 where t.dtime > '{STARTTIME}'
+								   and t.dtime < '{ENDTIME}') t2
+						 where substr(t1.dtime, 0, 6) = substr(t2.dtime, 0, 6)
+						   and t1.dtime <= t2.dtime
+						union all
+						select t1.projectid,
+							   'ALL' activitychannelid,
+							   t2.dtime,
+							   t1.transactionid
+						  from (select projectid,activitychannelid,t.date dtime,transactionid
+								  from video.t_cdr_top_useractivityinfo t
+								 where substr(t.date, 0, 6) >= substr('{STARTTIME}', 0, 6)
+								   and substr(t.date, 0, 6) <= substr('{ENDTIME}', 0, 6)
+								   and t.activitytype = 0
+								   and t.taskstatus = 1
+								   and t.transactionstatus = 1) t1,
+							   (select t.dtime
+								  from video.t_bdi_muchtv_video_rundate t
+								 where t.dtime > '{STARTTIME}'
+								   and t.dtime < '{ENDTIME}') t2
+						 where substr(t1.dtime, 0, 6) = substr(t2.dtime, 0, 6)
+						   and t1.dtime <= t2.dtime) tt
+				 group by projectid, activitychannelid, dtime
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+		
+		<!--
+		//渠道名称 channelname
+		-->
+		<multiHqlReportIndex>
+            <indexKey>video.edp.channel.cpa.channelname.dm</indexKey>
+            <fieldName>en_value,zh_value</fieldName>
+            <hql>
+                <![CDATA[
+				select projectid,activitychannelid,dtime,
+					   en_value,
+					   zh_value
+				  from (select t1.projectid,
+							   if(t1.activitychannelid is null,'ALL',t1.activitychannelid) activitychannelid,
+							   t1.dtime,
+							   if(t2.en_value is null,t1.activitychannelid,t2.en_value) en_value,
+							   if(t2.zh_value is null,t1.activitychannelid,t2.zh_value) zh_value
+						  from (select * from video.t_video_settlement_channel_cpa_dm_hbase t
+								 where t.dtime > '{STARTTIME}' and t.dtime < '{ENDTIME}') t1
+						  left join
+							   (select a.projectid,a.channelid,a.en_value,a.zh_value
+								  from (select projectid,channelid,en_value,zh_value,
+								               row_number() over(partition by projectid,channelid order by lastmodifytime desc ) as rn
+								          from video.t_cdr_top_channelinfo t ) a
+								 where a.rn=1) t2
+							on t1.activitychannelid = t2.channelid
+						   and t1.projectid = t2.projectid			  
+					)tt
+				group by projectid,activitychannelid,dtime,en_value,zh_value
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+		
+    </multiHqlReportIndexs>
+</reportIndexGroup>

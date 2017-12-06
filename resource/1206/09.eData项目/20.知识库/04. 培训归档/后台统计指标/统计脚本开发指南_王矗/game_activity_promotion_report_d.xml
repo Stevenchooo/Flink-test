@@ -1,0 +1,177 @@
+<reportSuite>
+    <reports>
+        <report tableName = "t_game_promotion_d" keyFields = "projectid,relchannel,activityid,dtime,subchannelid" period = "daily" timeFormat = "yyyyMMdd" timeField = "dtime">
+            <fieldDefinition>
+                <field name="projectid" regular="[0-9a-zA-Z./-]*"/>
+                <field name="relchannel" regular="[0-9a-zA-Z./-]*"/>
+                <field name="activityid" regular="[0-9a-zA-Z./-]*"/>
+                <field name="dtime"  regular="[0-9a-zA-Z./-]*"/>
+                <field name="subchannelid"  regular="[0-9a-zA-Z./-]*"/>
+            </fieldDefinition>
+           <materialViewers>
+                <materialViewer tableName = "game.T_MID_ACTIVITY_VIPSTATUS"  clear="false" partition="date">
+                    <hql>
+                        <![CDATA[
+                                SELECT userid, projectid, timestamp,chargetype,chargeresult,relchannel,fee,dtime,unsubchannelid,unsubtype,activityid,protectendtime,promotioncpid,productid,affiliatechannelid,subscribetime,dtime date
+                                from
+                                (
+                                    SELECT userid, projectid, timestamp,chargetype,chargeresult,relchannel,fee,dtime,unsubchannelid,unsubtype,activityid,protectendtime,promotioncpid,productid,affiliatechannelid,subscribetime
+                                    from
+                                    (
+                                        SELECT t2.userid, t2.projectid,t1.dtime, t2.timestamp,t2.chargetype,t2.chargeresult,t2.fee,t2.relchannel,t2.unsubchannelid,t2.unsubtype,t2.activityid,t2.protectendtime,t2.promotioncpid,t2.productid,t2.affiliatechannelid,t2.subscribetime,
+                                            row_number() OVER (partition by t2.userid,t2.projectid,t1.dtime ORDER BY timestamp DESC,chargetype DESC) AS rank
+                                        from
+                                        (
+                                            select  from_unixtime(unix_timestamp(dtime,'yyyy-MM-dd'),'yyyyMMdd') dtime
+                                            from game.t_bdi_rundate
+                                            where   from_unixtime(unix_timestamp(dtime,'yyyy-MM-dd'),'yyyyMMdd') > '{STARTTIME}' 
+                                                AND from_unixtime(unix_timestamp(dtime,'yyyy-MM-dd'),'yyyyMMdd') < '{ENDTIME}' 
+                                        ) t1,
+                                        (
+                                            SELECT original_msisdn userid, date dtime, oaoperatorid projectid,timestamp,chargetype,chargeresult,fee,unsubchannelid,unsubtype,activityid,
+                                                if(vipsubchannelid is null, 'none', if(substr(vipsubchannelid, 0, 1) = 'l', substr(vipsubchannelid, 4), if(accesschannel = 214, concat_ws('%',CONV( accesschannel,10,10),vipsubchannelid), vipsubchannelid))) relchannel,protectendtime,promotioncpid,
+                                                productid,if(affiliatechannelid = '' or affiliatechannelid is null,'none',affiliatechannelid) affiliatechannelid,subscribetime
+                                            FROM game.t_cdr_order  
+                                            where date > '{STARTTIME}' and date < '{ENDTIME}' and (producttype = 0 or producttype = 1 or producttype is null) and (chargetype = 3 or (chargetype in(2,4) and chargeresult=0)) and activityid is not null
+                                            union all
+                                            SELECT userid, dtime,projectid, timestamp,chargetype,chargeresult,fee,unsubchannelid,unsubtype,activityid,relchannel,protectendtime,promotioncpid,productid,if(affiliatechannelid = '' or affiliatechannelid is null,'none',affiliatechannelid) affiliatechannelid,subscribetime
+                                            from game.T_MID_ACTIVITY_VIPSTATUS where  dtime >= '{STARTTIME}' and activityid is not null
+                                        ) t2
+                                        where t2.dtime <= t1.dtime
+                                    ) t
+                            where  rank = 1 
+                            ) t
+                        ]]>
+                    </hql>
+                </materialViewer>
+				<materialViewer tableName = "game.T_MID_SUBQUERY"  clear="true" >
+                    <hql>
+                        <![CDATA[
+					select projectid,userid,productid,relchannel,subchannelid,activityid,t2.dtime dtime,timestamp from
+						(select t0.projectid projectid,
+                            t0.userid userid,
+                            t0.productid productid,
+                            t0.relchannel relchannel,
+                            t0.affiliatechannelid subchannelid,
+                            t1.activityid activityid,
+                            t0.dtime dtime,
+							t0.timestamp timestamp
+						from    game.T_MID_ACTIVITY_VIPSTATUS t0,game.t_bfm_activity t1
+						where from_unixtime(unix_timestamp(substr(t0.timestamp,1,10),'yyyy-MM-dd'),'yyyyMMdd') = t0.dtime
+						 and chargetype =2
+						 and chargeresult = 0
+						and t1.activityid is not null
+						and t0.projectid = t1.projectid
+					      and t0.activityid = t1.activityid)tt,
+                   (select from_unixtime(unix_timestamp(dtime,
+                                                                            'yyyy-MM-dd'),
+                                                             'yyyyMMdd') dtime
+                                          from game.t_bdi_rundate
+                                         where from_unixtime(unix_timestamp(dtime,
+                                                                            'yyyy-MM-dd'),
+                                                             'yyyyMMdd') > '{STARTTIME}'
+                                           AND from_unixtime(unix_timestamp(dtime,
+                                                                            'yyyy-MM-dd'),
+                                                             'yyyyMMdd') < '{ENDTIME}') t2
+                    where tt.dtime  = from_unixtime(unix_timestamp(date_sub(from_unixtime(unix_timestamp(t2.dtime,
+                                                    'yyyyMMdd'),'yyyy-MM-dd'),6),'yyyy-MM-dd'), 'yyyyMMdd')
+                        ]]>
+                    </hql>
+                </materialViewer>
+				<materialViewer tableName = "game.T_MID_SUBQUERYTWO"  clear="true" >
+					<hql>
+						<![CDATA[
+						select t1.projectid projectid,t1.userid userid,t1.relchannel relchannel,t1.subchannelid subchannelid,t1.activityid activityid,t1.dtime dtime from 
+						game.T_MID_SUBQUERY t1,
+						(select t0.projectid projectid,
+                               t0.userid userid,
+                               t0.productid productid,
+                               t0.relchannel relchannel,
+                               t0.affiliatechannelid subchannelid,
+                               t1.activityid activityid,
+                               t0.dtime dtime,
+							   t0.timestamp timestamp
+                        from    game.T_MID_ACTIVITY_VIPSTATUS t0,game.t_bfm_activity t1
+                             where t0.dtime  > '{STARTTIME}'
+                               and t0.dtime < '{ENDTIME}'
+                               and ( (t0.chargetype = 2 and t0.chargeresult = 0 and t0.fee=0)
+                               or  (t0.chargetype = 3 and t0.chargeresult <> 0 and t0.fee>0)
+                               or  (t0.chargetype in (2,3) and t0.chargeresult = 0 and t0.fee > 0 ))
+					           and t1.activityid is not null
+							   and t0.projectid = t1.projectid
+					           and t0.activityid = t1.activityid) t2
+						where t1.userid = t2.userid
+							  and t1.productid = t2.productid
+                              and t1.relchannel = t2.relchannel
+                              and t1.subchannelid = t2.subchannelid
+                              and t1.activityid = t2.activityid
+                              and t1.dtime = t2.dtime
+                              and t1.projectid = t2.projectid
+						]]>
+					</hql>
+				</materialViewer>
+            </materialViewers>
+            <dimensions>
+                <!--根据项目编码、渠道和时间进行统计-->
+                <dimension id = "0" >
+                    <reportIndex>
+                        <!--game.promotion.thitcnt.d,-->
+                        game.promotion.tpaysuccess.d,
+                        game.promotion.sevendaysrematevips.d,
+                        game.promotion.grantcollectvips.d,
+                        game.promotion.treceivablevips.d,
+                        <!--game.promotion.tpartnerchannelrevenue.d,-->
+                        game.promotion.subscriptrevenue.d,
+						game.promotion.localsubscriptrevenue.d,
+						<!-- 订阅流水 -->
+                        game.promotion.numacqrate_numerator_denominator.d,
+                        <!--game.promotion.numacqrate_denominator.d,-->                        
+                        game.promotion.tnewuserunsubusercnt.d,
+                        game.promotion.actunsubnumofnewsubmem.d,
+                        game.promotion.cusunsubnumofnewsubmem.d,
+                        game.promotion.tunsubscribevips.d,
+                        game.promotion.tuserunsubusercnt.d,
+                        game.promotion.cusunsubnumofnotnewsubmem.d,
+                        game.promotion.tnewvips.d,
+                        game.promotion.tfreevips.d,
+                        game.promotion.tgracevips.d,
+                        game.promotion.tnormalvips.d,
+                        game.promotion.tviprevenue.d,
+						game.promotion.localtviprevenue.d,
+						<!-- 会员总流水 -->
+                        game.promotion.tprotectvips.d
+                    </reportIndex>
+                </dimension>                
+                <dimension id = "0" >
+                    <reportIndex>
+                        <!--game.promotion.orderconrate.d,
+                        game.promotion.numacqrate.d,-->
+                        game.promotion.sevendayordervips.d,
+                        game.promotion.ttotalvips.d,
+                        game.promotion.tretainedvips.d
+                    </reportIndex>
+                </dimension>
+                <dimension id = "0" >
+                    <reportIndex>
+                        game.promotion.sevenrenratedenominator.d
+                    </reportIndex>
+                </dimension>
+                <dimension id = "0" >
+                    <reportIndex>
+                        <!--game.promotion.sevendayretentrate.d,
+                        game.promotion.sevendayretentrateavg.d-->
+                        <!--game.promotion.unnewvips.d-->
+                    </reportIndex>
+                </dimension>
+                <dimension id = "0">
+            `        <reportIndex>
+                        game.promotion.affiliatechannelid.d,
+                        game.promotion.activityname.d,
+                        game.promotion.channelname.d,
+                        game.promotion.partnername.d
+                    </reportIndex>
+                </dimension> 
+            </dimensions> 
+        </report>
+    </reports>
+</reportSuite>

@@ -1,0 +1,91 @@
+<reportIndexGroup>
+    <multiHqlReportIndexs>
+<!--
+//每日各种模式(网络和终端)
+//networktype 网络类型 取值为：2G,3G,4G,wifi
+//platformid 平台ID 取值为：1:安卓;2:IOS;3:其他
+//
+//根据 网络类型筛选 （ platformid ='ALL'）;根据 终端类型 （networktype ='ALL'）
+-->		
+		<!--点播流量 vodflow [点播用户 vodwatchusers]-->
+		<!--直播流量 livetvflow [直播用户 livetvwatchusers]-->
+		<!--总播放流量 totalflow-->
+		<!-- 平均每用户消耗点播流量 avgvodflow = vodflow 点播流量 / 点播用户数-->
+		<!-- 平均每用户消耗点播流量 avglivetvflow = livetvflow 点播流量 / 点播用户数-->
+        <multiHqlReportIndex>
+            <indexKey>video.client.flow.analyse.columns.d</indexKey>
+            <fieldName>totalflow,vodflow,livetvflow,avgvodflow,avglivetvflow</fieldName>
+            <hql>
+                <![CDATA[
+				select projectid,networktype,platformid,dtime,
+					   (vodflow + livetvflow) totalflow,
+					   vodflow,
+					   livetvflow,
+					   (vodflow / vodwatchusers) avgvodflow,
+					   (livetvflow / livetvwatchusers) avglivetvflow
+				  from (select projectid,
+							   if(t.networktype is null, 'ALL', t.networktype) networktype,
+							   if(t.platformid is null, 'ALL', t.platformid) platformid,
+							   dtime,
+							   if(t.vodwatchflow is null, 0, t.vodwatchflow) vodflow,
+							   if(t.livetvwatchflow is null, 0, t.livetvwatchflow) livetvflow,
+							   if(t.vodwatchusers is null, 0, t.vodwatchusers) vodwatchusers,
+							   if(t.livetvwatchusers is null, 0, t.livetvwatchusers) livetvwatchusers
+						  from video.t_video_client_flow_day_analy_d_hbase t
+						 where t.dtime > '{STARTTIME}'
+						   and t.dtime < '{ENDTIME}') tt
+				 group by projectid,networktype,platformid,dtime,
+						  (vodflow + livetvflow),
+						  vodflow,
+						  livetvflow,
+						  (vodflow / vodwatchusers),
+						  (livetvflow / livetvwatchusers)
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+		
+		<!--活跃用户DOU	douflow = 总播放流量 totalflow/活跃用户数 -->
+		<!--  201707 活跃用户数从t_video_develop_user_active_d_hbase修改为从中间表取t_mid_video_sdk_current_d,取终端和activity为ALL的数据-->
+		<multiHqlReportIndex>
+            <indexKey>video.client.flow.analyse.douflow.d</indexKey>
+            <fieldName>douflow</fieldName>
+            <hql>
+                <![CDATA[
+								select projectid,
+								       networktype,
+								       platformid,
+								       dtime,
+								       (totalflow / activeusers) douflow
+								  from (select t1.projectid,
+								               if(t1.networktype is null, 'ALL', t1.networktype) networktype,
+								               if(t1.platformid is null, 'ALL', t1.platformid) platformid,
+								               t1.dtime,
+								               t1.totalflow,
+								               t2.activeusers
+								          from (select projectid, networktype, platformid, dtime, totalflow
+								                  from video.t_video_client_flow_analyse_d_hbase t
+								                 where t.dtime > '{STARTTIME}'
+								                   and t.dtime < '{ENDTIME}') t1
+								          left join (select projectid,
+								                            dtime,
+								                            sum(activeusers) activeusers
+								                      from video.t_mid_video_sdk_current_d t
+								                     where t.dtime > '{STARTTIME}'
+								                       and t.dtime < '{ENDTIME}'
+								                       and t.activitychannelid = 'ALL'
+								                       and t.platformid = 'ALL'
+								                       and t.activityid = 'ALL'
+								                     group by projectid,dtime) t2
+								            on t1.projectid = t2.projectid
+								           and t1.dtime = t2.dtime) tt
+								 group by projectid,
+								          networktype,
+								          platformid,
+								          dtime,
+								          (totalflow / activeusers)
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+		
+    </multiHqlReportIndexs>
+</reportIndexGroup>

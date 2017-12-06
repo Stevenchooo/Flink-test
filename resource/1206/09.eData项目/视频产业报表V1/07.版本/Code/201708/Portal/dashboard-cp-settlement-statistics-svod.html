@@ -1,0 +1,534 @@
+<link rel="stylesheet" type="text/css" href="resources/default/css/eData/dashboard-user-situation.css"/>
+<script type="text/javascript" src="js/base_common.js"></script>
+<script type="text/javascript" src="data/channel-data_video.js"></script>
+<script type="text/javascript" src="js/toExcel/getTblDataFF.js"></script>
+<script type="text/javascript" src="js/toExcel/table2excel.js"></script>
+
+
+<style>
+.currency{
+    text-decoration: underline;
+}
+
+</style>
+<!-- 导出模板页面 -->
+<iframe src="exportModel.html" name="exportShow"  style="width:0;height:0"></iframe>
+
+
+<div class="content-body-wrap content-no-header">
+    <div class="content-title">
+        <div class="date-wrap float-left" id="nextDate"></div>
+		<div class="currencycolor" style="float:left" id="currency-choose">
+			<span id="currency-type" style="float:left">Currency type:</span>
+			<span class="currency" id="currency-type-usd" style="float:left;color:#00b0ff">USD</span>
+			<span class="currency" id="currency-type-local" style="display:none;float:left;color:#00b0ff">LOCAL</span>
+        </div>
+		<div class="droplist-multi-wrap channel-droplist" id="overview_cycletype_droplist">
+            <div class="droplist-multi" id="project_droplist">
+                <span class="ellipsiscontent" id="choose_cycletype" title="All Cycletype">All Cycletype</span>
+                <i class="droplist-multi-trigger"></i>
+            </div>
+            <div class="multi-obj-wrap">
+                <div class="scrollbar-container-outer">
+                      <div class="scrollbar-container">
+                          <div class="scrollbar-container-inner">
+                          <ul class="obj-list"></ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="btn-wrap">
+                     <span class="btn btn-ok" id="project_droplist_ok">OK</span>
+                </div>
+            </div>
+        </div>
+		
+        <div class="droplist-multi-wrap channel-droplist" id="overview_cp_droplist">
+            <div class="droplist-multi" id="partner_droplist" style="width:155px">
+                <span class="ellipsis" id="choose_cp" title="All CP" style="max-width:155px">All CP</span>
+                <i class="droplist-multi-trigger"></i>
+            </div>
+            <div class="multi-obj-wrap" style="width:108%">
+                <div class="scrollbar-container-outer">
+                      <div class="scrollbar-container">
+                          <div class="scrollbar-container-inner">
+                          <ul class="obj-list"></ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="btn-wrap">
+                     <span class="btn btn-ok" id="partner_droplist_ok">OK</span>
+                </div>  
+            </div>
+        </div> 
+		
+		
+    </div>
+<!-- 列表 -->
+	
+    <div class="data-trend-header clearfix">
+            <div class="date-filter-wrap" id="recent-filter">
+                <span class="btn-date selected">Yesterday</span>
+				<span class="btn-date">month</span>
+            </div>
+
+            <div class="date-filter-wrap">
+            <span class="btn btnH24-opacity1" onclick="doExport()" id="export">Export</span>
+            </div>
+            <div class="droplist-wrap" id="versionDroplist">
+            </div>
+            <h3 id="trend">Details</h3><p id="dtime" class="timepos" style="color: #00B0FF;"></p>
+    </div>
+
+    <!-- <div class="cut-line" style="margin-top:8px;"></div> -->
+	
+	
+	
+    <div class="content-body-wrap" style="padding: 0px 0px 0;margin-top:15px">
+        <table id="cp-settlement-statistics-svod-table" class="table-dashboard" >
+        <colgroup>
+			<col width="8%"/>
+			<col width="8%"/>
+			<col width="8%"/>
+			<col width="8%"/>
+			<col width="8%"/>
+			<col width="8%"/>
+			<col width="13%"/>
+			<col width="11%"/>
+			<col width="12%"/>
+			<col width="8%"/>
+			<col width="8%"/>
+        </colgroup>
+        <thead>
+           <tr>
+             <th>contentid</th>
+             <th>contentname</th>
+             <th>companyname</th>
+             <th>productid</th>
+			 <th>cycletype</th>
+             <th>originalprice</th>
+             <th>payuserplaytime</th>
+             <th>totalplaytime</th>
+			 <th>playtimeproportion</th>
+             <th>income</th>
+             <th>hwincome</th>
+           </tr>
+        </thead>
+        <tbody>
+        </tbody>
+        </table>
+		<div class="page clearfix">
+          <div class="page-total" id="totalpage">
+            <div class="inline-block" >
+                Total:<span id="totalrn">--</span>
+            </div>
+          </div>
+          <div class="float-right" id="pageSplit"></div>
+       </div> 
+    </div>
+           
+
+</div>        
+<script>
+
+function doExport(){
+    getXlsFromTbl('cp-settlement-statistics-svod-table','cp-settlement-statistics-svod-table.xls','');
+}
+
+
+initChannel();
+function initChannel(){ 
+
+	$("#currency-type").html($.i18n.prop("video.currency.type.conversion"));
+	
+    $("#currency-type-usd").html($.i18n.prop("video.currency.usd"));
+	
+    $("#currency-type-local").html($.i18n.prop("video.currency.local"));
+
+	$("#choose_cp").html($.i18n.prop("video.usertrend.retention.cp"));
+	
+	$("#choose_cycletype").html($.i18n.prop("video.usertrend.retention.cycletype"));
+
+    $("#cp-settlement-statistics-svod-table thead th").each(function(index){
+        $(this).html($.i18n.prop("video.cp.settlement.statistics.svod.title_"+(parseInt(index))));
+    });   
+ 
+    $("#export").html($.i18n.prop("video.usertrend.retention.export"));
+
+    $("#trend").html($.i18n.prop("video.cp.settlement.statistics.svod"));
+
+    $("#totalpage .inline-block").html($.i18n.prop("video.usertrend.retention.total"));
+ 
+    $("#recent-filter .btn-date").each(function(index){
+        $(this).html($.i18n.prop("video.settlement.statistics.days_"+(parseInt(index))));
+    }); 
+
+          
+};    
+
+
+
+function getListDataCPSVODSettlementStatistics(endtime,recentPeriod,providerid,cycletype,tableid){
+    if(tableid == 'undefined'){
+        return;    
+    } 
+
+	if(recentPeriod=="0"){
+
+		endtime=getBeforeGivenDateVideo(1,endtime);
+		endtime=endtime.replace(/-/g,"");
+		$("#dtime").text("("+endtime+"~"+endtime+")");
+
+	}else if(recentPeriod=="1"){
+
+		var monthtime=endtime;
+		endtime=endtime.replace(/-/g,"");
+		a=endtime.substr(0,6);
+		systime=systime.replace(/-/g,"");
+		b=systime.substr(0,6);		
+		var m=endtime.substr(6,2);
+		if(a==b){
+			starttime=a+"01";
+			endtime=getBeforeGivenDateVideo(1,monthtime);
+			endtime=endtime.replace(/-/g,"");
+			if(m=="01"){
+				starttime=endtime.substr(0,6)+"01";
+			}
+		}else{
+			starttime=a+"01";
+			c=parseInt(endtime.substr(4,2));				
+			endtime=a+getSelectMonthTime(c);				
+		}	
+		$("#dtime").text("("+starttime+"~"+endtime+")");
+	}
+	
+	  var hql="cp_svod_settlement_statistics_all_all_d";
+    
+	if("USD"==billCurrencyType){
+		if("0" == recentPeriod){
+		   if(providerid=="ALL" && cycletype=="ALL"){
+				hql = "cp_svod_settlement_statistics_all_all_d";
+			}else if(providerid=="ALL" && cycletype!="ALL"){
+				hql = "cp_svod_settlement_statistics_all_not_d";
+			}
+			else if(providerid!="ALL" && cycletype=="ALL"){
+				hql = "cp_svod_settlement_statistics_not_all_d";
+			}
+			else if(providerid!="ALL" && cycletype!="ALL"){
+				hql = "cp_svod_settlement_statistics_not_not_d";
+			}
+			else{
+				hql = "cp_svod_settlement_statistics_all_all_d";
+			}	
+		} else if("1" == recentPeriod){
+			if(providerid=="ALL" && cycletype=="ALL"){
+				hql = "cp_svod_settlement_statistics_all_all_m";
+			}else if(providerid=="ALL" && cycletype!="ALL"){
+				hql = "cp_svod_settlement_statistics_all_not_m";
+			}
+			else if(providerid!="ALL" && cycletype=="ALL"){
+				hql = "cp_svod_settlement_statistics_not_all_m";
+			}
+			else if(providerid!="ALL" && cycletype!="ALL"){
+				hql = "cp_svod_settlement_statistics_not_not_m";
+			}
+			else{
+				hql = "cp_svod_settlement_statistics_all_all_m";
+			}			
+		}
+	}else{
+		if("0" == recentPeriod){
+		   if(providerid=="ALL" && cycletype=="ALL"){
+				hql = "cp_svod_settlement_statistics_all_all_d_local";
+			}else if(providerid=="ALL" && cycletype!="ALL"){
+				hql = "cp_svod_settlement_statistics_all_not_d_local";
+			}
+			else if(providerid!="ALL" && cycletype=="ALL"){
+				hql = "cp_svod_settlement_statistics_not_all_d_local";
+			}
+			else if(providerid!="ALL" && cycletype!="ALL"){
+				hql = "cp_svod_settlement_statistics_not_not_d_local";
+			}
+			else{
+				hql = "cp_svod_settlement_statistics_all_all_d_local";
+			}	
+		} else if("1" == recentPeriod){
+			if(providerid=="ALL" && cycletype=="ALL"){
+				hql = "cp_svod_settlement_statistics_all_all_m_local";
+			}else if(providerid=="ALL" && cycletype!="ALL"){
+				hql = "cp_svod_settlement_statistics_all_not_m_local";
+			}
+			else if(providerid!="ALL" && cycletype=="ALL"){
+				hql = "cp_svod_settlement_statistics_not_all_m_local";
+			}
+			else if(providerid!="ALL" && cycletype!="ALL"){
+				hql = "cp_svod_settlement_statistics_not_not_m_local";
+			}
+			else{
+				hql = "cp_svod_settlement_statistics_all_all_m_local";
+			}			
+		}
+	}
+	
+	   
+       Portal.getJsonWithCondition(hql,"{'PROJECTID':'"+projectid+"','PROVIDERID':'"+providerid+"','CYCLETYPE':'"+cycletype+"','CONTENTID':'"+contentid+"','ENDTIME':'"+endtime+"'}",
+         
+         function(qResult){
+		 //alert("projectid---"+projectid+"providerid---"+providerid+"cycletype---"+cycletype+"contentid---"+contentid+"endtime---"+endtime+qResult);
+             if(qResult==null)
+             {
+                 return;
+             }
+             var obj = JSON.parse(qResult);
+             
+             var TIME = obj.DTIME;
+                                      
+             var trendTime = new Array();
+			 
+             if (TIME instanceof Array)
+             {
+                 trendTime = TIME;
+             }
+             //一条数据的 后台未以数组返回
+             else
+             {
+                 trendTime[0] = TIME;
+             }
+            
+
+             listDetailData = new Array(); 
+      
+             for (i = 0;i < trendTime.length;i++)
+             { 
+                  
+                 listDetailData[i] = new Array();
+
+                 for( j = 0 ;j < 11; j++)
+                 { 
+                    listDetailData[i][j] = obj[CPSvodSettlementStatisticsTable[j]][i];
+                  }
+             }
+             var needRow = 0;
+             needRow = listDetailData.length;
+
+             if(needRow == "0")
+             {
+                 needRow= "1";
+             }
+             if (listDetailData.length > 0)
+             {
+                 addTableRows('cp-settlement-statistics-svod-table',needRow,listDetailData[0].length);        
+             }
+             else
+             {
+                 addTableRows('cp-settlement-statistics-svod-table',12,11);     
+             }
+             insertTableDetailOperatorSettlementStatistics('cp-settlement-statistics-svod-table',listDetailData);
+			 //alert("cpa---"+trendTime.length);
+             $("#totalrn").html(trendTime.length);
+             addPageDiv('pageSplit',needRow,11);
+             listSplit('cp-settlement-statistics-svod-table',12);
+         });
+};
+
+
+
+
+
+
+//初始化日期
+var nextDate = new UCD.Date(null, "YYYY-MM-dd");
+nextDate.init();
+nextDate.setMode(1);
+nextDate.setAnchor($('#nextDate'));
+var projectid=getProjectidFromCookie();
+
+var recentPeriod = "0";
+var providerid = "ALL";
+var cycletype = "ALL";
+var contentid = "ALL";
+
+var newnextDate = new UCD.Date(null, "YYYY-MM-dd");
+newnextDate.init();
+newnextDate.setMode(1);
+newnextDate.setAnchor($('#newnextDate'));
+
+var systime=newnextDate.getValue();
+var weeksystime=newnextDate.getValue();
+
+var endtime = nextDate.getValue();
+
+var starttime;
+
+
+$(function(){
+    nextDate.setOnChanged(function(self){
+        //改变头数据
+        endtime = nextDate.getValue();
+		
+        getListDataCPSVODSettlementStatistics(endtime,recentPeriod,providerid,cycletype,'cp-settlement-statistics-svod-table');
+        		
+		
+    });
+	
+	
+	
+    
+    initTabList(function(){
+        //tab 回调函数
+        
+    });
+	
+   
+    getListDataCPSVODSettlementStatistics(endtime,recentPeriod,providerid,cycletype,'cp-settlement-statistics-svod-table');
+
+	//货币转换
+     $("#currency-choose").on("click","#currency-type-usd",function(){
+        var $this = $(this);
+         $this.parent().find(".selected").removeClass("selected");
+         $(this).addClass("selected");
+         var usd=document.getElementById("currency-type-usd");
+         var local=document.getElementById("currency-type-local");
+         usd.style.display='none';
+         local.style.display='block';
+         billCurrencyType="LOCAL";
+		 
+		 getListDataCPSVODSettlementStatistics(endtime,recentPeriod,providerid,cycletype,'cp-settlement-statistics-svod-table');
+		 
+      });
+	  
+      $("#currency-choose").on("click","#currency-type-local",function(){
+        var $this = $(this);
+          $this.parent().find(".selected").removeClass("selected");
+          $(this).addClass("selected");
+         var usd=document.getElementById("currency-type-usd");
+         var local=document.getElementById("currency-type-local");
+         usd.style.display='block';
+         local.style.display='none';
+         billCurrencyType="USD";
+		 
+		 getListDataCPSVODSettlementStatistics(endtime,recentPeriod,providerid,cycletype,'cp-settlement-statistics-svod-table');	
+		 
+      });
+	
+    
+    // 按钮切换
+    $("#recent-filter").on("click",".btn-date",function(){
+        var $this = $(this);
+        $this.parent().find(".selected").removeClass("selected");
+        $(this).addClass("selected");
+
+        recentPeriod = $(this).index();
+
+        endtime = nextDate.getValue();
+		
+        getListDataCPSVODSettlementStatistics(endtime,recentPeriod,providerid,cycletype,'cp-settlement-statistics-svod-table');		
+        
+    });
+	
+    
+	//初始化多选droplist-project
+    setCpSvodCycletypeInfoVideo('overview_cycletype_droplist',projectid);
+    $("#project_droplist").on("click", function(event){
+        var $this = $(this);
+        var $objWrap = $this.parent().find(".multi-obj-wrap");
+        if($this.hasClass("multi-choosed")){
+            $this.removeClass("multi-choosed");
+            $objWrap.hide();
+        }else{
+            $this.addClass("multi-choosed");
+            $objWrap.show();
+            if(this.projectScrollbar){
+                this.projectScrollbar.refreshScroll();
+            }else{
+                this.projectScrollbar = new ucd.DefaultScroll({
+                    scrollObj:$objWrap.find(".scrollbar-container")
+                });
+                this.projectScrollbar.refreshScroll();
+            }
+            $objWrap.find(".object").off().on("click", function(event){
+                if($(this).hasClass("selected")){
+                    $(this).removeClass("selected");
+                }else{                
+                    removeAllSelection($(this));
+                    $(this).addClass("selected");
+                }
+                event.stopPropagation();
+            });
+            $objWrap.find(".btn-ok").off().on("click", function(event){
+                //_edata.push(['setEvent','edc_Overview','Switch_Project']);
+                setDroplistTiltles($this);
+                $objWrap.removeClass("choosing").hide();
+                $this.removeClass("multi-choosed");
+                cycletype = getSelectCycletype();
+				
+                getListDataCPSVODSettlementStatistics(endtime,recentPeriod,providerid,cycletype,'cp-settlement-statistics-svod-table');
+           
+            });
+        }
+        event.stopPropagation();
+    });
+
+
+
+    setCpSvodCpInfoVideo('overview_cp_droplist',projectid);
+    $("#partner_droplist").on("click", function(event){
+        var $this = $(this);
+        var $objWrap = $this.parent().find(".multi-obj-wrap");
+        if($this.hasClass("multi-choosed")){
+            $this.removeClass("multi-choosed");
+            $objWrap.hide();
+        }else{
+            $this.addClass("multi-choosed");
+            $objWrap.show();
+            if(this.projectScrollbar){
+                this.projectScrollbar.refreshScroll();
+            }else{
+                this.projectScrollbar = new ucd.DefaultScroll({
+                    scrollObj:$objWrap.find(".scrollbar-container")
+                });
+                this.projectScrollbar.refreshScroll();
+            }
+            $objWrap.find(".object").off().on("click", function(event){
+                if($(this).hasClass("selected")){
+                    $(this).removeClass("selected");
+                }else{                
+                    removeAllSelection($(this));
+                    $(this).addClass("selected");
+                }
+                event.stopPropagation();
+            });
+            $objWrap.find(".btn-ok").off().on("click", function(event){
+                //_edata.push(['setEvent','edc_Overview','Switch_Partner']);
+                setDroplistTiltle($this);
+                $objWrap.removeClass("choosing").hide();
+                $this.removeClass("multi-choosed");
+                providerid = getSelectCp();
+				
+                getListDataCPSVODSettlementStatistics(endtime,recentPeriod,providerid,cycletype,'cp-settlement-statistics-svod-table');
+				
+				
+            });
+        }
+        event.stopPropagation();
+    });
+    
+    
+        
+        
+	 $("body").on("click",function(){
+		 if($(".droplist-multi").hasClass("multi-choosed")){
+			 $(".multi-obj-wrap").hide();
+			 $(".droplist-multi").removeClass("multi-choosed");
+		 }
+	 });  
+	 
+    
+    
+
+            
+});
+
+
+
+
+</script>

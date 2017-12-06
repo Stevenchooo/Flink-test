@@ -1,0 +1,33 @@
+<reportSuite>
+    <reports>
+        <report tableName = "t_video_develop_user_active_m" 
+				keyFields = "projectid,activitychannelid,platformid,mtime" 
+				period = "monthly" timeFormat = "yyyyMM" timeField = "mtime">
+            <fieldDefinition>
+                <field name="projectid" regular="[0-9a-zA-Z./-]*"/>
+				<field name="activitychannelid" regular="[0-9a-zA-Z./-]*"/>
+				<field name="platformid" regular="[0-9a-zA-Z./-]*"/>
+                <field name="mtime"  regular="[0-9a-zA-Z./-]*"/>
+            </fieldDefinition>
+            <dimensions>
+                <dimension id = "0" >
+                    <reportIndex>
+                        video.edp.user.active.columns.m,
+						video.edp.user.active.placolumns.m,
+						video.edp.user.active.activeusers.m
+                    </reportIndex>
+                </dimension>		
+            </dimensions>
+        </report>
+    </reports>
+</reportSuite>
+<!--
+[201703]
+活跃用户数 activeusers
+日活用户数 dayactiveusers
+注册用户活跃数 registeruseractive
+注册用户活跃率 registeruseractiverate
+观看用户数 watchusers
+注册用户总数 totalregisteruser
+游客用户总数 totalvisitor
+-->

@@ -1,0 +1,51 @@
+<reportSuite>
+    <reports>
+        <report tableName = "t_video_develop_user_active_d" 
+				keyFields = "projectid,activitychannelid,platformid,dtime" 
+				period = "daily" timeFormat = "yyyyMMdd" timeField = "dtime">
+            <fieldDefinition>
+                <field name="projectid" regular="[0-9a-zA-Z./-]*"/>
+				<field name="activitychannelid" regular="[0-9a-zA-Z./-]*"/>
+				<field name="platformid" regular="[0-9a-zA-Z./-]*"/>
+                <field name="dtime"  regular="[0-9a-zA-Z./-]*"/>
+            </fieldDefinition>
+            <dimensions>
+                <dimension id = "0" >
+                    <reportIndex>
+                        video.edp.user.active.sdkusers.d,
+						video.edp.user.active.totalregisteruser.d,
+						video.edp.user.active.allregisteruser.d,
+						video.edp.user.active.userstatus.d,
+						video.edp.user.active.watchusers.d,
+						video.edp.user.active.allproductorder.d
+                    </reportIndex>
+                </dimension>
+                <dimension id = "0" >
+                    <reportIndex>
+						video.edp.user.active.columns.d
+                    </reportIndex>
+                </dimension>				
+            </dimensions>
+        </report>
+    </reports>
+</reportSuite>
+<!--
+第一步，全量获取当日 注册用户总数/累计注册用户总数[当前使用的report]
+第二步，增量获取每日的 注册用户总数/累计注册用户总数
+
+[201703]
+活跃用户数 activeusers
+日活用户数 dayactiveusers
+注册用户活跃数 registeruseractive
+注册用户活跃率 registeruseractiverate
+观看用户数 watchusers
+注册用户总数 totalregisteruser
+游客用户总数 totalvisitor
+/*
+多余指标方便调用
+累计注册用户总数 allregisteruser【都需要进行全量增量更新】
+中间字段为
+当期 新增注册用户数 newregisteruser
+当期 新增注销用户数 newcanceluser
+*/
+-->

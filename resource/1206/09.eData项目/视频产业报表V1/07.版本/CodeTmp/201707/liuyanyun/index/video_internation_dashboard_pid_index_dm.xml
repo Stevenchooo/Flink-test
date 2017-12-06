@@ -1,0 +1,131 @@
+<reportIndexGroup>
+<!--
+当期收入
+注册用户总数
+游客用户总数
+日活用户数
+活跃用户数据流量DOU
+-->
+    <multiHqlReportIndexs>
+		<!--
+		//当期收入[income,localincome]：华为从运营商侧获取的业务收入，含SVOD订购及TVOD点播收入。
+		//参考[运营商结算]点播产品华为收入 + 订购产品华为收入；
+		//t_video_settlement_operator_svod_dm_hbase 中的 hwincome,hwincomelocal
+		//t_video_settlement_operator_tvod_dm_hbase 中的 hwincome,hwincomelocal
+		-->
+        <multiHqlReportIndex>
+            <indexKey>video.internation.dashboard.pid.income.dm</indexKey>
+            <fieldName>income,localincome</fieldName>
+            <hql>
+                <![CDATA[
+				select projectid,
+					   dtime,
+					   sum(hwincome) income,
+					   sum(hwincomelocal) localincome
+				  from (select projectid,
+							   dtime,
+							   if(t.hwincome is null, 0, t.hwincome) hwincome,
+							   if(t.hwincomelocal is null, 0, t.hwincomelocal) hwincomelocal
+						  from video.t_video_settlement_operator_svod_dm_hbase t
+						 where t.dtime > '{STARTTIME}'
+						   and t.dtime < '{ENDTIME}'
+						union all
+						select projectid,
+							   dtime,
+							   if(t.hwincome is null, 0, t.hwincome) hwincome,
+							   if(t.hwincomelocal is null, 0, t.hwincomelocal) hwincomelocal
+						  from video.t_video_settlement_operator_tvod_dm_hbase t
+						 where t.dtime > '{STARTTIME}'
+						   and t.dtime < '{ENDTIME}') tt
+				 group by projectid, dtime
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+		
+		<!--
+		//注册用户总数[totalregisteruser]
+		//游客用户总数[totalvisitor]
+		//日活用户数  [dayactiveusers]
+		//活跃用户数 [activeusers]
+		//
+		//t_video_develop_user_active_td_hbase 中的 totalregisteruser / totalvisitor / dayactiveusers /activeusers
+		//修改totalvisitor、activeusers从中间表获取t_mid_video_sdk_current_dm，取platformid=all
+		  totalregisteruser 从t_video_develop_user_active_td_hbase获取，取platformid is null
+		-->
+        <multiHqlReportIndex>
+            <indexKey>video.internation.dashboard.pid.activeindex.dm</indexKey>
+            <fieldName>totalregisteruser,dayactiveusers</fieldName>
+            <hql>
+                <![CDATA[
+				select projectid,
+					   dtime,
+					   if(t.totalregisteruser is null, 0, t.totalregisteruser) totalregisteruser,
+					   if(t.dayactiveusers is null, 0, t.dayactiveusers) dayactiveusers
+				  from video.t_video_develop_user_active_td_hbase t
+				 where t.dtime > '{STARTTIME}'
+				   and t.dtime < '{ENDTIME}'
+				   and t.activitychannelid is null
+				   and t.platformid is null
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+        <!-- //修改totalvisitor、activeusers从中间表获取t_mid_video_sdk_current_dm，取platformid=all -->
+        <multiHqlReportIndex>
+            <indexKey>video.internation.dashboard.pid.activeuserindex.dm</indexKey>
+            <fieldName>totalvisitor,activeusers</fieldName>
+            <hql>
+                <![CDATA[
+				select projectid,
+					   dtime,
+					   sum(t.totalvisitor) totalvisitor,
+					   sum(t.activeusers) activeusers
+				  from video.t_mid_video_sdk_current_dm t
+				 where t.dtime > '{STARTTIME}'
+				   and t.dtime < '{ENDTIME}'
+				   and t.activitychannelid = 'ALL'
+				   and t.platformid = 'ALL'
+				   and t.activityid = 'ALL'
+				 group by projectid,dtime
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+		
+		<!--
+		//活跃用户DOU	douflow = 总播放流量 totalflow/活跃用户数
+		//
+		//总播放流量 totalflow [t_video_client_flow_analyse_dm_hbase 中 t.networktype is null and t.platformid is null]
+		-->
+        <multiHqlReportIndex>
+            <indexKey>video.internation.dashboard.pid.totalflow.dm</indexKey>
+            <fieldName>totalflow</fieldName>
+            <hql>
+                <![CDATA[
+				select projectid, dtime, if(t.totalflow is null, 0, t.totalflow) totalflow
+				  from video.t_video_client_flow_analyse_dm_hbase t
+				 where t.dtime > '{STARTTIME}'
+				   and t.dtime < '{ENDTIME}'
+				   and t.networktype is null
+				   and t.platformid is null
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+		<!--活跃用户DOU	douflow = 总播放流量 totalflow/活跃用户数-->
+		<!--<multiHqlReportIndex>
+            <indexKey>video.internation.dashboard.pid.douflow.dm</indexKey>
+            <fieldName>douflow</fieldName>
+            <hql>
+                <![CDATA[
+				select projectid,
+					   dtime,
+					   (totalflow/activeusers) douflow
+				  from (select projectid, dtime, totalflow, activeusers
+						  from video.t_video_internation_dashboard_pid_dm t
+						 where t.dtime > '{STARTTIME}'
+						   and t.dtime < '{ENDTIME}') tt
+				 group by projectid, dtime,(totalflow/activeusers)
+                ]]>
+            </hql>
+        </multiHqlReportIndex>-->
+		
+    </multiHqlReportIndexs>
+</reportIndexGroup>

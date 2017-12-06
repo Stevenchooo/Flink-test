@@ -1,0 +1,36 @@
+﻿<reportSuite>
+    <reports>
+        <report tableName = "t_video_2BData_data_d" 
+				keyFields = "projectid,dtime" 
+				period = "daily" timeFormat = "yyyyMMdd" timeField = "dtime">
+            <fieldDefinition>
+                <field name="projectid" regular="[0-9a-zA-Z./-]*"/>
+                <field name="dtime"  regular="[0-9a-zA-Z./-]*"/>
+            </fieldDefinition>
+			<!--
+			2B的数据在财经视野已经拉通，需要补充运营视野的用户、流水数据，在大数据平台接入易数结果数据，在业务概览页面汇总展示
+			以下2B数据指标
+			-->
+            <dimensions>
+                <dimension id = "0" >
+                    <reportIndex>
+						video.edp.2Bdata.device.d,
+						video.edp.2Bdata.device_m.d,
+						video.edp.2Bdata.account.d,
+						video.edp.2Bdata.account_newpay.d,
+						video.edp.2Bdata.account_pay.d,
+						video.edp.2Bdata.account_pay_m.d,
+						video.edp.2Bdata.account_paytotal.d,
+						video.edp.2Bdata.income.d,
+						video.edp.2Bdata.videos.d
+                    </reportIndex>
+                </dimension>
+                <dimension id = "0" >
+                    <reportIndex>
+						video.edp.2Bdata.income_rate.d
+                    </reportIndex>
+                </dimension>
+            </dimensions>
+        </report>
+    </reports>
+</reportSuite>

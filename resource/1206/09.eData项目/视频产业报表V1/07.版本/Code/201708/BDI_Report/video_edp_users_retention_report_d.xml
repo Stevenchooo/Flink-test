@@ -1,0 +1,32 @@
+﻿<reportSuite>
+    <reports>
+        <report tableName = "t_video_users_retention_d" 
+				keyFields = "projectid,activitychannelid,activityid,platformid,dtime" 
+				period = "daily" timeFormat = "yyyyMMdd" timeField = "dtime">
+            <fieldDefinition>
+                <field name="projectid" regular="[0-9a-zA-Z./-]*"/>
+				<field name="activitychannelid" regular="[0-9a-zA-Z./-]*"/>
+				<field name="activityid" regular="[0-9a-zA-Z./-]*"/>
+				<field name="platformid" regular="[0-9a-zA-Z./-]*"/>
+                <field name="dtime"  regular="[0-9a-zA-Z./-]*"/>
+            </fieldDefinition>
+            <dimensions>
+                <dimension id = "0" >
+                    <reportIndex>
+					    video.edp.users.retention.retentionrate.d,
+						video.edp.users.retention.newsubscriber.d
+                    </reportIndex>
+                </dimension>
+                <dimension id = "0" >
+                    <reportIndex>
+						video.edp.users.retention.avg01retentionrate.d,
+						video.edp.users.retention.avg03retentionrate.d,
+						video.edp.users.retention.avg07retentionrate.d,
+						video.edp.users.retention.avg15retentionrate.d,
+						video.edp.users.retention.avg30retentionrate.d
+                    </reportIndex>
+                </dimension>
+            </dimensions>
+        </report>
+    </reports>
+</reportSuite>

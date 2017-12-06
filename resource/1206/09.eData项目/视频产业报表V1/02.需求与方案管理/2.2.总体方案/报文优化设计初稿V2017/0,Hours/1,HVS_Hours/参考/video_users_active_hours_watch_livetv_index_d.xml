@@ -1,0 +1,214 @@
+<reportIndexGroup>
+    <multiHqlReportIndexs>
+        <!--  每天每时段 观看用户数 hourswatch -->
+        <multiHqlReportIndex>
+            <indexKey>video.livetv.hours.watch.watchall.d</indexKey>
+            <fieldName>hourswatch</fieldName>
+            <hql>
+                <![CDATA[
+				select projectid,
+					   activitychannelid,
+					   logicalchannelid,
+					   concat(dtime,hourstime) htime ,
+					   hourswatch
+				from ( select projectid,
+							  if(activitychannelid is null,'ALL',activitychannelid) activitychannelid,
+							  if(logicalchannelid is null,'none',logicalchannelid) logicalchannelid,
+							  t.dtime dtime,
+							  '00' hourstime,
+							  if(h00watch is null,0,h00watch) hourswatch
+						 from video.t_video_livetv_active_day_watch_d_hbase t
+					union all
+					   select projectid,
+							  if(activitychannelid is null,'ALL',activitychannelid) activitychannelid,
+							  if(logicalchannelid is null,'none',logicalchannelid) logicalchannelid,
+							  t.dtime dtime,
+							  '01' hourstime,
+							  if(h01watch is null,0,h01watch) hourswatch
+						 from video.t_video_livetv_active_day_watch_d_hbase t
+					union all
+					   select projectid,
+							  if(activitychannelid is null,'ALL',activitychannelid) activitychannelid,
+							  if(logicalchannelid is null,'none',logicalchannelid) logicalchannelid,
+							  t.dtime dtime,
+							  '02' hourstime,
+							  if(h02watch is null,0,h02watch) hourswatch
+						 from video.t_video_livetv_active_day_watch_d_hbase t
+					union all
+					   select projectid,
+							  if(activitychannelid is null,'ALL',activitychannelid) activitychannelid,
+							  if(logicalchannelid is null,'none',logicalchannelid) logicalchannelid,
+							  t.dtime dtime,
+							  '03' hourstime,
+							  if(h03watch is null,0,h03watch) hourswatch
+						 from video.t_video_livetv_active_day_watch_d_hbase t	 
+					union all
+					   select projectid,
+							  if(activitychannelid is null,'ALL',activitychannelid) activitychannelid,
+							  if(logicalchannelid is null,'none',logicalchannelid) logicalchannelid,
+							  t.dtime dtime,
+							  '04' hourstime,
+							  if(h04watch is null,0,h04watch) hourswatch
+						 from video.t_video_livetv_active_day_watch_d_hbase t
+					union all
+					   select projectid,
+							  if(activitychannelid is null,'ALL',activitychannelid) activitychannelid,
+							  if(logicalchannelid is null,'none',logicalchannelid) logicalchannelid,
+							  t.dtime dtime,
+							  '05' hourstime,
+							  if(h05watch is null,0,h05watch) hourswatch
+						 from video.t_video_livetv_active_day_watch_d_hbase t
+					union all
+					   select projectid,
+							  if(activitychannelid is null,'ALL',activitychannelid) activitychannelid,
+							  if(logicalchannelid is null,'none',logicalchannelid) logicalchannelid,
+							  t.dtime dtime,
+							  '06' hourstime,
+							  if(h06watch is null,0,h06watch) hourswatch
+						 from video.t_video_livetv_active_day_watch_d_hbase t
+					union all
+					   select projectid,
+							  if(activitychannelid is null,'ALL',activitychannelid) activitychannelid,
+							  if(logicalchannelid is null,'none',logicalchannelid) logicalchannelid,
+							  t.dtime dtime,
+							  '07' hourstime,
+							  if(h07watch is null,0,h07watch) hourswatch
+						 from video.t_video_livetv_active_day_watch_d_hbase t
+					union all
+					   select projectid,
+							  if(activitychannelid is null,'ALL',activitychannelid) activitychannelid,
+							  if(logicalchannelid is null,'none',logicalchannelid) logicalchannelid,
+							  t.dtime dtime,
+							  '08' hourstime,
+							  if(h08watch is null,0,h08watch) hourswatch
+						 from video.t_video_livetv_active_day_watch_d_hbase t
+					union all
+					   select projectid,
+							  if(activitychannelid is null,'ALL',activitychannelid) activitychannelid,
+							  if(logicalchannelid is null,'none',logicalchannelid) logicalchannelid,
+							  t.dtime dtime,
+							  '09' hourstime,
+							  if(h09watch is null,0,h09watch) hourswatch
+						 from video.t_video_livetv_active_day_watch_d_hbase t				
+					union all
+					   select projectid,
+							  if(activitychannelid is null,'ALL',activitychannelid) activitychannelid,
+							  if(logicalchannelid is null,'none',logicalchannelid) logicalchannelid,
+							  t.dtime dtime,
+							  '10' hourstime,
+							  if(h10watch is null,0,h10watch) hourswatch
+						 from video.t_video_livetv_active_day_watch_d_hbase t
+					union all
+					   select projectid,
+							  if(activitychannelid is null,'ALL',activitychannelid) activitychannelid,
+							  if(logicalchannelid is null,'none',logicalchannelid) logicalchannelid,
+							  t.dtime dtime,
+							  '11' hourstime,
+							  if(h11watch is null,0,h11watch) hourswatch
+						 from video.t_video_livetv_active_day_watch_d_hbase t
+					union all
+					   select projectid,
+							  if(activitychannelid is null,'ALL',activitychannelid) activitychannelid,
+							  if(logicalchannelid is null,'none',logicalchannelid) logicalchannelid,
+							  t.dtime dtime,
+							  '12' hourstime,
+							  if(h12watch is null,0,h12watch) hourswatch
+						 from video.t_video_livetv_active_day_watch_d_hbase t							 
+					union all
+					   select projectid,
+							  if(activitychannelid is null,'ALL',activitychannelid) activitychannelid,
+							  if(logicalchannelid is null,'none',logicalchannelid) logicalchannelid,
+							  t.dtime dtime,
+							  '13' hourstime,
+							  if(h13watch is null,0,h13watch) hourswatch
+						 from video.t_video_livetv_active_day_watch_d_hbase t
+					union all
+					   select projectid,
+							  if(activitychannelid is null,'ALL',activitychannelid) activitychannelid,
+							  if(logicalchannelid is null,'none',logicalchannelid) logicalchannelid,
+							  t.dtime dtime,
+							  '14' hourstime,
+							  if(h14watch is null,0,h14watch) hourswatch
+						 from video.t_video_livetv_active_day_watch_d_hbase t
+					union all
+					   select projectid,
+							  if(activitychannelid is null,'ALL',activitychannelid) activitychannelid,
+							  if(logicalchannelid is null,'none',logicalchannelid) logicalchannelid,
+							  t.dtime dtime,
+							  '15' hourstime,
+							  if(h15watch is null,0,h15watch) hourswatch
+						 from video.t_video_livetv_active_day_watch_d_hbase t
+					union all
+					   select projectid,
+							  if(activitychannelid is null,'ALL',activitychannelid) activitychannelid,
+							  if(logicalchannelid is null,'none',logicalchannelid) logicalchannelid,
+							  t.dtime dtime,
+							  '16' hourstime,
+							  if(h16watch is null,0,h16watch) hourswatch
+						 from video.t_video_livetv_active_day_watch_d_hbase t
+					union all
+					   select projectid,
+							  if(activitychannelid is null,'ALL',activitychannelid) activitychannelid,
+							  if(logicalchannelid is null,'none',logicalchannelid) logicalchannelid,
+							  t.dtime dtime,
+							  '17' hourstime,
+							  if(h17watch is null,0,h17watch) hourswatch
+						 from video.t_video_livetv_active_day_watch_d_hbase t
+					union all
+					   select projectid,
+							  if(activitychannelid is null,'ALL',activitychannelid) activitychannelid,
+							  if(logicalchannelid is null,'none',logicalchannelid) logicalchannelid,
+							  t.dtime dtime,
+							  '18' hourstime,
+							  if(h18watch is null,0,h18watch) hourswatch
+						 from video.t_video_livetv_active_day_watch_d_hbase t
+					union all
+					   select projectid,
+							  if(activitychannelid is null,'ALL',activitychannelid) activitychannelid,
+							  if(logicalchannelid is null,'none',logicalchannelid) logicalchannelid,
+							  t.dtime dtime,
+							  '19' hourstime,
+							  if(h19watch is null,0,h19watch) hourswatch
+						 from video.t_video_livetv_active_day_watch_d_hbase t
+					union all
+					   select projectid,
+							  if(activitychannelid is null,'ALL',activitychannelid) activitychannelid,
+							  if(logicalchannelid is null,'none',logicalchannelid) logicalchannelid,
+							  t.dtime dtime,
+							  '20' hourstime,
+							  if(h20watch is null,0,h20watch) hourswatch
+						 from video.t_video_livetv_active_day_watch_d_hbase t
+					union all
+					   select projectid,
+							  if(activitychannelid is null,'ALL',activitychannelid) activitychannelid,
+							  if(logicalchannelid is null,'none',logicalchannelid) logicalchannelid,
+							  t.dtime dtime,
+							  '21' hourstime,
+							  if(h21watch is null,0,h21watch) hourswatch
+						 from video.t_video_livetv_active_day_watch_d_hbase t
+					union all
+					   select projectid,
+							  if(activitychannelid is null,'ALL',activitychannelid) activitychannelid,
+							  if(logicalchannelid is null,'none',logicalchannelid) logicalchannelid,
+							  t.dtime dtime,
+							  '22' hourstime,
+							  if(h22watch is null,0,h22watch) hourswatch
+						 from video.t_video_livetv_active_day_watch_d_hbase t
+					union all
+					   select projectid,
+							  if(activitychannelid is null,'ALL',activitychannelid) activitychannelid,
+							  if(logicalchannelid is null,'none',logicalchannelid) logicalchannelid,
+							  t.dtime dtime,
+							  '23' hourstime,
+							  if(h23watch is null,0,h23watch) hourswatch
+						 from video.t_video_livetv_active_day_watch_d_hbase t
+						where t.dtime > '{STARTTIME}'
+						  and t.dtime < '{ENDTIME}'
+					)tt
+				group by projectid,activitychannelid,logicalchannelid,concat(dtime,hourstime),hourswatch
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+    
+    </multiHqlReportIndexs>
+</reportIndexGroup>

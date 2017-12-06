@@ -1,0 +1,24 @@
+<reportSuite>
+    <reports>
+        <report tableName = "t_video_edc_vod_analyse_d" 
+				keyFields = "projectid,providerid,contentid,dtime" 
+				period = "daily" timeFormat = "yyyyMMdd" timeField = "dtime">
+            <fieldDefinition>
+                <field name="projectid" regular="[0-9a-zA-Z./-]*"/>
+				<field name="providerid" regular="[0-9a-zA-Z./-]*"/>
+				<field name="contentid" regular="[0-9a-zA-Z./-]*"/>
+                <field name="dtime"  regular="[0-9a-zA-Z./-]*"/>
+            </fieldDefinition>
+			<indexs>
+			  <index key="dtime" rowKeyRule="^projectid@[0-9a-zA-Z./-]*#providerid@[0-9a-zA-Z./-]*#contentid@[0-9a-zA-Z./-]*#dtime@[0-9a-zA-Z./-]*#$"
+				     secondRowKey="dtime@{dtime}#"/>
+			  <index key="projectid,dtime" rowKeyRule="^projectid@[0-9a-zA-Z./-]*#providerid@[0-9a-zA-Z./-]*#contentid@[0-9a-zA-Z./-]*#dtime@[0-9a-zA-Z./-]*#$"
+				     secondRowKey="projectid@{projectid}#dtime@{dtime}#"/>
+			  <index key="providerid,dtime" rowKeyRule="^projectid@[0-9a-zA-Z./-]*#providerid@[0-9a-zA-Z./-]*#contentid@[0-9a-zA-Z./-]*#dtime@[0-9a-zA-Z./-]*#$"
+				     secondRowKey="providerid@{providerid}#dtime@{dtime}#"/>
+			  <index key="projectid,providerid,dtime" rowKeyRule="^projectid@[0-9a-zA-Z./-]*#providerid@[0-9a-zA-Z./-]*#contentid@[0-9a-zA-Z./-]*#dtime@[0-9a-zA-Z./-]*#$"
+				     secondRowKey="projectid@{projectid}#providerid@{providerid}#dtime@{dtime}#"/>
+			</indexs>
+        </report>
+    </reports>
+</reportSuite>

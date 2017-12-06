@@ -1,0 +1,242 @@
+<reportIndexGroup>
+    <multiHqlReportIndexs>
+<!--
+//下面结算数据key类型有：
+//[用户发展]
+//projectid@8601#activitychannelid@aa#dtime@20170215# 或者 projectid@8601#dtime@20170215#
+//[活动运营]
+//projectid@8601#activitychannelid@aa#activityid@110#dtime@20170215# 或者 projectid@8601#activityid@110#dtime@20170215#
+-->
+		<!--
+		//新增用户数(newsubscriber)=新增游客(newvisitor)+新增非游客转化的注册用户数(novisitorconvert)
+		//201701Phase3版本变化点————支持游客转换 && 用户信息表增加的字段为设备ID deviceid
+		//actionType用户调用接口动作类型：1 注册、2 修改、3 删除（注销）。
+		//
+		//新增非游客转化的注册用户数：
+		//	新增注册用户数需要扣除由新增游客转化过来的用户，
+		//	其中具体计算根据注册话单中的DID如果找到之前（30天内）有游客登录话单则不算新增注册用户。
+		//
+		//思考：客户端注册（以前未使用），点击客户端响应登录事件，再注册。按照这样只能统计作为游客。
+		//		双卡双待手机注册账号，只能作为一个新增游客。【20170106】
+		-->
+		<!--新增非游客转化的注册用户数(novisitorconvert)-->
+        <multiHqlReportIndex>
+            <indexKey>video.edp.users.retention.retentionrate.d</indexKey>
+            <fieldName>day01retentionrate,day03retentionrate,day07retentionrate,day15retentionrate,day30retentionrate</fieldName>
+            <hql>
+                <![CDATA[
+				    select projectid,platformid,activitychannelid,activityid,dtime,
+					       sum(day01retentionrate) day01retentionrate,
+						   sum(day03retentionrate) day03retentionrate,
+						   sum(day07retentionrate) day07retentionrate,
+						   sum(day15retentionrate) day15retentionrate,
+						   sum(day30retentionrate) day30retentionrate
+					  from video.t_mid_video_sdk_current_d
+					 where date > from_unixtime(unix_timestamp(date_sub(from_unixtime(unix_timestamp('{STARTTIME}',
+												'yyyyMMdd'),'yyyy-MM-dd'),30),'yyyy-MM-dd'), 'yyyyMMdd')
+					   and date < '{ENDTIME}' 
+					 group by projectid,platformid,activitychannelid,activityid,dtime
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+		 <multiHqlReportIndex>
+            <indexKey>video.edp.users.retention.newsubscriber.d</indexKey>
+            <fieldName>newsubscriber</fieldName>
+            <hql>
+                <![CDATA[
+				   select projectid,platformi platformid,activitychannelid,activityid,dtime,
+				          sum(newsubscriber) newsubscriber
+				     from (
+						select projectid,'1' platformi,activitychannelid,activityid,dtime,
+							   newsubscriber
+						  from video.t_mid_video_sdk_current_d 
+						 where date > '{STARTTIME}'
+						   and date < '{ENDTIME}' 
+						   and platformid='ALL'
+						 union all
+						select projectid,'2' platformi,activitychannelid,activityid,dtime,
+							   newsubscriber
+						  from video.t_mid_video_sdk_current_d
+						 where date > '{STARTTIME}'
+						   and date < '{ENDTIME}' 
+						   and platformid='ALL'
+						 union all
+						select projectid,'99' platformi,activitychannelid,activityid,dtime,
+							   newsubscriber
+						  from video.t_mid_video_sdk_current_d
+						 where date > '{STARTTIME}'
+						   and date < '{ENDTIME}' 
+						   and platformid='ALL'
+						 union all
+						select projectid,'ALL' platformi,activitychannelid,activityid,dtime,
+							   newsubscriber
+						  from video.t_mid_video_sdk_current_d
+						 where date > '{STARTTIME}'
+						   and date < '{ENDTIME}' 
+						   and platformid='ALL'
+					   )tt
+					 group by projectid,platformi,activitychannelid,activityid,dtime
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+		
+<!--  
+//平均留存率 AvgRetentionRate = 所有留存率之和/ days [项目每天次日留存率取平均值，作为参考数据.]
+-->
+		<!--  平均 次日留存率 avgday01retentionrate = sum(day01retentionrate)/ days -->
+		<!--  平均  3日留存率 avgday03retentionrate = sum(day03retentionrate)/ days -->
+		<!--  平均  7日留存率 avgday07retentionrate = sum(day07retentionrate)/ days -->
+		<!--  平均 15日留存率 avgday15retentionrate = sum(day15retentionrate)/ days -->
+		<!--  平均 30日留存率 avgday30retentionrate = sum(day30retentionrate)/ days -->
+        <multiHqlReportIndex>
+            <indexKey>video.edp.users.retention.avg01retentionrate.d</indexKey>
+            <fieldName>avgday01retentionrate</fieldName>
+            <hql>
+                <![CDATA[
+				select projectid,
+				       platformid,
+					   activitychannelid,
+					   activityid,
+					   dtime,
+					   sum(day01retentionrate)/30 avgday01retentionrate
+				  from ( select t1.projectid projectid,
+				                if(platformid is null,'ALL',platformid) platformid,
+								if(t1.activitychannelid is null, 'ALL', t1.activitychannelid) activitychannelid,
+								if(t1.activityid is null, 'ALL', t1.activityid) activityid,
+								t2.dtime dtime,
+								if(t1.day01retentionrate is null,0,t1.day01retentionrate) day01retentionrate
+						   from video.t_video_users_retention_d_hbase t1,
+								(SELECT t.dtime 
+								   FROM video.t_bdi_muchtv_video_rundate t 
+							      WHERE t.dtime > '{STARTTIME}' AND t.dtime < '{ENDTIME}')t2
+						  where t1.dtime < from_unixtime(unix_timestamp(date_sub(from_unixtime(unix_timestamp(t2.dtime,
+											'yyyyMMdd'),'yyyy-MM-dd'),0),'yyyy-MM-dd'), 'yyyyMMdd') 
+							and t1.dtime > from_unixtime(unix_timestamp(date_sub(from_unixtime(unix_timestamp(t2.dtime,
+											'yyyyMMdd'),'yyyy-MM-dd'),1+30),'yyyy-MM-dd'), 'yyyyMMdd') 
+				    )tt
+				 group by projectid,platformid,activitychannelid,activityid,dtime
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+		<multiHqlReportIndex>
+            <indexKey>video.edp.users.retention.avg03retentionrate.d</indexKey>
+            <fieldName>avgday03retentionrate</fieldName>
+            <hql>
+                <![CDATA[
+				select projectid,
+				       platformid,
+					   activitychannelid,
+					   activityid,
+					   dtime,
+					   sum(day03retentionrate)/30 avgday03retentionrate
+				  from ( select t1.projectid projectid,
+				                if(platformid is null,'ALL',platformid) platformid,
+								if(t1.activitychannelid is null, 'ALL', t1.activitychannelid) activitychannelid,
+								if(t1.activityid is null, 'ALL', t1.activityid) activityid,
+								t2.dtime dtime,
+								if(t1.day03retentionrate is null,0,t1.day03retentionrate) day03retentionrate
+						   from video.t_video_users_retention_d_hbase t1,
+								(SELECT t.dtime 
+								   FROM video.t_bdi_muchtv_video_rundate t 
+							      WHERE t.dtime > '{STARTTIME}' AND t.dtime < '{ENDTIME}')t2
+						  where t1.dtime < from_unixtime(unix_timestamp(date_sub(from_unixtime(unix_timestamp(t2.dtime,
+											'yyyyMMdd'),'yyyy-MM-dd'),2),'yyyy-MM-dd'), 'yyyyMMdd') 
+							and t1.dtime > from_unixtime(unix_timestamp(date_sub(from_unixtime(unix_timestamp(t2.dtime,
+											'yyyyMMdd'),'yyyy-MM-dd'),3+30),'yyyy-MM-dd'), 'yyyyMMdd') 
+				    )tt
+				 group by projectid,platformid,activitychannelid,activityid,dtime
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+		<multiHqlReportIndex>
+            <indexKey>video.edp.users.retention.avg07retentionrate.d</indexKey>
+            <fieldName>avgday07retentionrate</fieldName>
+            <hql>
+                <![CDATA[
+				select projectid,
+				       platformid,
+					   activitychannelid,
+					   activityid,
+					   dtime,
+					   sum(day07retentionrate)/30 avgday07retentionrate
+				  from ( select t1.projectid projectid,
+				                if(platformid is null,'ALL',platformid) platformid,
+								if(t1.activitychannelid is null, 'ALL', t1.activitychannelid) activitychannelid,
+								if(t1.activityid is null, 'ALL', t1.activityid) activityid,
+								t2.dtime dtime,
+								if(t1.day07retentionrate is null,0,t1.day07retentionrate) day07retentionrate
+						   from video.t_video_users_retention_d_hbase t1,
+								(SELECT t.dtime 
+								   FROM video.t_bdi_muchtv_video_rundate t 
+							      WHERE t.dtime > '{STARTTIME}' AND t.dtime < '{ENDTIME}')t2
+						  where t1.dtime < from_unixtime(unix_timestamp(date_sub(from_unixtime(unix_timestamp(t2.dtime,
+											'yyyyMMdd'),'yyyy-MM-dd'),6),'yyyy-MM-dd'), 'yyyyMMdd') 
+							and t1.dtime > from_unixtime(unix_timestamp(date_sub(from_unixtime(unix_timestamp(t2.dtime,
+											'yyyyMMdd'),'yyyy-MM-dd'),7+30),'yyyy-MM-dd'), 'yyyyMMdd') 
+				    )tt
+				 group by projectid,platformid,activitychannelid,activityid,dtime
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+		<multiHqlReportIndex>
+            <indexKey>video.edp.users.retention.avg15retentionrate.d</indexKey>
+            <fieldName>avgday15retentionrate</fieldName>
+            <hql>
+                <![CDATA[
+				select projectid,
+				       platformid,
+					   activitychannelid,
+					   activityid,
+					   dtime,
+					   sum(day15retentionrate)/30 avgday15retentionrate
+				  from ( select t1.projectid projectid,
+				                if(platformid is null,'ALL',platformid) platformid,
+								if(t1.activitychannelid is null, 'ALL', t1.activitychannelid) activitychannelid,
+								if(t1.activityid is null, 'ALL', t1.activityid) activityid,
+								t2.dtime dtime,
+								if(t1.day15retentionrate is null,0,t1.day15retentionrate) day15retentionrate
+						   from video.t_video_users_retention_d_hbase t1,
+								(SELECT t.dtime 
+								   FROM video.t_bdi_muchtv_video_rundate t 
+							      WHERE t.dtime > '{STARTTIME}' AND t.dtime < '{ENDTIME}')t2
+						  where t1.dtime < from_unixtime(unix_timestamp(date_sub(from_unixtime(unix_timestamp(t2.dtime,
+											'yyyyMMdd'),'yyyy-MM-dd'),14),'yyyy-MM-dd'), 'yyyyMMdd') 
+							and t1.dtime > from_unixtime(unix_timestamp(date_sub(from_unixtime(unix_timestamp(t2.dtime,
+											'yyyyMMdd'),'yyyy-MM-dd'),15+30),'yyyy-MM-dd'), 'yyyyMMdd') 
+				    )tt
+				 group by projectid,platformid,activitychannelid,activityid,dtime
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+		<multiHqlReportIndex>
+            <indexKey>video.edp.users.retention.avg30retentionrate.d</indexKey>
+            <fieldName>avgday30retentionrate</fieldName>
+            <hql>
+                <![CDATA[
+				select projectid,
+				       platformid,
+					   activitychannelid,
+					   activityid,
+					   dtime,
+					   sum(day30retentionrate)/30 avgday30retentionrate
+				  from ( select t1.projectid projectid,
+				                if(platformid is null,'ALL',platformid) platformid,
+								if(t1.activitychannelid is null, 'ALL', t1.activitychannelid) activitychannelid,
+								if(t1.activityid is null, 'ALL', t1.activityid) activityid,
+								t2.dtime dtime,
+								if(t1.day30retentionrate is null,0,t1.day30retentionrate) day30retentionrate
+						   from video.t_video_users_retention_d_hbase t1,
+								(SELECT t.dtime 
+								   FROM video.t_bdi_muchtv_video_rundate t 
+							      WHERE t.dtime > '{STARTTIME}' AND t.dtime < '{ENDTIME}')t2
+						  where t1.dtime < from_unixtime(unix_timestamp(date_sub(from_unixtime(unix_timestamp(t2.dtime,
+											'yyyyMMdd'),'yyyy-MM-dd'),29),'yyyy-MM-dd'), 'yyyyMMdd') 
+							and t1.dtime > from_unixtime(unix_timestamp(date_sub(from_unixtime(unix_timestamp(t2.dtime,
+											'yyyyMMdd'),'yyyy-MM-dd'),30+30),'yyyy-MM-dd'), 'yyyyMMdd') 
+				    )tt
+				 group by projectid,platformid,activitychannelid,activityid,dtime
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+    </multiHqlReportIndexs>
+</reportIndexGroup>

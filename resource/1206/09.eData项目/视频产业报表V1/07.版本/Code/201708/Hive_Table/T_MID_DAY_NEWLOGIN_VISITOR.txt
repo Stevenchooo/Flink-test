@@ -1,0 +1,14 @@
+drop table video.t_mid_day_newlogin_visitor;
+create table video.t_mid_day_newlogin_visitor
+(
+projectid string,
+dtime string,
+userid string,
+time  string,
+platformid string
+)
+partitioned by(
+date string
+)
+row format delimited fields terminated by '\t' map keys terminated by '&' stored as textfile;
+grant select,delete,insert on video.t_mid_day_newlogin_visitor to user mapred;

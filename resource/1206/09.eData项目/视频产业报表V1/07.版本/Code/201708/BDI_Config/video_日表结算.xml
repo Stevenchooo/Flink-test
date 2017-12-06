@@ -1,0 +1,970 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flowInfos><package><id>14718664699580</id><name>video</name><description></description><BE_ID></BE_ID><TENANT_ID></TENANT_ID><ctrlFlows><ctrlFlow><id>CTRLFLOW1489738445671667</id><name>video_日表结算</name><description></description><appleTime>20170818155625</appleTime><expireTime>20370101000000</expireTime><flowType>1</flowType><version>0.0.0.5</version><status>2</status><isTriggerable>1</isTriggerable><taskNO>0</taskNO><loglevel></loglevel><BE_ID></BE_ID><TENANT_ID></TENANT_ID><flowInfo>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;bpmn2:definitions xmlns="bpmn2" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmn2extn="http://www.huawei.com/bpm/extensions/2012" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:htextn="http://www.huawei.com/bpm/ht/extensions" xmlns:wsht="http://docs.oasis-open.org/ns/bpel4people/ws-humantask/200803" xmlns:httypes="http://docs.oasis-open.org/ns/bpel4people/ws-humantask/types/200803" id="DEFINITION1" targetNamespace="bpmn2" typeLanguage="http://groovy.codehaus.org/groovy"&gt;
+     &lt;bpmn2:process id="CTRLFLOW1489738445671667" bpmn2extn:version="0.0.0.5" name="video_日表结算" bpmn2extn:microflow="false"&gt;
+          &lt;bpmn2:extensionElements&gt;
+               &lt;bpmn2extn:feature name="type" type="java.lang.Integer" bpmn2extn:persist="false" value="1"/&gt;
+          &lt;/bpmn2:extensionElements&gt;
+          &lt;bpmn2:endEvent id="EndEvent_CTRLFLOW1489738445671667" name="EndEvent" bpmn2extn:persist="true" bpmn2extn:joinMode="EXCLUSIVE" bpmn2extn:noOutFlowBehavior="THROW_EXCEPTION" bpmn2extn:conditionEvaluateMode="ALLMATCHED"&gt;
+               &lt;bpmn2:incoming&gt;endEvent_CTRLFLOW1489738445671667_from_HDI1489738398003&lt;/bpmn2:incoming&gt;
+               &lt;bpmn2:incoming&gt;endEvent_CTRLFLOW1489738445671667_from_HDI1489738398008&lt;/bpmn2:incoming&gt;
+               &lt;bpmn2:incoming&gt;endEvent_CTRLFLOW1489738445671667_from_HDI1489738445709678&lt;/bpmn2:incoming&gt;
+               &lt;bpmn2:incoming&gt;endEvent_CTRLFLOW1489738445671667_from_HDI1489738445710679&lt;/bpmn2:incoming&gt;
+               &lt;bpmn2:incoming&gt;endEvent_CTRLFLOW1489738445671667_from_HDI1489738445751688&lt;/bpmn2:incoming&gt;
+               &lt;bpmn2:incoming&gt;endEvent_CTRLFLOW1489738445671667_from_HDI1489740296707&lt;/bpmn2:incoming&gt;
+               &lt;bpmn2:incoming&gt;endEvent_CTRLFLOW1489738445671667_from_HDI1489740296729&lt;/bpmn2:incoming&gt;
+               &lt;bpmn2:incoming&gt;endEvent_CTRLFLOW1489738445671667_from_HDI1490169890504&lt;/bpmn2:incoming&gt;
+               &lt;bpmn2:incoming&gt;endEvent_CTRLFLOW1489738445671667_from_HDI1490169890505&lt;/bpmn2:incoming&gt;
+               &lt;bpmn2:incoming&gt;endEvent_CTRLFLOW1489738445671667_from_HDI1503042852972&lt;/bpmn2:incoming&gt;
+          &lt;/bpmn2:endEvent&gt;
+          &lt;bpmn2:startEvent id="StartEvent_CTRLFLOW1489738445671667" name="StartEvent" bpmn2extn:persist="true" bpmn2extn:forkMode="PARALLEL" bpmn2extn:noOutFlowBehavior="THROW_EXCEPTION" bpmn2extn:conditionEvaluateMode="ALLMATCHED" isInterrupting="false"&gt;
+               &lt;bpmn2:outgoing&gt;startEvent_CTRLFLOW1489738445671667_to_HDI1489738445704675&lt;/bpmn2:outgoing&gt;
+               &lt;bpmn2:outgoing&gt;startEvent_CTRLFLOW1489738445671667_to_HDI1489738445738680&lt;/bpmn2:outgoing&gt;
+               &lt;bpmn2:outgoing&gt;startEvent_CTRLFLOW1489738445671667_to_HDI1489738445745685&lt;/bpmn2:outgoing&gt;
+               &lt;bpmn2:outgoing&gt;startEvent_CTRLFLOW1489738445671667_to_HDI1489738445747686&lt;/bpmn2:outgoing&gt;
+               &lt;bpmn2:outgoing&gt;startEvent_CTRLFLOW1489738445671667_to_HDI1489740296702&lt;/bpmn2:outgoing&gt;
+               &lt;bpmn2:outgoing&gt;startEvent_CTRLFLOW1489738445671667_to_HDI1490169890504&lt;/bpmn2:outgoing&gt;
+               &lt;bpmn2:outgoing&gt;startEvent_CTRLFLOW1489738445671667_to_HDI1490169890505&lt;/bpmn2:outgoing&gt;
+               &lt;bpmn2:outgoing&gt;startEvent_CTRLFLOW1489738445671667_to_HDI1500969110107&lt;/bpmn2:outgoing&gt;
+               &lt;bpmn2:outgoing&gt;startEvent_CTRLFLOW1489738445671667_to_HDI1503042852972&lt;/bpmn2:outgoing&gt;
+          &lt;/bpmn2:startEvent&gt;
+          &lt;bpmn2:serviceTask id="HDI1489738397998" name="日流量分析" bpmn2extn:persist="true" bpmn2extn:forkMode="PARALLEL" bpmn2extn:joinMode="EXCLUSIVE" bpmn2extn:noOutFlowBehavior="AUTO_COMPLETE" bpmn2extn:conditionEvaluateMode="ALLMATCHED" bpmn2extn:nextFlowExecutionMode="SYNCHRONOUS" bpmn2extn:executionMode="SYNCHRONOUS" bpmn2extn:transactionSupport="NotRequired" implementation="java://com.huawei.data.integration.core.stage.task.TaskStageExecutionImpl" operationRef="run"&gt;
+               &lt;bpmn2:extensionElements&gt;
+                    &lt;bpmn2extn:feature name="code" type="java.lang.String" bpmn2extn:persist="false" value="H024"/&gt;
+                    &lt;bpmn2extn:feature name="stage" type="com.huawei.data.integration.core.stage.task.app.AppTaskStage" bpmn2extn:persist="false"&gt;&lt;![CDATA[{
+	"@type":"com.huawei.data.integration.core.stage.task.app.AppTaskStage",
+	"arguments":[],
+	"cmd":"workdir=/home/bdi/report_home\njavaexecutor=/home/bdi/jdk1.7.0_17/bin/java\n\ncd $workdir\n\nlibdir=$workdir/lib\nlibpath=\".\"\nfor file in $libdir/*.jar\ndo\nlibpath=$libpath:$file\ndone\n\nCLASSPATH=$CLASSPATH:$libpath:$workdir/classes \n\n$javaexecutor -classpath $CLASSPATH com.huawei.edata.report.ReportMain -t /home/bdi/report_home/config/report/video_client_flow_day_analy_report_d.xml -u video/hadoop -k video.keytab -q QueueC",
+	"cmdType":"LOCAL_SHELL",
+	"code":"H024",
+	"dependable":false,
+	"desc":"",
+	"hadoopClusterId":"",
+	"id":"HDI1489738397998",
+	"increasePriorityPeriod":60,
+	"inputArguments":[],
+	"keyTask":false,
+	"ldapUserId":"",
+	"name":"日流量分析",
+	"outputArguments":[],
+	"priorityLevel":3,
+	"sequential":true,
+	"triggerable":false,
+	"verifyFlag":0
+}]]&gt;&lt;/bpmn2extn:feature&gt;
+                    &lt;bpmn2extn:feature name="type" type="java.lang.String" bpmn2extn:persist="false" value="ExtApp"/&gt;
+                    &lt;bpmn2extn:errorHandler/&gt;
+               &lt;/bpmn2:extensionElements&gt;
+               &lt;bpmn2:incoming&gt;HDI1500969110110&lt;/bpmn2:incoming&gt;
+               &lt;bpmn2:outgoing&gt;HDI1492675136882&lt;/bpmn2:outgoing&gt;
+          &lt;/bpmn2:serviceTask&gt;
+          &lt;bpmn2:serviceTask id="HDI1489738397999" name="当周流量分析" bpmn2extn:persist="true" bpmn2extn:forkMode="PARALLEL" bpmn2extn:joinMode="EXCLUSIVE" bpmn2extn:noOutFlowBehavior="AUTO_COMPLETE" bpmn2extn:conditionEvaluateMode="ALLMATCHED" bpmn2extn:nextFlowExecutionMode="SYNCHRONOUS" bpmn2extn:executionMode="SYNCHRONOUS" bpmn2extn:transactionSupport="NotRequired" implementation="java://com.huawei.data.integration.core.stage.task.TaskStageExecutionImpl" operationRef="run"&gt;
+               &lt;bpmn2:extensionElements&gt;
+                    &lt;bpmn2extn:feature name="code" type="java.lang.String" bpmn2extn:persist="false" value="H025"/&gt;
+                    &lt;bpmn2extn:feature name="stage" type="com.huawei.data.integration.core.stage.task.app.AppTaskStage" bpmn2extn:persist="false"&gt;&lt;![CDATA[{
+	"@type":"com.huawei.data.integration.core.stage.task.app.AppTaskStage",
+	"arguments":[],
+	"cmd":"workdir=/home/bdi/report_home\njavaexecutor=/home/bdi/jdk1.7.0_17/bin/java\n\ncd $workdir\n\nlibdir=$workdir/lib\nlibpath=\".\"\nfor file in $libdir/*.jar\ndo\nlibpath=$libpath:$file\ndone\n\nCLASSPATH=$CLASSPATH:$libpath:$workdir/classes \n\n$javaexecutor -classpath $CLASSPATH com.huawei.edata.report.ReportMain -t /home/bdi/report_home/config/report/video_client_flow_hours_analy_report_hw.xml -u video/hadoop -k video.keytab -q QueueC",
+	"cmdType":"LOCAL_SHELL",
+	"code":"H025",
+	"dependable":false,
+	"desc":"",
+	"hadoopClusterId":"",
+	"id":"HDI1489738397999",
+	"increasePriorityPeriod":60,
+	"inputArguments":[],
+	"keyTask":false,
+	"ldapUserId":"",
+	"name":"当周流量分析",
+	"outputArguments":[],
+	"priorityLevel":3,
+	"sequential":true,
+	"triggerable":false,
+	"verifyFlag":0
+}]]&gt;&lt;/bpmn2extn:feature&gt;
+                    &lt;bpmn2extn:feature name="type" type="java.lang.String" bpmn2extn:persist="false" value="ExtApp"/&gt;
+                    &lt;bpmn2extn:errorHandler/&gt;
+               &lt;/bpmn2:extensionElements&gt;
+               &lt;bpmn2:incoming&gt;HDI1492675136883&lt;/bpmn2:incoming&gt;
+               &lt;bpmn2:outgoing&gt;HDI1492656167732&lt;/bpmn2:outgoing&gt;
+          &lt;/bpmn2:serviceTask&gt;
+          &lt;bpmn2:serviceTask id="HDI1489738398002" name="VOD_当周" bpmn2extn:persist="true" bpmn2extn:forkMode="PARALLEL" bpmn2extn:joinMode="EXCLUSIVE" bpmn2extn:noOutFlowBehavior="AUTO_COMPLETE" bpmn2extn:conditionEvaluateMode="ALLMATCHED" bpmn2extn:nextFlowExecutionMode="SYNCHRONOUS" bpmn2extn:executionMode="SYNCHRONOUS" bpmn2extn:transactionSupport="NotRequired" implementation="java://com.huawei.data.integration.core.stage.task.TaskStageExecutionImpl" operationRef="run"&gt;
+               &lt;bpmn2:extensionElements&gt;
+                    &lt;bpmn2extn:feature name="code" type="java.lang.String" bpmn2extn:persist="false" value="H026"/&gt;
+                    &lt;bpmn2extn:feature name="stage" type="com.huawei.data.integration.core.stage.task.app.AppTaskStage" bpmn2extn:persist="false"&gt;&lt;![CDATA[{
+	"@type":"com.huawei.data.integration.core.stage.task.app.AppTaskStage",
+	"arguments":[],
+	"cmd":"workdir=/home/bdi/report_home\njavaexecutor=/home/bdi/jdk1.7.0_17/bin/java\n\ncd $workdir\n\nlibdir=$workdir/lib\nlibpath=\".\"\nfor file in $libdir/*.jar\ndo\nlibpath=$libpath:$file\ndone\n\nCLASSPATH=$CLASSPATH:$libpath:$workdir/classes \n\n$javaexecutor -classpath $CLASSPATH com.huawei.edata.report.ReportMain -t /home/bdi/report_home/config/report/video_edp_vod_content_analyse_report_dw.xml -u video/hadoop -k video.keytab -q QueueC",
+	"cmdType":"LOCAL_SHELL",
+	"code":"H026",
+	"dependable":false,
+	"desc":"",
+	"hadoopClusterId":"",
+	"id":"HDI1489738398002",
+	"increasePriorityPeriod":60,
+	"inputArguments":[],
+	"keyTask":false,
+	"ldapUserId":"",
+	"name":"VOD_当周",
+	"outputArguments":[],
+	"priorityLevel":3,
+	"sequential":true,
+	"triggerable":false,
+	"verifyFlag":0
+}]]&gt;&lt;/bpmn2extn:feature&gt;
+                    &lt;bpmn2extn:feature name="type" type="java.lang.String" bpmn2extn:persist="false" value="ExtApp"/&gt;
+                    &lt;bpmn2extn:errorHandler/&gt;
+               &lt;/bpmn2:extensionElements&gt;
+               &lt;bpmn2:incoming&gt;HDI1492656167726&lt;/bpmn2:incoming&gt;
+               &lt;bpmn2:outgoing&gt;HDI1492656167727&lt;/bpmn2:outgoing&gt;
+          &lt;/bpmn2:serviceTask&gt;
+          &lt;bpmn2:serviceTask id="HDI1489738398003" name="VOD_当月" bpmn2extn:persist="true" bpmn2extn:forkMode="PARALLEL" bpmn2extn:joinMode="EXCLUSIVE" bpmn2extn:noOutFlowBehavior="AUTO_COMPLETE" bpmn2extn:conditionEvaluateMode="ALLMATCHED" bpmn2extn:nextFlowExecutionMode="SYNCHRONOUS" bpmn2extn:executionMode="SYNCHRONOUS" bpmn2extn:transactionSupport="NotRequired" implementation="java://com.huawei.data.integration.core.stage.task.TaskStageExecutionImpl" operationRef="run"&gt;
+               &lt;bpmn2:extensionElements&gt;
+                    &lt;bpmn2extn:feature name="code" type="java.lang.String" bpmn2extn:persist="false" value="H027"/&gt;
+                    &lt;bpmn2extn:feature name="stage" type="com.huawei.data.integration.core.stage.task.app.AppTaskStage" bpmn2extn:persist="false"&gt;&lt;![CDATA[{
+	"@type":"com.huawei.data.integration.core.stage.task.app.AppTaskStage",
+	"arguments":[],
+	"cmd":"workdir=/home/bdi/report_home\njavaexecutor=/home/bdi/jdk1.7.0_17/bin/java\n\ncd $workdir\n\nlibdir=$workdir/lib\nlibpath=\".\"\nfor file in $libdir/*.jar\ndo\nlibpath=$libpath:$file\ndone\n\nCLASSPATH=$CLASSPATH:$libpath:$workdir/classes \n\n$javaexecutor -classpath $CLASSPATH com.huawei.edata.report.ReportMain -t /home/bdi/report_home/config/report/video_edp_vod_content_analyse_report_dm.xml -u video/hadoop -k video.keytab -q QueueC",
+	"cmdType":"LOCAL_SHELL",
+	"code":"H027",
+	"dependable":false,
+	"desc":"",
+	"hadoopClusterId":"",
+	"id":"HDI1489738398003",
+	"increasePriorityPeriod":60,
+	"inputArguments":[],
+	"keyTask":false,
+	"ldapUserId":"",
+	"name":"VOD_当月",
+	"outputArguments":[],
+	"priorityLevel":3,
+	"sequential":true,
+	"triggerable":false,
+	"verifyFlag":0
+}]]&gt;&lt;/bpmn2extn:feature&gt;
+                    &lt;bpmn2extn:feature name="type" type="java.lang.String" bpmn2extn:persist="false" value="ExtApp"/&gt;
+                    &lt;bpmn2extn:errorHandler/&gt;
+               &lt;/bpmn2:extensionElements&gt;
+               &lt;bpmn2:incoming&gt;HDI1492656167727&lt;/bpmn2:incoming&gt;
+               &lt;bpmn2:outgoing&gt;endEvent_CTRLFLOW1489738445671667_from_HDI1489738398003&lt;/bpmn2:outgoing&gt;
+          &lt;/bpmn2:serviceTask&gt;
+          &lt;bpmn2:serviceTask id="HDI1489738398007" name="LIVETV_当周" bpmn2extn:persist="true" bpmn2extn:forkMode="PARALLEL" bpmn2extn:joinMode="EXCLUSIVE" bpmn2extn:noOutFlowBehavior="AUTO_COMPLETE" bpmn2extn:conditionEvaluateMode="ALLMATCHED" bpmn2extn:nextFlowExecutionMode="SYNCHRONOUS" bpmn2extn:executionMode="SYNCHRONOUS" bpmn2extn:transactionSupport="NotRequired" implementation="java://com.huawei.data.integration.core.stage.task.TaskStageExecutionImpl" operationRef="run"&gt;
+               &lt;bpmn2:extensionElements&gt;
+                    &lt;bpmn2extn:feature name="code" type="java.lang.String" bpmn2extn:persist="false" value="H028"/&gt;
+                    &lt;bpmn2extn:feature name="stage" type="com.huawei.data.integration.core.stage.task.app.AppTaskStage" bpmn2extn:persist="false"&gt;&lt;![CDATA[{
+	"@type":"com.huawei.data.integration.core.stage.task.app.AppTaskStage",
+	"arguments":[],
+	"cmd":"workdir=/home/bdi/report_home\njavaexecutor=/home/bdi/jdk1.7.0_17/bin/java\n\ncd $workdir\n\nlibdir=$workdir/lib\nlibpath=\".\"\nfor file in $libdir/*.jar\ndo\nlibpath=$libpath:$file\ndone\n\nCLASSPATH=$CLASSPATH:$libpath:$workdir/classes \n\n$javaexecutor -classpath $CLASSPATH com.huawei.edata.report.ReportMain -t /home/bdi/report_home/config/report/video_edp_livetv_channelid_analyse_report_dw.xml -u video/hadoop -k video.keytab -q QueueC",
+	"cmdType":"LOCAL_SHELL",
+	"code":"H028",
+	"dependable":false,
+	"desc":"",
+	"hadoopClusterId":"",
+	"id":"HDI1489738398007",
+	"increasePriorityPeriod":60,
+	"inputArguments":[],
+	"keyTask":false,
+	"ldapUserId":"",
+	"name":"LIVETV_当周",
+	"outputArguments":[],
+	"priorityLevel":3,
+	"sequential":true,
+	"triggerable":false,
+	"verifyFlag":0
+}]]&gt;&lt;/bpmn2extn:feature&gt;
+                    &lt;bpmn2extn:feature name="type" type="java.lang.String" bpmn2extn:persist="false" value="ExtApp"/&gt;
+                    &lt;bpmn2extn:errorHandler/&gt;
+               &lt;/bpmn2:extensionElements&gt;
+               &lt;bpmn2:incoming&gt;HDI1492656167728&lt;/bpmn2:incoming&gt;
+               &lt;bpmn2:outgoing&gt;HDI1492656167729&lt;/bpmn2:outgoing&gt;
+          &lt;/bpmn2:serviceTask&gt;
+          &lt;bpmn2:serviceTask id="HDI1489738398008" name="LIVETV_当月" bpmn2extn:persist="true" bpmn2extn:forkMode="PARALLEL" bpmn2extn:joinMode="EXCLUSIVE" bpmn2extn:noOutFlowBehavior="AUTO_COMPLETE" bpmn2extn:conditionEvaluateMode="ALLMATCHED" bpmn2extn:nextFlowExecutionMode="SYNCHRONOUS" bpmn2extn:executionMode="SYNCHRONOUS" bpmn2extn:transactionSupport="NotRequired" implementation="java://com.huawei.data.integration.core.stage.task.TaskStageExecutionImpl" operationRef="run"&gt;
+               &lt;bpmn2:extensionElements&gt;
+                    &lt;bpmn2extn:feature name="code" type="java.lang.String" bpmn2extn:persist="false" value="H029"/&gt;
+                    &lt;bpmn2extn:feature name="stage" type="com.huawei.data.integration.core.stage.task.app.AppTaskStage" bpmn2extn:persist="false"&gt;&lt;![CDATA[{
+	"@type":"com.huawei.data.integration.core.stage.task.app.AppTaskStage",
+	"arguments":[],
+	"cmd":"workdir=/home/bdi/report_home\njavaexecutor=/home/bdi/jdk1.7.0_17/bin/java\n\ncd $workdir\n\nlibdir=$workdir/lib\nlibpath=\".\"\nfor file in $libdir/*.jar\ndo\nlibpath=$libpath:$file\ndone\n\nCLASSPATH=$CLASSPATH:$libpath:$workdir/classes \n\n$javaexecutor -classpath $CLASSPATH com.huawei.edata.report.ReportMain -t /home/bdi/report_home/config/report/video_edp_livetv_channelid_analyse_report_dm.xml -u video/hadoop -k video.keytab -q QueueC",
+	"cmdType":"LOCAL_SHELL",
+	"code":"H029",
+	"dependable":false,
+	"desc":"",
+	"hadoopClusterId":"",
+	"id":"HDI1489738398008",
+	"increasePriorityPeriod":60,
+	"inputArguments":[],
+	"keyTask":false,
+	"ldapUserId":"",
+	"name":"LIVETV_当月",
+	"outputArguments":[],
+	"priorityLevel":3,
+	"sequential":true,
+	"triggerable":false,
+	"verifyFlag":0
+}]]&gt;&lt;/bpmn2extn:feature&gt;
+                    &lt;bpmn2extn:feature name="type" type="java.lang.String" bpmn2extn:persist="false" value="ExtApp"/&gt;
+                    &lt;bpmn2extn:errorHandler/&gt;
+               &lt;/bpmn2:extensionElements&gt;
+               &lt;bpmn2:incoming&gt;HDI1492656167729&lt;/bpmn2:incoming&gt;
+               &lt;bpmn2:outgoing&gt;endEvent_CTRLFLOW1489738445671667_from_HDI1489738398008&lt;/bpmn2:outgoing&gt;
+          &lt;/bpmn2:serviceTask&gt;
+          &lt;bpmn2:serviceTask id="HDI1489738445697670" name="流量分布分析" bpmn2extn:persist="true" bpmn2extn:forkMode="PARALLEL" bpmn2extn:joinMode="EXCLUSIVE" bpmn2extn:noOutFlowBehavior="AUTO_COMPLETE" bpmn2extn:conditionEvaluateMode="ALLMATCHED" bpmn2extn:nextFlowExecutionMode="SYNCHRONOUS" bpmn2extn:executionMode="SYNCHRONOUS" bpmn2extn:transactionSupport="NotRequired" implementation="java://com.huawei.data.integration.core.stage.task.TaskStageExecutionImpl" operationRef="run"&gt;
+               &lt;bpmn2:extensionElements&gt;
+                    &lt;bpmn2extn:feature name="code" type="java.lang.String" bpmn2extn:persist="false" value="H003"/&gt;
+                    &lt;bpmn2extn:feature name="stage" type="com.huawei.data.integration.core.stage.task.app.AppTaskStage" bpmn2extn:persist="false"&gt;&lt;![CDATA[{
+	"@type":"com.huawei.data.integration.core.stage.task.app.AppTaskStage",
+	"arguments":[],
+	"cmd":"workdir=/home/bdi/report_home\njavaexecutor=/home/bdi/jdk1.7.0_17/bin/java\n\ncd $workdir\n\nlibdir=$workdir/lib\nlibpath=\".\"\nfor file in $libdir/*.jar\ndo\nlibpath=$libpath:$file\ndone\n\nCLASSPATH=$CLASSPATH:$libpath:$workdir/classes \n\n$javaexecutor -classpath $CLASSPATH com.huawei.edata.report.ReportMain -t /home/bdi/report_home/config/report/video_client_flow_day_proportion_report_d.xml -u video/hadoop -k video.keytab -q QueueC",
+	"cmdType":"LOCAL_SHELL",
+	"code":"H003",
+	"dependable":false,
+	"desc":"",
+	"hadoopClusterId":"",
+	"id":"HDI1489738445697670",
+	"increasePriorityPeriod":60,
+	"inputArguments":[],
+	"keyTask":false,
+	"ldapUserId":"",
+	"name":"流量分布分析",
+	"outputArguments":[],
+	"priorityLevel":3,
+	"sequential":true,
+	"triggerable":false,
+	"verifyFlag":0
+}]]&gt;&lt;/bpmn2extn:feature&gt;
+                    &lt;bpmn2extn:feature name="type" type="java.lang.String" bpmn2extn:persist="false" value="ExtApp"/&gt;
+                    &lt;bpmn2extn:errorHandler/&gt;
+               &lt;/bpmn2:extensionElements&gt;
+               &lt;bpmn2:incoming&gt;HDI1492656167732&lt;/bpmn2:incoming&gt;
+               &lt;bpmn2:outgoing&gt;HDI1492656167734&lt;/bpmn2:outgoing&gt;
+          &lt;/bpmn2:serviceTask&gt;
+          &lt;bpmn2:serviceTask id="HDI1489738445704675" name="VOD" bpmn2extn:persist="true" bpmn2extn:forkMode="PARALLEL" bpmn2extn:joinMode="EXCLUSIVE" bpmn2extn:noOutFlowBehavior="AUTO_COMPLETE" bpmn2extn:conditionEvaluateMode="ALLMATCHED" bpmn2extn:nextFlowExecutionMode="SYNCHRONOUS" bpmn2extn:executionMode="SYNCHRONOUS" bpmn2extn:transactionSupport="NotRequired" implementation="java://com.huawei.data.integration.core.stage.task.TaskStageExecutionImpl" operationRef="run"&gt;
+               &lt;bpmn2:extensionElements&gt;
+                    &lt;bpmn2extn:feature name="code" type="java.lang.String" bpmn2extn:persist="false" value="H009"/&gt;
+                    &lt;bpmn2extn:feature name="stage" type="com.huawei.data.integration.core.stage.task.app.AppTaskStage" bpmn2extn:persist="false"&gt;&lt;![CDATA[{
+	"@type":"com.huawei.data.integration.core.stage.task.app.AppTaskStage",
+	"arguments":[],
+	"cmd":"workdir=/home/bdi/report_home\njavaexecutor=/home/bdi/jdk1.7.0_17/bin/java\n\ncd $workdir\n\nlibdir=$workdir/lib\nlibpath=\".\"\nfor file in $libdir/*.jar\ndo\nlibpath=$libpath:$file\ndone\n\nCLASSPATH=$CLASSPATH:$libpath:$workdir/classes \n\n$javaexecutor -classpath $CLASSPATH com.huawei.edata.report.ReportMain -t /home/bdi/report_home/config/report/video_edp_vod_content_analyse_report_d.xml -u video/hadoop -k video.keytab -q QueueC",
+	"cmdType":"LOCAL_SHELL",
+	"code":"H009",
+	"dependable":false,
+	"desc":"",
+	"hadoopClusterId":"",
+	"id":"HDI1489738445704675",
+	"increasePriorityPeriod":60,
+	"inputArguments":[],
+	"keyTask":false,
+	"ldapUserId":"",
+	"name":"VOD",
+	"outputArguments":[],
+	"priorityLevel":3,
+	"sequential":true,
+	"triggerable":false,
+	"verifyFlag":0
+}]]&gt;&lt;/bpmn2extn:feature&gt;
+                    &lt;bpmn2extn:feature name="type" type="java.lang.String" bpmn2extn:persist="false" value="ExtApp"/&gt;
+                    &lt;bpmn2extn:errorHandler/&gt;
+               &lt;/bpmn2:extensionElements&gt;
+               &lt;bpmn2:incoming&gt;startEvent_CTRLFLOW1489738445671667_to_HDI1489738445704675&lt;/bpmn2:incoming&gt;
+               &lt;bpmn2:outgoing&gt;HDI1492656167726&lt;/bpmn2:outgoing&gt;
+          &lt;/bpmn2:serviceTask&gt;
+          &lt;bpmn2:serviceTask id="HDI1489738445709678" name="直播观看时间段分析_小时" bpmn2extn:persist="true" bpmn2extn:forkMode="PARALLEL" bpmn2extn:joinMode="EXCLUSIVE" bpmn2extn:noOutFlowBehavior="AUTO_COMPLETE" bpmn2extn:conditionEvaluateMode="ALLMATCHED" bpmn2extn:nextFlowExecutionMode="SYNCHRONOUS" bpmn2extn:executionMode="SYNCHRONOUS" bpmn2extn:transactionSupport="NotRequired" implementation="java://com.huawei.data.integration.core.stage.task.TaskStageExecutionImpl" operationRef="run"&gt;
+               &lt;bpmn2:extensionElements&gt;
+                    &lt;bpmn2extn:feature name="code" type="java.lang.String" bpmn2extn:persist="false" value="H012"/&gt;
+                    &lt;bpmn2extn:feature name="stage" type="com.huawei.data.integration.core.stage.task.app.AppTaskStage" bpmn2extn:persist="false"&gt;&lt;![CDATA[{
+	"@type":"com.huawei.data.integration.core.stage.task.app.AppTaskStage",
+	"arguments":[],
+	"cmd":"workdir=/home/bdi/report_home\njavaexecutor=/home/bdi/jdk1.7.0_17/bin/java\n\ncd $workdir\n\nlibdir=$workdir/lib\nlibpath=\".\"\nfor file in $libdir/*.jar\ndo\nlibpath=$libpath:$file\ndone\n\nCLASSPATH=$CLASSPATH:$libpath:$workdir/classes \n\n$javaexecutor -classpath $CLASSPATH com.huawei.edata.report.ReportMain -t /home/bdi/report_home/config/report/video_users_active_hours_watch_livetv_report_d.xml -u video/hadoop -k video.keytab -q QueueC",
+	"cmdType":"LOCAL_SHELL",
+	"code":"H012",
+	"dependable":false,
+	"desc":"",
+	"hadoopClusterId":"",
+	"id":"HDI1489738445709678",
+	"increasePriorityPeriod":60,
+	"inputArguments":[],
+	"keyTask":false,
+	"ldapUserId":"",
+	"name":"直播观看时间段分析_小时",
+	"outputArguments":[],
+	"priorityLevel":3,
+	"sequential":true,
+	"triggerable":false,
+	"verifyFlag":0
+}]]&gt;&lt;/bpmn2extn:feature&gt;
+                    &lt;bpmn2extn:feature name="type" type="java.lang.String" bpmn2extn:persist="false" value="ExtApp"/&gt;
+                    &lt;bpmn2extn:errorHandler/&gt;
+               &lt;/bpmn2:extensionElements&gt;
+               &lt;bpmn2:incoming&gt;HDI1492656167724&lt;/bpmn2:incoming&gt;
+               &lt;bpmn2:outgoing&gt;endEvent_CTRLFLOW1489738445671667_from_HDI1489738445709678&lt;/bpmn2:outgoing&gt;
+          &lt;/bpmn2:serviceTask&gt;
+          &lt;bpmn2:serviceTask id="HDI1489738445710679" name="点播观看时间段分布_小时" bpmn2extn:persist="true" bpmn2extn:forkMode="PARALLEL" bpmn2extn:joinMode="EXCLUSIVE" bpmn2extn:noOutFlowBehavior="AUTO_COMPLETE" bpmn2extn:conditionEvaluateMode="ALLMATCHED" bpmn2extn:nextFlowExecutionMode="SYNCHRONOUS" bpmn2extn:executionMode="SYNCHRONOUS" bpmn2extn:transactionSupport="NotRequired" implementation="java://com.huawei.data.integration.core.stage.task.TaskStageExecutionImpl" operationRef="run"&gt;
+               &lt;bpmn2:extensionElements&gt;
+                    &lt;bpmn2extn:feature name="code" type="java.lang.String" bpmn2extn:persist="false" value="H013"/&gt;
+                    &lt;bpmn2extn:feature name="stage" type="com.huawei.data.integration.core.stage.task.app.AppTaskStage" bpmn2extn:persist="false"&gt;&lt;![CDATA[{
+	"@type":"com.huawei.data.integration.core.stage.task.app.AppTaskStage",
+	"arguments":[],
+	"cmd":"workdir=/home/bdi/report_home\njavaexecutor=/home/bdi/jdk1.7.0_17/bin/java\n\ncd $workdir\n\nlibdir=$workdir/lib\nlibpath=\".\"\nfor file in $libdir/*.jar\ndo\nlibpath=$libpath:$file\ndone\n\nCLASSPATH=$CLASSPATH:$libpath:$workdir/classes \n\n$javaexecutor -classpath $CLASSPATH com.huawei.edata.report.ReportMain -t /home/bdi/report_home/config/report/video_users_active_hours_watch_report_d.xml -u video/hadoop -k video.keytab -q QueueC",
+	"cmdType":"LOCAL_SHELL",
+	"code":"H013",
+	"dependable":false,
+	"desc":"",
+	"hadoopClusterId":"",
+	"id":"HDI1489738445710679",
+	"increasePriorityPeriod":60,
+	"inputArguments":[],
+	"keyTask":false,
+	"ldapUserId":"",
+	"name":"点播观看时间段分布_小时",
+	"outputArguments":[],
+	"priorityLevel":3,
+	"sequential":true,
+	"triggerable":false,
+	"verifyFlag":0
+}]]&gt;&lt;/bpmn2extn:feature&gt;
+                    &lt;bpmn2extn:feature name="type" type="java.lang.String" bpmn2extn:persist="false" value="ExtApp"/&gt;
+                    &lt;bpmn2extn:errorHandler/&gt;
+               &lt;/bpmn2:extensionElements&gt;
+               &lt;bpmn2:incoming&gt;HDI1492656167723&lt;/bpmn2:incoming&gt;
+               &lt;bpmn2:outgoing&gt;endEvent_CTRLFLOW1489738445671667_from_HDI1489738445710679&lt;/bpmn2:outgoing&gt;
+          &lt;/bpmn2:serviceTask&gt;
+          &lt;bpmn2:serviceTask id="HDI1489738445738680" name="LIVETV" bpmn2extn:persist="true" bpmn2extn:forkMode="PARALLEL" bpmn2extn:joinMode="EXCLUSIVE" bpmn2extn:noOutFlowBehavior="AUTO_COMPLETE" bpmn2extn:conditionEvaluateMode="ALLMATCHED" bpmn2extn:nextFlowExecutionMode="SYNCHRONOUS" bpmn2extn:executionMode="SYNCHRONOUS" bpmn2extn:transactionSupport="NotRequired" implementation="java://com.huawei.data.integration.core.stage.task.TaskStageExecutionImpl" operationRef="run"&gt;
+               &lt;bpmn2:extensionElements&gt;
+                    &lt;bpmn2extn:feature name="code" type="java.lang.String" bpmn2extn:persist="false" value="H014"/&gt;
+                    &lt;bpmn2extn:feature name="stage" type="com.huawei.data.integration.core.stage.task.app.AppTaskStage" bpmn2extn:persist="false"&gt;&lt;![CDATA[{
+	"@type":"com.huawei.data.integration.core.stage.task.app.AppTaskStage",
+	"arguments":[],
+	"cmd":"workdir=/home/bdi/report_home\njavaexecutor=/home/bdi/jdk1.7.0_17/bin/java\n\ncd $workdir\n\nlibdir=$workdir/lib\nlibpath=\".\"\nfor file in $libdir/*.jar\ndo\nlibpath=$libpath:$file\ndone\n\nCLASSPATH=$CLASSPATH:$libpath:$workdir/classes \n\n$javaexecutor -classpath $CLASSPATH com.huawei.edata.report.ReportMain -t /home/bdi/report_home/config/report/video_edp_livetv_channelid_analyse_report_d.xml -u video/hadoop -k video.keytab -q QueueC",
+	"cmdType":"LOCAL_SHELL",
+	"code":"H014",
+	"dependable":false,
+	"desc":"",
+	"hadoopClusterId":"",
+	"id":"HDI1489738445738680",
+	"increasePriorityPeriod":60,
+	"inputArguments":[],
+	"keyTask":false,
+	"ldapUserId":"",
+	"name":"LIVETV",
+	"outputArguments":[],
+	"priorityLevel":3,
+	"sequential":true,
+	"triggerable":false,
+	"verifyFlag":0
+}]]&gt;&lt;/bpmn2extn:feature&gt;
+                    &lt;bpmn2extn:feature name="type" type="java.lang.String" bpmn2extn:persist="false" value="ExtApp"/&gt;
+                    &lt;bpmn2extn:errorHandler/&gt;
+               &lt;/bpmn2:extensionElements&gt;
+               &lt;bpmn2:incoming&gt;startEvent_CTRLFLOW1489738445671667_to_HDI1489738445738680&lt;/bpmn2:incoming&gt;
+               &lt;bpmn2:outgoing&gt;HDI1492656167728&lt;/bpmn2:outgoing&gt;
+          &lt;/bpmn2:serviceTask&gt;
+          &lt;bpmn2:serviceTask id="HDI1489738445741682" name="流量分析日表" bpmn2extn:persist="true" bpmn2extn:forkMode="PARALLEL" bpmn2extn:joinMode="EXCLUSIVE" bpmn2extn:noOutFlowBehavior="AUTO_COMPLETE" bpmn2extn:conditionEvaluateMode="ALLMATCHED" bpmn2extn:nextFlowExecutionMode="SYNCHRONOUS" bpmn2extn:executionMode="SYNCHRONOUS" bpmn2extn:transactionSupport="NotRequired" implementation="java://com.huawei.data.integration.core.stage.task.TaskStageExecutionImpl" operationRef="run"&gt;
+               &lt;bpmn2:extensionElements&gt;
+                    &lt;bpmn2extn:feature name="code" type="java.lang.String" bpmn2extn:persist="false" value="H016"/&gt;
+                    &lt;bpmn2extn:feature name="stage" type="com.huawei.data.integration.core.stage.task.app.AppTaskStage" bpmn2extn:persist="false"&gt;&lt;![CDATA[{
+	"@type":"com.huawei.data.integration.core.stage.task.app.AppTaskStage",
+	"arguments":[],
+	"cmd":"workdir=/home/bdi/report_home\njavaexecutor=/home/bdi/jdk1.7.0_17/bin/java\n\ncd $workdir\n\nlibdir=$workdir/lib\nlibpath=\".\"\nfor file in $libdir/*.jar\ndo\nlibpath=$libpath:$file\ndone\n\nCLASSPATH=$CLASSPATH:$libpath:$workdir/classes \n\n$javaexecutor -classpath $CLASSPATH com.huawei.edata.report.ReportMain -t /home/bdi/report_home/config/report/video_client_flow_analyse_report_d.xml -u video/hadoop -k video.keytab -q QueueC",
+	"cmdType":"LOCAL_SHELL",
+	"code":"H016",
+	"dependable":false,
+	"desc":"",
+	"hadoopClusterId":"",
+	"id":"HDI1489738445741682",
+	"increasePriorityPeriod":60,
+	"inputArguments":[],
+	"keyTask":false,
+	"ldapUserId":"",
+	"name":"流量分析日表",
+	"outputArguments":[],
+	"priorityLevel":3,
+	"sequential":true,
+	"triggerable":false,
+	"verifyFlag":0
+}]]&gt;&lt;/bpmn2extn:feature&gt;
+                    &lt;bpmn2extn:feature name="type" type="java.lang.String" bpmn2extn:persist="false" value="ExtApp"/&gt;
+                    &lt;bpmn2extn:errorHandler/&gt;
+               &lt;/bpmn2:extensionElements&gt;
+               &lt;bpmn2:incoming&gt;HDI1492656167734&lt;/bpmn2:incoming&gt;
+               &lt;bpmn2:outgoing&gt;HDI1492656167735&lt;/bpmn2:outgoing&gt;
+          &lt;/bpmn2:serviceTask&gt;
+          &lt;bpmn2:serviceTask id="HDI1489738445745685" name="点播观看时段分析" bpmn2extn:persist="true" bpmn2extn:forkMode="PARALLEL" bpmn2extn:joinMode="EXCLUSIVE" bpmn2extn:noOutFlowBehavior="AUTO_COMPLETE" bpmn2extn:conditionEvaluateMode="ALLMATCHED" bpmn2extn:nextFlowExecutionMode="SYNCHRONOUS" bpmn2extn:executionMode="SYNCHRONOUS" bpmn2extn:transactionSupport="NotRequired" implementation="java://com.huawei.data.integration.core.stage.task.TaskStageExecutionImpl" operationRef="run"&gt;
+               &lt;bpmn2:extensionElements&gt;
+                    &lt;bpmn2extn:feature name="code" type="java.lang.String" bpmn2extn:persist="false" value="H020"/&gt;
+                    &lt;bpmn2extn:feature name="stage" type="com.huawei.data.integration.core.stage.task.app.AppTaskStage" bpmn2extn:persist="false"&gt;&lt;![CDATA[{
+	"@type":"com.huawei.data.integration.core.stage.task.app.AppTaskStage",
+	"arguments":[],
+	"cmd":"workdir=/home/bdi/report_home\njavaexecutor=/home/bdi/jdk1.7.0_17/bin/java\n\ncd $workdir\n\nlibdir=$workdir/lib\nlibpath=\".\"\nfor file in $libdir/*.jar\ndo\nlibpath=$libpath:$file\ndone\n\nCLASSPATH=$CLASSPATH:$libpath:$workdir/classes \n\n$javaexecutor -classpath $CLASSPATH com.huawei.edata.report.ReportMain -t /home/bdi/report_home/config/report/video_users_active_day_watch_report_d.xml -u video/hadoop -k video.keytab -q QueueC",
+	"cmdType":"LOCAL_SHELL",
+	"code":"H020",
+	"dependable":false,
+	"desc":"",
+	"hadoopClusterId":"",
+	"id":"HDI1489738445745685",
+	"increasePriorityPeriod":60,
+	"inputArguments":[],
+	"keyTask":false,
+	"ldapUserId":"",
+	"name":"点播观看时段分析",
+	"outputArguments":[],
+	"priorityLevel":3,
+	"sequential":true,
+	"triggerable":false,
+	"verifyFlag":0
+}]]&gt;&lt;/bpmn2extn:feature&gt;
+                    &lt;bpmn2extn:feature name="type" type="java.lang.String" bpmn2extn:persist="false" value="ExtApp"/&gt;
+                    &lt;bpmn2extn:errorHandler/&gt;
+               &lt;/bpmn2:extensionElements&gt;
+               &lt;bpmn2:incoming&gt;startEvent_CTRLFLOW1489738445671667_to_HDI1489738445745685&lt;/bpmn2:incoming&gt;
+               &lt;bpmn2:outgoing&gt;HDI1492656167723&lt;/bpmn2:outgoing&gt;
+          &lt;/bpmn2:serviceTask&gt;
+          &lt;bpmn2:serviceTask id="HDI1489738445747686" name="直播观看时段分析" bpmn2extn:persist="true" bpmn2extn:forkMode="PARALLEL" bpmn2extn:joinMode="EXCLUSIVE" bpmn2extn:noOutFlowBehavior="AUTO_COMPLETE" bpmn2extn:conditionEvaluateMode="ALLMATCHED" bpmn2extn:nextFlowExecutionMode="SYNCHRONOUS" bpmn2extn:executionMode="SYNCHRONOUS" bpmn2extn:transactionSupport="NotRequired" implementation="java://com.huawei.data.integration.core.stage.task.TaskStageExecutionImpl" operationRef="run"&gt;
+               &lt;bpmn2:extensionElements&gt;
+                    &lt;bpmn2extn:feature name="code" type="java.lang.String" bpmn2extn:persist="false" value="H021"/&gt;
+                    &lt;bpmn2extn:feature name="stage" type="com.huawei.data.integration.core.stage.task.app.AppTaskStage" bpmn2extn:persist="false"&gt;&lt;![CDATA[{
+	"@type":"com.huawei.data.integration.core.stage.task.app.AppTaskStage",
+	"arguments":[],
+	"cmd":"workdir=/home/bdi/report_home\njavaexecutor=/home/bdi/jdk1.7.0_17/bin/java\n\ncd $workdir\n\nlibdir=$workdir/lib\nlibpath=\".\"\nfor file in $libdir/*.jar\ndo\nlibpath=$libpath:$file\ndone\n\nCLASSPATH=$CLASSPATH:$libpath:$workdir/classes \n\n$javaexecutor -classpath $CLASSPATH com.huawei.edata.report.ReportMain -t /home/bdi/report_home/config/report/video_users_active_day_watch_livetv_report_d.xml -u video/hadoop -k video.keytab -q QueueC",
+	"cmdType":"LOCAL_SHELL",
+	"code":"H021",
+	"dependable":false,
+	"desc":"",
+	"hadoopClusterId":"",
+	"id":"HDI1489738445747686",
+	"increasePriorityPeriod":60,
+	"inputArguments":[],
+	"keyTask":false,
+	"ldapUserId":"",
+	"name":"直播观看时段分析",
+	"outputArguments":[],
+	"priorityLevel":3,
+	"sequential":true,
+	"triggerable":false,
+	"verifyFlag":0
+}]]&gt;&lt;/bpmn2extn:feature&gt;
+                    &lt;bpmn2extn:feature name="type" type="java.lang.String" bpmn2extn:persist="false" value="ExtApp"/&gt;
+                    &lt;bpmn2extn:errorHandler/&gt;
+               &lt;/bpmn2:extensionElements&gt;
+               &lt;bpmn2:incoming&gt;startEvent_CTRLFLOW1489738445671667_to_HDI1489738445747686&lt;/bpmn2:incoming&gt;
+               &lt;bpmn2:outgoing&gt;HDI1492656167724&lt;/bpmn2:outgoing&gt;
+          &lt;/bpmn2:serviceTask&gt;
+          &lt;bpmn2:serviceTask id="HDI1489738445749687" name="用户订购时段分析_日表" bpmn2extn:persist="true" bpmn2extn:forkMode="PARALLEL" bpmn2extn:joinMode="EXCLUSIVE" bpmn2extn:noOutFlowBehavior="AUTO_COMPLETE" bpmn2extn:conditionEvaluateMode="ALLMATCHED" bpmn2extn:nextFlowExecutionMode="SYNCHRONOUS" bpmn2extn:executionMode="SYNCHRONOUS" bpmn2extn:transactionSupport="NotRequired" implementation="java://com.huawei.data.integration.core.stage.task.TaskStageExecutionImpl" operationRef="run"&gt;
+               &lt;bpmn2:extensionElements&gt;
+                    &lt;bpmn2extn:feature name="code" type="java.lang.String" bpmn2extn:persist="false" value="H022"/&gt;
+                    &lt;bpmn2extn:feature name="stage" type="com.huawei.data.integration.core.stage.task.app.AppTaskStage" bpmn2extn:persist="false"&gt;&lt;![CDATA[{
+	"@type":"com.huawei.data.integration.core.stage.task.app.AppTaskStage",
+	"arguments":[],
+	"cmd":"workdir=/home/bdi/report_home\njavaexecutor=/home/bdi/jdk1.7.0_17/bin/java\n\ncd $workdir\n\nlibdir=$workdir/lib\nlibpath=\".\"\nfor file in $libdir/*.jar\ndo\nlibpath=$libpath:$file\ndone\n\nCLASSPATH=$CLASSPATH:$libpath:$workdir/classes \n\n$javaexecutor -classpath $CLASSPATH com.huawei.edata.report.ReportMain -t /home/bdi/report_home/config/report/video_users_order_product_day_analyse_report_d.xml -u video/hadoop -k video.keytab -q QueueC",
+	"cmdType":"LOCAL_SHELL",
+	"code":"H022",
+	"dependable":false,
+	"desc":"",
+	"hadoopClusterId":"",
+	"id":"HDI1489738445749687",
+	"increasePriorityPeriod":60,
+	"inputArguments":[],
+	"keyTask":false,
+	"ldapUserId":"",
+	"name":"用户订购时段分析_日表",
+	"outputArguments":[],
+	"priorityLevel":3,
+	"sequential":true,
+	"triggerable":false,
+	"verifyFlag":0
+}]]&gt;&lt;/bpmn2extn:feature&gt;
+                    &lt;bpmn2extn:feature name="type" type="java.lang.String" bpmn2extn:persist="false" value="ExtApp"/&gt;
+                    &lt;bpmn2extn:errorHandler/&gt;
+               &lt;/bpmn2:extensionElements&gt;
+               &lt;bpmn2:incoming&gt;HDI1500969110109&lt;/bpmn2:incoming&gt;
+               &lt;bpmn2:outgoing&gt;HDI1492656167725&lt;/bpmn2:outgoing&gt;
+          &lt;/bpmn2:serviceTask&gt;
+          &lt;bpmn2:serviceTask id="HDI1489738445751688" name="用户订购时段分析_小时" bpmn2extn:persist="true" bpmn2extn:forkMode="PARALLEL" bpmn2extn:joinMode="EXCLUSIVE" bpmn2extn:noOutFlowBehavior="AUTO_COMPLETE" bpmn2extn:conditionEvaluateMode="ALLMATCHED" bpmn2extn:nextFlowExecutionMode="SYNCHRONOUS" bpmn2extn:executionMode="SYNCHRONOUS" bpmn2extn:transactionSupport="NotRequired" implementation="java://com.huawei.data.integration.core.stage.task.TaskStageExecutionImpl" operationRef="run"&gt;
+               &lt;bpmn2:extensionElements&gt;
+                    &lt;bpmn2extn:feature name="code" type="java.lang.String" bpmn2extn:persist="false" value="H023"/&gt;
+                    &lt;bpmn2extn:feature name="stage" type="com.huawei.data.integration.core.stage.task.app.AppTaskStage" bpmn2extn:persist="false"&gt;&lt;![CDATA[{
+	"@type":"com.huawei.data.integration.core.stage.task.app.AppTaskStage",
+	"arguments":[],
+	"cmd":"workdir=/home/bdi/report_home\njavaexecutor=/home/bdi/jdk1.7.0_17/bin/java\n\ncd $workdir\n\nlibdir=$workdir/lib\nlibpath=\".\"\nfor file in $libdir/*.jar\ndo\nlibpath=$libpath:$file\ndone\n\nCLASSPATH=$CLASSPATH:$libpath:$workdir/classes \n\n$javaexecutor -classpath $CLASSPATH com.huawei.edata.report.ReportMain -t /home/bdi/report_home/config/report/video_users_order_product_hours_analyse_report_h.xml -u video/hadoop -k video.keytab -q QueueC",
+	"cmdType":"LOCAL_SHELL",
+	"code":"H023",
+	"dependable":false,
+	"desc":"",
+	"hadoopClusterId":"",
+	"id":"HDI1489738445751688",
+	"increasePriorityPeriod":60,
+	"inputArguments":[],
+	"keyTask":false,
+	"ldapUserId":"",
+	"name":"用户订购时段分析_小时",
+	"outputArguments":[],
+	"priorityLevel":3,
+	"sequential":true,
+	"triggerable":false,
+	"verifyFlag":0
+}]]&gt;&lt;/bpmn2extn:feature&gt;
+                    &lt;bpmn2extn:feature name="type" type="java.lang.String" bpmn2extn:persist="false" value="ExtApp"/&gt;
+                    &lt;bpmn2extn:errorHandler/&gt;
+               &lt;/bpmn2:extensionElements&gt;
+               &lt;bpmn2:incoming&gt;HDI1492656167725&lt;/bpmn2:incoming&gt;
+               &lt;bpmn2:outgoing&gt;endEvent_CTRLFLOW1489738445671667_from_HDI1489738445751688&lt;/bpmn2:outgoing&gt;
+          &lt;/bpmn2:serviceTask&gt;
+          &lt;bpmn2:serviceTask id="HDI1489740296702" name="CPA_日" bpmn2extn:persist="true" bpmn2extn:forkMode="PARALLEL" bpmn2extn:joinMode="EXCLUSIVE" bpmn2extn:noOutFlowBehavior="AUTO_COMPLETE" bpmn2extn:conditionEvaluateMode="ALLMATCHED" bpmn2extn:nextFlowExecutionMode="SYNCHRONOUS" bpmn2extn:executionMode="SYNCHRONOUS" bpmn2extn:transactionSupport="NotRequired" implementation="java://com.huawei.data.integration.core.stage.task.TaskStageExecutionImpl" operationRef="run"&gt;
+               &lt;bpmn2:extensionElements&gt;
+                    &lt;bpmn2extn:feature name="code" type="java.lang.String" bpmn2extn:persist="false" value="H034"/&gt;
+                    &lt;bpmn2extn:feature name="stage" type="com.huawei.data.integration.core.stage.task.app.AppTaskStage" bpmn2extn:persist="false"&gt;&lt;![CDATA[{
+	"@type":"com.huawei.data.integration.core.stage.task.app.AppTaskStage",
+	"arguments":[],
+	"cmd":"workdir=/home/bdi/report_home\njavaexecutor=/home/bdi/jdk1.7.0_17/bin/java\n\ncd $workdir\n\nlibdir=$workdir/lib\nlibpath=\".\"\nfor file in $libdir/*.jar\ndo\nlibpath=$libpath:$file\ndone\n\nCLASSPATH=$CLASSPATH:$libpath:$workdir/classes \n\n$javaexecutor -classpath $CLASSPATH com.huawei.edata.report.ReportMain -t /home/bdi/report_home/config/report/video_edp_settlement_channel_cpa_report_d.xml -u video/hadoop -k video.keytab -q QueueC",
+	"cmdType":"LOCAL_SHELL",
+	"code":"H034",
+	"dependable":false,
+	"desc":"",
+	"hadoopClusterId":"",
+	"id":"HDI1489740296702",
+	"increasePriorityPeriod":60,
+	"inputArguments":[],
+	"keyTask":false,
+	"ldapUserId":"",
+	"name":"CPA_日",
+	"outputArguments":[],
+	"priorityLevel":3,
+	"sequential":true,
+	"triggerable":false,
+	"verifyFlag":0
+}]]&gt;&lt;/bpmn2extn:feature&gt;
+                    &lt;bpmn2extn:feature name="type" type="java.lang.String" bpmn2extn:persist="false" value="ExtApp"/&gt;
+                    &lt;bpmn2extn:errorHandler/&gt;
+               &lt;/bpmn2:extensionElements&gt;
+               &lt;bpmn2:incoming&gt;startEvent_CTRLFLOW1489738445671667_to_HDI1489740296702&lt;/bpmn2:incoming&gt;
+               &lt;bpmn2:outgoing&gt;HDI1492656167737&lt;/bpmn2:outgoing&gt;
+          &lt;/bpmn2:serviceTask&gt;
+          &lt;bpmn2:serviceTask id="HDI1489740296704" name="CPA_当月" bpmn2extn:persist="true" bpmn2extn:forkMode="PARALLEL" bpmn2extn:joinMode="EXCLUSIVE" bpmn2extn:noOutFlowBehavior="AUTO_COMPLETE" bpmn2extn:conditionEvaluateMode="ALLMATCHED" bpmn2extn:nextFlowExecutionMode="SYNCHRONOUS" bpmn2extn:executionMode="SYNCHRONOUS" bpmn2extn:transactionSupport="NotRequired" implementation="java://com.huawei.data.integration.core.stage.task.TaskStageExecutionImpl" operationRef="run"&gt;
+               &lt;bpmn2:extensionElements&gt;
+                    &lt;bpmn2extn:feature name="code" type="java.lang.String" bpmn2extn:persist="false" value="H035"/&gt;
+                    &lt;bpmn2extn:feature name="stage" type="com.huawei.data.integration.core.stage.task.app.AppTaskStage" bpmn2extn:persist="false"&gt;&lt;![CDATA[{
+	"@type":"com.huawei.data.integration.core.stage.task.app.AppTaskStage",
+	"arguments":[],
+	"cmd":"workdir=/home/bdi/report_home\njavaexecutor=/home/bdi/jdk1.7.0_17/bin/java\n\ncd $workdir\n\nlibdir=$workdir/lib\nlibpath=\".\"\nfor file in $libdir/*.jar\ndo\nlibpath=$libpath:$file\ndone\n\nCLASSPATH=$CLASSPATH:$libpath:$workdir/classes \n\n$javaexecutor -classpath $CLASSPATH com.huawei.edata.report.ReportMain -t /home/bdi/report_home/config/report/video_edp_settlement_channel_cpa_report_dm.xml -u video/hadoop -k video.keytab -q QueueC",
+	"cmdType":"LOCAL_SHELL",
+	"code":"H035",
+	"dependable":false,
+	"desc":"",
+	"hadoopClusterId":"",
+	"id":"HDI1489740296704",
+	"increasePriorityPeriod":60,
+	"inputArguments":[],
+	"keyTask":false,
+	"ldapUserId":"",
+	"name":"CPA_当月",
+	"outputArguments":[],
+	"priorityLevel":3,
+	"sequential":true,
+	"triggerable":false,
+	"verifyFlag":0
+}]]&gt;&lt;/bpmn2extn:feature&gt;
+                    &lt;bpmn2extn:feature name="type" type="java.lang.String" bpmn2extn:persist="false" value="ExtApp"/&gt;
+                    &lt;bpmn2extn:errorHandler/&gt;
+               &lt;/bpmn2:extensionElements&gt;
+               &lt;bpmn2:incoming&gt;HDI1492656167737&lt;/bpmn2:incoming&gt;
+               &lt;bpmn2:outgoing&gt;HDI1492656167738&lt;/bpmn2:outgoing&gt;
+          &lt;/bpmn2:serviceTask&gt;
+          &lt;bpmn2:serviceTask id="HDI1489740296706" name="CPC_日" bpmn2extn:persist="true" bpmn2extn:forkMode="PARALLEL" bpmn2extn:joinMode="EXCLUSIVE" bpmn2extn:noOutFlowBehavior="AUTO_COMPLETE" bpmn2extn:conditionEvaluateMode="ALLMATCHED" bpmn2extn:nextFlowExecutionMode="SYNCHRONOUS" bpmn2extn:executionMode="SYNCHRONOUS" bpmn2extn:transactionSupport="NotRequired" implementation="java://com.huawei.data.integration.core.stage.task.TaskStageExecutionImpl" operationRef="run"&gt;
+               &lt;bpmn2:extensionElements&gt;
+                    &lt;bpmn2extn:feature name="code" type="java.lang.String" bpmn2extn:persist="false" value="H036"/&gt;
+                    &lt;bpmn2extn:feature name="stage" type="com.huawei.data.integration.core.stage.task.app.AppTaskStage" bpmn2extn:persist="false"&gt;&lt;![CDATA[{
+	"@type":"com.huawei.data.integration.core.stage.task.app.AppTaskStage",
+	"arguments":[],
+	"cmd":"workdir=/home/bdi/report_home\njavaexecutor=/home/bdi/jdk1.7.0_17/bin/java\n\ncd $workdir\n\nlibdir=$workdir/lib\nlibpath=\".\"\nfor file in $libdir/*.jar\ndo\nlibpath=$libpath:$file\ndone\n\nCLASSPATH=$CLASSPATH:$libpath:$workdir/classes \n\n$javaexecutor -classpath $CLASSPATH com.huawei.edata.report.ReportMain -t /home/bdi/report_home/config/report/video_edp_settlement_channel_cpc_report_d.xml -u video/hadoop -k video.keytab -q QueueC",
+	"cmdType":"LOCAL_SHELL",
+	"code":"H036",
+	"dependable":false,
+	"desc":"",
+	"hadoopClusterId":"",
+	"id":"HDI1489740296706",
+	"increasePriorityPeriod":60,
+	"inputArguments":[],
+	"keyTask":false,
+	"ldapUserId":"",
+	"name":"CPC_日",
+	"outputArguments":[],
+	"priorityLevel":3,
+	"sequential":true,
+	"triggerable":false,
+	"verifyFlag":0
+}]]&gt;&lt;/bpmn2extn:feature&gt;
+                    &lt;bpmn2extn:feature name="type" type="java.lang.String" bpmn2extn:persist="false" value="ExtApp"/&gt;
+                    &lt;bpmn2extn:errorHandler/&gt;
+               &lt;/bpmn2:extensionElements&gt;
+               &lt;bpmn2:incoming&gt;HDI1492656167738&lt;/bpmn2:incoming&gt;
+               &lt;bpmn2:outgoing&gt;HDI1492656167739&lt;/bpmn2:outgoing&gt;
+          &lt;/bpmn2:serviceTask&gt;
+          &lt;bpmn2:serviceTask id="HDI1489740296707" name="CPC_当月" bpmn2extn:persist="true" bpmn2extn:forkMode="PARALLEL" bpmn2extn:joinMode="EXCLUSIVE" bpmn2extn:noOutFlowBehavior="AUTO_COMPLETE" bpmn2extn:conditionEvaluateMode="ALLMATCHED" bpmn2extn:nextFlowExecutionMode="SYNCHRONOUS" bpmn2extn:executionMode="SYNCHRONOUS" bpmn2extn:transactionSupport="NotRequired" implementation="java://com.huawei.data.integration.core.stage.task.TaskStageExecutionImpl" operationRef="run"&gt;
+               &lt;bpmn2:extensionElements&gt;
+                    &lt;bpmn2extn:feature name="code" type="java.lang.String" bpmn2extn:persist="false" value="H037"/&gt;
+                    &lt;bpmn2extn:feature name="stage" type="com.huawei.data.integration.core.stage.task.app.AppTaskStage" bpmn2extn:persist="false"&gt;&lt;![CDATA[{
+	"@type":"com.huawei.data.integration.core.stage.task.app.AppTaskStage",
+	"arguments":[],
+	"cmd":"workdir=/home/bdi/report_home\njavaexecutor=/home/bdi/jdk1.7.0_17/bin/java\n\ncd $workdir\n\nlibdir=$workdir/lib\nlibpath=\".\"\nfor file in $libdir/*.jar\ndo\nlibpath=$libpath:$file\ndone\n\nCLASSPATH=$CLASSPATH:$libpath:$workdir/classes \n\n$javaexecutor -classpath $CLASSPATH com.huawei.edata.report.ReportMain -t /home/bdi/report_home/config/report/video_edp_settlement_channel_cpc_report_dm.xml -u video/hadoop -k video.keytab -q QueueC",
+	"cmdType":"LOCAL_SHELL",
+	"code":"H037",
+	"dependable":false,
+	"desc":"",
+	"hadoopClusterId":"",
+	"id":"HDI1489740296707",
+	"increasePriorityPeriod":60,
+	"inputArguments":[],
+	"keyTask":false,
+	"ldapUserId":"",
+	"name":"CPC_当月",
+	"outputArguments":[],
+	"priorityLevel":3,
+	"sequential":true,
+	"triggerable":false,
+	"verifyFlag":0
+}]]&gt;&lt;/bpmn2extn:feature&gt;
+                    &lt;bpmn2extn:feature name="type" type="java.lang.String" bpmn2extn:persist="false" value="ExtApp"/&gt;
+                    &lt;bpmn2extn:errorHandler/&gt;
+               &lt;/bpmn2:extensionElements&gt;
+               &lt;bpmn2:incoming&gt;HDI1492656167739&lt;/bpmn2:incoming&gt;
+               &lt;bpmn2:outgoing&gt;endEvent_CTRLFLOW1489738445671667_from_HDI1489740296707&lt;/bpmn2:outgoing&gt;
+          &lt;/bpmn2:serviceTask&gt;
+          &lt;bpmn2:serviceTask id="HDI1489740296728" name="流量分析_当月" bpmn2extn:persist="true" bpmn2extn:forkMode="PARALLEL" bpmn2extn:joinMode="EXCLUSIVE" bpmn2extn:noOutFlowBehavior="AUTO_COMPLETE" bpmn2extn:conditionEvaluateMode="ALLMATCHED" bpmn2extn:nextFlowExecutionMode="SYNCHRONOUS" bpmn2extn:executionMode="SYNCHRONOUS" bpmn2extn:transactionSupport="NotRequired" implementation="java://com.huawei.data.integration.core.stage.task.TaskStageExecutionImpl" operationRef="run"&gt;
+               &lt;bpmn2:extensionElements&gt;
+                    &lt;bpmn2extn:feature name="code" type="java.lang.String" bpmn2extn:persist="false" value="H044"/&gt;
+                    &lt;bpmn2extn:feature name="stage" type="com.huawei.data.integration.core.stage.task.app.AppTaskStage" bpmn2extn:persist="false"&gt;&lt;![CDATA[{
+	"@type":"com.huawei.data.integration.core.stage.task.app.AppTaskStage",
+	"arguments":[],
+	"cmd":"workdir=/home/bdi/report_home\njavaexecutor=/home/bdi/jdk1.7.0_17/bin/java\n\ncd $workdir\n\nlibdir=$workdir/lib\nlibpath=\".\"\nfor file in $libdir/*.jar\ndo\nlibpath=$libpath:$file\ndone\n\nCLASSPATH=$CLASSPATH:$libpath:$workdir/classes \n\n$javaexecutor -classpath $CLASSPATH com.huawei.edata.report.ReportMain -t /home/bdi/report_home/config/report/video_client_flow_analyse_report_dm.xml -u video/hadoop -k video.keytab -q QueueC",
+	"cmdType":"LOCAL_SHELL",
+	"code":"H044",
+	"dependable":false,
+	"desc":"",
+	"hadoopClusterId":"",
+	"id":"HDI1489740296728",
+	"increasePriorityPeriod":60,
+	"inputArguments":[],
+	"keyTask":false,
+	"ldapUserId":"",
+	"name":"流量分析_当月",
+	"outputArguments":[],
+	"priorityLevel":3,
+	"sequential":true,
+	"triggerable":false,
+	"verifyFlag":0
+}]]&gt;&lt;/bpmn2extn:feature&gt;
+                    &lt;bpmn2extn:feature name="type" type="java.lang.String" bpmn2extn:persist="false" value="ExtApp"/&gt;
+                    &lt;bpmn2extn:errorHandler/&gt;
+               &lt;/bpmn2:extensionElements&gt;
+               &lt;bpmn2:incoming&gt;HDI1492656167735&lt;/bpmn2:incoming&gt;
+               &lt;bpmn2:outgoing&gt;HDI1492656167736&lt;/bpmn2:outgoing&gt;
+          &lt;/bpmn2:serviceTask&gt;
+          &lt;bpmn2:serviceTask id="HDI1489740296729" name="流量分析_当年" bpmn2extn:persist="true" bpmn2extn:forkMode="PARALLEL" bpmn2extn:joinMode="EXCLUSIVE" bpmn2extn:noOutFlowBehavior="AUTO_COMPLETE" bpmn2extn:conditionEvaluateMode="ALLMATCHED" bpmn2extn:nextFlowExecutionMode="SYNCHRONOUS" bpmn2extn:executionMode="SYNCHRONOUS" bpmn2extn:transactionSupport="NotRequired" implementation="java://com.huawei.data.integration.core.stage.task.TaskStageExecutionImpl" operationRef="run"&gt;
+               &lt;bpmn2:extensionElements&gt;
+                    &lt;bpmn2extn:feature name="code" type="java.lang.String" bpmn2extn:persist="false" value="H045"/&gt;
+                    &lt;bpmn2extn:feature name="stage" type="com.huawei.data.integration.core.stage.task.app.AppTaskStage" bpmn2extn:persist="false"&gt;&lt;![CDATA[{
+	"@type":"com.huawei.data.integration.core.stage.task.app.AppTaskStage",
+	"arguments":[],
+	"cmd":"workdir=/home/bdi/report_home\njavaexecutor=/home/bdi/jdk1.7.0_17/bin/java\n\ncd $workdir\n\nlibdir=$workdir/lib\nlibpath=\".\"\nfor file in $libdir/*.jar\ndo\nlibpath=$libpath:$file\ndone\n\nCLASSPATH=$CLASSPATH:$libpath:$workdir/classes \n\n$javaexecutor -classpath $CLASSPATH com.huawei.edata.report.ReportMain -t /home/bdi/report_home/config/report/video_client_flow_analyse_report_dy.xml -u video/hadoop -k video.keytab -q QueueC",
+	"cmdType":"LOCAL_SHELL",
+	"code":"H045",
+	"dependable":false,
+	"desc":"",
+	"hadoopClusterId":"",
+	"id":"HDI1489740296729",
+	"increasePriorityPeriod":60,
+	"inputArguments":[],
+	"keyTask":false,
+	"ldapUserId":"",
+	"name":"流量分析_当年",
+	"outputArguments":[],
+	"priorityLevel":3,
+	"sequential":true,
+	"triggerable":false,
+	"verifyFlag":0
+}]]&gt;&lt;/bpmn2extn:feature&gt;
+                    &lt;bpmn2extn:feature name="type" type="java.lang.String" bpmn2extn:persist="false" value="ExtApp"/&gt;
+                    &lt;bpmn2extn:errorHandler/&gt;
+               &lt;/bpmn2:extensionElements&gt;
+               &lt;bpmn2:incoming&gt;HDI1492656167736&lt;/bpmn2:incoming&gt;
+               &lt;bpmn2:outgoing&gt;endEvent_CTRLFLOW1489738445671667_from_HDI1489740296729&lt;/bpmn2:outgoing&gt;
+          &lt;/bpmn2:serviceTask&gt;
+          &lt;bpmn2:serviceTask id="HDI1490169890504" name="vod合作伙伴" bpmn2extn:persist="true" bpmn2extn:forkMode="PARALLEL" bpmn2extn:joinMode="EXCLUSIVE" bpmn2extn:noOutFlowBehavior="AUTO_COMPLETE" bpmn2extn:conditionEvaluateMode="ALLMATCHED" bpmn2extn:nextFlowExecutionMode="SYNCHRONOUS" bpmn2extn:executionMode="SYNCHRONOUS" bpmn2extn:transactionSupport="NotRequired" implementation="java://com.huawei.data.integration.core.stage.task.TaskStageExecutionImpl" operationRef="run"&gt;
+               &lt;bpmn2:extensionElements&gt;
+                    &lt;bpmn2extn:feature name="code" type="java.lang.String" bpmn2extn:persist="false" value="H051"/&gt;
+                    &lt;bpmn2extn:feature name="stage" type="com.huawei.data.integration.core.stage.task.app.AppTaskStage" bpmn2extn:persist="false"&gt;&lt;![CDATA[{
+	"@type":"com.huawei.data.integration.core.stage.task.app.AppTaskStage",
+	"arguments":[],
+	"cmd":"workdir=/home/bdi/report_home\njavaexecutor=/home/bdi/jdk1.7.0_17/bin/java\n\ncd $workdir\n\nlibdir=$workdir/lib\nlibpath=\".\"\nfor file in $libdir/*.jar\ndo\nlibpath=$libpath:$file\ndone\n\nCLASSPATH=$CLASSPATH:$libpath:$workdir/classes \n\n$javaexecutor -classpath $CLASSPATH com.huawei.edata.report.ReportMain -t /home/bdi/report_home/config/report/video_cooperation_portrait_report_d.xml -u video/hadoop -k video.keytab -q QueueC",
+	"cmdType":"LOCAL_SHELL",
+	"code":"H051",
+	"dependable":false,
+	"desc":"",
+	"hadoopClusterId":"",
+	"id":"HDI1490169890504",
+	"increasePriorityPeriod":60,
+	"inputArguments":[],
+	"keyTask":false,
+	"ldapUserId":"",
+	"name":"vod合作伙伴",
+	"outputArguments":[],
+	"priorityLevel":3,
+	"sequential":true,
+	"triggerable":false,
+	"verifyFlag":0
+}]]&gt;&lt;/bpmn2extn:feature&gt;
+                    &lt;bpmn2extn:feature name="type" type="java.lang.String" bpmn2extn:persist="false" value="ExtApp"/&gt;
+                    &lt;bpmn2extn:errorHandler/&gt;
+               &lt;/bpmn2:extensionElements&gt;
+               &lt;bpmn2:incoming&gt;startEvent_CTRLFLOW1489738445671667_to_HDI1490169890504&lt;/bpmn2:incoming&gt;
+               &lt;bpmn2:outgoing&gt;endEvent_CTRLFLOW1489738445671667_from_HDI1490169890504&lt;/bpmn2:outgoing&gt;
+          &lt;/bpmn2:serviceTask&gt;
+          &lt;bpmn2:serviceTask id="HDI1490169890505" name="livetv_spid" bpmn2extn:persist="true" bpmn2extn:forkMode="PARALLEL" bpmn2extn:joinMode="EXCLUSIVE" bpmn2extn:noOutFlowBehavior="AUTO_COMPLETE" bpmn2extn:conditionEvaluateMode="ALLMATCHED" bpmn2extn:nextFlowExecutionMode="SYNCHRONOUS" bpmn2extn:executionMode="SYNCHRONOUS" bpmn2extn:transactionSupport="NotRequired" implementation="java://com.huawei.data.integration.core.stage.task.TaskStageExecutionImpl" operationRef="run"&gt;
+               &lt;bpmn2:extensionElements&gt;
+                    &lt;bpmn2extn:feature name="code" type="java.lang.String" bpmn2extn:persist="false" value="H052"/&gt;
+                    &lt;bpmn2extn:feature name="stage" type="com.huawei.data.integration.core.stage.task.app.AppTaskStage" bpmn2extn:persist="false"&gt;&lt;![CDATA[{
+	"@type":"com.huawei.data.integration.core.stage.task.app.AppTaskStage",
+	"arguments":[],
+	"cmd":"workdir=/home/bdi/report_home\njavaexecutor=/home/bdi/jdk1.7.0_17/bin/java\n\ncd $workdir\n\nlibdir=$workdir/lib\nlibpath=\".\"\nfor file in $libdir/*.jar\ndo\nlibpath=$libpath:$file\ndone\n\nCLASSPATH=$CLASSPATH:$libpath:$workdir/classes \n\n$javaexecutor -classpath $CLASSPATH com.huawei.edata.report.ReportMain -t /home/bdi/report_home/config/report/video_livetv_watch_list_spid_report_d.xml -u video/hadoop -k video.keytab -q QueueC",
+	"cmdType":"LOCAL_SHELL",
+	"code":"H052",
+	"dependable":false,
+	"desc":"",
+	"hadoopClusterId":"",
+	"id":"HDI1490169890505",
+	"increasePriorityPeriod":60,
+	"inputArguments":[],
+	"keyTask":false,
+	"ldapUserId":"",
+	"name":"livetv_spid",
+	"outputArguments":[],
+	"priorityLevel":3,
+	"sequential":true,
+	"triggerable":false,
+	"verifyFlag":0
+}]]&gt;&lt;/bpmn2extn:feature&gt;
+                    &lt;bpmn2extn:feature name="type" type="java.lang.String" bpmn2extn:persist="false" value="ExtApp"/&gt;
+                    &lt;bpmn2extn:errorHandler/&gt;
+               &lt;/bpmn2:extensionElements&gt;
+               &lt;bpmn2:incoming&gt;startEvent_CTRLFLOW1489738445671667_to_HDI1490169890505&lt;/bpmn2:incoming&gt;
+               &lt;bpmn2:outgoing&gt;endEvent_CTRLFLOW1489738445671667_from_HDI1490169890505&lt;/bpmn2:outgoing&gt;
+          &lt;/bpmn2:serviceTask&gt;
+          &lt;bpmn2:serviceTask id="HDI1492675136881" name="当时流量分析" bpmn2extn:persist="true" bpmn2extn:forkMode="PARALLEL" bpmn2extn:joinMode="EXCLUSIVE" bpmn2extn:noOutFlowBehavior="AUTO_COMPLETE" bpmn2extn:conditionEvaluateMode="ALLMATCHED" bpmn2extn:nextFlowExecutionMode="SYNCHRONOUS" bpmn2extn:executionMode="SYNCHRONOUS" bpmn2extn:transactionSupport="NotRequired" implementation="java://com.huawei.data.integration.core.stage.task.TaskStageExecutionImpl" operationRef="run"&gt;
+               &lt;bpmn2:extensionElements&gt;
+                    &lt;bpmn2extn:feature name="code" type="java.lang.String" bpmn2extn:persist="false" value="H064"/&gt;
+                    &lt;bpmn2extn:feature name="stage" type="com.huawei.data.integration.core.stage.task.app.AppTaskStage" bpmn2extn:persist="false"&gt;&lt;![CDATA[{
+	"@type":"com.huawei.data.integration.core.stage.task.app.AppTaskStage",
+	"arguments":[],
+	"cmd":"workdir=/home/bdi/report_home\njavaexecutor=/home/bdi/jdk1.7.0_17/bin/java\n\ncd $workdir\n\nlibdir=$workdir/lib\nlibpath=\".\"\nfor file in $libdir/*.jar\ndo\nlibpath=$libpath:$file\ndone\n\nCLASSPATH=$CLASSPATH:$libpath:$workdir/classes \n\n$javaexecutor -classpath $CLASSPATH com.huawei.edata.report.ReportMain -t /home/bdi/report_home/config/report/video_client_flow_hours_analy_report_h.xml -u video/hadoop -k video.keytab -q QueueC",
+	"cmdType":"LOCAL_SHELL",
+	"code":"H064",
+	"dependable":false,
+	"desc":"",
+	"hadoopClusterId":"",
+	"id":"HDI1492675136881",
+	"increasePriorityPeriod":60,
+	"inputArguments":[],
+	"keyTask":false,
+	"ldapUserId":"",
+	"name":"当时流量分析",
+	"outputArguments":[],
+	"priorityLevel":3,
+	"sequential":true,
+	"triggerable":false,
+	"verifyFlag":0
+}]]&gt;&lt;/bpmn2extn:feature&gt;
+                    &lt;bpmn2extn:feature name="type" type="java.lang.String" bpmn2extn:persist="false" value="ExtApp"/&gt;
+                    &lt;bpmn2extn:errorHandler/&gt;
+               &lt;/bpmn2:extensionElements&gt;
+               &lt;bpmn2:incoming&gt;HDI1492675136882&lt;/bpmn2:incoming&gt;
+               &lt;bpmn2:outgoing&gt;HDI1492675136883&lt;/bpmn2:outgoing&gt;
+          &lt;/bpmn2:serviceTask&gt;
+          &lt;bpmn2:serviceTask id="HDI1500969110107" name="依赖1" bpmn2extn:persist="true" bpmn2extn:forkMode="PARALLEL" bpmn2extn:joinMode="EXCLUSIVE" bpmn2extn:noOutFlowBehavior="AUTO_COMPLETE" bpmn2extn:conditionEvaluateMode="ALLMATCHED" bpmn2extn:nextFlowExecutionMode="SYNCHRONOUS" bpmn2extn:executionMode="SYNCHRONOUS" bpmn2extn:transactionSupport="NotRequired" implementation="java://com.huawei.data.integration.core.stage.task.TaskStageExecutionImpl" operationRef="run"&gt;
+               &lt;bpmn2:extensionElements&gt;
+                    &lt;bpmn2extn:feature name="code" type="java.lang.String" bpmn2extn:persist="false" value="H065"/&gt;
+                    &lt;bpmn2extn:feature name="stage" type="com.huawei.data.integration.core.stage.task.dependence.DependentTaskStage" bpmn2extn:persist="false"&gt;&lt;![CDATA[{
+	"@type":"com.huawei.data.integration.core.stage.task.dependence.DependentTaskStage",
+	"arguments":[],
+	"code":"H065",
+	"dependable":false,
+	"dependenceList":[
+		{
+			"effective":false,
+			"flowId":"CTRLFLOW15004471528528112",
+			"flowName":"基础数据结算",
+			"packageName":"video",
+			"status":0
+		}
+	],
+	"desc":"",
+	"id":"HDI1500969110107",
+	"increasePriorityPeriod":60,
+	"inputArguments":[],
+	"keyTask":false,
+	"name":"依赖1",
+	"outputArguments":[],
+	"priorityLevel":3,
+	"sequential":true,
+	"triggerable":false,
+	"verifyFlag":0
+}]]&gt;&lt;/bpmn2extn:feature&gt;
+                    &lt;bpmn2extn:feature name="type" type="java.lang.String" bpmn2extn:persist="false" value="Dependency"/&gt;
+                    &lt;bpmn2extn:errorHandler/&gt;
+               &lt;/bpmn2:extensionElements&gt;
+               &lt;bpmn2:incoming&gt;startEvent_CTRLFLOW1489738445671667_to_HDI1500969110107&lt;/bpmn2:incoming&gt;
+               &lt;bpmn2:outgoing&gt;HDI1500969110109&lt;/bpmn2:outgoing&gt;
+               &lt;bpmn2:outgoing&gt;HDI1500969110110&lt;/bpmn2:outgoing&gt;
+          &lt;/bpmn2:serviceTask&gt;
+          &lt;bpmn2:serviceTask id="HDI1503042852972" name="客户端版本数量统计" bpmn2extn:persist="true" bpmn2extn:forkMode="PARALLEL" bpmn2extn:joinMode="EXCLUSIVE" bpmn2extn:noOutFlowBehavior="AUTO_COMPLETE" bpmn2extn:conditionEvaluateMode="ALLMATCHED" bpmn2extn:transactionSupport="NotRequired" implementation="java://com.huawei.data.integration.core.stage.task.TaskStageExecutionImpl" operationRef="run"&gt;
+               &lt;bpmn2:extensionElements&gt;
+                    &lt;bpmn2extn:feature name="code" type="java.lang.String" bpmn2extn:persist="false" value="H066"/&gt;
+                    &lt;bpmn2extn:feature name="stage" type="com.huawei.data.integration.core.stage.task.app.AppTaskStage" bpmn2extn:persist="false"&gt;&lt;![CDATA[{
+	"@type":"com.huawei.data.integration.core.stage.task.app.AppTaskStage",
+	"arguments":[],
+	"cmd":"workdir=/home/bdi/report_home\njavaexecutor=/home/bdi/jdk1.7.0_17/bin/java\n\ncd $workdir\n\nlibdir=$workdir/lib\nlibpath=\".\"\nfor file in $libdir/*.jar\ndo\nlibpath=$libpath:$file\ndone\n\nCLASSPATH=$CLASSPATH:$libpath:$workdir/classes \n\n$javaexecutor -classpath $CLASSPATH com.huawei.edata.report.ReportMain -t /home/bdi/report_home/config/report/video_develop_use_active_appversion_report_d.xml -u video/hadoop -k video.keytab -q QueueC",
+	"cmdType":"LOCAL_SHELL",
+	"code":"H066",
+	"dependable":false,
+	"desc":"",
+	"hadoopClusterId":"",
+	"id":"HDI1503042852972",
+	"increasePriorityPeriod":60,
+	"inputArguments":[],
+	"keyTask":false,
+	"ldapUserId":"",
+	"name":"客户端版本数量统计",
+	"outputArguments":[],
+	"priorityLevel":3,
+	"sequential":true,
+	"triggerable":false,
+	"verifyFlag":0
+}]]&gt;&lt;/bpmn2extn:feature&gt;
+                    &lt;bpmn2extn:feature name="type" type="java.lang.String" bpmn2extn:persist="false" value="ExtApp"/&gt;
+                    &lt;bpmn2extn:errorHandler/&gt;
+               &lt;/bpmn2:extensionElements&gt;
+               &lt;bpmn2:incoming&gt;startEvent_CTRLFLOW1489738445671667_to_HDI1503042852972&lt;/bpmn2:incoming&gt;
+               &lt;bpmn2:outgoing&gt;endEvent_CTRLFLOW1489738445671667_from_HDI1503042852972&lt;/bpmn2:outgoing&gt;
+          &lt;/bpmn2:serviceTask&gt;
+          &lt;bpmn2:sequenceFlow id="HDI1492656167723" name="H020toH013" sourceRef="HDI1489738445745685" targetRef="HDI1489738445710679"/&gt;
+          &lt;bpmn2:sequenceFlow id="HDI1492656167724" name="H021toH012" sourceRef="HDI1489738445747686" targetRef="HDI1489738445709678"/&gt;
+          &lt;bpmn2:sequenceFlow id="HDI1492656167725" name="H022toH023" sourceRef="HDI1489738445749687" targetRef="HDI1489738445751688"/&gt;
+          &lt;bpmn2:sequenceFlow id="HDI1492656167726" name="H009toH026" sourceRef="HDI1489738445704675" targetRef="HDI1489738398002"/&gt;
+          &lt;bpmn2:sequenceFlow id="HDI1492656167727" name="H026toH027" sourceRef="HDI1489738398002" targetRef="HDI1489738398003"/&gt;
+          &lt;bpmn2:sequenceFlow id="HDI1492656167728" name="H014toH028" sourceRef="HDI1489738445738680" targetRef="HDI1489738398007"/&gt;
+          &lt;bpmn2:sequenceFlow id="HDI1492656167729" name="H028toH029" sourceRef="HDI1489738398007" targetRef="HDI1489738398008"/&gt;
+          &lt;bpmn2:sequenceFlow id="HDI1492656167732" name="H025toH003" sourceRef="HDI1489738397999" targetRef="HDI1489738445697670"/&gt;
+          &lt;bpmn2:sequenceFlow id="HDI1492656167734" name="H003toH016" sourceRef="HDI1489738445697670" targetRef="HDI1489738445741682"/&gt;
+          &lt;bpmn2:sequenceFlow id="HDI1492656167735" name="H016toH044" sourceRef="HDI1489738445741682" targetRef="HDI1489740296728"/&gt;
+          &lt;bpmn2:sequenceFlow id="HDI1492656167736" name="H044toH045" sourceRef="HDI1489740296728" targetRef="HDI1489740296729"/&gt;
+          &lt;bpmn2:sequenceFlow id="HDI1492656167737" name="H034toH035" sourceRef="HDI1489740296702" targetRef="HDI1489740296704"/&gt;
+          &lt;bpmn2:sequenceFlow id="HDI1492656167738" name="H035toH036" sourceRef="HDI1489740296704" targetRef="HDI1489740296706"/&gt;
+          &lt;bpmn2:sequenceFlow id="HDI1492656167739" name="H036toH037" sourceRef="HDI1489740296706" targetRef="HDI1489740296707"/&gt;
+          &lt;bpmn2:sequenceFlow id="HDI1492675136882" name="H024toH064" sourceRef="HDI1489738397998" targetRef="HDI1492675136881"/&gt;
+          &lt;bpmn2:sequenceFlow id="HDI1492675136883" name="H064toH025" sourceRef="HDI1492675136881" targetRef="HDI1489738397999"/&gt;
+          &lt;bpmn2:sequenceFlow id="HDI1500969110109" name="H065toH022" sourceRef="HDI1500969110107" targetRef="HDI1489738445749687"/&gt;
+          &lt;bpmn2:sequenceFlow id="HDI1500969110110" name="H065toH024" sourceRef="HDI1500969110107" targetRef="HDI1489738397998"/&gt;
+          &lt;bpmn2:sequenceFlow id="endEvent_CTRLFLOW1489738445671667_from_HDI1489738398003" name="endEvent" sourceRef="HDI1489738398003" targetRef="EndEvent_CTRLFLOW1489738445671667"/&gt;
+          &lt;bpmn2:sequenceFlow id="endEvent_CTRLFLOW1489738445671667_from_HDI1489738398008" name="endEvent" sourceRef="HDI1489738398008" targetRef="EndEvent_CTRLFLOW1489738445671667"/&gt;
+          &lt;bpmn2:sequenceFlow id="endEvent_CTRLFLOW1489738445671667_from_HDI1489738445709678" name="endEvent" sourceRef="HDI1489738445709678" targetRef="EndEvent_CTRLFLOW1489738445671667"/&gt;
+          &lt;bpmn2:sequenceFlow id="endEvent_CTRLFLOW1489738445671667_from_HDI1489738445710679" name="endEvent" sourceRef="HDI1489738445710679" targetRef="EndEvent_CTRLFLOW1489738445671667"/&gt;
+          &lt;bpmn2:sequenceFlow id="endEvent_CTRLFLOW1489738445671667_from_HDI1489738445751688" name="endEvent" sourceRef="HDI1489738445751688" targetRef="EndEvent_CTRLFLOW1489738445671667"/&gt;
+          &lt;bpmn2:sequenceFlow id="endEvent_CTRLFLOW1489738445671667_from_HDI1489740296707" name="endEvent" sourceRef="HDI1489740296707" targetRef="EndEvent_CTRLFLOW1489738445671667"/&gt;
+          &lt;bpmn2:sequenceFlow id="endEvent_CTRLFLOW1489738445671667_from_HDI1489740296729" name="endEvent" sourceRef="HDI1489740296729" targetRef="EndEvent_CTRLFLOW1489738445671667"/&gt;
+          &lt;bpmn2:sequenceFlow id="endEvent_CTRLFLOW1489738445671667_from_HDI1490169890504" name="endEvent" sourceRef="HDI1490169890504" targetRef="EndEvent_CTRLFLOW1489738445671667"/&gt;
+          &lt;bpmn2:sequenceFlow id="endEvent_CTRLFLOW1489738445671667_from_HDI1490169890505" name="endEvent" sourceRef="HDI1490169890505" targetRef="EndEvent_CTRLFLOW1489738445671667"/&gt;
+          &lt;bpmn2:sequenceFlow id="endEvent_CTRLFLOW1489738445671667_from_HDI1503042852972" name="endEvent" sourceRef="HDI1503042852972" targetRef="EndEvent_CTRLFLOW1489738445671667"/&gt;
+          &lt;bpmn2:sequenceFlow id="startEvent_CTRLFLOW1489738445671667_to_HDI1489738445704675" name="startEvent" sourceRef="StartEvent_CTRLFLOW1489738445671667" targetRef="HDI1489738445704675"/&gt;
+          &lt;bpmn2:sequenceFlow id="startEvent_CTRLFLOW1489738445671667_to_HDI1489738445738680" name="startEvent" sourceRef="StartEvent_CTRLFLOW1489738445671667" targetRef="HDI1489738445738680"/&gt;
+          &lt;bpmn2:sequenceFlow id="startEvent_CTRLFLOW1489738445671667_to_HDI1489738445745685" name="startEvent" sourceRef="StartEvent_CTRLFLOW1489738445671667" targetRef="HDI1489738445745685"/&gt;
+          &lt;bpmn2:sequenceFlow id="startEvent_CTRLFLOW1489738445671667_to_HDI1489738445747686" name="startEvent" sourceRef="StartEvent_CTRLFLOW1489738445671667" targetRef="HDI1489738445747686"/&gt;
+          &lt;bpmn2:sequenceFlow id="startEvent_CTRLFLOW1489738445671667_to_HDI1489740296702" name="startEvent" sourceRef="StartEvent_CTRLFLOW1489738445671667" targetRef="HDI1489740296702"/&gt;
+          &lt;bpmn2:sequenceFlow id="startEvent_CTRLFLOW1489738445671667_to_HDI1490169890504" name="startEvent" sourceRef="StartEvent_CTRLFLOW1489738445671667" targetRef="HDI1490169890504"/&gt;
+          &lt;bpmn2:sequenceFlow id="startEvent_CTRLFLOW1489738445671667_to_HDI1490169890505" name="startEvent" sourceRef="StartEvent_CTRLFLOW1489738445671667" targetRef="HDI1490169890505"/&gt;
+          &lt;bpmn2:sequenceFlow id="startEvent_CTRLFLOW1489738445671667_to_HDI1500969110107" name="startEvent" sourceRef="StartEvent_CTRLFLOW1489738445671667" targetRef="HDI1500969110107"/&gt;
+          &lt;bpmn2:sequenceFlow id="startEvent_CTRLFLOW1489738445671667_to_HDI1503042852972" name="startEvent" sourceRef="StartEvent_CTRLFLOW1489738445671667" targetRef="HDI1503042852972"/&gt;
+     &lt;/bpmn2:process&gt;
+     &lt;bpmndi:BPMNDiagram&gt;
+          &lt;bpmndi:BPMNPlane bpmnElement="CTRLFLOW1489738445671667"&gt;
+               &lt;bpmndi:BPMNShape bpmnElement="HDI1489738397998"&gt;
+                    &lt;dc:Bounds height="-1.0" width="-1.0" x="160.0" y="369.0"/&gt;
+               &lt;/bpmndi:BPMNShape&gt;
+               &lt;bpmndi:BPMNShape bpmnElement="HDI1489738397999"&gt;
+                    &lt;dc:Bounds height="-1.0" width="-1.0" x="368.0" y="364.0"/&gt;
+               &lt;/bpmndi:BPMNShape&gt;
+               &lt;bpmndi:BPMNShape bpmnElement="HDI1489738398002"&gt;
+                    &lt;dc:Bounds height="-1.0" width="-1.0" x="332.0" y="214.0"/&gt;
+               &lt;/bpmndi:BPMNShape&gt;
+               &lt;bpmndi:BPMNShape bpmnElement="HDI1489738398003"&gt;
+                    &lt;dc:Bounds height="-1.0" width="-1.0" x="444.0" y="210.0"/&gt;
+               &lt;/bpmndi:BPMNShape&gt;
+               &lt;bpmndi:BPMNShape bpmnElement="HDI1489738398007"&gt;
+                    &lt;dc:Bounds height="-1.0" width="-1.0" x="321.0" y="294.0"/&gt;
+               &lt;/bpmndi:BPMNShape&gt;
+               &lt;bpmndi:BPMNShape bpmnElement="HDI1489738398008"&gt;
+                    &lt;dc:Bounds height="-1.0" width="-1.0" x="454.0" y="283.0"/&gt;
+               &lt;/bpmndi:BPMNShape&gt;
+               &lt;bpmndi:BPMNShape bpmnElement="HDI1489738445697670"&gt;
+                    &lt;dc:Bounds height="-1.0" width="-1.0" x="499.0" y="360.0"/&gt;
+               &lt;/bpmndi:BPMNShape&gt;
+               &lt;bpmndi:BPMNShape bpmnElement="HDI1489738445704675"&gt;
+                    &lt;dc:Bounds height="-1.0" width="-1.0" x="165.0" y="210.0"/&gt;
+               &lt;/bpmndi:BPMNShape&gt;
+               &lt;bpmndi:BPMNShape bpmnElement="HDI1489738445709678"&gt;
+                    &lt;dc:Bounds height="-1.0" width="-1.0" x="348.0" y="89.0"/&gt;
+               &lt;/bpmndi:BPMNShape&gt;
+               &lt;bpmndi:BPMNShape bpmnElement="HDI1489738445710679"&gt;
+                    &lt;dc:Bounds height="-1.0" width="-1.0" x="355.0" y="19.0"/&gt;
+               &lt;/bpmndi:BPMNShape&gt;
+               &lt;bpmndi:BPMNShape bpmnElement="HDI1489738445738680"&gt;
+                    &lt;dc:Bounds height="-1.0" width="-1.0" x="163.0" y="297.0"/&gt;
+               &lt;/bpmndi:BPMNShape&gt;
+               &lt;bpmndi:BPMNShape bpmnElement="HDI1489738445741682"&gt;
+                    &lt;dc:Bounds height="-1.0" width="-1.0" x="648.0" y="369.0"/&gt;
+               &lt;/bpmndi:BPMNShape&gt;
+               &lt;bpmndi:BPMNShape bpmnElement="HDI1489738445745685"&gt;
+                    &lt;dc:Bounds height="-1.0" width="-1.0" x="171.0" y="13.0"/&gt;
+               &lt;/bpmndi:BPMNShape&gt;
+               &lt;bpmndi:BPMNShape bpmnElement="HDI1489738445747686"&gt;
+                    &lt;dc:Bounds height="-1.0" width="-1.0" x="169.0" y="86.0"/&gt;
+               &lt;/bpmndi:BPMNShape&gt;
+               &lt;bpmndi:BPMNShape bpmnElement="HDI1489738445749687"&gt;
+                    &lt;dc:Bounds height="-1.0" width="-1.0" x="168.0" y="150.0"/&gt;
+               &lt;/bpmndi:BPMNShape&gt;
+               &lt;bpmndi:BPMNShape bpmnElement="HDI1489738445751688"&gt;
+                    &lt;dc:Bounds height="-1.0" width="-1.0" x="345.0" y="154.0"/&gt;
+               &lt;/bpmndi:BPMNShape&gt;
+               &lt;bpmndi:BPMNShape bpmnElement="HDI1489740296702"&gt;
+                    &lt;dc:Bounds height="-1.0" width="-1.0" x="155.0" y="444.0"/&gt;
+               &lt;/bpmndi:BPMNShape&gt;
+               &lt;bpmndi:BPMNShape bpmnElement="HDI1489740296704"&gt;
+                    &lt;dc:Bounds height="-1.0" width="-1.0" x="291.0" y="451.0"/&gt;
+               &lt;/bpmndi:BPMNShape&gt;
+               &lt;bpmndi:BPMNShape bpmnElement="HDI1489740296706"&gt;
+                    &lt;dc:Bounds height="-1.0" width="-1.0" x="474.0" y="448.0"/&gt;
+               &lt;/bpmndi:BPMNShape&gt;
+               &lt;bpmndi:BPMNShape bpmnElement="HDI1489740296707"&gt;
+                    &lt;dc:Bounds height="-1.0" width="-1.0" x="601.0" y="456.0"/&gt;
+               &lt;/bpmndi:BPMNShape&gt;
+               &lt;bpmndi:BPMNShape bpmnElement="HDI1489740296728"&gt;
+                    &lt;dc:Bounds height="-1.0" width="-1.0" x="760.0" y="374.0"/&gt;
+               &lt;/bpmndi:BPMNShape&gt;
+               &lt;bpmndi:BPMNShape bpmnElement="HDI1489740296729"&gt;
+                    &lt;dc:Bounds height="-1.0" width="-1.0" x="848.0" y="373.0"/&gt;
+               &lt;/bpmndi:BPMNShape&gt;
+               &lt;bpmndi:BPMNShape bpmnElement="HDI1490169890504"&gt;
+                    &lt;dc:Bounds height="-1.0" width="-1.0" x="161.0" y="525.0"/&gt;
+               &lt;/bpmndi:BPMNShape&gt;
+               &lt;bpmndi:BPMNShape bpmnElement="HDI1490169890505"&gt;
+                    &lt;dc:Bounds height="-1.0" width="-1.0" x="165.0" y="589.0"/&gt;
+               &lt;/bpmndi:BPMNShape&gt;
+               &lt;bpmndi:BPMNShape bpmnElement="HDI1492675136881"&gt;
+                    &lt;dc:Bounds height="-1.0" width="-1.0" x="264.0" y="368.0"/&gt;
+               &lt;/bpmndi:BPMNShape&gt;
+               &lt;bpmndi:BPMNShape bpmnElement="HDI1500969110107"&gt;
+                    &lt;dc:Bounds height="-1.0" width="-1.0" x="14.0" y="277.0"/&gt;
+               &lt;/bpmndi:BPMNShape&gt;
+               &lt;bpmndi:BPMNShape bpmnElement="HDI1503042852972"&gt;
+                    &lt;dc:Bounds height="-1.0" width="-1.0" x="279.0" y="568.0"/&gt;
+               &lt;/bpmndi:BPMNShape&gt;
+          &lt;/bpmndi:BPMNPlane&gt;
+     &lt;/bpmndi:BPMNDiagram&gt;
+&lt;/bpmn2:definitions&gt;
+</flowInfo><compiled_data></compiled_data><tasks><task><taskID>HDI1489738397998</taskID><name>日流量分析</name><description></description><type>1</type><isDependable>false</isDependable><creOperID>video</creOperID><creDate>20170818155440</creDate><lastUpdOperID>video</lastUpdOperID><lastUpdDate>20170818155625</lastUpdDate><releaseOperID>video</releaseOperID><releaseDate>20170818155625</releaseDate><dataflowID></dataflowID></task><task><taskID>HDI1489738397999</taskID><name>当周流量分析</name><description></description><type>1</type><isDependable>false</isDependable><creOperID>video</creOperID><creDate>20170818155440</creDate><lastUpdOperID>video</lastUpdOperID><lastUpdDate>20170818155625</lastUpdDate><releaseOperID>video</releaseOperID><releaseDate>20170818155625</releaseDate><dataflowID></dataflowID></task><task><taskID>HDI1489738398002</taskID><name>VOD_当周</name><description></description><type>1</type><isDependable>false</isDependable><creOperID>video</creOperID><creDate>20170818155440</creDate><lastUpdOperID>video</lastUpdOperID><lastUpdDate>20170818155625</lastUpdDate><releaseOperID>video</releaseOperID><releaseDate>20170818155625</releaseDate><dataflowID></dataflowID></task><task><taskID>HDI1489738398003</taskID><name>VOD_当月</name><description></description><type>1</type><isDependable>false</isDependable><creOperID>video</creOperID><creDate>20170818155440</creDate><lastUpdOperID>video</lastUpdOperID><lastUpdDate>20170818155625</lastUpdDate><releaseOperID>video</releaseOperID><releaseDate>20170818155625</releaseDate><dataflowID></dataflowID></task><task><taskID>HDI1489738398007</taskID><name>LIVETV_当周</name><description></description><type>1</type><isDependable>false</isDependable><creOperID>video</creOperID><creDate>20170818155440</creDate><lastUpdOperID>video</lastUpdOperID><lastUpdDate>20170818155625</lastUpdDate><releaseOperID>video</releaseOperID><releaseDate>20170818155625</releaseDate><dataflowID></dataflowID></task><task><taskID>HDI1489738398008</taskID><name>LIVETV_当月</name><description></description><type>1</type><isDependable>false</isDependable><creOperID>video</creOperID><creDate>20170818155440</creDate><lastUpdOperID>video</lastUpdOperID><lastUpdDate>20170818155625</lastUpdDate><releaseOperID>video</releaseOperID><releaseDate>20170818155625</releaseDate><dataflowID></dataflowID></task><task><taskID>HDI1489738445697670</taskID><name>流量分布分析</name><description></description><type>1</type><isDependable>false</isDependable><creOperID>video</creOperID><creDate>20170818155440</creDate><lastUpdOperID>video</lastUpdOperID><lastUpdDate>20170818155625</lastUpdDate><releaseOperID>video</releaseOperID><releaseDate>20170818155625</releaseDate><dataflowID></dataflowID></task><task><taskID>HDI1489738445704675</taskID><name>VOD</name><description></description><type>1</type><isDependable>false</isDependable><creOperID>video</creOperID><creDate>20170818155440</creDate><lastUpdOperID>video</lastUpdOperID><lastUpdDate>20170818155625</lastUpdDate><releaseOperID>video</releaseOperID><releaseDate>20170818155625</releaseDate><dataflowID></dataflowID></task><task><taskID>HDI1489738445709678</taskID><name>直播观看时间段分析_小时</name><description></description><type>1</type><isDependable>false</isDependable><creOperID>video</creOperID><creDate>20170818155440</creDate><lastUpdOperID>video</lastUpdOperID><lastUpdDate>20170818155625</lastUpdDate><releaseOperID>video</releaseOperID><releaseDate>20170818155625</releaseDate><dataflowID></dataflowID></task><task><taskID>HDI1489738445710679</taskID><name>点播观看时间段分布_小时</name><description></description><type>1</type><isDependable>false</isDependable><creOperID>video</creOperID><creDate>20170818155440</creDate><lastUpdOperID>video</lastUpdOperID><lastUpdDate>20170818155625</lastUpdDate><releaseOperID>video</releaseOperID><releaseDate>20170818155625</releaseDate><dataflowID></dataflowID></task><task><taskID>HDI1489738445738680</taskID><name>LIVETV</name><description></description><type>1</type><isDependable>false</isDependable><creOperID>video</creOperID><creDate>20170818155440</creDate><lastUpdOperID>video</lastUpdOperID><lastUpdDate>20170818155625</lastUpdDate><releaseOperID>video</releaseOperID><releaseDate>20170818155625</releaseDate><dataflowID></dataflowID></task><task><taskID>HDI1489738445741682</taskID><name>流量分析日表</name><description></description><type>1</type><isDependable>false</isDependable><creOperID>video</creOperID><creDate>20170818155440</creDate><lastUpdOperID>video</lastUpdOperID><lastUpdDate>20170818155625</lastUpdDate><releaseOperID>video</releaseOperID><releaseDate>20170818155625</releaseDate><dataflowID></dataflowID></task><task><taskID>HDI1489738445745685</taskID><name>点播观看时段分析</name><description></description><type>1</type><isDependable>false</isDependable><creOperID>video</creOperID><creDate>20170818155440</creDate><lastUpdOperID>video</lastUpdOperID><lastUpdDate>20170818155625</lastUpdDate><releaseOperID>video</releaseOperID><releaseDate>20170818155625</releaseDate><dataflowID></dataflowID></task><task><taskID>HDI1489738445747686</taskID><name>直播观看时段分析</name><description></description><type>1</type><isDependable>false</isDependable><creOperID>video</creOperID><creDate>20170818155440</creDate><lastUpdOperID>video</lastUpdOperID><lastUpdDate>20170818155625</lastUpdDate><releaseOperID>video</releaseOperID><releaseDate>20170818155625</releaseDate><dataflowID></dataflowID></task><task><taskID>HDI1489738445749687</taskID><name>用户订购时段分析_日表</name><description></description><type>1</type><isDependable>false</isDependable><creOperID>video</creOperID><creDate>20170818155440</creDate><lastUpdOperID>video</lastUpdOperID><lastUpdDate>20170818155625</lastUpdDate><releaseOperID>video</releaseOperID><releaseDate>20170818155625</releaseDate><dataflowID></dataflowID></task><task><taskID>HDI1489738445751688</taskID><name>用户订购时段分析_小时</name><description></description><type>1</type><isDependable>false</isDependable><creOperID>video</creOperID><creDate>20170818155440</creDate><lastUpdOperID>video</lastUpdOperID><lastUpdDate>20170818155625</lastUpdDate><releaseOperID>video</releaseOperID><releaseDate>20170818155625</releaseDate><dataflowID></dataflowID></task><task><taskID>HDI1489740296702</taskID><name>CPA_日</name><description></description><type>1</type><isDependable>false</isDependable><creOperID>video</creOperID><creDate>20170818155440</creDate><lastUpdOperID>video</lastUpdOperID><lastUpdDate>20170818155625</lastUpdDate><releaseOperID>video</releaseOperID><releaseDate>20170818155625</releaseDate><dataflowID></dataflowID></task><task><taskID>HDI1489740296704</taskID><name>CPA_当月</name><description></description><type>1</type><isDependable>false</isDependable><creOperID>video</creOperID><creDate>20170818155440</creDate><lastUpdOperID>video</lastUpdOperID><lastUpdDate>20170818155625</lastUpdDate><releaseOperID>video</releaseOperID><releaseDate>20170818155625</releaseDate><dataflowID></dataflowID></task><task><taskID>HDI1489740296706</taskID><name>CPC_日</name><description></description><type>1</type><isDependable>false</isDependable><creOperID>video</creOperID><creDate>20170818155440</creDate><lastUpdOperID>video</lastUpdOperID><lastUpdDate>20170818155625</lastUpdDate><releaseOperID>video</releaseOperID><releaseDate>20170818155625</releaseDate><dataflowID></dataflowID></task><task><taskID>HDI1489740296707</taskID><name>CPC_当月</name><description></description><type>1</type><isDependable>false</isDependable><creOperID>video</creOperID><creDate>20170818155440</creDate><lastUpdOperID>video</lastUpdOperID><lastUpdDate>20170818155625</lastUpdDate><releaseOperID>video</releaseOperID><releaseDate>20170818155625</releaseDate><dataflowID></dataflowID></task><task><taskID>HDI1489740296728</taskID><name>流量分析_当月</name><description></description><type>1</type><isDependable>false</isDependable><creOperID>video</creOperID><creDate>20170818155440</creDate><lastUpdOperID>video</lastUpdOperID><lastUpdDate>20170818155625</lastUpdDate><releaseOperID>video</releaseOperID><releaseDate>20170818155625</releaseDate><dataflowID></dataflowID></task><task><taskID>HDI1489740296729</taskID><name>流量分析_当年</name><description></description><type>1</type><isDependable>false</isDependable><creOperID>video</creOperID><creDate>20170818155440</creDate><lastUpdOperID>video</lastUpdOperID><lastUpdDate>20170818155625</lastUpdDate><releaseOperID>video</releaseOperID><releaseDate>20170818155625</releaseDate><dataflowID></dataflowID></task><task><taskID>HDI1490169890504</taskID><name>vod合作伙伴</name><description></description><type>1</type><isDependable>false</isDependable><creOperID>video</creOperID><creDate>20170818155440</creDate><lastUpdOperID>video</lastUpdOperID><lastUpdDate>20170818155625</lastUpdDate><releaseOperID>video</releaseOperID><releaseDate>20170818155625</releaseDate><dataflowID></dataflowID></task><task><taskID>HDI1490169890505</taskID><name>livetv_spid</name><description></description><type>1</type><isDependable>false</isDependable><creOperID>video</creOperID><creDate>20170818155440</creDate><lastUpdOperID>video</lastUpdOperID><lastUpdDate>20170818155625</lastUpdDate><releaseOperID>video</releaseOperID><releaseDate>20170818155625</releaseDate><dataflowID></dataflowID></task><task><taskID>HDI1492675136881</taskID><name>当时流量分析</name><description></description><type>1</type><isDependable>false</isDependable><creOperID>video</creOperID><creDate>20170818155440</creDate><lastUpdOperID>video</lastUpdOperID><lastUpdDate>20170818155625</lastUpdDate><releaseOperID>video</releaseOperID><releaseDate>20170818155625</releaseDate><dataflowID></dataflowID></task><task><taskID>HDI1500969110107</taskID><name>依赖1</name><description></description><type>12</type><isDependable>false</isDependable><creOperID>video</creOperID><creDate>20170818155440</creDate><lastUpdOperID>video</lastUpdOperID><lastUpdDate>20170818155625</lastUpdDate><releaseOperID>video</releaseOperID><releaseDate>20170818155625</releaseDate><dataflowID></dataflowID></task><task><taskID>HDI1503042852972</taskID><name>客户端版本数量统计</name><description></description><type>1</type><isDependable>false</isDependable><creOperID>video</creOperID><creDate>20170818155440</creDate><lastUpdOperID>video</lastUpdOperID><lastUpdDate>20170818155625</lastUpdDate><releaseOperID>video</releaseOperID><releaseDate>20170818155625</releaseDate><dataflowID></dataflowID></task></tasks><relations><relation><relationType>0</relationType><localtaskID>HDI1500969110107</localtaskID><relationFlowID>CTRLFLOW15004471528528112</relationFlowID><relationTaskID></relationTaskID></relation></relations><schedule><scheduleType>0</scheduleType><nextTime>2017-08-22 17:30:00.0</nextTime><lastTime>2017-08-21 17:30:00.0</lastTime><disableFlag>0</disableFlag><suspendstartflag>0</suspendstartflag><lastdatatime>20170821</lastdatatime><nextdatatime>20170822</nextdatatime><recurringType>2</recurringType><recurringLength>1</recurringLength><priority>3</priority></schedule></ctrlFlow></ctrlFlows></package></flowInfos>

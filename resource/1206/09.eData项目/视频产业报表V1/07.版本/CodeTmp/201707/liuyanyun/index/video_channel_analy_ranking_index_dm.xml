@@ -1,0 +1,119 @@
+<reportIndexGroup>
+    <multiHqlReportIndexs>		
+		<!--  新增注册用户{排序} newregisteruser  -->
+		<!--  渠道累计注册用户数 allregisteruser  -->
+		<!--  镜像表为【用户发展】主界面的【用户获取】 t_video_develop_user_grab_td_hbase 报表 -->
+		<!-- 201707 t_video_develop_user_grab_td_hbase新增终端分组，注册用户数取platformid=all的数据 -->
+        <multiHqlReportIndex>
+            <indexKey>video.channel.ranking.usergrab.dm</indexKey>
+            <fieldName>newregisteruser,allregisteruser</fieldName>
+            <hql>
+                <![CDATA[
+				select projectid,activitychannelid,dtime,
+					   newregisteruser,
+					   allregisteruser
+				  from (select projectid,
+							   if(activitychannelid is null, 'ALL', activitychannelid) activitychannelid,
+							   dtime,
+							   if(newregisteruser is null, 0, newregisteruser) newregisteruser,
+							   if(allregisteruser is null, 0, allregisteruser) allregisteruser
+						  from video.t_video_develop_user_grab_td_hbase t
+						 where t.dtime > '{STARTTIME}'
+						   and t.dtime < '{ENDTIME}'
+						   and t.platformid is null) tt
+				 group by projectid,activitychannelid,dtime,
+						  newregisteruser,
+						  allregisteruser
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+		
+		<!--  注册用户活跃数{排序} registeruseractive  -->
+		<!--  镜像表为【用户发展】主界面的【用户获取】 t_video_develop_user_active_td_hbase 报表中-->
+		<!-- 201707 注册用户活跃数从t_video_develop_user_active_td_hbase修改从中间表t_mid_video_sdk_current_dm，取platformid为all的数据 -->
+        <multiHqlReportIndex>
+            <indexKey>video.channel.ranking.registeruseractive.dm</indexKey>
+            <fieldName>registeruseractive</fieldName>
+            <hql>
+                <![CDATA[
+				select projectid, activitychannelid, dtime, sum(registeruseractive) registeruseractive
+				  from (select projectid,
+							   activitychannelid,
+							   dtime,
+							   registeruseractive
+						  from video.t_mid_video_sdk_current_dm t
+						 where t.dtime > '{STARTTIME}'
+						   and t.dtime < '{ENDTIME}'
+						   and t.platformid = 'ALL'
+						   and t.activityid = 'ALL') tt
+				 group by projectid, activitychannelid, dtime
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+
+		<!--  当期付费用户数{排序} newpayuser  -->
+		<!--  美元 当期 付费流水 newincome-->
+		<!--  本币 当期 付费流水 localnewincome-->
+		<!--  美元 当年累计收入{排序} yearallincome-->
+		<!--  本币 当年累计收入{排序} localyearallincome-->
+		<!--  镜像表为【收入分析】主界面的【付费分析】 t_video_order_income_analy_td_hbase 报表  -->
+        <multiHqlReportIndex> 
+            <indexKey>video.channel.ranking.incomeanaly.dm</indexKey>
+            <fieldName>newpayuser,newincome,localnewincome,yearallincome,localyearallincome</fieldName>
+            <hql>
+                <![CDATA[
+				select projectid,activitychannelid,dtime,
+					   newpayuser,
+					   newincome,
+					   localnewincome,
+					   yearallincome,
+					   localyearallincome
+				  from (select projectid,
+							   if(activitychannelid is null,'ALL',activitychannelid) activitychannelid,
+							   dtime,
+							   if(newpayuser is null,0,newpayuser) newpayuser,
+							   if(newincome is null,0,newincome) newincome,
+							   if(localnewincome is null,0,localnewincome) localnewincome,
+							   if(yearallincome is null,0,yearallincome) yearallincome,
+							   if(localyearallincome is null,0,localyearallincome) localyearallincome
+						  from video.t_video_order_income_analy_td_hbase t
+					     where t.dtime > '{STARTTIME}'
+						   and t.dtime < '{ENDTIME}'				  
+					)tt
+				group by projectid,activitychannelid,dtime,
+						 newpayuser,
+					     newincome,
+					     localnewincome,
+					     yearallincome,
+					     localyearallincome
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+
+		<multiHqlReportIndex>
+            <indexKey>video.channel.ranking.channelname.dm</indexKey>
+            <fieldName>en_value,zh_value</fieldName>
+            <hql>
+                <![CDATA[
+				select projectid,activitychannelid,dtime,
+					   en_value,
+					   zh_value
+				  from (select t1.projectid,
+							   if(t1.activitychannelid is null,'ALL',t1.activitychannelid) activitychannelid,
+							   t1.dtime,
+							   if(t2.en_value is null,t1.activitychannelid,t2.en_value) en_value,
+							   if(t2.zh_value is null,t1.activitychannelid,t2.zh_value) zh_value
+						  from (select * from video.t_video_channel_analy_ranking_td_hbase t
+								 where t.dtime > '{STARTTIME}' and t.dtime < '{ENDTIME}') t1
+						  left join
+							   (select projectid,channelid,en_value,zh_value from video.t_cdr_top_channelinfo t) t2
+							on t1.activitychannelid = t2.channelid
+						   and t1.projectid = t2.projectid			  
+					)tt
+				group by projectid,activitychannelid,dtime,en_value,zh_value
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+
+    </multiHqlReportIndexs>
+</reportIndexGroup>

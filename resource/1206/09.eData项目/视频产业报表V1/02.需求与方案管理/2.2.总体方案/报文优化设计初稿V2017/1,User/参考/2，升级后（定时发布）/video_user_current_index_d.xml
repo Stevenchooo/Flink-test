@@ -1,0 +1,429 @@
+<reportIndexGroup>
+<!--
+用户相应话单
+actionType用户调用接口动作类型：1 注册、2 修改、3 删除（注销）
+
+日期转小时函数: hour语法: hour   (string date)
+返回值: int
+说明: 返回日期中的小时。
+select hour(from_unixtime(unix_timestamp(),'yyyy-MM-dd HH:mm:ss')) from t_bdi_muchtv_video_rundate t where t.dtime=20170510;
+
+增加 utcdate 字段，具体含义为当地时区和易数时间差
+-->
+    <multiHqlReportIndexs>
+	<!--
+	//近日指标
+	-->
+		<!--当期 新增注册用户数 newregisteruser: 当期新增有注册行为的用户数量-->
+		<!--当期 新增注销用户数 newcanceluser: 新增有注销行为的用户数量。-->
+        <multiHqlReportIndex>
+            <indexKey>video.current.newusers.d</indexKey>
+            <fieldName>newregisteruser,newcanceluser</fieldName>
+            <hql>
+                <![CDATA[
+				select projectid,activitychannelid,activityid,dtime,
+					   count(distinct(registeruser)) newregisteruser,
+					   count(distinct(canceluser)) newregisteruser
+				  from (select projectid,
+							   'ALL' activitychannelid,
+							   'ALL' activityid,
+							   t.date dtime,
+							   if(t.actiontype = 1, t.identityid, null) registeruser,
+							   if(t.actiontype = 3, t.identityid, null) canceluser
+						  from video.t_cdr_top_user_info t
+						 where t.date > '{STARTTIME}'
+						   and t.date < '{ENDTIME}'
+						   and t.utcdate = (hour(from_unixtime(unix_timestamp(),'yyyy-MM-dd HH:mm:ss'))-2)
+						   and (t.actiontype = 1 or t.actiontype = 3)
+						union all
+						select projectid,
+							   if(t.activitychannelid is null, 'none', t.activitychannelid) activitychannelid,
+							   'ALL' activityid,
+							   t.date dtime,
+							   if(t.actiontype = 1, t.identityid, null) registeruser,
+							   if(t.actiontype = 3, t.identityid, null) canceluser
+						  from video.t_cdr_top_user_info t
+						 where t.date > '{STARTTIME}'
+						   and t.date < '{ENDTIME}'
+						   and t.utcdate = (hour(from_unixtime(unix_timestamp(),'yyyy-MM-dd HH:mm:ss'))-2)
+						   and (t.actiontype = 1 or t.actiontype = 3)
+						union all
+						select projectid,
+							   'ALL' activitychannelid,
+							   if(t.activitychannelid is null, 'none', t.activitychannelid) activityid,
+							   t.date dtime,
+							   if(t.actiontype = 1, t.identityid, null) registeruser,
+							   if(t.actiontype = 3, t.identityid, null) canceluser
+						  from video.t_cdr_top_user_info t
+						 where t.date > '{STARTTIME}'
+						   and t.date < '{ENDTIME}'
+						   and t.utcdate = (hour(from_unixtime(unix_timestamp(),'yyyy-MM-dd HH:mm:ss'))-2)
+						   and (t.actiontype = 1 or t.actiontype = 3)
+						union all
+						select projectid,
+							   if(t.activitychannelid is null, 'none', t.activitychannelid) activitychannelid,
+							   if(t.activityid is null, 'none', t.activityid) activityid,
+							   t.date dtime,
+							   if(t.actiontype = 1, t.identityid, null) registeruser,
+							   if(t.actiontype = 3, t.identityid, null) canceluser
+						  from video.t_cdr_top_user_info t
+						 where t.date > '{STARTTIME}'
+						   and t.date < '{ENDTIME}'
+						   and t.utcdate = (hour(from_unixtime(unix_timestamp(),'yyyy-MM-dd HH:mm:ss'))-2)
+						   and (t.actiontype = 1 or t.actiontype = 3)) tt
+				 group by projectid, activitychannelid, activityid, dtime
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+		
+		<!--累计注册用户总数 allregisteruser: 当前有过注册行为的用户总数，用户注销后也计算一个注册用户数。（注意：当前！！！）-->
+		<!--注册用户总数 totalregisteruser ：当前在注册状态的用户总数，用户注销后不计算注册用户总数。 -->
+		<!--
+		新结算逻辑：
+		[近日指标]
+			注册用户总数 = 昨日注册用户总数 + 当天新增注册用户数 - 昨天注销用户数[第一天全量]
+			累计注册用户总数 = 昨日累计注册用户总数 + 当天新增注册用户数[第一天全量]
+			[注意：20170307变化只统计注册用户个数，不需要进行去重;只要有注册行为都作为一个注册用户数 ]
+		[当周指标]
+			注册用户总数 = [上周最后一天(星期六,当日指标)]注册用户总数 + [当周]新增注册用户数
+			累计注册用户总数 = [当天]累计注册用户总数
+		[当月指标]
+			注册用户总数 = [上月最后一天(当日指标)]注册用户总数 + [当月]新增注册用户数
+			累计注册用户总数 = [当天]累计注册用户总数
+		-->
+		<!--
+		注册用户总数 = 昨日注册用户总数 - 昨天注销用户数 + 当天新增注册用户数 
+		累计注册用户总数 = 昨日累计注册用户总数 + 当天新增注册用户数
+		-->
+        <multiHqlReportIndex>
+            <indexKey>video.current.countusers.d</indexKey>
+            <fieldName>allregisteruser,totalregisteruser</fieldName>
+            <hql>
+                <![CDATA[
+				select projectid,activitychannelid,activityid,dtime,
+					   (oldallregisteruser + newregisteruser) allregisteruser,
+					   (oldallregisteruser - oldnewcanceluser + newregisteruser) totalregisteruser
+				  from (select s1.projectid,s1.activitychannelid,s1.activityid,s1.counttime dtime,
+							   s1.oldallregisteruser,
+							   s1.oldnewcanceluser,
+							   s2.newregisteruser
+						  from (select projectid,
+									   if(t.activitychannelid is null, 'ALL', t.activitychannelid) activitychannelid,
+									   if(t.activityid is null, 'ALL', t.activityid) activityid,
+									   dtime,
+									   from_unixtime(unix_timestamp(date_add(from_unixtime(unix_timestamp(t.dtime,
+									   'yyyyMMdd'),'yyyy-MM-dd'),1),'yyyy-MM-dd'), 'yyyyMMdd') counttime,
+									   if(t.allregisteruser is null, 0, t.allregisteruser) oldallregisteruser,
+									   if(t.newcanceluser is null, 0, t.newcanceluser) oldnewcanceluser
+								  from video.t_video_user_current_d_hbase t
+								 where t.dtime >= '{STARTTIME}'
+								   and t.dtime < '{ENDTIME}') s1
+						  left join (select projectid,
+										   if(t.activitychannelid is null,'ALL',t.activitychannelid) activitychannelid,
+										   if(t.activityid is null, 'ALL', t.activityid) activityid,
+										   t.dtime,
+										   if(t.newregisteruser is null,0,t.newregisteruser) newregisteruser
+									  from video.t_video_user_current_d_hbase t
+									 where t.dtime > '{STARTTIME}'
+									   and t.dtime < '{ENDTIME}') s2
+							on s1.projectid = s2.projectid
+						   and s1.counttime = s2.dtime
+						   and s1.activitychannelid = s2.activitychannelid
+						   and s1.activityid = s2.activityid) tt
+				 group by projectid, activitychannelid, activityid, dtime,(oldallregisteruser + newregisteruser)
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+
+	<!--
+	//当周指标
+	-->
+		<!--当期 新增注册用户数 newregisteruser: 当期新增有注册行为的用户数量-->
+		<!--当期 新增注销用户数 newcanceluser: 新增有注销行为的用户数量。-->
+        <multiHqlReportIndex>
+            <indexKey>video.current.newusers.dw</indexKey>
+            <fieldName>wnewregisteruser,wnewcanceluser</fieldName>
+            <hql>
+                <![CDATA[
+				select projectid,activitychannelid,activityid,dtime,
+					   count(distinct(registeruser)) wnewregisteruser
+					   count(distinct(canceluser)) wnewcanceluser
+				  from (select t1.projectid,
+							   'ALL' activitychannelid,
+							   'ALL' activityid,
+							   t2.dtime,
+							   if(t1.actiontype = 1, t1.identityid, null) registeruser,
+							   if(t1.actiontype = 3, t1.identityid, null) canceluser
+						  from (select projectid,activitychannelid,activityid,t.date dtime, identityid, actiontype
+								  from video.t_cdr_top_user_info t
+								 where t.date >= from_unixtime(unix_timestamp(date_sub(from_unixtime(unix_timestamp('{STARTTIME}',
+												'yyyyMMdd'),'yyyy-MM-dd'),7),'yyyy-MM-dd'),'yyyyMMdd')
+								   and t.date < '{ENDTIME}'
+								   and (t.actiontype = 1 or t.actiontype = 3)
+								   and t.utcdate =(hour(from_unixtime(unix_timestamp(), 'yyyy-MM-dd HH:mm:ss')) - 2)) t1,
+							   (select t.dtime, t.weekdays
+								  from video.t_bdi_muchtv_video_rundate t
+								 where t.dtime > '{STARTTIME}'
+								   and t.dtime < '{ENDTIME}') t2
+						 where t1.dtime > from_unixtime(unix_timestamp(date_sub(from_unixtime(unix_timestamp(t2.dtime,
+											'yyyyMMdd'),'yyyy-MM-dd'),t2.weekdays),'yyyy-MM-dd'),'yyyyMMdd')
+						   and t1.dtime < from_unixtime(unix_timestamp(date_add(from_unixtime(unix_timestamp(t2.dtime,
+											'yyyyMMdd'),'yyyy-MM-dd'),1),'yyyy-MM-dd'),'yyyyMMdd')
+						union all
+						select t1.projectid,
+							   if(t1.activitychannelid is null, 'none', t1.activitychannelid) activitychannelid,
+							   'ALL' activityid,
+							   t2.dtime,
+							   if(t1.actiontype = 1, t1.identityid, null) registeruser,
+							   if(t1.actiontype = 3, t1.identityid, null) canceluser
+						  from (select projectid,activitychannelid,activityid,t.date dtime, identityid, actiontype
+								  from video.t_cdr_top_user_info t
+								 where t.date > from_unixtime(unix_timestamp(date_sub(from_unixtime(unix_timestamp('{STARTTIME}',
+												'yyyyMMdd'),'yyyy-MM-dd'),7),'yyyy-MM-dd'),'yyyyMMdd')
+								   and t.date < '{ENDTIME}'
+								   and (t.actiontype = 1 or t.actiontype = 3)
+								   and t.utcdate =(hour(from_unixtime(unix_timestamp(), 'yyyy-MM-dd HH:mm:ss')) - 2)) t1,
+							   (select t.dtime, t.weekdays
+								  from video.t_bdi_muchtv_video_rundate t
+								 where t.dtime > '{STARTTIME}'
+								   and t.dtime < '{ENDTIME}') t2
+						 where t1.dtime > from_unixtime(unix_timestamp(date_sub(from_unixtime(unix_timestamp(t2.dtime,
+											'yyyyMMdd'),'yyyy-MM-dd'),t2.weekdays),'yyyy-MM-dd'),'yyyyMMdd')
+						   and t1.dtime < from_unixtime(unix_timestamp(date_add(from_unixtime(unix_timestamp(t2.dtime,
+											'yyyyMMdd'),'yyyy-MM-dd'),1),'yyyy-MM-dd'),'yyyyMMdd')
+						union all
+						select t1.projectid,
+							   'ALL' activitychannelid,
+							   if(t1.activitychannelid is null, 'none', t1.activitychannelid) activityid,
+							   t2.dtime,
+							   if(t1.actiontype = 1, t1.identityid, null) registeruser,
+							   if(t1.actiontype = 3, t1.identityid, null) canceluser
+						  from (select projectid,activitychannelid,activityid,t.date dtime, identityid, actiontype
+								  from video.t_cdr_top_user_info t
+								 where t.date > from_unixtime(unix_timestamp(date_sub(from_unixtime(unix_timestamp('{STARTTIME}',
+												'yyyyMMdd'),'yyyy-MM-dd'),7),'yyyy-MM-dd'),'yyyyMMdd')
+								   and t.date < '{ENDTIME}'
+								   and (t.actiontype = 1 or t.actiontype = 3)
+								   and t.utcdate =(hour(from_unixtime(unix_timestamp(), 'yyyy-MM-dd HH:mm:ss')) - 2)) t1,
+							   (select t.dtime, t.weekdays
+								  from video.t_bdi_muchtv_video_rundate t
+								 where t.dtime > '{STARTTIME}'
+								   and t.dtime < '{ENDTIME}') t2
+						 where t1.dtime > from_unixtime(unix_timestamp(date_sub(from_unixtime(unix_timestamp(t2.dtime,
+											'yyyyMMdd'),'yyyy-MM-dd'),t2.weekdays),'yyyy-MM-dd'),'yyyyMMdd')
+						   and t1.dtime < from_unixtime(unix_timestamp(date_add(from_unixtime(unix_timestamp(t2.dtime,
+											'yyyyMMdd'),'yyyy-MM-dd'),1),'yyyy-MM-dd'),'yyyyMMdd')
+						union all
+						select t1.projectid,
+							   if(t1.activitychannelid is null, 'none', t1.activitychannelid) activitychannelid,
+							   if(t1.activityid is null, 'none', t1.activityid) activityid,
+							   t2.dtime,
+							   if(t1.actiontype = 1, t1.identityid, null) registeruser,
+							   if(t1.actiontype = 3, t1.identityid, null) canceluser
+						  from (select projectid,activitychannelid,activityid,t.date dtime, identityid, actiontype
+								  from video.t_cdr_top_user_info t
+								 where t.date > from_unixtime(unix_timestamp(date_sub(from_unixtime(unix_timestamp('{STARTTIME}',
+												'yyyyMMdd'),'yyyy-MM-dd'),7),'yyyy-MM-dd'),'yyyyMMdd')
+								   and t.date < '{ENDTIME}'
+								   and (t.actiontype = 1 or t.actiontype = 3)
+								   and t.utcdate =(hour(from_unixtime(unix_timestamp(), 'yyyy-MM-dd HH:mm:ss')) - 2)) t1,
+							   (select t.dtime, t.weekdays
+								  from video.t_bdi_muchtv_video_rundate t
+								 where t.dtime > '{STARTTIME}'
+								   and t.dtime < '{ENDTIME}') t2
+						 where t1.dtime > from_unixtime(unix_timestamp(date_sub(from_unixtime(unix_timestamp(t2.dtime,
+											'yyyyMMdd'),'yyyy-MM-dd'),t2.weekdays),'yyyy-MM-dd'),'yyyyMMdd')
+						   and t1.dtime < from_unixtime(unix_timestamp(date_add(from_unixtime(unix_timestamp(t2.dtime,
+											'yyyyMMdd'),'yyyy-MM-dd'),1),'yyyy-MM-dd'),'yyyyMMdd')
+					) tt
+				 group by projectid, activitychannelid, activityid, dtime
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+		<!--
+		注册用户总数 = [上周最后一天(星期六,当日指标)]注册用户总数 + [当周]新增注册用户数
+		累计注册用户总数 取当天数据
+		-->
+        <multiHqlReportIndex>
+            <indexKey>video.current.wtotalregisteruser.dw</indexKey>
+            <fieldName>wtotalregisteruser</fieldName>
+            <hql>
+                <![CDATA[
+				select projectid,activitychannelid,activityid,dtime,
+					   (oldallregisteruser + wnewregisteruser) wtotalregisteruser
+				  from (select s1.projectid,s1.activitychannelid,s1.activityid,s1.dtime,
+							   s1.oldallregisteruser,
+							   if(s2.wnewregisteruser is null,0,s2.wnewregisteruser) wnewregisteruser
+						  from (select t1.projectid,
+									   if(t1.activitychannelid is null, 'ALL', t1.activitychannelid) activitychannelid,
+									   if(t1.activityid is null, 'ALL', t1.activityid) activityid,
+									   t2.dtime,
+									   if(t1.allregisteruser is null, 0, t1.allregisteruser) oldallregisteruser
+								  from (select projectid,activitychannelid,activityid,dtime,allregisteruser
+										  from video.t_video_user_current_d_hbase t
+										 where t.dtime >= from_unixtime(unix_timestamp(date_sub(from_unixtime(unix_timestamp('{STARTTIME}',
+															'yyyyMMdd'),'yyyy-MM-dd'),7),'yyyy-MM-dd'),'yyyyMMdd')
+										   and t.dtime < '{ENDTIME}') t1,
+									   (select t.dtime, t.weekdays
+										  from video.t_bdi_muchtv_video_rundate t
+										 where t.dtime > '{STARTTIME}'
+										   and t.dtime < '{ENDTIME}') t2
+								 where t1.dtime = from_unixtime(unix_timestamp(date_sub(from_unixtime(unix_timestamp(t2.dtime,
+													'yyyyMMdd'),'yyyy-MM-dd'),t2.weekdays),'yyyy-MM-dd'),'yyyyMMdd')) s1
+						  left join (select projectid,
+										   if(t.activitychannelid is null,'ALL',t.activitychannelid) activitychannelid,
+										   if(t.activityid is null, 'ALL', t.activityid) activityid,
+										   t.dtime,
+										   if(t.wnewregisteruser is null,0,t.wnewregisteruser) wnewregisteruser
+									  from video.t_video_user_current_d_hbase t
+									 where t.dtime > '{STARTTIME}'
+									   and t.dtime < '{ENDTIME}') s2
+							on s1.projectid = s2.projectid
+						   and s1.dtime = s2.dtime
+						   and s1.activitychannelid = s2.activitychannelid
+						   and s1.activityid = s2.activityid) tt
+				 group by projectid,activitychannelid,activityid,dtime,
+						  (oldallregisteruser + wnewregisteruser)
+
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+	<!--
+	//当月指标
+	-->
+		<!--当期 新增注册用户数 newregisteruser: 当期新增有注册行为的用户数量-->
+		<!--当期 新增注销用户数 newcanceluser: 新增有注销行为的用户数量。-->
+        <multiHqlReportIndex>
+            <indexKey>video.current.newusers.dm</indexKey>
+            <fieldName>mnewregisteruser,mnewcanceluser</fieldName>
+            <hql>
+                <![CDATA[
+				select projectid,activitychannelid,activityid,dtime,
+					   count(distinct(registeruser)) mnewregisteruser,
+					   count(distinct(canceluser)) mnewcanceluser
+				  from (select t1.projectid,
+							   'ALL' activitychannelid,
+							   'ALL' activityid,
+							   t2.dtime,
+							   if(t1.actiontype = 1, t1.identityid, null) registeruser,
+							   if(t1.actiontype = 3, t1.identityid, null) canceluser
+						  from (select projectid,activitychannelid,activityid,t.date dtime,actiontype,identityid
+								  from video.t_cdr_top_user_info t
+								 where substr(t.date, 0, 6) >= substr('{STARTTIME}', 0, 6)
+								   and substr(t.date, 0, 6) <= substr('{ENDTIME}', 0, 6)
+								   and (t.actiontype = 1 or t.actiontype = 3)
+								   and t.utcdate = (hour(from_unixtime(unix_timestamp(),'yyyy-MM-dd HH:mm:ss')) - 2)) t1,
+							   (select dtime
+								  from video.t_bdi_muchtv_video_rundate t
+								 where t.dtime > '{STARTTIME}'
+								   and t.dtime < '{ENDTIME}') t2
+						 where substr(t1.dtime, 0, 6) = substr(t2.dtime, 0, 6)
+						   and t1.dtime <= t2.dtime
+						union all
+						select t1.projectid,
+							   if(t1.activitychannelid is null, 'none', t1.activitychannelid) activitychannelid,
+							   'ALL' activityid,
+							   t2.dtime,
+							   if(t1.actiontype = 1, t1.identityid, null) registeruser,
+							   if(t1.actiontype = 3, t1.identityid, null) canceluser
+						  from (select projectid,activitychannelid,activityid,t.date dtime,actiontype,identityid
+								  from video.t_cdr_top_user_info t
+								 where substr(t.date, 0, 6) >= substr('{STARTTIME}', 0, 6)
+								   and substr(t.date, 0, 6) <= substr('{ENDTIME}', 0, 6)
+								   and (t.actiontype = 1 or t.actiontype = 3)
+								   and t.utcdate = (hour(from_unixtime(unix_timestamp(),'yyyy-MM-dd HH:mm:ss')) - 2)) t1,
+							   (select dtime
+								  from video.t_bdi_muchtv_video_rundate t
+								 where t.dtime > '{STARTTIME}'
+								   and t.dtime < '{ENDTIME}') t2
+						 where substr(t1.dtime, 0, 6) = substr(t2.dtime, 0, 6)
+						union all
+						select t1.projectid,
+							   'ALL' activitychannelid,
+							   if(t1.activitychannelid is null, 'none', t1.activitychannelid) activityid,
+							   t2.dtime,
+							   if(t1.actiontype = 1, t1.identityid, null) registeruser,
+							   if(t1.actiontype = 3, t1.identityid, null) canceluser
+						  from (select projectid,activitychannelid,activityid,t.date dtime,actiontype,identityid
+								  from video.t_cdr_top_user_info t
+								 where substr(t.date, 0, 6) >= substr('{STARTTIME}', 0, 6)
+								   and substr(t.date, 0, 6) <= substr('{ENDTIME}', 0, 6)
+								   and (t.actiontype = 1 or t.actiontype = 3)
+								   and t.utcdate = (hour(from_unixtime(unix_timestamp(),'yyyy-MM-dd HH:mm:ss')) - 2)) t1,
+							   (select dtime
+								  from video.t_bdi_muchtv_video_rundate t
+								 where t.dtime > '{STARTTIME}'
+								   and t.dtime < '{ENDTIME}') t2
+						 where substr(t1.dtime, 0, 6) = substr(t2.dtime, 0, 6)
+						union all
+						select t1.projectid,
+							   if(t1.activitychannelid is null, 'none', t1.activitychannelid) activitychannelid,
+							   if(t1.activityid is null, 'none', t1.activityid) activityid,
+							   t2.dtime,
+							   if(t1.actiontype = 1, t1.identityid, null) registeruser,
+							   if(t1.actiontype = 3, t1.identityid, null) canceluser
+						  from (select projectid,activitychannelid,activityid,t.date dtime,actiontype,identityid
+								  from video.t_cdr_top_user_info t
+								 where substr(t.date, 0, 6) >= substr('{STARTTIME}', 0, 6)
+								   and substr(t.date, 0, 6) <= substr('{ENDTIME}', 0, 6)
+								   and (t.actiontype = 1 or t.actiontype = 3)
+								   and t.utcdate = (hour(from_unixtime(unix_timestamp(),'yyyy-MM-dd HH:mm:ss')) - 2)) t1,
+							   (select dtime
+								  from video.t_bdi_muchtv_video_rundate t
+								 where t.dtime > '{STARTTIME}'
+								   and t.dtime < '{ENDTIME}') t2
+						 where substr(t1.dtime, 0, 6) = substr(t2.dtime, 0, 6)) tt
+				 group by projectid, activitychannelid, activityid, dtime
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+		<!--
+		注册用户总数 = [上月最后一天(当日指标)]注册用户总数 + [当月]新增注册用户数
+		累计注册用户总数 取当天数据
+		-->
+        <multiHqlReportIndex>
+            <indexKey>video.current.mtotalregisteruser.dm</indexKey>
+            <fieldName>mtotalregisteruser</fieldName>
+            <hql>
+                <![CDATA[
+				select projectid,activitychannelid,activityid,dtime,
+					   (oldallregisteruser + mnewregisteruser) mtotalregisteruser
+				  from (select s1.projectid,s1.activitychannelid,s1.activityid,s1.dtime,
+							   s1.oldallregisteruser,
+							   if(s2.mnewregisteruser is null,0,s2.mnewregisteruser) mnewregisteruser
+						  from (select t1.projectid,
+									   if(t1.activitychannelid is null, 'ALL', t1.activitychannelid) activitychannelid,
+									   if(t1.activityid is null, 'ALL', t1.activityid) activityid,
+									   t2.dtime,
+									   if(t1.allregisteruser is null, 0, t1.allregisteruser) oldallregisteruser
+								  from (select projectid,activitychannelid,activityid,dtime,allregisteruser
+										  from video.t_video_user_current_d_hbase t
+										 where t.dtime >= from_unixtime(unix_timestamp(date_sub(from_unixtime(unix_timestamp('{STARTTIME}',
+															'yyyyMMdd'),'yyyy-MM-dd'),31),'yyyy-MM-dd'),'yyyyMMdd')
+										   and t.dtime < '{ENDTIME}') t1,
+						   (select dtime
+							  from video.t_bdi_muchtv_video_rundate t
+							 where t.dtime > '{STARTTIME}'
+							   and t.dtime < '{ENDTIME}') t2
+					 where t1.dtime = from_unixtime(unix_timestamp(date_sub(from_unixtime(unix_timestamp(concat(substr(t2.dtime,0,6),01),
+										'yyyyMMdd'),'yyyy-MM-dd'),1),'yyyy-MM-dd'),'yyyyMMdd')) s1
+						  left join (select projectid,
+										   if(t.activitychannelid is null,'ALL',t.activitychannelid) activitychannelid,
+										   if(t.activityid is null, 'ALL', t.activityid) activityid,
+										   t.dtime,
+										   if(t.mnewregisteruser is null,0,t.mnewregisteruser) mnewregisteruser
+									  from video.t_video_user_current_d_hbase t
+									 where t.dtime > '{STARTTIME}'
+									   and t.dtime < '{ENDTIME}') s2
+							on s1.projectid = s2.projectid
+						   and s1.dtime = s2.dtime
+						   and s1.activitychannelid = s2.activitychannelid
+						   and s1.activityid = s2.activityid) tt
+				 group by projectid,activitychannelid,activityid,dtime,
+						  (oldallregisteruser + mnewregisteruser)
+                ]]>
+            </hql>
+        </multiHqlReportIndex>
+		
+    </multiHqlReportIndexs>
+</reportIndexGroup>
