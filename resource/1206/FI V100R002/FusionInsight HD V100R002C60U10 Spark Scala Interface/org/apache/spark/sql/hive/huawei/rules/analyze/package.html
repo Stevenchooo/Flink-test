@@ -1,0 +1,183 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html>
+        <head>
+          <title>analyze - org.apache.spark.sql.hive.huawei.rules.analyze</title>
+          <meta name="description" content="analyze - org.apache.spark.sql.hive.huawei.rules.analyze" />
+          <meta name="keywords" content="analyze org.apache.spark.sql.hive.huawei.rules.analyze" />
+          <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+          
+      <link href="../../../../../../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
+      <link href="../../../../../../../../lib/diagrams.css" media="screen" type="text/css" rel="stylesheet" id="diagrams-css" />
+      <script type="text/javascript">
+         if(top === self) {
+            var url = '../../../../../../../../index.html';
+            var hash = 'org.apache.spark.sql.hive.huawei.rules.analyze.package';
+            var anchor = window.location.hash;
+            var anchor_opt = '';
+            if (anchor.length >= 1)
+              anchor_opt = '@' + anchor.substring(1);
+            window.location.href = url + '#' + hash + anchor_opt;
+         }
+   	  </script>
+    
+        </head>
+        <body class="value">
+      <div id="definition">
+        <img src="../../../../../../../../lib/package_big.png" />
+        <p id="owner"><a href="../../../../../../../package.html" class="extype" name="org">org</a>.<a href="../../../../../../package.html" class="extype" name="org.apache">apache</a>.<a href="../../../../../package.html" class="extype" name="org.apache.spark">spark</a>.<a href="../../../../package.html" class="extype" name="org.apache.spark.sql">sql</a>.<a href="../../../package.html" class="extype" name="org.apache.spark.sql.hive">hive</a>.<a href="../../package.html" class="extype" name="org.apache.spark.sql.hive.huawei">huawei</a>.<a href="../package.html" class="extype" name="org.apache.spark.sql.hive.huawei.rules">rules</a></p>
+        <h1>analyze</h1>
+      </div>
+
+      <h4 id="signature" class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <span class="name">analyze</span>
+      </span>
+      </h4>
+      
+          <div id="comment" class="fullcommenttop"></div>
+        
+
+      <div id="mbrsel">
+        <div id="textfilter"><span class="pre"></span><span class="input"><input id="mbrsel-input" type="text" accesskey="/" /></span><span class="post"></span></div>
+        
+        
+        <div id="visbl">
+            <span class="filtertype">Visibility</span>
+            <ol><li class="public in"><span>Public</span></li><li class="all out"><span>All</span></li></ol>
+          </div>
+      </div>
+
+      <div id="template">
+        <div id="allMembers">
+        
+
+        
+
+        
+
+        <div id="values" class="values members">
+              <h3>Value Members</h3>
+              <ol><li name="org.apache.spark.sql.hive.huawei.rules.analyze.CleanupSubqueryExpressionCarrier" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="CleanupSubqueryExpressionCarrier"></a>
+      <a id="CleanupSubqueryExpressionCarrier:CleanupSubqueryExpressionCarrier"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="CleanupSubqueryExpressionCarrier$.html"><span class="name">CleanupSubqueryExpressionCarrier</span></a><span class="result"> extends <span class="extype" name="org.apache.spark.sql.catalyst.rules.Rule">Rule</span>[<span class="extype" name="org.apache.spark.sql.catalyst.plans.logical.LogicalPlan">LogicalPlan</span>]</span>
+      </span>
+      </h4>
+      
+    </li><li name="org.apache.spark.sql.hive.huawei.rules.analyze.NotExistsExpression" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="NotExistsExpression"></a>
+      <a id="NotExistsExpression:NotExistsExpression"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="NotExistsExpression$.html"><span class="name">NotExistsExpression</span></a><span class="result"> extends <span class="extype" name="org.apache.spark.sql.catalyst.rules.Rule">Rule</span>[<span class="extype" name="org.apache.spark.sql.catalyst.plans.logical.LogicalPlan">LogicalPlan</span>] with <span class="extype" name="org.apache.spark.sql.catalyst.expressions.PredicateHelper">PredicateHelper</span></span>
+      </span>
+      </h4>
+      
+    </li><li name="org.apache.spark.sql.hive.huawei.rules.analyze.RelatedSubqueryConversion" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="RelatedSubqueryConversion"></a>
+      <a id="RelatedSubqueryConversion:RelatedSubqueryConversion"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="RelatedSubqueryConversion$.html"><span class="name">RelatedSubqueryConversion</span></a><span class="result"> extends <span class="extype" name="org.apache.spark.sql.catalyst.rules.Rule">Rule</span>[<span class="extype" name="org.apache.spark.sql.catalyst.plans.logical.LogicalPlan">LogicalPlan</span>] with <span class="extype" name="org.apache.spark.sql.catalyst.expressions.PredicateHelper">PredicateHelper</span> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4>
+      <p class="comment cmt">Conversion associated sub queries to the equivalent of the query</p>
+    </li><li name="org.apache.spark.sql.hive.huawei.rules.analyze.SubqueryExistsInSubstitution" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="SubqueryExistsInSubstitution"></a>
+      <a id="SubqueryExistsInSubstitution:SubqueryExistsInSubstitution"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="SubqueryExistsInSubstitution$.html"><span class="name">SubqueryExistsInSubstitution</span></a><span class="result"> extends <span class="extype" name="org.apache.spark.sql.catalyst.rules.Rule">Rule</span>[<span class="extype" name="org.apache.spark.sql.catalyst.plans.logical.LogicalPlan">LogicalPlan</span>] with <span class="extype" name="org.apache.spark.sql.catalyst.expressions.PredicateHelper">PredicateHelper</span></span>
+      </span>
+      </h4>
+      <p class="comment cmt">a rule to reorganize logical node whose filter contain ExistsExpressions(Subquery/In).</p>
+    </li><li name="org.apache.spark.sql.hive.huawei.rules.analyze.SubqueryExpressionSubstitution" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="SubqueryExpressionSubstitution"></a>
+      <a id="SubqueryExpressionSubstitution:SubqueryExpressionSubstitution"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="SubqueryExpressionSubstitution$.html"><span class="name">SubqueryExpressionSubstitution</span></a><span class="result"> extends <span class="extype" name="org.apache.spark.sql.catalyst.rules.Rule">Rule</span>[<span class="extype" name="org.apache.spark.sql.catalyst.plans.logical.LogicalPlan">LogicalPlan</span>]</span>
+      </span>
+      </h4>
+      
+    </li><li name="org.apache.spark.sql.hive.huawei.rules.analyze.SubstituteOr" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="SubstituteOr"></a>
+      <a id="SubstituteOr:SubstituteOr"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="SubstituteOr$.html"><span class="name">SubstituteOr</span></a><span class="result"> extends <span class="extype" name="org.apache.spark.sql.catalyst.rules.Rule">Rule</span>[<span class="extype" name="org.apache.spark.sql.catalyst.plans.logical.LogicalPlan">LogicalPlan</span>] with <span class="extype" name="org.apache.spark.sql.catalyst.expressions.PredicateHelper">PredicateHelper</span></span>
+      </span>
+      </h4>
+      
+    </li><li name="org.apache.spark.sql.hive.huawei.rules.analyze.UnrelatedSubqueryConversion" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="UnrelatedSubqueryConversion"></a>
+      <a id="UnrelatedSubqueryConversion:UnrelatedSubqueryConversion"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="UnrelatedSubqueryConversion$.html"><span class="name">UnrelatedSubqueryConversion</span></a><span class="result"> extends <span class="extype" name="org.apache.spark.sql.catalyst.rules.Rule">Rule</span>[<span class="extype" name="org.apache.spark.sql.catalyst.plans.logical.LogicalPlan">LogicalPlan</span>]</span>
+      </span>
+      </h4>
+      
+    </li></ol>
+            </div>
+
+        
+
+        
+        </div>
+
+        <div id="inheritedMembers">
+        
+        
+        </div>
+
+        <div id="groupedMembers">
+        <div class="group" name="Ungrouped">
+              <h3>Ungrouped</h3>
+              
+            </div>
+        </div>
+
+      </div>
+
+      <div id="tooltip"></div>
+
+      <div id="footer">  </div>
+      <script defer="defer" type="text/javascript" id="jquery-js" src="../../../../../../../../lib/jquery.js"></script><script defer="defer" type="text/javascript" id="jquery-ui-js" src="../../../../../../../../lib/jquery-ui.js"></script><script defer="defer" type="text/javascript" id="tools-tooltip-js" src="../../../../../../../../lib/tools.tooltip.js"></script><script defer="defer" type="text/javascript" id="template-js" src="../../../../../../../../lib/template.js"></script>
+    </body>
+      </html>

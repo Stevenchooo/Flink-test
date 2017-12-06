@@ -1,0 +1,1 @@
+Please open each folder and view the content in index.html to obtain the Scala API.
