@@ -1,0 +1,26 @@
+版本变动内容：
+TCC后台：
+   1、批量获取时间上可以运行的周期集合；
+   2、批量判断周期的所有依赖周期是否完成；
+   3、支持指定的任务从生产向测试同步后，步骤变为停用状态；
+   4、支持业务信息从生产向测试的同步
+   5、支持在最后一个节点ssh连接失败后重试指定次数
+
+升级：
+    请在TCC迭代2_2013-03-12版本的基础上执行如下sql语句实现db的升级
+DROP TABLE IF EXISTS `task_tbl_operate`;
+CREATE TABLE `task_tbl_operate` (
+  `task_id` bigint(20) NOT NULL DEFAULT '0',
+  `tbl_name` varchar(255) NOT NULL,
+  `operate_type` int(11) NOT NULL DEFAULT '0',
+  `stopped_steps` bit(1) NOT NULL DEFAULT b'1',
+  PRIMARY KEY (`task_id`,`tbl_name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+    请在TCC迭代2_2013-03-12版本的基础上替换如下文件实现TCC后台的升级(tcc.sysconfig.properties文件的参数需要相应修改)
+    TaskControlCenter\WEB-INF\classes\mybatis\mapper\ServiceDefinationMapper.xml
+    TaskControlCenter\WEB-INF\classes\mybatis\mapper\TaskTblOperateMapper.xml
+    TaskControlCenter\WEB-INF\classes\mybatis\mapper\Log2DBMapper.xml
+    TaskControlCenter\WEB-INF\conf\mybatis\sqlMapConfig.xml
+    TaskControlCenter\WEB-INF\lib\taskcontrolcenter-1.1.1.jar
+    TaskControlCenter\TccConfig.jsp
+    TaskControlCenter\WEB-INF\conf\common\resource\systemconfig\tcc.sysconfig.properties

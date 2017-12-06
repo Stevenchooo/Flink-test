@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<talendfile:ProcessType xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:talendfile="platform:/resource/org.talend.model/model/TalendFile.xsd" xmi:id="_IrEUIKT1EeOcQ5saiBAd7w" defaultContext="Default">
+  <context xmi:id="_IrEUIaT1EeOcQ5saiBAd7w" confirmationNeeded="false" name="Default">
+    <contextParameter xmi:id="_IrEUIqT1EeOcQ5saiBAd7w" comment="备份目录" name="backupDir" prompt="backupDir?" promptNeeded="false" type="id_String" value="D:/test"/>
+    <contextParameter xmi:id="_IrEUI6T1EeOcQ5saiBAd7w" comment="匹配字符串，可多个，多个之间以|分隔" name="fileMask" prompt="fileMask?" promptNeeded="false" type="id_String" value="UP_upLog_${day}000000_*.temp|UP_upLog_${day}000000_??.txt"/>
+    <contextParameter xmi:id="_IrEUJKT1EeOcQ5saiBAd7w" comment="数据源目录" name="sourceDir" prompt="sourceDir?" promptNeeded="false" type="id_String" value="D:/"/>
+    <contextParameter xmi:id="_IrEUJaT1EeOcQ5saiBAd7w" comment="周期标示，格式YYYYMMDD-hh" name="periodTime" prompt="periodTime?" promptNeeded="false" type="id_String" value="&quot;20121009-00&quot;"/>
+  </context>
+  <parameters xmi:id="_IrEUJqT1EeOcQ5saiBAd7w">
+    <elementParameter xmi:id="_IrEUJ6T1EeOcQ5saiBAd7w" field="TEXT" name="JOB_RUN_VM_ARGUMENTS" value=" -Xms256M -Xmx1024M"/>
+    <elementParameter xmi:id="_IrEUKKT1EeOcQ5saiBAd7w" field="CHECK" name="JOB_RUN_VM_ARGUMENTS_OPTION" value="false"/>
+    <elementParameter xmi:id="_IrEUKaT1EeOcQ5saiBAd7w" field="TEXT" name="SCREEN_OFFSET_X" value="0"/>
+    <elementParameter xmi:id="_IrEUKqT1EeOcQ5saiBAd7w" field="TEXT" name="SCREEN_OFFSET_Y" value="0"/>
+    <elementParameter xmi:id="_IrEUK6T1EeOcQ5saiBAd7w" field="TEXT" name="SCHEMA_OPTIONS" value="none"/>
+    <elementParameter xmi:id="_IrEULKT1EeOcQ5saiBAd7w" field="TEXT" name="OEM_CUSTOM_ATTRIBUTE" value=""/>
+    <elementParameter xmi:id="_IrEULaT1EeOcQ5saiBAd7w" field="TEXT" name="HADOOP_APP_PATH" value=""/>
+    <elementParameter xmi:id="_IrEULqT1EeOcQ5saiBAd7w" field="TEXT" name="JOBID_FOR_OOZIE" value=""/>
+    <elementParameter xmi:id="_IrEUL6T1EeOcQ5saiBAd7w" field="CHECK" name="IMPLICITCONTEXT_USE_PROJECT_SETTINGS" value="true"/>
+    <elementParameter xmi:id="_IrEUMKT1EeOcQ5saiBAd7w" field="CHECK" name="STATANDLOG_USE_PROJECT_SETTINGS" value="true"/>
+    <elementParameter xmi:id="_IrEUMaT1EeOcQ5saiBAd7w" field="FILE" name="IMPLICIT_TCONTEXTLOAD_FILE" value="&quot;&quot;"/>
+    <elementParameter xmi:id="_IrEUMqT1EeOcQ5saiBAd7w" field="TEXT" name="FIELDSEPARATOR" value="&quot;&quot;"/>
+    <elementParameter xmi:id="_IrEUM6T1EeOcQ5saiBAd7w" field="CLOSED_LIST" name="DB_VERSION_IMPLICIT_CONTEXT" value=""/>
+    <elementParameter xmi:id="_IrEUNKT1EeOcQ5saiBAd7w" field="CHECK" name="DISABLE_WARNINGS" value="false"/>
+    <elementParameter xmi:id="_IrEUNaT1EeOcQ5saiBAd7w" field="CHECK" name="DISABLE_INFO" value="false"/>
+    <elementParameter xmi:id="_IrEUNqT1EeOcQ5saiBAd7w" field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="ISO-8859-15"/>
+    <elementParameter xmi:id="_IrEUN6T1EeOcQ5saiBAd7w" field="CLOSED_LIST" name="DB_VERSION" value="ojdbc14-10g.jar"/>
+    <routinesParameter xmi:id="_IrEUOKT1EeOcQ5saiBAd7w" id="_dGeI8ALYEeKBirFwYp4V1Q" name="DataOperation"/>
+    <routinesParameter xmi:id="_IrEUOaT1EeOcQ5saiBAd7w" id="_dHEl4ALYEeKBirFwYp4V1Q" name="Mathematical"/>
+    <routinesParameter xmi:id="_IrEUOqT1EeOcQ5saiBAd7w" id="_dHEl5ALYEeKBirFwYp4V1Q" name="Numeric"/>
+    <routinesParameter xmi:id="_IrEUO6T1EeOcQ5saiBAd7w" id="_dHNv0wLYEeKBirFwYp4V1Q" name="Relational"/>
+    <routinesParameter xmi:id="_IrEUPKT1EeOcQ5saiBAd7w" id="_dHNv1wLYEeKBirFwYp4V1Q" name="StringHandling"/>
+    <routinesParameter xmi:id="_IrEUPaT1EeOcQ5saiBAd7w" id="_dHNv2wLYEeKBirFwYp4V1Q" name="TalendDataGenerator"/>
+    <routinesParameter xmi:id="_IrEUPqT1EeOcQ5saiBAd7w" id="_dHXg0wLYEeKBirFwYp4V1Q" name="TalendDate"/>
+    <routinesParameter xmi:id="_IrEUP6T1EeOcQ5saiBAd7w" id="_dHXg1wLYEeKBirFwYp4V1Q" name="TalendString"/>
+    <routinesParameter xmi:id="_IrEUQKT1EeOcQ5saiBAd7w" id="_qCoyYKoNEeG2Re9WGcyrGg" name="ADUtils"/>
+    <routinesParameter xmi:id="_IrEUQaT1EeOcQ5saiBAd7w" id="_rElZ8BynEeGQUfpxDM0i4w" name="CommonUtil"/>
+    <routinesParameter xmi:id="_IrEUQqT1EeOcQ5saiBAd7w" id="_GxkYIBsYEeGKZrJsnG4oZw" name="DecodeBase64"/>
+    <routinesParameter xmi:id="_IrEUQ6T1EeOcQ5saiBAd7w" id="_hNPxgBpvEeGKZrJsnG4oZw" name="RecordSeparate"/>
+    <routinesParameter xmi:id="_IrEURKT1EeOcQ5saiBAd7w" id="_U2PbEEKcEeGM79nfMq_90Q" name="Crypt"/>
+    <routinesParameter xmi:id="_IrEURaT1EeOcQ5saiBAd7w" id="_VvyWMD2OEeGwjcxSbfjMrA" name="Util"/>
+  </parameters>
+  <node xmi:id="_IrEURqT1EeOcQ5saiBAd7w" componentName="tJava" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="96" posY="128">
+    <elementParameter xmi:id="_IrEUR6T1EeOcQ5saiBAd7w" field="TEXT" name="UNIQUE_NAME" value="tJava_1"/>
+    <elementParameter xmi:id="_IrEUSKT1EeOcQ5saiBAd7w" field="CHECK" name="START" value="true"/>
+    <elementParameter xmi:id="_IrEUSaT1EeOcQ5saiBAd7w" field="MEMO_JAVA" name="CODE" value="String fileMask = context.fileMask;&#xA;String periodTime = context.periodTime;&#xA;&#xA;DateFormat df = new SimpleDateFormat(&quot;yyyyMMdd-HH&quot;);&#xA;DateFormat dfDay = new SimpleDateFormat(&quot;yyyyMMdd&quot;);&#xA;DateFormat dfHour = new SimpleDateFormat(&quot;HH&quot;);&#xA;&#xA;Date date = df.parse(periodTime);&#xA;String day = dfDay.format(date);&#xA;String hour = dfHour.format(date);&#xA;&#xA;fileMask = fileMask.replace(&quot;${day}&quot;, day);&#xA;fileMask = fileMask.replace(&quot;${hour}&quot;, hour);&#xA;&#xA;System.out.println(&quot;sourceDir=&quot; + context.sourceDir);&#xA;System.out.println(&quot;backupDir=&quot; + context.backupDir);&#xA;System.out.println(&quot;fileMask=&quot; + fileMask);&#xA;System.out.println(&quot;periodTime=&quot; + periodTime);&#xA;&#xA;String[] fileMasks = fileMask.split(&quot;\\|&quot;);&#xA;&#xA;globalMap.put(&quot;fileMasks&quot;, fileMasks);&#xA;globalMap.put(&quot;backDate&quot;, day);"/>
+    <elementParameter xmi:id="_IrEUSqT1EeOcQ5saiBAd7w" field="MEMO_IMPORT" name="IMPORT" value="import java.text.DateFormat;"/>
+    <elementParameter xmi:id="_IrEUS6T1EeOcQ5saiBAd7w" field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter xmi:id="_IrEUTKT1EeOcQ5saiBAd7w" field="CHECK" name="INFORMATION" value="false"/>
+    <elementParameter xmi:id="_IrEUTaT1EeOcQ5saiBAd7w" field="MEMO" name="COMMENT" value=""/>
+    <elementParameter xmi:id="_IrEUTqT1EeOcQ5saiBAd7w" field="CHECK" name="VALIDATION_RULES" value="false"/>
+    <metadata xmi:id="_IrEUT6T1EeOcQ5saiBAd7w" connector="FLOW" name="tJava_1"/>
+  </node>
+  <node xmi:id="_IrEUUKT1EeOcQ5saiBAd7w" componentName="tLoop" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="288" posY="128">
+    <elementParameter xmi:id="_IrEUUaT1EeOcQ5saiBAd7w" field="TEXT" name="UNIQUE_NAME" value="tLoop_1"/>
+    <elementParameter xmi:id="_IrEUUqT1EeOcQ5saiBAd7w" field="RADIO" name="FORLOOP" value="true"/>
+    <elementParameter xmi:id="_IrEUU6T1EeOcQ5saiBAd7w" field="RADIO" name="WHILELOOP" value="false"/>
+    <elementParameter xmi:id="_IrE7MKT1EeOcQ5saiBAd7w" field="TEXT" name="FROM" value="0"/>
+    <elementParameter xmi:id="_IrE7MaT1EeOcQ5saiBAd7w" field="TEXT" name="TO" value="((String[]) globalMap.get(&quot;fileMasks&quot;)).length - 1"/>
+    <elementParameter xmi:id="_IrE7MqT1EeOcQ5saiBAd7w" field="TEXT" name="STEP" value="1"/>
+    <elementParameter xmi:id="_IrE7M6T1EeOcQ5saiBAd7w" field="CHECK" name="INCREASE" value="true"/>
+    <elementParameter xmi:id="_IrE7NKT1EeOcQ5saiBAd7w" field="TEXT" name="DECLARATION" value="&quot;int i=0&quot;"/>
+    <elementParameter xmi:id="_IrE7NaT1EeOcQ5saiBAd7w" field="TEXT" name="CONDITION" value="&quot;i&lt;10&quot;"/>
+    <elementParameter xmi:id="_IrE7NqT1EeOcQ5saiBAd7w" field="TEXT" name="ITERATION" value="&quot;i++&quot;"/>
+    <elementParameter xmi:id="_IrE7N6T1EeOcQ5saiBAd7w" field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter xmi:id="_IrE7OKT1EeOcQ5saiBAd7w" field="CHECK" name="INFORMATION" value="false"/>
+    <elementParameter xmi:id="_IrE7OaT1EeOcQ5saiBAd7w" field="MEMO" name="COMMENT" value=""/>
+    <elementParameter xmi:id="_IrE7OqT1EeOcQ5saiBAd7w" field="CHECK" name="VALIDATION_RULES" value="false"/>
+  </node>
+  <node xmi:id="_IrE7O6T1EeOcQ5saiBAd7w" componentName="tFileList" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="416" posY="128">
+    <elementParameter xmi:id="_IrE7PKT1EeOcQ5saiBAd7w" field="TEXT" name="UNIQUE_NAME" value="tFileList_1"/>
+    <elementParameter xmi:id="_IrE7PaT1EeOcQ5saiBAd7w" field="DIRECTORY" name="DIRECTORY" value="context.sourceDir"/>
+    <elementParameter xmi:id="_IrE7PqT1EeOcQ5saiBAd7w" field="CLOSED_LIST" name="LIST_MODE" value="FILES"/>
+    <elementParameter xmi:id="_IrE7P6T1EeOcQ5saiBAd7w" field="CHECK" name="INCLUDSUBDIR" value="false"/>
+    <elementParameter xmi:id="_IrE7QKT1EeOcQ5saiBAd7w" field="CLOSED_LIST" name="CASE_SENSITIVE" value="YES"/>
+    <elementParameter xmi:id="_IrE7QaT1EeOcQ5saiBAd7w" field="CHECK" name="ERROR" value="false"/>
+    <elementParameter xmi:id="_IrE7QqT1EeOcQ5saiBAd7w" field="CHECK" name="GLOBEXPRESSIONS" value="true"/>
+    <elementParameter xmi:id="_IrE7Q6T1EeOcQ5saiBAd7w" field="TABLE" name="FILES">
+      <elementValue xmi:id="_IrE7RKT1EeOcQ5saiBAd7w" elementRef="FILEMASK" value="((String[])globalMap.get(&quot;fileMasks&quot;))[((Integer)globalMap.get(&quot;tLoop_1_CURRENT_VALUE&quot;))]"/>
+    </elementParameter>
+    <elementParameter xmi:id="_IrE7RaT1EeOcQ5saiBAd7w" field="RADIO" name="ORDER_BY_NOTHING" value="true"/>
+    <elementParameter xmi:id="_IrE7RqT1EeOcQ5saiBAd7w" field="RADIO" name="ORDER_BY_FILENAME" value="false"/>
+    <elementParameter xmi:id="_IrE7R6T1EeOcQ5saiBAd7w" field="RADIO" name="ORDER_BY_FILESIZE" value="false"/>
+    <elementParameter xmi:id="_IrE7SKT1EeOcQ5saiBAd7w" field="RADIO" name="ORDER_BY_MODIFIEDDATE" value="false"/>
+    <elementParameter xmi:id="_IrE7SaT1EeOcQ5saiBAd7w" field="RADIO" name="ORDER_ACTION_ASC" value="true"/>
+    <elementParameter xmi:id="_IrE7SqT1EeOcQ5saiBAd7w" field="RADIO" name="ORDER_ACTION_DESC" value="false"/>
+    <elementParameter xmi:id="_IrE7S6T1EeOcQ5saiBAd7w" field="CHECK" name="IFEXCLUDE" value="false"/>
+    <elementParameter xmi:id="_IrE7TKT1EeOcQ5saiBAd7w" field="TEXT" name="EXCLUDEFILEMASK" value="&quot;*.txt&quot;"/>
+    <elementParameter xmi:id="_IrE7TaT1EeOcQ5saiBAd7w" field="CHECK" name="FORMAT_FILEPATH_TO_SLASH" value="false"/>
+    <elementParameter xmi:id="_IrE7TqT1EeOcQ5saiBAd7w" field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter xmi:id="_IrE7T6T1EeOcQ5saiBAd7w" field="CHECK" name="INFORMATION" value="false"/>
+    <elementParameter xmi:id="_IrE7UKT1EeOcQ5saiBAd7w" field="MEMO" name="COMMENT" value=""/>
+    <elementParameter xmi:id="_IrE7UaT1EeOcQ5saiBAd7w" field="CHECK" name="VALIDATION_RULES" value="false"/>
+  </node>
+  <node xmi:id="_IrE7UqT1EeOcQ5saiBAd7w" componentName="tJava" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="544" posY="128">
+    <elementParameter xmi:id="_IrE7U6T1EeOcQ5saiBAd7w" field="TEXT" name="UNIQUE_NAME" value="tJava_2"/>
+    <elementParameter xmi:id="_IrE7VKT1EeOcQ5saiBAd7w" field="MEMO_JAVA" name="CODE" value="String fileName = ((String)globalMap.get(&quot;tFileList_1_CURRENT_FILE&quot;));&#xA;&#xA;System.out.println(&quot;mv &quot; + fileName + &quot;...&quot;);"/>
+    <elementParameter xmi:id="_IrE7VaT1EeOcQ5saiBAd7w" field="MEMO_IMPORT" name="IMPORT" value="//import java.util.List;"/>
+    <elementParameter xmi:id="_IrE7VqT1EeOcQ5saiBAd7w" field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter xmi:id="_IrE7V6T1EeOcQ5saiBAd7w" field="CHECK" name="INFORMATION" value="false"/>
+    <elementParameter xmi:id="_IrE7WKT1EeOcQ5saiBAd7w" field="MEMO" name="COMMENT" value=""/>
+    <elementParameter xmi:id="_IrE7WaT1EeOcQ5saiBAd7w" field="CHECK" name="VALIDATION_RULES" value="false"/>
+    <metadata xmi:id="_IrE7WqT1EeOcQ5saiBAd7w" connector="FLOW" name="tJava_2"/>
+  </node>
+  <node xmi:id="_IrE7W6T1EeOcQ5saiBAd7w" componentName="tFileCopy" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="736" posY="128">
+    <elementParameter xmi:id="_IrE7XKT1EeOcQ5saiBAd7w" field="TEXT" name="UNIQUE_NAME" value="tFileCopy_1"/>
+    <elementParameter xmi:id="_IrE7XaT1EeOcQ5saiBAd7w" field="FILE" name="FILENAME" value="((String)globalMap.get(&quot;tFileList_1_CURRENT_FILEPATH&quot;))"/>
+    <elementParameter xmi:id="_IrE7XqT1EeOcQ5saiBAd7w" field="CHECK" name="ENABLE_COPY_DIRECTORY" value="false"/>
+    <elementParameter xmi:id="_IrE7X6T1EeOcQ5saiBAd7w" field="DIRECTORY" name="SOURCE_DERECTORY" value="&quot;D:/project/Talend&quot;"/>
+    <elementParameter xmi:id="_IrE7YKT1EeOcQ5saiBAd7w" field="DIRECTORY" name="DESTINATION" value="context.backupDir + &quot;/&quot; + (String) globalMap.get(&quot;backDate&quot;)"/>
+    <elementParameter xmi:id="_IrE7YaT1EeOcQ5saiBAd7w" field="CHECK" name="RENAME" value="false"/>
+    <elementParameter xmi:id="_IrE7YqT1EeOcQ5saiBAd7w" field="TEXT" name="DESTINATION_RENAME" value="&quot;NewName.temp&quot;"/>
+    <elementParameter xmi:id="_IrE7Y6T1EeOcQ5saiBAd7w" field="CHECK" name="REMOVE_FILE" value="true"/>
+    <elementParameter xmi:id="_IrE7ZKT1EeOcQ5saiBAd7w" field="CHECK" name="REPLACE_FILE" value="true"/>
+    <elementParameter xmi:id="_IrE7ZaT1EeOcQ5saiBAd7w" field="CHECK" name="CREATE_DIRECTORY" value="true"/>
+    <elementParameter xmi:id="_IrE7ZqT1EeOcQ5saiBAd7w" field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter xmi:id="_IrE7Z6T1EeOcQ5saiBAd7w" field="CHECK" name="INFORMATION" value="false"/>
+    <elementParameter xmi:id="_IrE7aKT1EeOcQ5saiBAd7w" field="MEMO" name="COMMENT" value=""/>
+    <elementParameter xmi:id="_IrE7aaT1EeOcQ5saiBAd7w" field="CHECK" name="VALIDATION_RULES" value="false"/>
+    <metadata xmi:id="_IrE7aqT1EeOcQ5saiBAd7w" connector="FLOW" name="tFileCopy_1"/>
+  </node>
+  <node xmi:id="_IrE7a6T1EeOcQ5saiBAd7w" componentName="tJava" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="928" posY="128">
+    <elementParameter xmi:id="_IrE7bKT1EeOcQ5saiBAd7w" field="TEXT" name="UNIQUE_NAME" value="tJava_3"/>
+    <elementParameter xmi:id="_IrE7baT1EeOcQ5saiBAd7w" field="MEMO_JAVA" name="CODE" value="String fileName = ((String)globalMap.get(&quot;tFileList_1_CURRENT_FILE&quot;));&#xA;&#xA;System.out.println(&quot;mv &quot; + fileName + &quot; ok&quot;);"/>
+    <elementParameter xmi:id="_IrE7bqT1EeOcQ5saiBAd7w" field="MEMO_IMPORT" name="IMPORT" value="//import java.util.List;"/>
+    <elementParameter xmi:id="_IrE7b6T1EeOcQ5saiBAd7w" field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter xmi:id="_IrE7cKT1EeOcQ5saiBAd7w" field="CHECK" name="INFORMATION" value="false"/>
+    <elementParameter xmi:id="_IrE7caT1EeOcQ5saiBAd7w" field="MEMO" name="COMMENT" value=""/>
+    <elementParameter xmi:id="_IrE7cqT1EeOcQ5saiBAd7w" field="CHECK" name="VALIDATION_RULES" value="false"/>
+    <metadata xmi:id="_IrE7c6T1EeOcQ5saiBAd7w" connector="FLOW" name="tJava_3"/>
+  </node>
+  <connection xmi:id="_IrE7dKT1EeOcQ5saiBAd7w" connectorName="SUBJOB_OK" label="OnSubjobOk" lineStyle="1" metaname="tJava_1" offsetLabelX="0" offsetLabelY="0" source="tJava_1" target="tLoop_1">
+    <elementParameter xmi:id="_IrE7daT1EeOcQ5saiBAd7w" field="CHECK" name="ACTIVATE" value="true"/>
+    <elementParameter xmi:id="_IrE7dqT1EeOcQ5saiBAd7w" field="TEXT" name="UNIQUE_NAME" value="OnSubjobOk3"/>
+  </connection>
+  <connection xmi:id="_IrE7d6T1EeOcQ5saiBAd7w" connectorName="ITERATE" label="Iterate" lineStyle="7" metaname="tLoop_1" offsetLabelX="0" offsetLabelY="0" source="tLoop_1" target="tFileList_1">
+    <elementParameter xmi:id="_IrE7eKT1EeOcQ5saiBAd7w" field="CHECK" name="ENABLE_PARALLEL" value="false"/>
+    <elementParameter xmi:id="_IrE7eaT1EeOcQ5saiBAd7w" field="TEXT" name="NUMBER_PARALLEL" value="2"/>
+    <elementParameter xmi:id="_IrE7eqT1EeOcQ5saiBAd7w" field="CHECK" name="ACTIVATE" value="true"/>
+    <elementParameter xmi:id="_IrE7e6T1EeOcQ5saiBAd7w" field="TEXT" name="UNIQUE_NAME" value="iterate2"/>
+  </connection>
+  <connection xmi:id="_IrE7fKT1EeOcQ5saiBAd7w" connectorName="ITERATE" label="Iterate" lineStyle="7" metaname="tFileList_1" offsetLabelX="2" offsetLabelY="1" source="tFileList_1" target="tJava_2">
+    <elementParameter xmi:id="_IrE7faT1EeOcQ5saiBAd7w" field="CHECK" name="ENABLE_PARALLEL" value="false"/>
+    <elementParameter xmi:id="_IrE7fqT1EeOcQ5saiBAd7w" field="TEXT" name="NUMBER_PARALLEL" value="2"/>
+    <elementParameter xmi:id="_IrE7f6T1EeOcQ5saiBAd7w" field="CHECK" name="ACTIVATE" value="true"/>
+    <elementParameter xmi:id="_IrE7gKT1EeOcQ5saiBAd7w" field="TEXT" name="UNIQUE_NAME" value="iterate1"/>
+  </connection>
+  <connection xmi:id="_IrE7gaT1EeOcQ5saiBAd7w" connectorName="COMPONENT_OK" label="OnComponentOk" lineStyle="3" metaname="tJava_2" offsetLabelX="0" offsetLabelY="0" source="tJava_2" target="tFileCopy_1">
+    <elementParameter xmi:id="_IrE7gqT1EeOcQ5saiBAd7w" field="CHECK" name="ACTIVATE" value="true"/>
+    <elementParameter xmi:id="_IrE7g6T1EeOcQ5saiBAd7w" field="TEXT" name="UNIQUE_NAME" value="OnComponentOk1"/>
+  </connection>
+  <connection xmi:id="_IrE7hKT1EeOcQ5saiBAd7w" connectorName="SUBJOB_OK" label="OnSubjobOk" lineStyle="1" metaname="tFileCopy_1" offsetLabelX="0" offsetLabelY="0" source="tFileCopy_1" target="tJava_3">
+    <elementParameter xmi:id="_IrE7haT1EeOcQ5saiBAd7w" field="CHECK" name="ACTIVATE" value="true"/>
+    <elementParameter xmi:id="_IrE7hqT1EeOcQ5saiBAd7w" field="TEXT" name="UNIQUE_NAME" value="OnSubjobOk2"/>
+  </connection>
+  <subjob xmi:id="_IrE7h6T1EeOcQ5saiBAd7w">
+    <elementParameter xmi:id="_IrE7iKT1EeOcQ5saiBAd7w" field="CHECK" name="SHOW_SUBJOB_TITLE" value="true"/>
+    <elementParameter xmi:id="_IrE7iaT1EeOcQ5saiBAd7w" field="TEXT" name="UNIQUE_NAME" value="tJava_1"/>
+    <elementParameter xmi:id="_IrE7iqT1EeOcQ5saiBAd7w" field="TEXT" name="SUBJOB_TITLE" value="开始"/>
+    <elementParameter xmi:id="_IrE7i6T1EeOcQ5saiBAd7w" field="COLOR" name="SUBJOB_TITLE_COLOR" value="160;190;240"/>
+    <elementParameter xmi:id="_IrE7jKT1EeOcQ5saiBAd7w" field="COLOR" name="SUBJOB_COLOR" value="220;220;250"/>
+  </subjob>
+  <subjob xmi:id="_IrE7jaT1EeOcQ5saiBAd7w">
+    <elementParameter xmi:id="_IrE7jqT1EeOcQ5saiBAd7w" field="CHECK" name="SHOW_SUBJOB_TITLE" value="true"/>
+    <elementParameter xmi:id="_IrE7j6T1EeOcQ5saiBAd7w" field="TEXT" name="UNIQUE_NAME" value="tLoop_1"/>
+    <elementParameter xmi:id="_IrE7kKT1EeOcQ5saiBAd7w" field="TEXT" name="SUBJOB_TITLE" value="遍历文件夹"/>
+    <elementParameter xmi:id="_IrE7kaT1EeOcQ5saiBAd7w" field="COLOR" name="SUBJOB_TITLE_COLOR" value="160;190;240"/>
+    <elementParameter xmi:id="_IrE7kqT1EeOcQ5saiBAd7w" field="COLOR" name="SUBJOB_COLOR" value="220;220;250"/>
+  </subjob>
+  <subjob xmi:id="_IrE7k6T1EeOcQ5saiBAd7w">
+    <elementParameter xmi:id="_IrE7lKT1EeOcQ5saiBAd7w" field="CHECK" name="SHOW_SUBJOB_TITLE" value="true"/>
+    <elementParameter xmi:id="_IrE7laT1EeOcQ5saiBAd7w" field="TEXT" name="UNIQUE_NAME" value="tFileCopy_1"/>
+    <elementParameter xmi:id="_IrE7lqT1EeOcQ5saiBAd7w" field="TEXT" name="SUBJOB_TITLE" value="备份"/>
+    <elementParameter xmi:id="_IrE7l6T1EeOcQ5saiBAd7w" field="COLOR" name="SUBJOB_TITLE_COLOR" value="160;190;240"/>
+    <elementParameter xmi:id="_IrE7mKT1EeOcQ5saiBAd7w" field="COLOR" name="SUBJOB_COLOR" value="220;220;250"/>
+  </subjob>
+  <subjob xmi:id="_IrE7maT1EeOcQ5saiBAd7w">
+    <elementParameter xmi:id="_IrE7mqT1EeOcQ5saiBAd7w" field="CHECK" name="SHOW_SUBJOB_TITLE" value="true"/>
+    <elementParameter xmi:id="_IrE7m6T1EeOcQ5saiBAd7w" field="TEXT" name="UNIQUE_NAME" value="tJava_3"/>
+    <elementParameter xmi:id="_IrE7nKT1EeOcQ5saiBAd7w" field="TEXT" name="SUBJOB_TITLE" value="打印成功信息"/>
+    <elementParameter xmi:id="_IrE7naT1EeOcQ5saiBAd7w" field="COLOR" name="SUBJOB_TITLE_COLOR" value="160;190;240"/>
+    <elementParameter xmi:id="_IrE7nqT1EeOcQ5saiBAd7w" field="COLOR" name="SUBJOB_COLOR" value="220;220;250"/>
+  </subjob>
+</talendfile:ProcessType>

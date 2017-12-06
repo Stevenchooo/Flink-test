@@ -1,0 +1,33 @@
+serviceid=6用于标识不同的业务
+
+53商用tccdb53prod导53测试tccdb53test
+mysqldump -u root -p********** -nt -c tccdb53prod tcc_task --where "serviceid=6">tccdb53prod_tcc_task_6.sql;
+mysqldump -u root -p********** -ntx -c tccdb53prod tcc_task_step --where "task_id in (select task_id from tcc_task where serviceid=6)">tccdb53prod_tcc_step_6.sql;
+mysql -u root -p********** tccdb53test -e "source tccdb53prod_tcc_task_6.sql;"
+mysql -u root -p********** tccdb53test -e "source tccdb53prod_tcc_step_6.sql;"
+mysql -u root -p********** tccdb53test -e "update tcc_task set input_file_list=replace(input_file_list,'/home/AppCloudProd/AimiOAS','/home/AppCloudTest/AimiOASTest') where serviceid=6;"
+mysql -u root -p********** tccdb53test -e "update tcc_task_step set command=replace(command,'/home/AppCloudProd/AimiOAS','/home/AppCloudTest/AimiOASTest') where task_id in(select task_id from tcc_task where serviceid=6);"
+
+
+57商用tccserverdb4snd导45测试tccdb45test
+mysqldump -u root -p********** -nt -c tccserverdb4snd tcc_task --where "serviceid=6">tccserverdb4snd_tcc_task_6.sql;
+mysqldump -u root -p********** -ntx -c tccserverdb4snd tcc_task_step --where "task_id in (select task_id from tcc_task where serviceid=6)">tccserverdb4snd_tcc_step_6.sql;
+mysql -u root -p********** tccdb45test -e "source tccserverdb4snd_tcc_task_6.sql;source tccserverdb4snd_tcc_step_6.sql;"
+mysql -u root -p********** tccdb45test -e "update tcc_task set input_file_list=replace(input_file_list,'/home/AppCloudProd/AimiOAS','/home/AppCloudTest/AimiOASTest') where serviceid=6;"
+mysql -u root -p********** tccdb45test -e "update tcc_task_step set command=replace(command,'/home/AppCloudProd/AimiOAS','/home/AppCloudTest/AimiOASTest') where task_id in(select task_id from tcc_task where serviceid=6);"
+
+
+#######重新初始化话任务id号和步骤id号#########
+drop procedure if exists initTaskIdStepIdSerial;
+delimiter //
+create procedure initTaskIdStepIdSerial()
+begin
+  	delete from tcc_taskid_serial;
+	insert into tcc_taskid_serial select serviceId,taskType,max(serialNo) as serialNo  from (select floor(task_id/1000000) as serviceId,floor(task_id/10000)%100 as taskType,task_id%10000 as serialNo from tcc_task) temp group by serviceId,taskType;
+	delete from tcc_stepid_serial;
+	insert into tcc_stepid_serial select task_id,max(step_id) as serialNo from tcc_task_step group by task_id; 
+end
+//
+delimiter ;
+call initTaskIdStepIdSerial();
+drop procedure if exists initTaskIdStepIdSerial;

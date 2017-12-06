@@ -1,0 +1,9 @@
+版本变动内容：
+TCC前台：
+   增加一种新的ods任务的结束标识：文件数达到最大数或者时间超过最大等待时间
+TCC后台：
+   增加一种新的ods任务的结束标识：文件数达到最大数或者时间超过最大等待时间
+
+本次版本仅提供增量包，在TCC迭代2_2012-10-16版本基础上替换如下目录中的文件实现升级：
+   TaskControlCenter\TaskList.jsp
+   TaskControlCenter\lib\taskcontrolcenter-1.1.1.jar

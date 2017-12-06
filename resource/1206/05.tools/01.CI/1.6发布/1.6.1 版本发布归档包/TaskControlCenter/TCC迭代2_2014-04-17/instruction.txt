@@ -1,0 +1,7 @@
+版本变动内容：
+TCC：
+    增加一种文件结束标志（并对文件个数进行严格限制）
+
+升级：
+    在2014-03-26号版本的基础上替换如下文件进行升级
+    TaskControlCenter/WEB-INF/lib/taskcontrolcenter-1.1.1.jar

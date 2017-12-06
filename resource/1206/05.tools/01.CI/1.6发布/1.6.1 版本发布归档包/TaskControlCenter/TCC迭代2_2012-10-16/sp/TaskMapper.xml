@@ -1,0 +1,415 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.huawei.platform.tcc.dao.task">
+   <resultMap id="taskResultMap" type="TaskEntity">
+	<id column="Task_ID" jdbcType="BIGINT" property="taskId" />
+    <result column="ServiceID" jdbcType="TINYINT" property="serviceid" />
+    <result column="Task_Name" jdbcType="VARCHAR" property="taskName" />
+    <result column="Task_Desc" jdbcType="VARCHAR" property="taskDesc" />
+    <result column="Task_Type" jdbcType="TINYINT" property="taskType" />
+    <result column="Task_Enable_Flag" jdbcType="BIT" property="taskEnableFlag" />
+    <result column="Task_State" jdbcType="BIT" property="taskState" />
+    <result column="Priority" jdbcType="INTEGER" property="priority" />
+    <result column="Cycle_Type" jdbcType="VARCHAR" property="cycleType" />
+    <result column="Cycle_Length" jdbcType="INTEGER" property="cycleLength" />
+    <result column="depend_Task_Id_List" jdbcType="VARCHAR" property="dependTaskIdList" />
+    <result column="Cycle_Offset" jdbcType="VARCHAR" property="cycleOffset" />
+    <result column="Cycle_Depend_Flag" jdbcType="BIT" property="cycleDependFlag" />
+    <result column="Multi_Batch_Flag" jdbcType="BIT" property="multiBatchFlag" />
+    <result column="End_Batch_Flag" jdbcType="TINYINT" property="endBatchFlag" />
+    <result column="Input_File_list" jdbcType="VARCHAR" property="inputFileList" />
+    <result column="Input_File_Min_Count" jdbcType="INTEGER" property="inputFileMinCount" />
+    <result column="Wait_Input_Minutes" jdbcType="INTEGER" property="waitInputMinutes" />
+    <result column="Create_Time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="Last_Update_Time" jdbcType="TIMESTAMP" property="lastUpdateTime" />
+    <result column="Files_in_host" jdbcType="VARCHAR" property="filesInHost" />
+    <result column="redo_Start_Time" jdbcType="TIMESTAMP" property="redoStartTime" />
+    <result column="redo_End_Time" jdbcType="TIMESTAMP" property="redoEndTime" />
+    <result column="redo_Type" jdbcType="INTEGER" property="redoType" />
+    <result column="redo_Day_Length" jdbcType="INTEGER" property="redoDayLength" />
+    <result column="Start_Time" jdbcType="TIMESTAMP" property="startTime" />
+    <result column="weight" jdbcType="INTEGER" property="weight" />
+    <result column="service_task_group" jdbcType="VARCHAR" property="serviceTaskGroup" />
+    <result column="Start_Operator" jdbcType="VARCHAR" property="startOperator" />
+    <result column="OS_User_Name" jdbcType="VARCHAR" property="osUserName" />
+	</resultMap>
+	<insert id="addTask" parameterType="TaskEntity" statementType="PREPARED">
+	insert into tcc_task (Task_ID, ServiceID, Task_Name, Task_Desc, Task_Type, Task_Enable_Flag,
+	Task_State, Priority, Cycle_Type, Cycle_Length, depend_Task_Id_List, Cycle_Offset, Cycle_Depend_Flag,
+	Multi_Batch_Flag, End_Batch_Flag, Input_File_list, Input_File_Min_Count, Wait_Input_Minutes, Create_Time, Last_Update_Time,
+	Files_in_host, Start_Time, redo_Day_Length, redo_Start_Time,redo_End_Time, weight,service_task_group,redo_Type)
+	values (#{taskId,jdbcType=BIGINT},#{serviceid,jdbcType=INTEGER},#{taskName,jdbcType=VARCHAR},#{taskDesc,jdbcType=VARCHAR},
+	#{taskType,jdbcType=TINYINT},#{taskEnableFlag,jdbcType=BIT},#{taskState,jdbcType=BIT},#{priority,jdbcType=INTEGER},
+	#{cycleType,jdbcType=VARCHAR},#{cycleLength,jdbcType=INTEGER},#{dependTaskIdList,jdbcType=VARCHAR},
+	#{cycleOffset,jdbcType=VARCHAR},#{cycleDependFlag,jdbcType=BIT},#{multiBatchFlag,jdbcType=BIT},
+	#{endBatchFlag,jdbcType=TINYINT},#{inputFileList,jdbcType=VARCHAR},#{inputFileMinCount,jdbcType=INTEGER},
+	#{waitInputMinutes,jdbcType=INTEGER},now(),now(),#{filesInHost,jdbcType=VARCHAR},
+    #{startTime,jdbcType=TIMESTAMP},#{redoDayLength,jdbcType=INTEGER},
+	#{redoStartTime,jdbcType=TIMESTAMP},#{redoEndTime,jdbcType=TIMESTAMP},#{weight,jdbcType=INTEGER},
+	#{serviceTaskGroup,jdbcType=VARCHAR},#{redoType,jdbcType=INTEGER})
+	</insert>
+	
+	<!--** removeDependTaskId函数会将depend_Task_Id_List中包含taskId的那部分依赖信息移除**-->
+	<update id="deleteDependTaskId" parameterType="Long" statementType="PREPARED">
+	       update tcc_task
+    <set>
+        depend_Task_Id_List = removeDependTaskId(depend_Task_Id_List,#{taskId,jdbcType=BIGINT}),
+        Last_Update_Time = now()
+    </set>
+    where depend_Task_Id_List like concat('%',#{taskId,jdbcType=BIGINT},'%')
+	</update>
+	
+	<!--**replaceDependTaskName2Id函数会将depend_Task_Id_List中包含taskName的那部分依赖信息替换成taskId**-->
+	<update id="replaceDependTaskName2Id" parameterType="TaskEntity" statementType="PREPARED">
+	       update tcc_task
+    <set>
+      <if test="taskName != null" >
+		depend_Task_Id_List = substring(replace(concat(';',depend_Task_Id_List),concat(';',#{taskName,jdbcType=VARCHAR},','),concat(';',#{taskId,jdbcType=BIGINT},',')),2)
+      </if>
+    </set>
+    	where depend_Task_Id_List like concat('%',#{taskName,jdbcType=VARCHAR},',%')
+	</update>
+	
+	<update id="updateTask" parameterType="TaskEntity" statementType="PREPARED">
+	       update tcc_task
+    <set>
+      <if test="serviceid != null" >
+        ServiceID = #{serviceid,jdbcType=INTEGER},
+      </if>
+      <if test="taskName != null" >
+        Task_Name = #{taskName,jdbcType=VARCHAR},
+      </if>
+      <if test="taskDesc != null" >
+        Task_Desc = #{taskDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="taskType != null" >
+        Task_Type = #{taskType,jdbcType=TINYINT},
+      </if>
+      <if test="taskEnableFlag != null" >
+        Task_Enable_Flag = #{taskEnableFlag,jdbcType=BIT},
+      </if>
+      <if test="taskState != null" >
+        Task_State = #{taskState,jdbcType=BIT},
+      </if>
+      <if test="priority != null" >
+        Priority = #{priority,jdbcType=INTEGER},
+      </if>
+      <if test="cycleType != null" >
+        Cycle_Type = #{cycleType,jdbcType=VARCHAR},
+      </if>
+      <if test="cycleLength != null" >
+        Cycle_Length = #{cycleLength,jdbcType=INTEGER},
+      </if>
+      <if test="dependTaskIdList != null" >
+        depend_Task_Id_List = #{dependTaskIdList,jdbcType=VARCHAR},
+      </if>
+      <if test="cycleOffset != null" >
+        Cycle_Offset = #{cycleOffset,jdbcType=VARCHAR},
+      </if>
+      <if test="cycleDependFlag != null" >
+        Cycle_Depend_Flag = #{cycleDependFlag,jdbcType=BIT},
+      </if>
+      <if test="multiBatchFlag != null" >
+        Multi_Batch_Flag = #{multiBatchFlag,jdbcType=BIT},
+      </if>
+      <if test="endBatchFlag != null" >
+        End_Batch_Flag = #{endBatchFlag,jdbcType=TINYINT},
+      </if>
+      <if test="inputFileList != null" >
+        Input_File_list = #{inputFileList,jdbcType=VARCHAR},
+      </if>
+      <if test="inputFileMinCount != null" >
+        Input_File_Min_Count = #{inputFileMinCount,jdbcType=INTEGER},
+      </if>
+      <if test="waitInputMinutes != null" >
+        Wait_Input_Minutes = #{waitInputMinutes,jdbcType=INTEGER},
+      </if>    
+        Last_Update_Time = now(),    
+      <if test="filesInHost != null" >
+        Files_in_host = #{filesInHost,jdbcType=VARCHAR},
+      </if>
+      <if test="redoDayLength != null" >
+        redo_Day_Length = #{redoDayLength,jdbcType=INTEGER},
+      </if>
+      <if test="startTime != null" >
+        Start_Time = #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="redoStartTime != null" >
+        redo_Start_Time = #{redoStartTime,jdbcType=TIMESTAMP},
+      </if>
+       <if test="redoEndTime != null" >
+        redo_End_Time = #{redoEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="redoType != null" >
+        redo_Type = #{redoType,jdbcType=INTEGER},
+      </if>
+       <if test="weight != null" >
+        weight = #{weight,jdbcType=INTEGER},
+      </if>
+      <if test="serviceTaskGroup != null" >
+        service_task_group = #{serviceTaskGroup,jdbcType=VARCHAR},
+      </if>
+      <if test="startOperator != null" >
+        Start_Operator = #{startOperator,jdbcType=VARCHAR},
+      </if>
+      <if test="osUserName != null" >
+        OS_User_Name = #{osUserName,jdbcType=VARCHAR}
+      </if>
+    </set>
+    where Task_ID = #{taskId,jdbcType=BIGINT}
+	</update>
+	
+	<update id="changeTaskEnableFlag" parameterType="TaskEntity" statementType="PREPARED">
+	       update tcc_task
+    <set>
+      <if test="taskEnableFlag != null" >
+        Task_Enable_Flag = #{taskEnableFlag,jdbcType=BIT},
+      </if>
+    </set>
+    <where>
+    	Task_ID = #{taskId,jdbcType=BIGINT}
+    	<if test="taskEnableFlag != null and taskEnableFlag == 0" >
+    		and Task_State = 1
+    	</if>
+    </where> 
+	</update>
+	
+	<update id="startTask" parameterType="TaskEntity" statementType="PREPARED">
+	update tcc_task  <set>
+	    <if test="taskEnableFlag != null" >
+        Task_Enable_Flag = #{taskEnableFlag,jdbcType=BIT},
+      </if>
+        Task_State = 0,
+        Last_Update_Time = now(),    
+        Start_Operator = #{startOperator,jdbcType=VARCHAR},
+        OS_User_Name = #{osUserName,jdbcType=VARCHAR}
+       </set>
+    where Task_ID = #{taskId,jdbcType=BIGINT} and Task_State = 1;
+	</update>
+	
+	
+	<select id="getTaskList" parameterType="Integer"
+		resultMap="taskResultMap" statementType="PREPARED">
+		select * from tcc_task where Task_Enable_Flag = #{taskEnableFlag,jdbcType=BIT} 
+	</select>
+	
+	<select id="getAllTaskIdList" resultType="Long" parameterType="Map" statementType="PREPARED">
+		select task_Id from tcc_task <where>
+				<if test="visibleSTgs != null">
+		          and concat(serviceid,',',service_task_group) in 
+		      	  <foreach close=")" collection="visibleSTgs" item="visibleSTg" open="(" separator=",">
+            	      (#{visibleSTg})
+        	      </foreach>
+		</if>
+		</where>
+	</select>
+	
+	<select id="getAllTaskIdNameList" resultMap="taskResultMap"  parameterType="ServiceTGsSearch"  statementType="PREPARED">
+		select task_Id,task_name from tcc_task
+		 <where>
+				<if test="visibleSTgs != null">
+		          and concat(serviceid,',',service_task_group) in 
+		      	  <foreach close=")" collection="visibleSTgs" item="visibleSTg" open="(" separator=",">
+            	      (#{visibleSTg})
+        	      </foreach>
+		</if>
+		</where>
+	</select>
+	
+	<select id="getTaskListByIds" parameterType="Long"
+		resultMap="taskResultMap" statementType="PREPARED">
+		select * from tcc_task where task_Id in
+		<foreach close=")" collection="list" item="taskId" open="(" separator=",">
+            #{taskId}
+        </foreach>
+	</select>
+	
+	
+	<select id="getTaskByName" parameterType="String"
+		resultMap="taskResultMap" statementType="PREPARED">
+		select * from tcc_task where task_Name = #{taskName,jdbcType=VARCHAR} limit 1;
+	</select>
+	
+	<select id="getTask" parameterType="Integer"
+		resultMap="taskResultMap" statementType="PREPARED">
+		select * from tcc_task where task_Id = #{taskId,jdbcType=BIGINT} limit 1;
+	</select>
+	
+	<select id="getTaskAllList"  parameterType="TaskSearchEntity" 
+	    resultMap="taskResultMap" statementType="PREPARED">
+		select * from tcc_task 
+		<where>
+		<if test="taskIds != null">
+			Task_ID in	<foreach close=")" collection="taskIds" item="taskId" open="(" separator=",">
+            #{taskId}
+        </foreach>
+		</if>
+		<if test="taskState != null">
+			and Task_State = #{taskState,jdbcType=BIT}
+		</if>
+		<if test="taskType != null">
+			and Task_Type = #{taskType,jdbcType=TINYINT}
+		</if>
+		<if test="cycleType != null" >
+            and Cycle_Type = #{cycleType,jdbcType=VARCHAR}
+        </if>
+        </where>
+        order by  Last_Update_Time desc
+		<if test="pageIndex != null">
+			limit #{pageIndex}
+		</if>		
+		<if test="pageSize != null">
+			,#{pageSize}
+		</if>
+	</select>
+	
+	<select id="getTaskListByNames"  parameterType="TaskSearchEntity" 
+	    resultMap="taskResultMap" statementType="PREPARED">
+		select * from tcc_task 
+		<where>
+		<if test="taskNames != null">
+			<choose>
+		      <when test="taskNames.size() > 1">
+		      	  <foreach close=")" collection="taskNames" item="taskname" open="(" separator="or">
+            	      task_name = #{taskname}
+        	      </foreach>
+		      </when>
+		      <when test="taskNames.size() == 1 and taskNames.get(0).endsWith(';') == true">
+		      	  <foreach close=")" collection="taskNames" item="taskname" open="(" separator="or">
+            	    concat(task_name,';') = #{taskname}
+        	      </foreach>
+		      </when>
+		      <otherwise>
+		         <foreach close=")" collection="taskNames" item="taskname" open="(" separator="or">
+            	    task_name like concat('%',#{taskname},'%')
+        	     </foreach>
+		      </otherwise>
+		   </choose>
+		</if>
+		<if test="visibleSTgs != null">
+		          and concat(serviceid,',',service_task_group) in 
+		      	  <foreach close=")" collection="visibleSTgs" item="visibleSTg" open="(" separator=",">
+            	      (#{visibleSTg})
+        	      </foreach>
+		</if>
+		<if test="serviceId != null">
+			and serviceId = #{serviceId,jdbcType=INTEGER}
+		</if>
+		<if test="taskGroup != null">
+			and service_task_group = #{taskGroup,jdbcType=VARCHAR}
+		</if>
+		<if test="taskState != null">
+			and Task_State = #{taskState,jdbcType=BIT}
+		</if>
+		<if test="taskState != null">
+			and Task_State = #{taskState,jdbcType=BIT}
+		</if>
+		<if test="taskType != null">
+			and Task_Type = #{taskType,jdbcType=TINYINT}
+		</if>
+		<if test="cycleType != null" >
+            and Cycle_Type = #{cycleType,jdbcType=VARCHAR}
+        </if>
+        </where>
+        order by  Last_Update_Time desc
+		<if test="pageIndex != null">
+			limit #{pageIndex}
+		</if>		
+		<if test="pageSize != null">
+			,#{pageSize}
+		</if>
+	</select>
+	
+	<select id="getDependedTasks"  parameterType="String" resultMap="taskResultMap" statementType="PREPARED">
+		select * from tcc_task 
+		<where>
+			concat(";",Depend_Task_ID_List) REGEXP  #{taskIdRegs,jdbcType=VARCHAR}
+        </where>
+	</select>
+	
+	<select id="getTaskListSize"  parameterType="TaskSearchEntity" 
+	    resultType="Integer" statementType="PREPARED">
+		select count(*) from tcc_task 
+		<where>
+		<if test="taskIds != null">
+			Task_ID in	<foreach close=")" collection="taskIds" item="taskId" open="(" separator=",">
+            #{taskId}
+        </foreach>
+		</if>
+		<if test="taskState != null">
+			and Task_State = #{taskState,jdbcType=BIT}
+		</if>
+		<if test="taskType != null">
+			and Task_Type = #{taskType,jdbcType=TINYINT}
+		</if>
+		<if test="cycleType != null" >
+            and Cycle_Type = #{cycleType,jdbcType=VARCHAR}
+        </if>
+        </where>
+	</select>
+	
+	<select id="getTaskListSizeByNames"  parameterType="TaskSearchEntity" 
+	    resultType="Integer" statementType="PREPARED">
+		select count(*) from tcc_task 
+		<where>
+		<if test="taskNames != null">
+		   <choose>
+		      <when test="taskNames.size() > 1">
+		      	  <foreach close=")" collection="taskNames" item="taskname" open="(" separator="or">
+            	      task_name = #{taskname}
+        	      </foreach>
+		      </when>
+		      <when test="taskNames.size() == 1 and taskNames.get(0).endsWith(';') == true">
+		      	  <foreach close=")" collection="taskNames" item="taskname" open="(" separator="or">
+            	    concat(task_name,';') = #{taskname}
+        	      </foreach>
+		      </when>
+		      <otherwise>
+		         <foreach close=")" collection="taskNames" item="taskname" open="(" separator="or">
+            	    task_name like concat('%',#{taskname},'%')
+        	     </foreach>
+		      </otherwise>
+		   </choose>
+		</if>
+		<if test="visibleSTgs != null">
+		          and concat(serviceid,',',service_task_group) in 
+		      	  <foreach close=")" collection="visibleSTgs" item="visibleSTg" open="(" separator=",">
+            	      (#{visibleSTg})
+        	      </foreach>
+		</if>
+		<if test="serviceId != null">
+			and serviceId = #{serviceId,jdbcType=INTEGER}
+		</if>
+		<if test="taskGroup != null">
+			and service_task_group = #{taskGroup,jdbcType=VARCHAR}
+		</if>
+		<if test="taskState != null">
+			and Task_State = #{taskState,jdbcType=BIT}
+		</if>
+		<if test="taskType != null">
+			and Task_Type = #{taskType,jdbcType=TINYINT}
+		</if>
+		<if test="cycleType != null" >
+            and Cycle_Type = #{cycleType,jdbcType=VARCHAR}
+        </if>
+        </where>
+	</select>
+	
+	<select id="getTaskListByServiceTG"  parameterType="TaskSearchEntity" 
+	    resultMap="taskResultMap" statementType="PREPARED">
+		select * from tcc_task 
+		<where>
+		<if test="serviceId != null">
+			and serviceId = #{serviceId,jdbcType=INTEGER}
+		</if>
+		<if test="taskGroup != null">
+			and service_task_group = #{taskGroup,jdbcType=VARCHAR}
+		</if>
+        </where>
+	</select>
+	
+	<delete id="deleteTask" parameterType="Long" statementType="PREPARED">
+	    delete from tcc_task where task_Id = #{taskId,jdbcType=BIGINT}
+	</delete>
+</mapper>

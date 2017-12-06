@@ -1,0 +1,16 @@
+使用说明：
+    1、在目标hive元数据库（mysql）上执行procedure/metasync.sql创建两个存储过程；
+    2、在源hive元数据库（mysql）上创建新用户并仅分配查询权限，在目标元数据库（mysql）上创建新用户并分配修改权限；
+    3、将metasync.zip解压，修改conf/config中的数据库连接配置
+    4、在metasync目录下执行metasync.jar包即可实现将指定表的指定分区范围的同步，命令格式如下：
+    	java -jar metasync.jar [-f] [--src-db dbname] [--dst-db dbname] table-ext1 [table-ext2 ...]
+    	     table-extn: table-name[,compare-pt,min-pt-value[,max-pt-value]]
+    其中：
+       -f :强制删除目标hive元数据库中已经存在的表，不带此选项则忽略已经存在的表
+       --src-db dbname ：源数据库（hive中的数据库名）
+       --dst-db dbname ：目标数据库（hive中的数据库名）
+       table-extn ：表选项
+       table-name ：表名
+       compare-pt ：待比较的分区
+       min-pt-value ：待比较的分区的最小分区（不包含本分区）
+       max-pt-value ：待比较的分区的最大分区（包含本分区）

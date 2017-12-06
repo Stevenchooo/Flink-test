@@ -1,0 +1,4 @@
+alter table `alarm_fact_info` drop `service_name`,add `service_id` int(255) DEFAULT NULL,modify `alarm_type` int(11) NOT NULL DEFAULT '0',drop PRIMARY KEY,add PRIMARY KEY (`task_id`,`cycle_id`,`alarm_time`,`alarm_type`);
+alter table `task_alarm_items` modify `task_id` bigint(11) NOT NULL,modify `alarm_type` varchar(128) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,add `is_alarm_permitted` tinyint(1) NOT NULL DEFAULT '1',drop PRIMARY KEY,add PRIMARY KEY (`task_id`);
+alter table `task_alarm_threshold` modify `latest_start_time` varchar(255) DEFAULT NULL,modify `latest_end_time` varchar(255) DEFAULT NULL;
+alter table `tcc_task` drop `Success_SendEmail_Flag`,drop `Failure_EmailsTo`,modify `service_task_group` varchar(255) NOT NULL DEFAULT 'д╛хо',drop `is_alarm_permitted`;

@@ -1,0 +1,8 @@
+node.check.cmd=D:\数据平台\05.平台工具\01.CI\1.7code\DiskBalance\shell\checkdisk.sh
+node.check.result=./shell/result
+#节点上线命令
+node.online.cmd=hadoop-daemon.sh start datanode;hadoop-daemon.sh start tasktracker;
+#节点下线命令
+node.offline.cmd=hadoop-daemon.sh stop tasktracker;hadoop-daemon.sh stop datanode;
+#节点分区目录的中缀（不包含磁盘根目录）
+node.pdir.infix=/hadoop/data/current/subdir

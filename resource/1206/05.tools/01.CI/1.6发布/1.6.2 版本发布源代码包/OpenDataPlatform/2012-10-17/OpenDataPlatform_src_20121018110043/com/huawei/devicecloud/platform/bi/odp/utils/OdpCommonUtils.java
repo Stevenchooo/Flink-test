@@ -1,0 +1,718 @@
+/*
+ * 文 件 名:  CommonUtils.java
+ * 版    权:  Huawei Technologies Co., Ltd. Copyright 2009-2012,  All rights reserved
+ * 描    述:  数据开发平台公共工具类
+ * 创 建 人:  z00190465
+ * 创建时间:  2012-8-1
+ */
+package com.huawei.devicecloud.platform.bi.odp.utils;
+
+import java.beans.IntrospectionException;
+import java.beans.PropertyDescriptor;
+import java.io.BufferedInputStream;
+import java.io.Closeable;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.zip.CRC32;
+import java.util.zip.CheckedOutputStream;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
+
+import org.apache.ibatis.mapping.ResultMap;
+import org.apache.ibatis.mapping.ResultMapping;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.alibaba.fastjson.JSONException;
+import com.alibaba.fastjson.JSONObject;
+import com.huawei.devicecloud.platform.bi.common.CException;
+import com.huawei.devicecloud.platform.bi.common.utils.CommonUtils;
+import com.huawei.devicecloud.platform.bi.odp.constants.OdpConfig;
+import com.huawei.devicecloud.platform.bi.odp.constants.ResultCode;
+import com.huawei.devicecloud.platform.bi.odp.constants.type.UserAdFlagType;
+import com.huawei.devicecloud.platform.bi.odp.dao.OdpDao;
+import com.huawei.devicecloud.platform.bi.odp.dao.impl.OdpDaoImpl;
+import com.huawei.devicecloud.platform.bi.odp.domain.ColumnFieldMapping;
+import com.huawei.devicecloud.platform.bi.odp.domain.ColumnFieldTypeMapping;
+import com.huawei.devicecloud.platform.bi.odp.domain.IModifyResult;
+
+/**
+ * 数据开发平台公共工具类
+ * 
+ * @author  z00190465
+ * @version [Open Data Platform Service, 2012-8-1]
+ */
+public final class OdpCommonUtils
+{
+    private static final Logger LOGGER = LoggerFactory.getLogger(OdpCommonUtils.class);
+    
+    private static final int BUFFER_SIZE = 1024;
+    
+    private static final int SMALL_SIZE = 5;
+    
+    /**
+     * 私有的构造方法
+     */
+    private OdpCommonUtils()
+    {
+        
+    }
+    
+    /**
+     * 将ratioLefts从大到小排序，返回排好顺序的索引数组
+     * @param ratioLefts 待排序数组
+     * @return 返回排好顺序的索引数组
+     */
+    public static int[] sort(float[] ratioLefts)
+    {
+        //通过索引将lRatios数组进行排序
+        int[] sortedIndexs = new int[ratioLefts.length];
+        
+        //初始化索引
+        for (int i = 0; i < ratioLefts.length; i++)
+        {
+            sortedIndexs[i] = i;
+        }
+        
+        //排序
+        int tempIndex = 0;
+        for (int i = 0; i < ratioLefts.length - 1; i++)
+        {
+            for (int j = i + 1; j < ratioLefts.length; j++)
+            {
+                if (ratioLefts[sortedIndexs[i]] < ratioLefts[sortedIndexs[j]])
+                {
+                    //交换数据
+                    tempIndex = sortedIndexs[i];
+                    sortedIndexs[i] = sortedIndexs[j];
+                    sortedIndexs[j] = tempIndex;
+                }
+            }
+        }
+        
+        return sortedIndexs;
+    }
+    
+    /**
+     * 通过record对象获取所有的属性的get方法
+     * @param record 记录对象
+     * @param columnFields 列名字段名映射关系数组
+     * @return 所有的属性的get方法
+     * @throws CException 异常
+     */
+    public static Method[] getFieldsGetMethod(Object record, ColumnFieldMapping[] columnFields)
+        throws CException
+    {
+        if (null == record || null == columnFields || 0 == columnFields.length)
+        {
+            return null;
+        }
+        
+        Method[] getMethods = new Method[columnFields.length];
+        PropertyDescriptor pd = null;
+        //获取字段值
+        for (int i = 0; i < columnFields.length; i++)
+        {
+            try
+            {
+                //构造属性描述符
+                pd = new PropertyDescriptor(columnFields[i].getFieldName(), record.getClass());
+                //获取get方法
+                getMethods[i] = pd.getReadMethod();
+            }
+            catch (IntrospectionException e)
+            {
+                LOGGER.error("writeRecords2File failed!", e);
+                throw new CException(ResultCode.WRITE_FILE_ERROR, e);
+            }
+        }
+        return getMethods;
+    }
+    
+    /**
+     * 获取date所属周的周1日期字符串
+     * 
+     * @param date 日期
+     * @return date所属周的周一日期字符串
+     */
+    public static String getMondayDateStr(Date date)
+    {
+        return covDayStr(getMondayDate(date));
+    }
+    
+    /**
+     * 获取date所属周的周1日期
+     * 
+     * @param date 日期
+     * @return date所属周的周一日期
+     */
+    public static Date getMondayDate(Date date)
+    {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+        
+        //获取周表Id
+        int diff;
+        int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
+        
+        if (Calendar.SUNDAY == dayOfWeek)
+        {
+            //周日
+            diff = Calendar.MONDAY - dayOfWeek - Calendar.SATURDAY;
+        }
+        else
+        {
+            diff = Calendar.MONDAY - dayOfWeek;
+        }
+        //偏移至周一
+        cal.add(Calendar.DAY_OF_MONTH, diff);
+        return cal.getTime();
+    }
+    
+    /**
+     * 获取date所属周的周1日期字符串
+     * 
+     * @param date 日期
+     * @return date所属周的周一日期字符串
+     */
+    public static Date getNextMondayDateStr(Date date)
+    {
+        Calendar cal = Calendar.getInstance();
+        //获取本周1时间
+        cal.setTime(getMondayDate(date));
+        //往后偏移1周
+        cal.add(Calendar.DAY_OF_MONTH, Calendar.SATURDAY);
+        return cal.getTime();
+    }
+    
+    /**
+     * 转换成日期字符串
+     * @param date 日期
+     * @return 日期字符串
+     */
+    public static String covDayStr(Date date)
+    {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        dateFormat.setLenient(false);
+        //转换日期格式为yyyy-MM-dd
+        return dateFormat.format(date);
+    }
+    
+    /**
+     * 获取date相邻的日期字符串
+     * 
+     * @param date 日期
+     * @return 一周内date日期相邻的日期字符串集合
+     */
+    public static List<String> getNeighborDateStr(Date date)
+    {
+        List<String> nDatas = new ArrayList<String>(SMALL_SIZE);
+        
+        //当天日期
+        nDatas.add(covDayStr(date));
+        
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        //如果是周末
+        if (cal.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY)
+        {
+            cal.add(Calendar.DAY_OF_MONTH, -1);
+            //前一天日期
+            nDatas.add(covDayStr(cal.getTime()));
+        }
+        else if (cal.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY)
+        {
+            cal.add(Calendar.DAY_OF_MONTH, 1);
+            //后一天日期
+            nDatas.add(covDayStr(cal.getTime()));
+        }
+        else
+        {
+            cal.add(Calendar.DAY_OF_MONTH, -1);
+            //前一天日期
+            nDatas.add(covDayStr(cal.getTime()));
+            cal.add(Calendar.DAY_OF_MONTH, 1 + 1);
+            //后一天日期
+            nDatas.add(covDayStr(cal.getTime()));
+        }
+        
+        return nDatas;
+    }
+    
+    /**
+     * 从filterStmt中提取user_ad_flag=0|1|2
+     * 
+     * @param filterStmt 查询条件
+     * @return userAdFlag值
+     * @throws CException 异常
+     */
+    public static Integer extractUserAdFlag(String filterStmt)
+        throws CException
+    {
+        //负向预查
+        Pattern pat = Pattern.compile(OdpConfig.createOdpConfig().getUserAdFlagPattern());
+        Matcher matcher = pat.matcher(filterStmt);
+        if (matcher.find())
+        {
+            //提取user_ad_flag = value中的value（仅1个字符长度）值
+            int value = Integer.parseInt(matcher.group().substring(0, 1));
+            //仅允许查询正常和白名单用户
+            if (value == UserAdFlagType.NORMAL || value == UserAdFlagType.BLANK)
+            {
+                return value;
+            }
+        }
+        
+        throw new CException(ResultCode.USER_AD_FLAG_ERROR);
+    }
+    
+    /**
+     * 压缩产生的目标文件名
+     * @param srcFileName 源文件名
+     * @param dstFileName 目标文件名
+     * @throws CException 异常
+     */
+    public static void compress(String srcFileName, String dstFileName)
+        throws CException
+    {
+        BufferedInputStream bis = null;
+        ZipOutputStream zos = null;
+        try
+        {
+            //输出文件
+            File outfile = new File(dstFileName);
+            //创建zip文件
+            CheckedOutputStream cos = new CheckedOutputStream(new FileOutputStream(outfile), new CRC32());
+            zos = new ZipOutputStream(cos);
+            
+            //获取输入文件名
+            File inputfile = new File(srcFileName);
+            ZipEntry entry = new ZipEntry(outfile.getName());
+            //创建压缩包中的文件名
+            zos.putNextEntry(entry);
+            bis = new BufferedInputStream(new FileInputStream(inputfile));
+            int count = 0;
+            byte[] data = new byte[BUFFER_SIZE];
+            //将文件流输出到压缩文件流中
+            while (true)
+            {
+                count = bis.read(data, 0, BUFFER_SIZE);
+                if (-1 == count)
+                {
+                    break;
+                }
+                
+                zos.write(data, 0, count);
+            }
+        }
+        catch (FileNotFoundException e)
+        {
+            //文件不存在异常
+            LOGGER.error("compress failed! srcFileName is {},dstFileName is {}", new Object[] {srcFileName,
+                dstFileName, e});
+            throw new CException(ResultCode.WRITE_FILE_ERROR, new Object[] {srcFileName, dstFileName, e});
+        }
+        catch (IOException e)
+        {
+            //IO读写异常
+            LOGGER.error("compress failed! srcFileName is {},dstFileName is {}", new Object[] {srcFileName,
+                dstFileName, e});
+            throw new CException(ResultCode.WRITE_FILE_ERROR, new Object[] {srcFileName, dstFileName, e});
+        }
+        finally
+        {
+            //关闭输入流
+            OdpCommonUtils.close(bis);
+            
+            //关闭输出流
+            OdpCommonUtils.close(zos);
+        }
+    }
+    
+    /**
+     * 获取不存在的列名数组
+     * @param columnEnums 列枚举列表
+     * @return 不存在列数组
+     * @throws CException 异常
+     */
+    public static List<Integer> getNotExistColumns(List<Integer> columnEnums)
+        throws CException
+    {
+        //列表为空直接返回
+        if (null == columnEnums || columnEnums.isEmpty())
+        {
+            return null;
+        }
+        
+        //不存在列集合
+        List<Integer> notExistColumns = new ArrayList<Integer>(columnEnums.size());
+        String columnName = null;
+        int columnSize = columnEnums.size();
+        for (int i = 0; i < columnSize; i++)
+        {
+            //获取列名
+            columnName = CommonUtils.getColumnName(columnEnums.get(i));
+            if (null == columnName)
+            {
+                notExistColumns.add(columnEnums.get(i));
+            }
+        }
+        
+        return notExistColumns;
+    }
+    
+    /**
+     * 获取列名数组
+     * @param columnEnums 列枚举列表
+     * @return 列名数组
+     * @throws CException 异常
+     */
+    public static String[] getColumnNams(List<Integer> columnEnums)
+        throws CException
+    {
+        if (null == columnEnums || columnEnums.isEmpty())
+        {
+            return null;
+        }
+        
+        String[] columnNames = new String[columnEnums.size()];
+        String columnName = null;
+        int columnSize = columnEnums.size();
+        //将枚举值代表的列转换成列名数组，如果有不存在的列则返回异常
+        for (int i = 0; i < columnSize; i++)
+        {
+            //获取列名
+            columnName = CommonUtils.getColumnName(columnEnums.get(i));
+            if (null != columnName)
+            {
+                columnNames[i] = columnName;
+            }
+            else
+            {
+                LOGGER.error("column[{}] doesn't exist!", columnEnums.get(i));
+                throw new CException(ResultCode.COLUMN_NOT_EXIST, columnEnums.get(i));
+            }
+        }
+        
+        return columnNames;
+    }
+    
+    /**
+     * 根据columnNames获取表列与对象字段映射数组
+     * @param odpDao dao
+     * @param resultMId 结果集映射ID
+     * @param columnNames 列名数组
+     * @return 表列与对象字段映射数组
+     */
+    public static ColumnFieldTypeMapping[] getChoosedCFTMappings(OdpDao odpDao, String resultMId, String[] columnNames)
+    {
+        //不合法直接返回
+        if (null == columnNames)
+        {
+            return null;
+        }
+        
+        //表列与对象字段映射数组
+        ColumnFieldTypeMapping[] cfTMappings = new ColumnFieldTypeMapping[columnNames.length];
+        if (null != odpDao)
+        {
+            //获取结果集Map
+            ResultMap resultMap = ((OdpDaoImpl)odpDao).getSqlSession().getConfiguration().getResultMap(resultMId);
+            List<ResultMapping> resultMappings = resultMap.getResultMappings();
+            
+            if (null == resultMappings)
+            {
+                LOGGER.error("resultMappings can't be null, TempTableRecordProcess can't work normally!");
+                return null;
+            }
+            
+            //从resultMap中获取列名与字段的映射关系
+            ColumnFieldTypeMapping cfTMapping = null;
+            for (int i = 0; i < columnNames.length; i++)
+            {
+                for (ResultMapping resultMapping : resultMappings)
+                {
+                    //过滤指定的列
+                    if (columnNames[i].equals(resultMapping.getColumn()))
+                    {
+                        cfTMapping = new ColumnFieldTypeMapping();
+                        cfTMapping.setColumnName(columnNames[i]);
+                        cfTMapping.setFieldName(resultMapping.getProperty());
+                        cfTMapping.setJavaType(resultMapping.getJavaType());
+                        cfTMappings[i] = cfTMapping;
+                        break;
+                    }
+                }
+            }
+            
+        }
+        
+        return cfTMappings;
+    }
+    
+    /**
+     * 关闭流
+     * @param stream 流
+     */
+    public static void close(Closeable stream)
+    {
+        //流关闭方法
+        if (null != stream)
+        {
+            try
+            {
+                stream.close();
+            }
+            catch (IOException e)
+            {
+                LOGGER.error("close stream failed!", e);
+            }
+        }
+    }
+    
+    /**
+     * 解析请求json消息体为相应的对象
+     * @param body 请求json消息体
+     * @param reqClass 请求json消息体对应的类
+     * @param <T> 泛型类型
+     * @return 请求对象 
+     */
+    public static <T extends Object> T parseObject(String body, Class<T> reqClass)
+    {
+        //在json对象外部包装上req字段名，方便读取和转换对象
+        JSONObject json = JSONObject.parseObject(String.format("{\"req\":%s}", body));
+        T req = json.getObject("req", reqClass);
+        return req;
+    }
+    
+    /**
+     * 将Obj对象转换成“字段名：字段值”对象的Map对象
+     * @param obj 待转换对象
+     * @return Map对象
+     */
+    public static Map<String, Object> covObj2Map(final Object obj)
+    {
+        //字段名，字段值Map
+        final Map<String, Object> keyValueMap = new HashMap<String, Object>();
+        if (null != obj)
+        {
+            //获取声明的字段数组
+            final Field[] fields = obj.getClass().getDeclaredFields();
+            //使用权限块处理
+            AccessController.doPrivileged(new PrivilegedAction<Map<String, Object>>()
+            {
+                @Override
+                public Map<String, Object> run()
+                {
+                    Object value = null;
+                    for (int j = 0; j < fields.length; j++)
+                    {
+                        fields[j].setAccessible(true);
+                        try
+                        {
+                            //获取字段值
+                            value = fields[j].get(obj);
+                            keyValueMap.put(fields[j].getName(), value);
+                        }
+                        catch (IllegalArgumentException e)
+                        {
+                            //参数不合法
+                            LOGGER.error("getValue failed!", e);
+                        }
+                        catch (IllegalAccessException e)
+                        {
+                            //访问不合法
+                            LOGGER.error("getValue failed!", e);
+                        }
+                    }
+                    return keyValueMap;
+                }
+            });
+        }
+        else
+        {
+            //参数不能为空
+            LOGGER.error("obj can't be null!");
+        }
+        
+        return keyValueMap;
+    }
+    
+    /**
+     * 根据异常设置返回码
+     * @param result 可以修改返回码的接口
+     * @param e 异常
+     */
+    public static void setResultByException(IModifyResult result, Exception e)
+    {
+        //如果参数为null，直接返回
+        if (null == result || null == e)
+        {
+            LOGGER.error("setResultByException error! result is {}, e is {}", result, e);
+            return;
+        }
+        
+        //从异常中提取错误码
+        if (e instanceof CException)
+        {
+            result.setResult_code(((CException)e).getErrorCode());
+        }
+        else if (e instanceof JSONException)
+        {
+            //JSON异常返回消息格式不合法错误码
+            result.setResult_code(ResultCode.REQUEST_FORMAT_ERROR);
+        }
+        else
+        {
+            //其它返回系统错误码
+            result.setResult_code(ResultCode.SYSTEM_ERROR);
+        }
+    }
+    
+    /**
+     * 将异常e转换成封装的异常
+     * @param e 异常
+     * @return 封装的异常
+     */
+    public static CException covertE2CE(Exception e)
+    {
+        //如果参数为null，直接返回
+        if (null == e)
+        {
+            LOGGER.error("covertE2CE error! e is null");
+            return new CException(ResultCode.SYSTEM_ERROR);
+        }
+        
+        //将非CException类型异常转换成该异常
+        if (e instanceof CException)
+        {
+            return (CException)e;
+        }
+        else if (e instanceof JSONException)
+        {
+            //JSON异常返转换成CException异常
+            return new CException(ResultCode.REQUEST_FORMAT_ERROR);
+        }
+        else
+        {
+            //其它转化成系统异常
+            return new CException(ResultCode.SYSTEM_ERROR);
+        }
+    }
+    
+    /**
+     * 获取最小值
+     * @param valueA 值A
+     * @param valueB 值B
+     * @return 返回valueA和valueB中的最小值
+     */
+    public static Long getMinValue(Long valueA, Long valueB)
+    {
+        //valueA和valueB有一个为null，则取另一个非null值
+        //否则取两个中的最小值
+        Long value = null;
+        
+        if (null != valueA)
+        {
+            if (null != valueB)
+            {
+                value = Math.min(valueA, valueB);
+            }
+            else
+            {
+                value = valueA;
+            }
+        }
+        else
+        {
+            value = valueB;
+        }
+        
+        return value;
+    }
+    
+    /**
+     * 获取最小值
+     * @param valueA 值A
+     * @param valueB 值B
+     * @return 返回valueA和valueB中的最小值
+     */
+    public static Integer getMinValue(Integer valueA, Integer valueB)
+    {
+        //valueA和valueB有一个为null，则取另一个非null值
+        //否则取两个中的最小值
+        Integer value = null;
+        
+        if (null != valueA)
+        {
+            if (null != valueB)
+            {
+                value = Math.min(valueA, valueB);
+            }
+            else
+            {
+                value = valueA;
+            }
+        }
+        else
+        {
+            value = valueB;
+        }
+        
+        return value;
+    }
+    
+    /**
+     * 删除数据文件
+     * @param fileName 文件
+     */
+    public static void deleteFile(String fileName)
+    {
+        //文件名为null直接返回
+        if (null == fileName)
+        {
+            return;
+        }
+        
+        try
+        {
+            //文件存在则删除，删除失败记录日志退出
+            File file = new File(fileName);
+            //文件存在
+            if (file.exists())
+            {
+                if (!file.delete())
+                {
+                    //创建失败记录错误信息
+                    LOGGER.error("delete file[{}] failed!", fileName);
+                }
+            }
+        }
+        catch (SecurityException e)
+        {
+            //记录错误信息
+            LOGGER.error("delete file[{}] failed!", fileName, e);
+        }
+    }
+}

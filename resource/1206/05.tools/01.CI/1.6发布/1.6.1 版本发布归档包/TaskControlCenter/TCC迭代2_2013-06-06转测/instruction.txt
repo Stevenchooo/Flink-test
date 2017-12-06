@@ -1,0 +1,310 @@
+版本变动内容：
+TCC后台：
+   1、周期Id格式从yyyyMMdd-HH变为yyyyMMdd-HHmm
+   2、任务管理可以配置分钟任务（任务步骤）
+   3、任务管理支持分钟任务的查询过滤
+   4、批量重做支持分钟任务的查询、过滤，待处理任务集合支持分钟任务的筛选
+   5、分钟任务支持集成重做、周末重做、月末重做三种方式
+   6、分钟任务支持配置多种依赖关系
+   7、分钟任务支持周期长度，最早开始时间、周期偏移、顺序依赖、多批标识、多种文件结束标识
+   8、分钟任务支持多节点错误切换
+
+
+TCC迭代2_2013-03-20转测版本基础上的修改点：
+a、调度部分
+    TccServerImpl.java  findNeedsFillCycles
+    1331行 
+		boolean minuteFirstRun = false;
+    1356行         
+		//跨分钟第一次运行
+        if (lastCal.get(Calendar.MINUTE) != curCal.get(Calendar.MINUTE))
+        {
+            minuteFirstRun = true;
+        }
+        
+    1393行         
+		//跨分钟第一次运行
+        if (minuteFirstRun)
+        {
+            filterTaskIds(taskLst, CycleType.MINUTE);
+        }
+	TccServerImpl.java process
+	3073行：
+		else if (EventType.START_TASK == event.getType())
+	3086行：
+	    //调度模块不再负责停止任务，由调用者直接停止
+        else if (EventType.STOP_TASK == event.getType())
+        {
+            if (null != event.getData())
+            {
+                Long taskId = (Long)(event.getData());
+                //直接停止任务
+                stopTask(taskId);
+            }
+        }
+    
+    TccUtil.java covCycleID2Date
+    1692行 
+		DateFormat df = new SimpleDateFormat(TccConfig.CYCLE_ID_FORMAT);
+    TccUtil.java roll2CycleStart
+    1505行             
+		case CycleType.MINUTE:
+            {
+                //0秒
+                int year = cTime.get(Calendar.YEAR);
+                int month = cTime.get(Calendar.MONTH);
+                int day = cTime.get(Calendar.DAY_OF_MONTH);
+                int hour = cTime.get(Calendar.HOUR_OF_DAY);
+                int minute = cTime.get(Calendar.MINUTE);
+                cal.set(year, month, day, hour, minute, 0);
+                cal.add(Calendar.MINUTE, cycleOffSet);
+                break;
+            }
+   TccUtil.java covDate2CycleID
+   1684行 
+		DateFormat df = new SimpleDateFormat(TccConfig.CYCLE_ID_FORMAT);
+   114行
+        //天、小时、分钟类型不要循环遍历
+		if (CycleType.MINUTE == cycleType)
+		{
+			long dur = MILLSECONDE_PER_MINUTE * cycleLength;
+			long dis = time.getTime() - cycleBenchTime.getTime();
+			int cycles = (int)(dis / dur) + offset;
+			cBenchTime.add(calendarType, cycles * cycleLength);
+		}
+		else if (CycleType.DAY == cycleType)
+   1600行
+   		//天、小时、分钟类型不要循环遍历
+		if (CycleType.MINUTE == cycleType)
+		{
+			long dur = MILLSECONDE_PER_MINUTE * cycleLength;
+			long dis = cycleBenchTime.getTime() - time.getTime();
+			int cycles = offset - (int)(dis / dur);
+			cBenchTime.add(calendarType, cycles * cycleLength);
+		}
+		else if (CycleType.DAY == cycleType)
+    CycleType.java 
+    	24行     
+			public static final int MINUTE = 1;
+    	29行
+			public static final int HOUR = 60 * MINUTE;
+        62行
+			case CycleType.MINUTE:
+                return Calendar.MINUTE;
+        91行
+			else if ("i".endsWith(cycleTypeLower))
+        	{
+            		return CycleType.MINUTE;
+        	}
+	TccUtil.java generateCycleIDs
+	1074行：
+		SimpleDateFormat df = new SimpleDateFormat(TccConfig.CYCLE_ID_FORMAT);
+	TccDaoImpl.java getNeedRunCycleTasks
+	1019行：
+			if (0 != cTime.get(Calendar.SECOND))
+			{
+				cTime.add(Calendar.MINUTE, 1);
+			}
+	TccDaoImpl.java getNeedAlarmTaskRSs
+	1120行：
+			if (0 != cTime.get(Calendar.SECOND))
+			{
+				cTime.add(Calendar.MINUTE, 1);
+			}
+	TccDaoImpl.java getTopOldNeedRunCycleTasks
+	1182行：
+			if (0 != cTime.get(Calendar.SECOND))
+			{
+				cTime.add(Calendar.MINUTE, 1);
+			}
+	TccUtil.java getMinCycleId
+	507行：
+	        if (0 != cTime.get(Calendar.SECOND))
+            {
+                cTime.add(Calendar.MINUTE, 1);
+            }
+	TaskManager.java	getTaskDepends
+	448行：
+		return taskCp;
+	452行：
+		return  null;
+b、执行部分
+	CycleTask.java run
+	352行：
+		LOGGER.info("run cycleTask[taskId=[{}],cycleId=[{}]] started.", this.getTaskId(), this.getCycleId());
+	429行：
+		LOGGER.info("run cycleTask[taskId=[{}],cycleId=[{}]] finished.", this.getTaskId(), this.getCycleId());
+	CycleTask.java computeExecuteTypeStartCycleId
+	643行：
+		if (CycleType.HOUR != cycleType && CycleType.DAY != cycleType && CycleType.MINUTE  != cycleType)
+		
+	TccConfig.java
+	126行：
+		public static final long NEW_INPUT_FILES_MILLISECONDS = 2 * 1000;
+	TccUtil.java covDate2CycleTypeString
+	1172行：
+		case CycleType.MINUTE:
+                formatString = "yyyyMMddHHmm";
+				 break;
+c、页面展示部分。页面任务周期管理周期集成重做（取消不支持的集成重做的任务）的部分需要处理
+    TaskList.jsp
+	84行：
+		<option value="I">按分钟</option>
+	160行：
+		<option value="I">按分钟</option>
+	1599行：
+			else if ("I" == (cycleType) || "i" == (cycleType))
+			{
+				cycleTypeTitle = "按分钟";
+			}
+	BatchDependTaskRedo.jsp
+	2755行：
+		<option value="I">按分钟</option>
+	2840行：
+		<option value="I">按分钟</option>
+	2934行：
+		<option value="I">按分钟</option>
+	943行：
+			else if ("I" == (cycleType) || "i" == (cycleType))
+			{
+				cycleTypeTitle = "按分钟";
+			}
+	TaskRunningStateQuery.jsp
+	1051行：
+			var minute = parseInt(cycleId.substring(11,14),10);
+			return new Date(year,mouth,day,hour,minute,0,0);
+	1188行：
+		tips += '集成重做功能仅对天、小时或者分钟周期类型的非批次任务有效!已经取消任务'+covTaskIds2Name(cancelTaskIds,';')+'的所有的周期的选择.';
+	1524行：
+		var minute = dateTime.getMinutes();
+		return fillLeftZero(year,4) + fillLeftZero(mouth,2) + fillLeftZero(day,2) +"-"+ fillLeftZero(hour,2)+fillLeftZero(minute,2);
+	1535行：
+		var second = startTime.getSeconds();
+		if(second != 0)
+		{
+			 //往后偏移一分钟
+			startTime.setMinutes(startTime.getMinutes()+1);
+		}	
+	1565行：
+		case 'i':
+			dateTime.setMinutes(dateTime.getMinutes()+length);	
+			break;
+	TaskRunningStateQueryAction.java filterCanIntegratedTaskInfos
+	308行：
+		if (!task.getMultiBatchFlag()
+                    && (cycleType == CycleType.DAY || cycleType == CycleType.HOUR || cycleType == CycleType.MINUTE))
+	TaskRunningDetail.jsp
+	305行：
+		width : 120,
+	429行：
+		width : 100,
+	621行：
+		width : 100,
+	1026行：
+		width : 100,
+	AlarmManage.jsp
+	344行：
+		width : 100,
+	TaskCycleQueue.jsp
+	143行：
+		var widths=[260,100,120,90,50,70,210];
+d、TCC数据库
+    存储过程 maxCycleId
+	11行：
+		return DATE_FORMAT(curr ,'%Y%m%d-%H%i');
+	33行：
+		return  DATE_FORMAT(DATE_ADD(DATE_ADD(curr,INTERVAL -Mon MONTH),INTERVAL -D*24*60-h*60-min MINUTE) ,'%Y%m%d-%H%i');
+	存储过程 minCycleId
+	3行：
+	       if second(startTime) > 0 then
+          return DATE_FORMAT(DATE_ADD(startTime,INTERVAL 1 minute) ,'%Y%m%d-%H%i');
+	6行：
+		return DATE_FORMAT(startTime ,'%Y%m%d-%H%i');
+    9行：
+		return DATE_FORMAT(bench ,'%Y%m%d-%H%i');
+    扩展所有的周期Id都补充00，让长度变为13;
+		update alarm_fact_info set cycle_id =concat(cycle_id,'00') where cycle_id is not null and cycle_id != '';
+		update tcc_batch_running_state set cycle_id =concat(cycle_id,'00') where cycle_id is not null and cycle_id != '';
+		update tcc_remoteshell_log set cycleid =concat(cycleid,'00') where cycleid is not null and cycleid != '';
+		update tcc_step_running_state set cycle_id =concat(cycle_id,'00') where cycle_id is not null and cycle_id != '';
+		update tcc_taskcontrolcenter_log set cycleid =concat(cycleid,'00') where cycleid is not null and cycleid != '';
+		update tcc_task_running_state set cycle_id =concat(cycle_id,'00') where cycle_id is not null and cycle_id != '';
+
+升级：	
+    请在TCC迭代2_2013-03-20转测版本的基础上执行如下sql语句实现db的升级
+		update alarm_fact_info set cycle_id =concat(cycle_id,'00') where cycle_id is not null and cycle_id != '';
+		update tcc_batch_running_state set cycle_id =concat(cycle_id,'00') where cycle_id is not null and cycle_id != '';
+		update tcc_remoteshell_log set cycleid =concat(cycleid,'00') where cycleid is not null and cycleid != '';
+		update tcc_step_running_state set cycle_id =concat(cycle_id,'00') where cycle_id is not null and cycle_id != '';
+		update tcc_taskcontrolcenter_log set cycleid =concat(cycleid,'00') where cycleid is not null and cycleid != '';
+		update tcc_task_running_state set cycle_id =concat(cycle_id,'00') where cycle_id is not null and cycle_id != '';
+		
+		drop procedure if exists `maxCycleId`;
+		delimiter ;;
+		create function maxCycleId(cycleOffSet varchar(50),curr DateTime) returns varchar(50)
+		begin
+		        declare j int default 1;
+		       declare Mon int default 0;
+					 declare D int default 0;
+		       declare h int default 0;
+		       declare min int default 0;
+		       declare c varchar(1);
+		       declare i int default 1;
+		   if isnull(cycleOffSet) or trim(cycleOffSet) = '0'  or trim(cycleOffSet) = ''
+		   then
+		       return DATE_FORMAT(curr ,'%Y%m%d-%H%i');
+		   else
+		       while j <= length(cycleOffSet) do
+		          set c = mid(cycleOffSet,j,1);
+		          if ascii(c) = ascii('M') then
+												set Mon=cast(trim(substring(cycleOffSet,i,j-i)) as SIGNED);
+												set i = j+1;
+							else if ascii(c) = ascii('D') then
+												set D=cast(trim(substring(cycleOffSet,i,j-i)) as SIGNED);
+												set i = j+1;
+							else if ascii(c) =  ascii('h') then
+												set h=cast(trim(substring(cycleOffSet,i,j-i)) as SIGNED);
+												set i = j+1;
+							else if ascii(c) =  ascii('m') then
+												set min=cast(trim(substring(cycleOffSet,i,j-i)) as SIGNED);
+												set i = j+1;
+		          end if;
+		          end if;
+		          end if;
+		          end if;
+		          set j = j + 1;
+		       end while;
+		       return  DATE_FORMAT(DATE_ADD(DATE_ADD(curr,INTERVAL -Mon MONTH),INTERVAL -D*24*60-h*60-min MINUTE) ,'%Y%m%d-%H%i');
+		   end if;
+		end;;
+		
+		DELIMITER ;
+		
+		drop procedure if exists `minCycleId`;
+		delimiter ;;
+		create function minCycleId(startTime DateTime,bench DateTime) returns varchar(50)
+		begin
+		   if not isnull(startTime) and startTime >= bench  then
+		       if second(startTime) > 0 then
+					return DATE_FORMAT(DATE_ADD(startTime,INTERVAL 1 minute) ,'%Y%m%d-%H%i');
+		       else
+					return DATE_FORMAT(startTime ,'%Y%m%d-%H%i');
+		       end if;
+		   else
+		       return DATE_FORMAT(bench ,'%Y%m%d-%H%i');
+		   end if;
+		end;;
+		
+		DELIMITER ;
+	
+    请在TCC迭代2_2013-03-20转测版本的基础上替换如下文件实现TCC后台的升级:
+    	TaskControlCenter\AlarmManage.jsp
+    	TaskControlCenter\BatchDependTaskRedo.jsp
+    	TaskControlCenter\generateVerifyCode.jsp
+    	TaskControlCenter\TaskCycleQueue.jsp
+    	TaskControlCenter\TaskList.jsp
+    	TaskControlCenter\TaskRunningDetail.jsp
+    	TaskControlCenter\TaskRunningStateQuery.jsp
+    	TaskControlCenter\WEB-INF\web.xml
+    	TaskControlCenter\WEB-INF\lib\WebSecurity.jar
+    	TaskControlCenter\WEB-INF\lib\taskcontrolcenter-1.1.1.jar

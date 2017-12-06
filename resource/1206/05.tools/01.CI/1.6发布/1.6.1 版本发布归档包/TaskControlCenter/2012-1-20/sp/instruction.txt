@@ -1,0 +1,6 @@
+版本变动内容：
+一、创建文件批次时，只选取本周期内的全部文件；
+二、将remoteshell中增加任务id与周期Id的记录、修改日志的记录方式，将tcc日志中增加批次id、步骤id、重试次数的记录
+在2012-1-13版本的基础上替换如下文件：
+TaskControlCenter\WEB-INF\lib\taskcontrolcenter-1.1.1.jar
+TaskControlCenter\WEB-INF\lib\remoteshell.jar

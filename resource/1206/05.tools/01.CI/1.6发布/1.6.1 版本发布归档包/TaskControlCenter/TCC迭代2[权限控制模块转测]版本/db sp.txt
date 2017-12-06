@@ -1,0 +1,146 @@
+`service_task_group` VARCHAR(255) NOT NULL DEFAULT 'default',
+`is_alarm_permitted` tinyint(1) NOT NULL DEFAULT '1',
+
+
+
+DROP TABLE IF EXISTS `node_info`;	
+CREATE TABLE `node_info`
+(
+	`node_ip_addr` VARCHAR(255) NOT NULL,
+	`node_type` int NOT NULL,
+	`CPU` VARCHAR(255)  DEFAULT NULL,
+	`memory` bigint  DEFAULT NULL,
+	`storage` bigint  DEFAULT NULL,
+	`desc` VARCHAR(512)  DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `operate_audit_info`;	
+CREATE TABLE `operate_audit_info`
+(
+	`operator` VARCHAR(255) NOT NULL,
+	`operator_time` DATETIME NOT NULL,
+	`service_id` INTEGER,
+	`task_id`INTEGER,
+	`task_period` VARCHAR(255),
+	`login_ip` VARCHAR(255),
+	PRIMARY KEY (operator, operator_time)
+
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `operator_info`;
+CREATE TABLE `operator_info`
+(
+	`operator_name` VARCHAR(255) NOT NULL,
+	`pwd` VARCHAR(255),
+	`desc` VARCHAR(512),
+	`role_id` VARCHAR(255),
+	`create_time` DATETIME,
+	PRIMARY KEY (operator_name)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `role_defination`;
+CREATE TABLE `role_defination`
+(
+	`role_id` VARCHAR(255) NOT NULL,
+	`create_time` DATETIME,
+	`desc` VARCHAR(512),
+	PRIMARY KEY (role_id)
+
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `role_privilege_info`;
+CREATE TABLE `role_privilege_info`
+(
+	`role_id` VARCHAR(255) NOT NULL,
+	`service_id` INTEGER NOT NULL,
+	`task_group` VARCHAR(255) NOT NULL,
+	`privilege_type` INTEGER,
+	PRIMARY KEY (role_id, service_id, task_group)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+DROP TABLE IF EXISTS `service_defination`;
+CREATE TABLE `service_defination`
+(
+	`service_id` INTEGER NOT NULL,
+	`service_name` VARCHAR(255),
+	`desc` VARCHAR(255),
+	`default_priority` INTEGER,
+	`max_reduce_resource` INTEGER,
+	`contact_person` VARCHAR(255),
+	`alarm_email_list` VARCHAR(512),
+	`alarm_mobile_list` VARCHAR(255),
+	`create_time` DATETIME,
+	PRIMARY KEY (service_id)
+
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `service_deploy_info`;
+CREATE TABLE `service_deploy_info`
+(
+	`service_id` INTEGER NOT NULL,
+	`node_type` INTEGER NOT NULL,
+	`node_ip_addr` VARCHAR(255),
+	`data_directory` VARCHAR(512),
+	PRIMARY KEY (service_id, node_type)
+
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `service_task_group_info`;
+CREATE TABLE `service_task_group_info`
+(
+	`service_id` INTEGER NOT NULL,
+	`task_group` VARCHAR(255) NOT NULL,
+	`desc` VARCHAR(512),
+	PRIMARY KEY (`service_id`,`task_group`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+DROP TABLE IF EXISTS `alarm_fact_info`;	
+CREATE TABLE `alarm_fact_info`
+(
+	`task_id` INTEGER NOT NULL,
+	`cycle_id` VARCHAR(50) NOT NULL,
+	`alarm_time` DATETIME NOT NULL,
+	`service_name` VARCHAR(255),
+	`instance_id` INTEGER,
+	`alarm_grade` INTEGER,
+	`alarm_type` INTEGER,
+	`email_list` VARCHAR(512),
+	`mobile_list` VARCHAR(255),
+	`status` INTEGER,
+	`reason` VARCHAR(1024),
+	`solution` VARCHAR(1024),
+	`operator_name` VARCHAR(255),
+	`process_time` DATETIME,
+	PRIMARY KEY (task_id, cycle_id, alarm_time)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `task_alarm_channel_info`;	
+CREATE TABLE `task_alarm_channel_info`
+(
+	`task_id` INTEGER NOT NULL,
+	`alarm_grade` INTEGER NOT NULL,
+	`email_list` VARCHAR(512),
+	`mobile_list` VARCHAR(255),
+	PRIMARY KEY (task_id, alarm_grade)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `task_alarm_items`;	
+CREATE TABLE `task_alarm_items`
+(
+	`task_id` INTEGER NOT NULL,
+	`alarm_type` INTEGER NOT NULL,
+	PRIMARY KEY (task_id, alarm_type)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `task_alarm_threshold`;	
+CREATE TABLE `task_alarm_threshold`
+(
+	`task_id` INTEGER NOT NULL,
+	`latest_start_time` datetime,
+	`latest_end_time` datetime,
+	`max_run_time` INTEGER,
+	PRIMARY KEY (task_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+SET FOREIGN_KEY_CHECKS=1;

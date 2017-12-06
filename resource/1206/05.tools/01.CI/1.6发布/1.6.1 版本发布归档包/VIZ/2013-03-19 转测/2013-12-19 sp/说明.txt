@@ -1,0 +1,7 @@
+修复日志文件频繁打开导致 too many open files问题
+
+替换如下文件即可：
+hiveClient\WebRoot\logic\msgPoller.jsp
+hiveClient\src\com\huawei\bi\task\bean\logger\FileLogger.java
+hiveClient\src\com\huawei\bi\task\bean\logger\TailedFileLogger.java
+hiveClient\src\com\huawei\bi\task\bean\logger\TailedLogger.java

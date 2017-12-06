@@ -1,0 +1,5 @@
+--min_threshold 最小剩余空间磁盘阈值[上界]，默认值100G，足够满
+--max_threshold 最大剩余空间磁盘阈值[下界]，默认值200G，足够空闲
+--diff_threshold 剩余空间最大差值阈值[下界]，默认值100G
+eg:
+./diskbalance.sh --min_threshold 107374182400 --max_threshold 214748364800 --diff_threshold 107374182400

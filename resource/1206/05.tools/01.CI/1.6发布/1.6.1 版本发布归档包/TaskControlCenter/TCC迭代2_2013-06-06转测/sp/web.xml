@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
+  <display-name>TaskControlCenter</display-name>
+  <context-param>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>
+            /WEB-INF/conf/spring/*service.xml
+		</param-value>
+  </context-param>
+  <listener>
+    <listener-class>org.springframework.web.context.ContextLoaderListener
+		</listener-class>
+  </listener>
+  
+  <!--<filter>
+    <display-name>IntegrationFilter</display-name>
+    <filter-name>IntegrationFilter</filter-name>
+    <filter-class>com.huawei.platform.tcc.filter.IntegrationFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>IntegrationFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>-->
+  
+  <filter>
+    <filter-name>AuthenticationFilter</filter-name>
+    <filter-class>com.huawei.platform.tcc.filter.AuthenticationFilter</filter-class>
+	<init-param>
+		<param-name>operatorExcludeResource</param-name>
+		<param-value>
+		.action;
+		OperationRecord.jsp;reqOperationRecords;deleteOldOperationRecord;
+		OSUserManage.jsp;deleteOSUser;saveOSUser;reqOSUsers;reqOSUserNames;
+		RoleManage.jsp;reqRoleIds;reqRoles;saveRole;deleteRole;saveUserRoleId;
+		ServiceManage.jsp;reqServiceNames;reqServices;saveService;deleteService;grabServiceName;
+		SysAdminIndex.jsp;
+		TccConfig.jsp;saveTccConfig;loadTccConfig;rebootTcc;
+		UserManage.jsp;reqUsers;saveUser;deleteUser;reqOperators;
+		getNodeAddrList;
+		OSGroupManage.jsp;reqOSGroups;reqOSGroupNames;saveOSGroup;deleteOSGroup;
+		NodeManage.jsp;reqNodeInfos;deleteNode;saveNode;
+		</param-value>
+	</init-param>
+	<init-param>
+		<param-name>excludeResource</param-name>
+		<param-value>jquery-1.7.js;jquery.easyui.min.js;.css;.gif;.png;userLogin;isSessionValid</param-value>
+	</init-param>
+  </filter>
+  <filter-mapping>
+    <filter-name>AuthenticationFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+  
+  
+  <filter>
+    <filter-name>struts2</filter-name>
+    <filter-class>org.apache.struts2.dispatcher.FilterDispatcher</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>struts2</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+  
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+  </welcome-file-list>
+  
+  <session-config>
+  	<session-timeout>240</session-timeout>
+  </session-config>
+</web-app>

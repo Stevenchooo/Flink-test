@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.huawei.platform.tcc.dao.log2DB">	
+	<select id="getTccLogList" parameterType="Log2DBQueryParam"
+		resultType="Log2DBEntity" statementType="PREPARED">
+		select * from tcc_taskcontrolcenter_log 
+		<where>
+			 <if test="userName != null">
+			 	and userName = #{userName,jdbcType=VARCHAR}
+			 </if>
+			 <if test="taskId != null">
+			 	and taskId = #{taskId,jdbcType=VARCHAR}
+			 </if>
+			 <if test="cycleId != null">
+			 	and cycleId = #{cycleId,jdbcType=VARCHAR}
+			 </if>
+			 <if test="level != null">
+			 	and logLevel = #{level,jdbcType=VARCHAR}
+			 </if>
+			 <if test="startTime != null">
+			 	and createTime >= #{startTime,jdbcType=VARCHAR}
+			 </if>
+			 <if test="endTime != null">
+			 	and #{endTime,jdbcType=VARCHAR} >= createTime
+			 </if>
+		</where>
+		order by createTime asc 
+		limit #{startIndex,jdbcType=BIGINT},#{rows,jdbcType=INTEGER};
+	</select>
+	
+	<select id="getTccLogCount" parameterType="Log2DBQueryParam"
+		resultType="Integer" statementType="PREPARED">
+		select count(*) from tcc_taskcontrolcenter_log 
+		<where>
+			 <if test="userName != null">
+			 	and userName = #{userName,jdbcType=VARCHAR}
+			 </if>
+			  <if test="taskId != null">
+			 	and taskId = #{taskId,jdbcType=VARCHAR}
+			 </if>
+			 <if test="cycleId != null">
+			 	and cycleId = #{cycleId,jdbcType=VARCHAR}
+			 </if>
+			 <if test="level != null">
+			 	and logLevel = #{level,jdbcType=VARCHAR}
+			 </if>
+			 <if test="startTime != null">
+			 	and createTime >= #{startTime,jdbcType=VARCHAR}
+			 </if>
+			 <if test="endTime != null">
+			 	and #{endTime,jdbcType=VARCHAR} >= createTime
+			 </if>
+		</where>
+	</select>
+	
+		<select id="getRsLogList" parameterType="Log2DBQueryParam"
+		resultType="Log2DBEntity" statementType="PREPARED">
+		select * from tcc_remoteshell_log 
+		<where>
+			 <if test="userName != null">
+			 	and userName = #{userName,jdbcType=VARCHAR}
+			 </if>
+			 <if test="taskId != null">
+			 	and taskId = #{taskId,jdbcType=VARCHAR}
+			 </if>
+			 <if test="cycleId != null">
+			 	and cycleId = #{cycleId,jdbcType=VARCHAR}
+			 </if>
+			 <if test="level != null">
+			 	and logLevel = #{level,jdbcType=VARCHAR}
+			 </if>
+			 <if test="startTime != null">
+			 	and createTime >= #{startTime,jdbcType=VARCHAR}
+			 </if>
+			 <if test="endTime != null">
+			 	and #{endTime,jdbcType=VARCHAR} >= createTime
+			 </if>
+		</where>
+		order by createTime asc 
+		limit #{startIndex,jdbcType=BIGINT},#{rows,jdbcType=INTEGER};
+	</select>
+	
+	<select id="getRsLogCount" parameterType="Log2DBQueryParam"
+		resultType="Integer" statementType="PREPARED">
+		select count(*) from tcc_remoteshell_log 
+		<where>
+			 <if test="userName != null">
+			 	and userName = #{userName,jdbcType=VARCHAR}
+			 </if>
+			  <if test="taskId != null">
+			 	and taskId = #{taskId,jdbcType=VARCHAR}
+			 </if>
+			 <if test="cycleId != null">
+			 	and cycleId = #{cycleId,jdbcType=VARCHAR}
+			 </if>
+			 <if test="level != null">
+			 	and logLevel = #{level,jdbcType=VARCHAR}
+			 </if>
+			 <if test="startTime != null">
+			 	and createTime >= #{startTime,jdbcType=VARCHAR}
+			 </if>
+			 <if test="endTime != null">
+			 	and #{endTime,jdbcType=VARCHAR} >= createTime
+			 </if>
+		</where>
+	</select>
+	
+	<select id="getAllUserName"	resultType="String">
+		select distinct userName from tcc_taskcontrolcenter_log;
+	</select>
+	
+	<delete id="deleteRemoteshellLog" parameterType="TaskIdCycleIdPair"
+		 statementType="PREPARED">
+		delete from tcc_remoteshell_log where (taskId,cycleId) in 
+		<foreach close=")" collection="list" item="keyValue" open="(" separator=",">
+            (#{keyValue.taskId},#{keyValue.cycleId})
+        </foreach>
+	</delete>
+	
+	<select id="getNeedDeleteLogTaskRSs" parameterType="ReserveCycleLogParam" resultType="TaskIdCycleIdPair" statementType="PREPARED">
+		select A.taskId,A.cycleId from (select taskId,cycleId,max(createTime) as maxTime from tcc_remoteshell_log  where taskId=#{taskId,jdbcType=VARCHAR}  group by cycleId) A,tcc_task_running_state B where A.taskId=B.task_Id and A.cycleId=B.cycle_Id and B.state=2 order by A.maxTime desc limit #{reserveCount,jdbcType=INTEGER},18446744073709551615
+	</select>
+	
+</mapper>

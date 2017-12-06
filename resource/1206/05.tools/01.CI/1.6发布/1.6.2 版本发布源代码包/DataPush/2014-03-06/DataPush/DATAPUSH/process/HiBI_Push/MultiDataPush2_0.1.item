@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<talendfile:ProcessType xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:talendfile="platform:/resource/org.talend.model/model/TalendFile.xsd" xmi:id="_Iox1IKT1EeOcQ5saiBAd7w" defaultContext="Default">
+  <context xmi:id="_Iox1IaT1EeOcQ5saiBAd7w" confirmationNeeded="false" name="Default">
+    <contextParameter xmi:id="_Iox1IqT1EeOcQ5saiBAd7w" comment="数据源类任务" name="dbPushJobList" prompt="dbPushJobList?" promptNeeded="false" type="id_Object" value=""/>
+    <contextParameter xmi:id="_Iox1I6T1EeOcQ5saiBAd7w" comment="数据库类数据源" name="dbSourceMap" prompt="dbSourceMap?" promptNeeded="false" type="id_Object" value=""/>
+    <contextParameter xmi:id="_Iox1JKT1EeOcQ5saiBAd7w" comment="目标文件格式" name="destFileFormat" prompt="destFileFormat?" promptNeeded="false" type="id_Object" value=""/>
+    <contextParameter xmi:id="_Iox1JaT1EeOcQ5saiBAd7w" comment="文件类任务" name="filePushJobList" prompt="filePushJobList?" promptNeeded="false" type="id_Object" value=""/>
+    <contextParameter xmi:id="_Iox1JqT1EeOcQ5saiBAd7w" comment="文件类数据源" name="fileSourceMap" prompt="fileSourceMap?" promptNeeded="false" type="id_Object" value=""/>
+    <contextParameter xmi:id="_Iox1J6T1EeOcQ5saiBAd7w" comment="任务名称" name="jobName" prompt="jobName?" promptNeeded="false" type="id_String" value="null"/>
+    <contextParameter xmi:id="_Iox1KKT1EeOcQ5saiBAd7w" comment="本地节点" name="node" prompt="node?" promptNeeded="false" type="id_String" value="null"/>
+    <contextParameter xmi:id="_Iox1KaT1EeOcQ5saiBAd7w" comment="周期信息" name="periodInfo" prompt="periodInfo?" promptNeeded="false" type="id_Object" value=""/>
+    <contextParameter xmi:id="_Iox1KqT1EeOcQ5saiBAd7w" comment="BI远程主机" name="remoteServiceMap" prompt="remoteServiceMap?" promptNeeded="false" type="id_Object" value=""/>
+    <contextParameter xmi:id="_Iox1K6T1EeOcQ5saiBAd7w" comment="根目录" name="rootDir" prompt="rootDir?" promptNeeded="false" type="id_String" value="null"/>
+    <contextParameter xmi:id="_Iox1LKT1EeOcQ5saiBAd7w" comment="TCC" name="tccInfo" prompt="tccInfo?" promptNeeded="false" type="id_Object" value=""/>
+    <contextParameter xmi:id="_Iox1LaT1EeOcQ5saiBAd7w" comment="传输配置" name="transportConfMap" prompt="transportConfMap?" promptNeeded="false" type="id_Object" value=""/>
+  </context>
+  <parameters xmi:id="_Iox1LqT1EeOcQ5saiBAd7w">
+    <elementParameter xmi:id="_Iox1L6T1EeOcQ5saiBAd7w" field="TEXT" name="JOB_RUN_VM_ARGUMENTS" value=" -Xms256M -Xmx1024M"/>
+    <elementParameter xmi:id="_Iox1MKT1EeOcQ5saiBAd7w" field="CHECK" name="JOB_RUN_VM_ARGUMENTS_OPTION" value="false"/>
+    <elementParameter xmi:id="_Iox1MaT1EeOcQ5saiBAd7w" field="TEXT" name="SCREEN_OFFSET_X" value="0"/>
+    <elementParameter xmi:id="_Iox1MqT1EeOcQ5saiBAd7w" field="TEXT" name="SCREEN_OFFSET_Y" value="0"/>
+    <elementParameter xmi:id="_Iox1M6T1EeOcQ5saiBAd7w" field="TEXT" name="SCHEMA_OPTIONS" value="none"/>
+    <elementParameter xmi:id="_Iox1NKT1EeOcQ5saiBAd7w" field="TEXT" name="OEM_CUSTOM_ATTRIBUTE" value=""/>
+    <elementParameter xmi:id="_Iox1NaT1EeOcQ5saiBAd7w" field="TEXT" name="HADOOP_APP_PATH" value=""/>
+    <elementParameter xmi:id="_Iox1NqT1EeOcQ5saiBAd7w" field="TEXT" name="JOBID_FOR_OOZIE" value=""/>
+    <elementParameter xmi:id="_Iox1N6T1EeOcQ5saiBAd7w" field="CHECK" name="STATANDLOG_USE_PROJECT_SETTINGS" value="true"/>
+    <elementParameter xmi:id="_Iox1OKT1EeOcQ5saiBAd7w" field="CLOSED_LIST" name="DB_VERSION_IMPLICIT_CONTEXT" value="ojdbc14-10g.jar"/>
+    <elementParameter xmi:id="_Iox1OaT1EeOcQ5saiBAd7w" field="DIRECTORY" name="FILE_PATH" value="&quot;D:/project/Talend/.metadata&quot;"/>
+    <elementParameter xmi:id="_Iox1OqT1EeOcQ5saiBAd7w" field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="ISO-8859-15"/>
+    <elementParameter xmi:id="_Iox1O6T1EeOcQ5saiBAd7w" field="CLOSED_LIST" name="DB_VERSION" value="ojdbc14-10g.jar"/>
+    <routinesParameter xmi:id="_Iox1PKT1EeOcQ5saiBAd7w" id="_dGeI8ALYEeKBirFwYp4V1Q" name="DataOperation"/>
+    <routinesParameter xmi:id="_Iox1PaT1EeOcQ5saiBAd7w" id="_dHEl4ALYEeKBirFwYp4V1Q" name="Mathematical"/>
+    <routinesParameter xmi:id="_Iox1PqT1EeOcQ5saiBAd7w" id="_dHEl5ALYEeKBirFwYp4V1Q" name="Numeric"/>
+    <routinesParameter xmi:id="_Iox1P6T1EeOcQ5saiBAd7w" id="_dHNv0wLYEeKBirFwYp4V1Q" name="Relational"/>
+    <routinesParameter xmi:id="_Iox1QKT1EeOcQ5saiBAd7w" id="_dHNv1wLYEeKBirFwYp4V1Q" name="StringHandling"/>
+    <routinesParameter xmi:id="_Iox1QaT1EeOcQ5saiBAd7w" id="_dHNv2wLYEeKBirFwYp4V1Q" name="TalendDataGenerator"/>
+    <routinesParameter xmi:id="_Iox1QqT1EeOcQ5saiBAd7w" id="_dHXg0wLYEeKBirFwYp4V1Q" name="TalendDate"/>
+    <routinesParameter xmi:id="_Iox1Q6T1EeOcQ5saiBAd7w" id="_dHXg1wLYEeKBirFwYp4V1Q" name="TalendString"/>
+  </parameters>
+  <node xmi:id="_Iox1RKT1EeOcQ5saiBAd7w" componentName="tLoop" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="128" posY="64">
+    <elementParameter xmi:id="_Iox1RaT1EeOcQ5saiBAd7w" field="TEXT" name="UNIQUE_NAME" value="tLoop_1"/>
+    <elementParameter xmi:id="_Iox1RqT1EeOcQ5saiBAd7w" field="CHECK" name="START" value="true"/>
+    <elementParameter xmi:id="_Iox1R6T1EeOcQ5saiBAd7w" field="RADIO" name="FORLOOP" value="false"/>
+    <elementParameter xmi:id="_Iox1SKT1EeOcQ5saiBAd7w" field="RADIO" name="WHILELOOP" value="true"/>
+    <elementParameter xmi:id="_Iox1SaT1EeOcQ5saiBAd7w" field="TEXT" name="FROM" value="1"/>
+    <elementParameter xmi:id="_Iox1SqT1EeOcQ5saiBAd7w" field="TEXT" name="TO" value="10"/>
+    <elementParameter xmi:id="_Iox1S6T1EeOcQ5saiBAd7w" field="TEXT" name="STEP" value="1"/>
+    <elementParameter xmi:id="_Iox1TKT1EeOcQ5saiBAd7w" field="CHECK" name="INCREASE" value="true"/>
+    <elementParameter xmi:id="_Iox1TaT1EeOcQ5saiBAd7w" field="TEXT" name="DECLARATION" value="&quot;int i=0&quot;"/>
+    <elementParameter xmi:id="_Iox1TqT1EeOcQ5saiBAd7w" field="TEXT" name="CONDITION" value="&quot;i&lt;((List)context.dbPushJobList).size()&quot;"/>
+    <elementParameter xmi:id="_Iox1T6T1EeOcQ5saiBAd7w" field="TEXT" name="ITERATION" value="&quot;i++&quot;"/>
+    <elementParameter xmi:id="_Iox1UKT1EeOcQ5saiBAd7w" field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter xmi:id="_Iox1UaT1EeOcQ5saiBAd7w" field="CHECK" name="INFORMATION" value="false"/>
+    <elementParameter xmi:id="_Iox1UqT1EeOcQ5saiBAd7w" field="MEMO" name="COMMENT" value=""/>
+    <elementParameter xmi:id="_Iox1U6T1EeOcQ5saiBAd7w" field="CHECK" name="VALIDATION_RULES" value="false"/>
+  </node>
+  <node xmi:id="_Iox1VKT1EeOcQ5saiBAd7w" componentName="tRunJob" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="416" posY="64">
+    <elementParameter xmi:id="_Iox1VaT1EeOcQ5saiBAd7w" field="TEXT" name="UNIQUE_NAME" value="tRunJob_1"/>
+    <elementParameter xmi:id="_Iox1VqT1EeOcQ5saiBAd7w" field="CHECK" name="USE_DYNAMIC_JOB" value="false"/>
+    <elementParameter xmi:id="_Iox1V6T1EeOcQ5saiBAd7w" field="TEXT" name="CONTEXT_JOB" value=""/>
+    <elementParameter xmi:id="_Iox1WKT1EeOcQ5saiBAd7w" field="PROCESS_TYPE" name="PROCESS" value="DbDataPush"/>
+    <elementParameter xmi:id="_Iox1WaT1EeOcQ5saiBAd7w" field="TECHNICAL" name="PROCESS:PROCESS_TYPE_PROCESS" value="_PEuwkKNjEeO5L_lka3s_GA"/>
+    <elementParameter xmi:id="_Iox1WqT1EeOcQ5saiBAd7w" field="TECHNICAL" name="PROCESS:PROCESS_TYPE_VERSION" value="Latest"/>
+    <elementParameter xmi:id="_Iox1W6T1EeOcQ5saiBAd7w" field="TECHNICAL" name="PROCESS:PROCESS_TYPE_CONTEXT" value="Default"/>
+    <elementParameter xmi:id="_Iox1XKT1EeOcQ5saiBAd7w" field="TEXT" name="CONTEXT_NAME" value="Default"/>
+    <elementParameter xmi:id="_Iox1XaT1EeOcQ5saiBAd7w" field="CHECK" name="USE_INDEPENDENT_PROCESS" value="false"/>
+    <elementParameter xmi:id="_Iox1XqT1EeOcQ5saiBAd7w" field="CHECK" name="DIE_ON_CHILD_ERROR" value="false"/>
+    <elementParameter xmi:id="_Iox1X6T1EeOcQ5saiBAd7w" field="CHECK" name="TRANSMIT_WHOLE_CONTEXT" value="true"/>
+    <elementParameter xmi:id="_Iox1YKT1EeOcQ5saiBAd7w" field="TABLE" name="CONTEXTPARAMS">
+      <elementValue xmi:id="_Iox1YaT1EeOcQ5saiBAd7w" elementRef="PARAM_NAME_COLUMN" value="current_db_iter"/>
+      <elementValue xmi:id="_Iox1YqT1EeOcQ5saiBAd7w" elementRef="PARAM_VALUE_COLUMN" value="(Integer)globalMap.get(&quot;tLoop_1_CURRENT_ITERATION&quot;)-1"/>
+    </elementParameter>
+    <elementParameter xmi:id="_Iox1Y6T1EeOcQ5saiBAd7w" field="CHECK" name="PRINT_PARAMETER" value="false"/>
+    <elementParameter xmi:id="_Iox1ZKT1EeOcQ5saiBAd7w" field="CHECK" name="TRANSMIT_ORIGINAL_CONTEXT" value="true"/>
+    <elementParameter xmi:id="_Iox1ZaT1EeOcQ5saiBAd7w" field="TEXT" name="LABEL" value="__PROCESS__"/>
+    <elementParameter xmi:id="_Iox1ZqT1EeOcQ5saiBAd7w" field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter xmi:id="_Iox1Z6T1EeOcQ5saiBAd7w" field="CHECK" name="INFORMATION" value="false"/>
+    <elementParameter xmi:id="_Iox1aKT1EeOcQ5saiBAd7w" field="MEMO" name="COMMENT" value=""/>
+    <elementParameter xmi:id="_Iox1aaT1EeOcQ5saiBAd7w" field="CHECK" name="VALIDATION_RULES" value="false"/>
+    <metadata xmi:id="_Iox1aqT1EeOcQ5saiBAd7w" connector="FLOW" name="tRunJob_1"/>
+  </node>
+  <node xmi:id="_Iox1a6T1EeOcQ5saiBAd7w" componentName="tLoop" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="128" posY="224">
+    <elementParameter xmi:id="_Iox1bKT1EeOcQ5saiBAd7w" field="TEXT" name="UNIQUE_NAME" value="tLoop_2"/>
+    <elementParameter xmi:id="_Iox1baT1EeOcQ5saiBAd7w" field="CHECK" name="START" value="true"/>
+    <elementParameter xmi:id="_Iox1bqT1EeOcQ5saiBAd7w" field="RADIO" name="FORLOOP" value="false"/>
+    <elementParameter xmi:id="_Iox1b6T1EeOcQ5saiBAd7w" field="RADIO" name="WHILELOOP" value="true"/>
+    <elementParameter xmi:id="_Iox1cKT1EeOcQ5saiBAd7w" field="TEXT" name="FROM" value="1"/>
+    <elementParameter xmi:id="_Iox1caT1EeOcQ5saiBAd7w" field="TEXT" name="TO" value="10"/>
+    <elementParameter xmi:id="_Iox1cqT1EeOcQ5saiBAd7w" field="TEXT" name="STEP" value="1"/>
+    <elementParameter xmi:id="_Iox1c6T1EeOcQ5saiBAd7w" field="CHECK" name="INCREASE" value="true"/>
+    <elementParameter xmi:id="_Iox1dKT1EeOcQ5saiBAd7w" field="TEXT" name="DECLARATION" value="&quot;int j=0&quot;"/>
+    <elementParameter xmi:id="_Iox1daT1EeOcQ5saiBAd7w" field="TEXT" name="CONDITION" value="&quot;j&lt;((List)context.filePushJobList).size()&quot;"/>
+    <elementParameter xmi:id="_Iox1dqT1EeOcQ5saiBAd7w" field="TEXT" name="ITERATION" value="&quot;j++;&quot;"/>
+    <elementParameter xmi:id="_Iox1d6T1EeOcQ5saiBAd7w" field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter xmi:id="_Iox1eKT1EeOcQ5saiBAd7w" field="CHECK" name="INFORMATION" value="false"/>
+    <elementParameter xmi:id="_Iox1eaT1EeOcQ5saiBAd7w" field="MEMO" name="COMMENT" value=""/>
+    <elementParameter xmi:id="_Iox1eqT1EeOcQ5saiBAd7w" field="CHECK" name="VALIDATION_RULES" value="false"/>
+  </node>
+  <node xmi:id="_Iox1e6T1EeOcQ5saiBAd7w" componentName="tRunJob" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="416" posY="224">
+    <elementParameter xmi:id="_Iox1fKT1EeOcQ5saiBAd7w" field="TEXT" name="UNIQUE_NAME" value="tRunJob_2"/>
+    <elementParameter xmi:id="_Iox1faT1EeOcQ5saiBAd7w" field="CHECK" name="USE_DYNAMIC_JOB" value="false"/>
+    <elementParameter xmi:id="_Iox1fqT1EeOcQ5saiBAd7w" field="TEXT" name="CONTEXT_JOB" value=""/>
+    <elementParameter xmi:id="_Iox1f6T1EeOcQ5saiBAd7w" field="PROCESS_TYPE" name="PROCESS" value="FileDataPush"/>
+    <elementParameter xmi:id="_Iox1gKT1EeOcQ5saiBAd7w" field="TECHNICAL" name="PROCESS:PROCESS_TYPE_PROCESS" value="_HC0voKNjEeO5L_lka3s_GA"/>
+    <elementParameter xmi:id="_Iox1gaT1EeOcQ5saiBAd7w" field="TECHNICAL" name="PROCESS:PROCESS_TYPE_VERSION" value="Latest"/>
+    <elementParameter xmi:id="_Iox1gqT1EeOcQ5saiBAd7w" field="TECHNICAL" name="PROCESS:PROCESS_TYPE_CONTEXT" value="Default"/>
+    <elementParameter xmi:id="_Iox1g6T1EeOcQ5saiBAd7w" field="TEXT" name="CONTEXT_NAME" value="Default"/>
+    <elementParameter xmi:id="_Iox1hKT1EeOcQ5saiBAd7w" field="CHECK" name="USE_INDEPENDENT_PROCESS" value="false"/>
+    <elementParameter xmi:id="_Iox1haT1EeOcQ5saiBAd7w" field="CHECK" name="DIE_ON_CHILD_ERROR" value="false"/>
+    <elementParameter xmi:id="_Iox1hqT1EeOcQ5saiBAd7w" field="CHECK" name="TRANSMIT_WHOLE_CONTEXT" value="true"/>
+    <elementParameter xmi:id="_Iox1h6T1EeOcQ5saiBAd7w" field="TABLE" name="CONTEXTPARAMS">
+      <elementValue xmi:id="_Iox1iKT1EeOcQ5saiBAd7w" elementRef="PARAM_NAME_COLUMN" value="current_file_iter"/>
+      <elementValue xmi:id="_Iox1iaT1EeOcQ5saiBAd7w" elementRef="PARAM_VALUE_COLUMN" value="(Integer)globalMap.get(&quot;tLoop_2_CURRENT_ITERATION&quot;)-1"/>
+    </elementParameter>
+    <elementParameter xmi:id="_Iox1iqT1EeOcQ5saiBAd7w" field="CHECK" name="PRINT_PARAMETER" value="false"/>
+    <elementParameter xmi:id="_Iox1i6T1EeOcQ5saiBAd7w" field="CHECK" name="TRANSMIT_ORIGINAL_CONTEXT" value="true"/>
+    <elementParameter xmi:id="_Iox1jKT1EeOcQ5saiBAd7w" field="TEXT" name="LABEL" value="__PROCESS__"/>
+    <elementParameter xmi:id="_Iox1jaT1EeOcQ5saiBAd7w" field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter xmi:id="_Iox1jqT1EeOcQ5saiBAd7w" field="CHECK" name="INFORMATION" value="false"/>
+    <elementParameter xmi:id="_Iox1j6T1EeOcQ5saiBAd7w" field="MEMO" name="COMMENT" value=""/>
+    <elementParameter xmi:id="_Iox1kKT1EeOcQ5saiBAd7w" field="CHECK" name="VALIDATION_RULES" value="false"/>
+    <metadata xmi:id="_Iox1kaT1EeOcQ5saiBAd7w" connector="FLOW" name="tRunJob_2"/>
+  </node>
+  <connection xmi:id="_Iox1kqT1EeOcQ5saiBAd7w" connectorName="ITERATE" label="Iterate" lineStyle="7" metaname="tLoop_1" offsetLabelX="0" offsetLabelY="0" source="tLoop_1" target="tRunJob_1">
+    <elementParameter xmi:id="_Iox1k6T1EeOcQ5saiBAd7w" field="CHECK" name="ENABLE_PARALLEL" value="true"/>
+    <elementParameter xmi:id="_Iox1lKT1EeOcQ5saiBAd7w" field="TEXT" name="NUMBER_PARALLEL" value="5"/>
+    <elementParameter xmi:id="_Iox1laT1EeOcQ5saiBAd7w" field="CHECK" name="ACTIVATE" value="true"/>
+    <elementParameter xmi:id="_Iox1lqT1EeOcQ5saiBAd7w" field="TEXT" name="UNIQUE_NAME" value="iterate1"/>
+  </connection>
+  <connection xmi:id="_Iox1l6T1EeOcQ5saiBAd7w" connectorName="ITERATE" label="Iterate" lineStyle="7" metaname="tLoop_2" offsetLabelX="0" offsetLabelY="0" source="tLoop_2" target="tRunJob_2">
+    <elementParameter xmi:id="_Iox1mKT1EeOcQ5saiBAd7w" field="CHECK" name="ENABLE_PARALLEL" value="true"/>
+    <elementParameter xmi:id="_Iox1maT1EeOcQ5saiBAd7w" field="TEXT" name="NUMBER_PARALLEL" value="5"/>
+    <elementParameter xmi:id="_Iox1mqT1EeOcQ5saiBAd7w" field="CHECK" name="ACTIVATE" value="true"/>
+    <elementParameter xmi:id="_Iox1m6T1EeOcQ5saiBAd7w" field="TEXT" name="UNIQUE_NAME" value="iterate2"/>
+  </connection>
+  <note xmi:id="_Iox1nKT1EeOcQ5saiBAd7w" opaque="true" posX="544" posY="64" sizeHeight="64" sizeWidth="161" text="并行执行db数据推送">
+    <elementParameter xmi:id="_Iox1naT1EeOcQ5saiBAd7w" field="COLOR" name="NOTE_COLOR" value="255;255;203"/>
+    <elementParameter xmi:id="_Iox1nqT1EeOcQ5saiBAd7w" field="COLOR" name="NOTETXT_COLOR" value="0;0;0"/>
+    <elementParameter xmi:id="_Iox1n6T1EeOcQ5saiBAd7w" field="RADIO" name="NOTETXT_LEFT" value="false"/>
+    <elementParameter xmi:id="_Iox1oKT1EeOcQ5saiBAd7w" field="RADIO" name="NOTETXT_RIGHT" value="false"/>
+    <elementParameter xmi:id="_Iox1oaT1EeOcQ5saiBAd7w" field="RADIO" name="NOTETXT_CENTER" value="true"/>
+    <elementParameter xmi:id="_Iox1oqT1EeOcQ5saiBAd7w" field="RADIO" name="NOTELABEL_CENTER" value="true"/>
+    <elementParameter xmi:id="_Iox1o6T1EeOcQ5saiBAd7w" field="RADIO" name="NOTETXT_TOP" value="false"/>
+    <elementParameter xmi:id="_Iox1pKT1EeOcQ5saiBAd7w" field="RADIO" name="NOTETXT_BOTTOM" value="false"/>
+    <elementParameter xmi:id="_Iox1paT1EeOcQ5saiBAd7w" field="TEXT" name="NOTE_FONT" value="Time New Roman"/>
+    <elementParameter xmi:id="_Iox1pqT1EeOcQ5saiBAd7w" field="TEXT" name="FONT_SIZE" value="10"/>
+    <elementParameter xmi:id="_Iox1p6T1EeOcQ5saiBAd7w" field="CHECK" name="FONT_BOLD" value="false"/>
+    <elementParameter xmi:id="_Iox1qKT1EeOcQ5saiBAd7w" field="CHECK" name="FONT_ITALIC" value="false"/>
+    <elementParameter xmi:id="_Iox1qaT1EeOcQ5saiBAd7w" field="COLOR" name="NOTE_LINECOLOR" value="237;201;122"/>
+  </note>
+  <note xmi:id="_Iox1qqT1EeOcQ5saiBAd7w" opaque="true" posX="544" posY="224" sizeHeight="64" sizeWidth="161" text="并行执行file数据推送">
+    <elementParameter xmi:id="_Iox1q6T1EeOcQ5saiBAd7w" field="COLOR" name="NOTE_COLOR" value="255;255;203"/>
+    <elementParameter xmi:id="_Iox1rKT1EeOcQ5saiBAd7w" field="COLOR" name="NOTETXT_COLOR" value="0;0;0"/>
+    <elementParameter xmi:id="_Iox1raT1EeOcQ5saiBAd7w" field="RADIO" name="NOTETXT_LEFT" value="false"/>
+    <elementParameter xmi:id="_Iox1rqT1EeOcQ5saiBAd7w" field="RADIO" name="NOTETXT_RIGHT" value="false"/>
+    <elementParameter xmi:id="_Iox1r6T1EeOcQ5saiBAd7w" field="RADIO" name="NOTETXT_CENTER" value="true"/>
+    <elementParameter xmi:id="_Iox1sKT1EeOcQ5saiBAd7w" field="RADIO" name="NOTELABEL_CENTER" value="true"/>
+    <elementParameter xmi:id="_Iox1saT1EeOcQ5saiBAd7w" field="RADIO" name="NOTETXT_TOP" value="false"/>
+    <elementParameter xmi:id="_Iox1sqT1EeOcQ5saiBAd7w" field="RADIO" name="NOTETXT_BOTTOM" value="false"/>
+    <elementParameter xmi:id="_Iox1s6T1EeOcQ5saiBAd7w" field="TEXT" name="NOTE_FONT" value="Time New Roman"/>
+    <elementParameter xmi:id="_Iox1tKT1EeOcQ5saiBAd7w" field="TEXT" name="FONT_SIZE" value="10"/>
+    <elementParameter xmi:id="_Iox1taT1EeOcQ5saiBAd7w" field="CHECK" name="FONT_BOLD" value="false"/>
+    <elementParameter xmi:id="_Iox1tqT1EeOcQ5saiBAd7w" field="CHECK" name="FONT_ITALIC" value="false"/>
+    <elementParameter xmi:id="_Iox1t6T1EeOcQ5saiBAd7w" field="COLOR" name="NOTE_LINECOLOR" value="237;201;122"/>
+  </note>
+  <subjob xmi:id="_Iox1uKT1EeOcQ5saiBAd7w">
+    <elementParameter xmi:id="_Iox1uaT1EeOcQ5saiBAd7w" field="TEXT" name="UNIQUE_NAME" value="tLoop_1"/>
+    <elementParameter xmi:id="_Iox1uqT1EeOcQ5saiBAd7w" field="COLOR" name="SUBJOB_TITLE_COLOR" value="160;190;240"/>
+    <elementParameter xmi:id="_Iox1u6T1EeOcQ5saiBAd7w" field="COLOR" name="SUBJOB_COLOR" value="220;220;250"/>
+  </subjob>
+  <subjob xmi:id="_Iox1vKT1EeOcQ5saiBAd7w">
+    <elementParameter xmi:id="_Iox1vaT1EeOcQ5saiBAd7w" field="TEXT" name="UNIQUE_NAME" value="tLoop_2"/>
+    <elementParameter xmi:id="_Iox1vqT1EeOcQ5saiBAd7w" field="COLOR" name="SUBJOB_TITLE_COLOR" value="160;190;240"/>
+    <elementParameter xmi:id="_Iox1v6T1EeOcQ5saiBAd7w" field="COLOR" name="SUBJOB_COLOR" value="220;220;250"/>
+  </subjob>
+</talendfile:ProcessType>

@@ -1,0 +1,29 @@
+TCC迭代2版本，包括【权限控制】、【审计模块】、【告警模块】三个大的功能
+
+
+killtree.sh 用来杀死进程树
+rebootTomcate.sh用来重启tomcate
+将killtree.sh和rebootTomcate.sh脚本需要放到$CATALINA_HOME/bin/目录下，并
+在TCC所属用户下执行如下命令赋予可执行权限：
+chmod ugo+x killtree.sh
+chmod u+x rebootTomcate.sh
+
+
+为了让TCC执行脚本时不输入密码，使用sudo来执行不同用户下的脚本，需要做如下的配置（hadoop为TCC部署时的用户）：
+
+使用root用户执行如下命令：
+visudo -f /etc/sudoers
+查找下面语句的位置
+# User privilege specification
+root    ALL=(ALL) ALL
+在上面的语句下面添加一条记录
+hadoop  localhost=(ALL) /usr/bin/sh /bin/sh
+查找下面语句的位置
+# Same thing without a password
+# %wheel        ALL=(ALL) NOPASSWD: ALL
+在上面的语句下面添加一条记录
+hadoop        ALL=(ALL) NOPASSWD: ALL
+查找下面语句的位置
+Defaults env_reset
+修改上面的语句为如下
+Defaults !env_reset

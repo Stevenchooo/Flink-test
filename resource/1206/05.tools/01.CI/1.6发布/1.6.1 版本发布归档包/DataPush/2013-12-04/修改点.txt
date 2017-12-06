@@ -1,0 +1,32 @@
+1、SendFile 0.1作业的分割文件子作业增加"if"触发器和tJava_15，执行错误时退出，防止发送部分文件。
+"if"触发器条件为
+null == globalMap.get("tSystem_1_EXIT_VALUE") || !((Integer)globalMap.get("tSystem_1_EXIT_VALUE")).equals(0)
+
+tJava_15的basic setting为
+Logger logger = (Logger)globalMap.get("logger");
+
+
+String splitComm = (String) globalMap.get("splitComm");
+if(null != splitComm)
+{
+    logger.info("execute command["+splitComm+"] failed! exit...");
+	throw new Exception("execute command["+splitComm+"] failed! exit...");
+}
+
+2、SendFile 0.1作业的压缩文件子作业增加"if"触发器和tJava_16，执行错误时退出，防止发送部分文件。
+"if"触发器条件为
+null == globalMap.get("tSystem_2_EXIT_VALUE") || !((Integer)globalMap.get("tSystem_2_EXIT_VALUE")).equals(0)
+
+
+tJava_16的basic setting为
+Logger logger = (Logger)globalMap.get("logger");
+
+
+String zipComm = (String) globalMap.get("zipComm");
+if(null != zipComm)
+{
+    logger.info("execute command["+zipComm+"] failed! exit...");
+	throw new Exception("execute command["+zipComm+"] failed! exit...");
+}
+
+

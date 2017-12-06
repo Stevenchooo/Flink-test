@@ -1,0 +1,10 @@
+版本变动内容：
+一、小时任务重新执行历史（非当天以后）周期，仅真实执行每天最后一小时的周期任务（其它空执行）；
+
+在2012-1-20版本的基础上替换如下文件：
+TaskControlCenter\WEB-INF\lib\taskcontrolcenter-1.1.1.jar
+TaskControlCenter\WebContent\WEB-INF\classes\mybatis\mapper\TaskMapper.xml
+TaskControlCenter\WebContent\WEB-INF\conf\common\resource\errorinfo\exception_definition.properties
+
+在2012-1-20版本的数据库中执行如下sql，增加两个字段：
+alter table `tcc_task` add `run_Last_Hour_Cycle_State` tinyint(4) NOT NULL  DEFAULT '0',add `start_Time` datetime NOT NULL DEFAULT '2000-01-01 00:00:00';

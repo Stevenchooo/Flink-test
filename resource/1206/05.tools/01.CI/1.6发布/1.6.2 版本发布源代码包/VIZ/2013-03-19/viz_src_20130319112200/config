@@ -1,0 +1,23 @@
+jdbc.driver=com.mysql.jdbc.Driver
+jdbc.url=jdbc:mysql://192.168.193.12:3306/viz
+jdbc.user=root
+jdbc.pwd=78D3528CCD154B36BDE1ABD167A308D8
+
+task.exe.debug.dir=C:\\apache-tomcat-6.0.32\\temp\\debug
+task.exe.result.dir=C:\\apache-tomcat-6.0.32\\temp\\result
+
+mahout.job.jar=/home/hadoop/Programs/mahout-0.6/mahout-core-0.6-job.jar
+
+app.login.server.ip=192.168.193.12
+app.hive.command=hive
+app.support.remote.execute=true
+
+app.data.export.dir=C:\\apache-tomcat-6.0.32\\temp\\viz
+max.result.page.num = 500
+max.result.download.num = 5000
+app.hive.killjob=/home/hadoop/hadoop-0.20.2/bin/../bin/hadoop job -Dmapred.job.tracker=HadoopMaster-1:9001 -kill %s
+#内存日志超时删除时间
+mem.outdate.seconds=300
+#执行历史记录保留30天
+execute.history.outdate.days=30
+

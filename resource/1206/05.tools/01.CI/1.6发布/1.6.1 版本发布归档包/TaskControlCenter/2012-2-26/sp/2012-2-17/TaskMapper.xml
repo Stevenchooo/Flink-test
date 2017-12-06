@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.huawei.platform.tcc.dao.task">
+   <resultMap id="taskResultMap" type="TaskEntity">
+	<id column="Task_ID" jdbcType="BIGINT" property="taskId" />
+    <result column="ServiceID" jdbcType="TINYINT" property="serviceid" />
+    <result column="Task_Name" jdbcType="VARCHAR" property="taskName" />
+    <result column="Task_Desc" jdbcType="VARCHAR" property="taskDesc" />
+    <result column="Task_Type" jdbcType="TINYINT" property="taskType" />
+    <result column="Task_Enable_Flag" jdbcType="BIT" property="taskEnableFlag" />
+    <result column="Task_State" jdbcType="BIT" property="taskState" />
+    <result column="Priority" jdbcType="INTEGER" property="priority" />
+    <result column="Cycle_Type" jdbcType="VARCHAR" property="cycleType" />
+    <result column="Cycle_Length" jdbcType="INTEGER" property="cycleLength" />
+    <result column="depend_Task_Id_List" jdbcType="VARCHAR" property="dependTaskIdList" />
+    <result column="Cycle_Offset" jdbcType="VARCHAR" property="cycleOffset" />
+    <result column="Cycle_Depend_Flag" jdbcType="BIT" property="cycleDependFlag" />
+    <result column="Multi_Batch_Flag" jdbcType="BIT" property="multiBatchFlag" />
+    <result column="End_Batch_Flag" jdbcType="TINYINT" property="endBatchFlag" />
+    <result column="Input_File_list" jdbcType="VARCHAR" property="inputFileList" />
+    <result column="Input_File_Min_Count" jdbcType="INTEGER" property="inputFileMinCount" />
+    <result column="Wait_Input_Minutes" jdbcType="INTEGER" property="waitInputMinutes" />
+    <result column="Create_Time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="Last_Update_Time" jdbcType="TIMESTAMP" property="lastUpdateTime" />
+    <result column="Files_in_host" jdbcType="VARCHAR" property="filesInHost" />
+    <result column="redo_Day_Length" jdbcType="INTEGER" property="redoDayLength" />
+    <result column="redo_Start_Time" jdbcType="TIMESTAMP" property="redoStartTime" />
+    <result column="Start_Time" jdbcType="TIMESTAMP" property="startTime" />
+    <result column="weight" jdbcType="INTEGER" property="weight" />
+	</resultMap>
+	
+	<insert id="addTask" parameterType="TaskEntity" statementType="PREPARED">
+	insert into tcc_task (Task_ID, ServiceID, Task_Name, Task_Desc, Task_Type, Task_Enable_Flag,
+	Task_State, Priority, Cycle_Type, Cycle_Length, depend_Task_Id_List, Cycle_Offset, Cycle_Depend_Flag,
+	Multi_Batch_Flag, End_Batch_Flag, Input_File_list, Input_File_Min_Count, Wait_Input_Minutes, Create_Time, Last_Update_Time,
+	Files_in_host, Run_Last_Hour_Cycle_State, Start_Time)
+	values (#{taskId,jdbcType=BIGINT},#{serviceid,jdbcType=INTEGER},#{taskName,jdbcType=VARCHAR},#{taskDesc,jdbcType=VARCHAR},
+	#{taskType,jdbcType=TINYINT},#{taskEnableFlag,jdbcType=BIT},#{taskState,jdbcType=BIT},#{priority,jdbcType=INTEGER},
+	#{cycleType,jdbcType=VARCHAR},#{cycleLength,jdbcType=INTEGER},#{dependTaskIdList,jdbcType=VARCHAR},
+	#{cycleOffset,jdbcType=VARCHAR},#{cycleDependFlag,jdbcType=BIT},#{multiBatchFlag,jdbcType=BIT},
+	#{endBatchFlag,jdbcType=TINYINT},#{inputFileList,jdbcType=VARCHAR},#{inputFileMinCount,jdbcType=INTEGER},
+	#{waitInputMinutes,jdbcType=INTEGER},now(),now(),#{filesInHost,jdbcType=VARCHAR},
+	#{runLastHourCycleState,jdbcType=TINYINT},#{startTime,jdbcType=TIMESTAMP})
+	</insert>
+	
+	<update id="updateTask" parameterType="TaskEntity" statementType="PREPARED">
+	       update tcc_task
+    <set>
+      <if test="serviceid != null" >
+        ServiceID = #{serviceid,jdbcType=INTEGER},
+      </if>
+      <if test="taskName != null" >
+        Task_Name = #{taskName,jdbcType=VARCHAR},
+      </if>
+      <if test="taskDesc != null" >
+        Task_Desc = #{taskDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="taskType != null" >
+        Task_Type = #{taskType,jdbcType=TINYINT},
+      </if>
+      <if test="taskEnableFlag != null" >
+        Task_Enable_Flag = #{taskEnableFlag,jdbcType=BIT},
+      </if>
+      <if test="taskState != null" >
+        Task_State = #{taskState,jdbcType=BIT},
+      </if>
+      <if test="priority != null" >
+        Priority = #{priority,jdbcType=INTEGER},
+      </if>
+      <if test="cycleType != null" >
+        Cycle_Type = #{cycleType,jdbcType=VARCHAR},
+      </if>
+      <if test="cycleLength != null" >
+        Cycle_Length = #{cycleLength,jdbcType=INTEGER},
+      </if>
+      <if test="dependTaskIdList != null" >
+        depend_Task_Id_List = #{dependTaskIdList,jdbcType=VARCHAR},
+      </if>
+      <if test="cycleOffset != null" >
+        Cycle_Offset = #{cycleOffset,jdbcType=VARCHAR},
+      </if>
+      <if test="cycleDependFlag != null" >
+        Cycle_Depend_Flag = #{cycleDependFlag,jdbcType=BIT},
+      </if>
+      <if test="multiBatchFlag != null" >
+        Multi_Batch_Flag = #{multiBatchFlag,jdbcType=BIT},
+      </if>
+      <if test="endBatchFlag != null" >
+        End_Batch_Flag = #{endBatchFlag,jdbcType=TINYINT},
+      </if>
+      <if test="inputFileList != null" >
+        Input_File_list = #{inputFileList,jdbcType=VARCHAR},
+      </if>
+      <if test="inputFileMinCount != null" >
+        Input_File_Min_Count = #{inputFileMinCount,jdbcType=INTEGER},
+      </if>
+      <if test="waitInputMinutes != null" >
+        Wait_Input_Minutes = #{waitInputMinutes,jdbcType=INTEGER},
+      </if>
+      <if test="lastUpdateTime != null" >
+        Last_Update_Time = now(),
+      </if>
+      <if test="filesInHost != null" >
+        Files_in_host = #{filesInHost,jdbcType=VARCHAR},
+      </if>
+      <if test="runLastHourCycleState != null" >
+        Run_Last_Hour_Cycle_State = #{runLastHourCycleState,jdbcType=TINYINT},
+      </if>
+      <if test="startTime != null" >
+        Start_Time = #{startTime,jdbcType=TIMESTAMP}
+      </if>
+    </set>
+    where Task_ID = #{taskId,jdbcType=BIGINT}
+	</update>
+	<select id="getTaskList" parameterType="Integer"
+		resultMap="taskResultMap" statementType="PREPARED">
+		select * from tcc_task where Task_Enable_Flag = #{taskEnableFlag,jdbcType=BIT} 
+	</select>
+	
+	<select id="getAllTaskIdList" resultType="Long" statementType="PREPARED">
+		select task_Id from tcc_task 
+	</select>
+	
+	<select id="getTaskListByIds" parameterType="Long"
+		resultMap="taskResultMap" statementType="PREPARED">
+		select * from tcc_task where task_Id in
+		<foreach close=")" collection="list" item="taskId" open="(" separator=",">
+            #{taskId}
+        </foreach>
+	</select>
+	
+	<select id="getTask" parameterType="Integer"
+		resultMap="taskResultMap" statementType="PREPARED">
+		select * from tcc_task where task_Id = #{taskId,jdbcType=BIGINT} limit 1;
+	</select>
+</mapper>

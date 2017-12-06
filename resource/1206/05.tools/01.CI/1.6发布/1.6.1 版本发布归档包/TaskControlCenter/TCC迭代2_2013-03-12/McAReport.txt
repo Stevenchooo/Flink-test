@@ -1,0 +1,31 @@
+
+2013-3-12	20:46:02		引擎版本                                    =	5400.1158
+2013-3-12	20:46:02		防病毒 DAT 版本                              =	7011.0
+2013-3-12	20:46:02		EXTRA.DAT 中的检测项特征码数                     =	无
+2013-3-12	20:46:02		EXTRA.DAT 中的检测项特征码名称                    =	无
+2013-3-12	20:46:02	扫描已启动	UP-WINDOWS1\Administrator	按需扫描
+2013-3-12	20:48:12	扫描摘要	UP-WINDOWS1\Administrator	扫描摘要
+2013-3-12	20:48:12	扫描摘要	UP-WINDOWS1\Administrator	已扫描的进程: 0
+2013-3-12	20:48:12	扫描摘要	UP-WINDOWS1\Administrator	已检测的进程: 0
+2013-3-12	20:48:12	扫描摘要	UP-WINDOWS1\Administrator	已清除病毒的进程: 0
+2013-3-12	20:48:12	扫描摘要	UP-WINDOWS1\Administrator	已扫描的引导区: 1
+2013-3-12	20:48:12	扫描摘要	UP-WINDOWS1\Administrator	已检测的引导区: 0
+2013-3-12	20:48:12	扫描摘要	UP-WINDOWS1\Administrator	已清除病毒的引导区: 0
+2013-3-12	20:48:12	扫描摘要	UP-WINDOWS1\Administrator	已扫描的文件: 1
+2013-3-12	20:48:12	扫描摘要	UP-WINDOWS1\Administrator	含有检测项的文件: 0
+2013-3-12	20:48:12	扫描摘要	UP-WINDOWS1\Administrator	文件检测项: 0
+2013-3-12	20:48:12	扫描摘要	UP-WINDOWS1\Administrator	已清除病毒的文件： 0
+2013-3-12	20:48:12	扫描摘要	UP-WINDOWS1\Administrator	已删除的文件: 0
+2013-3-12	20:48:12	扫描摘要	UP-WINDOWS1\Administrator	未扫描的文件: 0
+2013-3-12	20:48:12	扫描摘要	UP-WINDOWS1\Administrator	扫描摘要(注册表扫描)
+2013-3-12	20:48:12	扫描摘要	UP-WINDOWS1\Administrator	已扫描的项         : 0
+2013-3-12	20:48:12	扫描摘要	UP-WINDOWS1\Administrator	已检测的项        : 0
+2013-3-12	20:48:12	扫描摘要	UP-WINDOWS1\Administrator	已清理的项         : 0
+2013-3-12	20:48:12	扫描摘要	UP-WINDOWS1\Administrator	已删除的项         : 0
+2013-3-12	20:48:12	扫描摘要	UP-WINDOWS1\Administrator	扫描摘要(Cookie 扫描)
+2013-3-12	20:48:12	扫描摘要	UP-WINDOWS1\Administrator	已扫描的 Cookie      : 0
+2013-3-12	20:48:12	扫描摘要	UP-WINDOWS1\Administrator	已检测的 Cookie     : 0
+2013-3-12	20:48:12	扫描摘要	UP-WINDOWS1\Administrator	已清理的 Cookie      : 0
+2013-3-12	20:48:12	扫描摘要	UP-WINDOWS1\Administrator	已删除的 Cookie      : 0
+2013-3-12	20:48:12	扫描摘要	UP-WINDOWS1\Administrator	运行时间: 0:02:10
+2013-3-12	20:48:12	扫描结束	UP-WINDOWS1\Administrator	按需扫描

@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.huawei.platform.tcc.dao.serviceDef">
+   <resultMap id="serviceDefMap" type="com.huawei.platform.tcc.entity.ServiceDefinationEntity">
+    <id column="service_id" jdbcType="INTEGER" property="serviceId" />
+    <result column="service_name" jdbcType="VARCHAR" property="serviceName" />
+    <result column="desc" jdbcType="VARCHAR" property="desc" />
+    <result column="contact_person" jdbcType="VARCHAR" property="contactPerson" />
+    <result column="alarm_email_list" jdbcType="VARCHAR" property="alarmEmailList" />
+    <result column="alarm_mobile_list" jdbcType="VARCHAR" property="alarmMobileList" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+	
+	<select id="getVisualServiceIdNames" parameterType="String"
+		resultMap="serviceDefMap" statementType="PREPARED">
+		select distinct a.service_id,a.service_name from service_defination a,tcc_task b where a.service_id= b.serviceid
+		 and b.user_group in
+		<foreach close=")" collection="list" item="group" open="(" separator=",">
+            #{group}
+        </foreach>
+	</select>
+	
+	<select id="getAllVisualServiceIdNames" resultMap="serviceDefMap" statementType="PREPARED">
+		select distinct service_id,service_name from service_defination a,tcc_task b where a.service_id= b.serviceid
+	</select>
+	
+	<select id="getAllServiceIdNameList" resultMap="serviceDefMap" statementType="PREPARED">
+		select distinct service_id,service_name from service_defination
+	</select>
+	
+	<select id="getService" resultMap="serviceDefMap" parameterType="Integer"  statementType="PREPARED">
+		select * from service_defination where service_id=#{serviceId,jdbcType=INTEGER}
+	</select>
+	
+	<select id="getServices" resultMap="serviceDefMap" statementType="PREPARED">
+		select * from service_defination
+	</select>
+	
+	<insert id="replaceServices" parameterType="ServiceDefinationEntity">
+    replace into service_defination (service_id,service_name,`desc`,contact_person,alarm_email_list,alarm_mobile_list,create_time)
+    values 
+    <foreach close="" collection="list" item="service" open="" separator=",">
+       (#{service.serviceId,jdbcType=INTEGER},#{service.serviceName,jdbcType=VARCHAR},
+        #{service.desc,jdbcType=VARCHAR},#{service.contactPerson,jdbcType=VARCHAR},
+        #{service.alarmEmailList,jdbcType=VARCHAR},#{service.alarmMobileList,jdbcType=VARCHAR},
+        #{service.createTime,jdbcType=TIMESTAMP})
+    </foreach>
+  </insert>
+	
+	<select id="getServicesByName" resultMap="serviceDefMap" parameterType="ServiceSearch" statementType="PREPARED">
+		select * from service_defination 
+		<where>
+		<if test="serviceNames != null">
+			<choose>
+		      <when test="serviceNames.size() > 1">
+		      	  <foreach close=")" collection="serviceNames" item="serviceName" open="(" separator="or">
+            	      service_name = #{serviceName}
+        	      </foreach>
+		      </when>
+		      <when test="serviceNames.size() == 1 and serviceNames.get(0).endsWith(';') == true">
+		      	  <foreach close=")" collection="serviceNames" item="serviceName" open="(" separator="or">
+            	    concat(service_name,';') = #{serviceName}
+        	      </foreach>
+		      </when>
+		      <otherwise>
+		         <foreach close=")" collection="serviceNames" item="serviceName" open="(" separator="or">
+            	    service_name like concat('%',#{serviceName},'%')
+        	     </foreach>
+		      </otherwise>
+		   </choose>
+		</if>
+        </where>
+        order by  service_id asc
+		<if test="pageIndex != null">
+			limit #{pageIndex}
+		</if>		
+		<if test="pageSize != null">
+			,#{pageSize}
+		</if>
+	</select>
+	
+	<select id="getServicesCountByName" resultType="Integer" parameterType="ServiceSearch" statementType="PREPARED">
+		select count(*) from service_defination 
+		<where>
+		<if test="serviceNames != null">
+			<choose>
+		      <when test="serviceNames.size() > 1">
+		      	  <foreach close=")" collection="serviceNames" item="serviceName" open="(" separator="or">
+            	      service_name = #{serviceName}
+        	      </foreach>
+		      </when>
+		      <when test="serviceNames.size() == 1 and serviceNames.get(0).endsWith(';') == true">
+		      	  <foreach close=")" collection="serviceNames" item="serviceName" open="(" separator="or">
+            	    concat(service_name,';') = #{serviceName}
+        	      </foreach>
+		      </when>
+		      <otherwise>
+		         <foreach close=")" collection="serviceNames" item="serviceName" open="(" separator="or">
+            	    service_name like concat('%',#{serviceName},'%')
+        	     </foreach>
+		      </otherwise>
+		   </choose>
+		</if>
+        </where>
+	</select>
+	
+	<insert id="addService" parameterType="ServiceDefinationEntity" statementType="PREPARED">
+	insert into service_defination
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="serviceId != null">
+        service_id,
+      </if>
+      <if test="serviceName != null">
+        service_name,
+      </if>
+      <if test="desc != null">
+        `desc`,
+      </if>
+      <if test="contactPerson != null">
+        contact_person,
+      </if>
+      <if test="alarmEmailList != null">
+        alarm_email_list,
+      </if>
+      <if test="alarmMobileList != null">
+        alarm_mobile_list,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="serviceId != null">
+        #{serviceId,jdbcType=INTEGER},
+      </if>
+      <if test="serviceName != null">
+        #{serviceName,jdbcType=VARCHAR},
+      </if>
+      <if test="desc != null">
+        #{desc,jdbcType=VARCHAR},
+      </if>
+      <if test="contactPerson != null">
+        #{contactPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="alarmEmailList != null">
+        #{alarmEmailList,jdbcType=VARCHAR},
+      </if>
+      <if test="alarmMobileList != null">
+        #{alarmMobileList,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+	</insert>
+	
+	<update id="updateService" parameterType="ServiceDefinationEntity" statementType="PREPARED">
+	update service_defination
+    <set>
+      <if test="serviceName != null">
+        service_name = #{serviceName,jdbcType=VARCHAR},
+      </if>
+      <if test="desc != null">
+        `desc` = #{desc,jdbcType=VARCHAR},
+      </if>
+      <if test="contactPerson != null">
+        contact_person = #{contactPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="alarmEmailList != null">
+        alarm_email_list = #{alarmEmailList,jdbcType=VARCHAR},
+      </if>
+      <if test="alarmMobileList != null">
+        alarm_mobile_list = #{alarmMobileList,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where service_id = #{serviceId,jdbcType=INTEGER}
+	</update>
+	
+	<delete id="deleteService" parameterType="Integer" statementType="PREPARED">
+	    delete from service_defination where service_Id = #{serviceId}
+	</delete>
+</mapper>
