@@ -1,0 +1,168 @@
+<dataFetchers>
+    <hBaseFetcherGroup user="game/hadoop" keyTab="conf/game.keytab">
+		<fetcher> 
+			<resultType>arrayMap</resultType>
+			<name>overall_overview_recent</name>
+			<from>t_partner_summary_d_v2</from>
+			<scope expression = "dtime = {DATETIME}" />
+			<keyField name = "projectid" paramName="QUERYPROJECTID"/>
+			<keyField name = "partnerid" paramName='PARTNERID==""?QUERYPARTNERID:PARTNERID'/>
+			<resultField>
+				dtime,downloadcnt,memberdownloadcnt,startcnt,newusercnt,projectcnt,activeusercnt,totalusercnt,payusercnt,payamount,localpayamount,dailydrawnewpayamount,localdailydrawnewpayamount,memberpayamount,localmemberpayamount,ppdnewpaymount,localppdnewpaymount,iapnewpaymount,localiapnewpaymount
+			</resultField>
+			<fieldDefinition>
+				<field name = "dtime" type = "DATE" format = "yyyyMMdd" alias="TIME"/>
+				<field name = "downloadcnt" type = "int"/>
+				<field name = "memberdownloadcnt" type = "int"/>
+				<field name = "startcnt" type = "int"/>
+				<field name = "newusercnt" type = "int"/>
+				<field name = "activeusercnt" type = "int"/>
+				<field name = "accusercnt" type = "int" alias="totalusercnt"/>
+				<field name = "payamount" type = "double" formula="$convertMoney(V_LANG,FETCHERGROUP,PAYAMOUNT)"/>
+				<field name = "localpayamount" type = "double"/>
+				<field name = "dailydrawnewpayamount" type = "double" formula="$convertMoney(V_LANG,FETCHERGROUP,DAILYDRAWNEWPAYAMOUNT)"/>
+				<field name = "localdailydrawnewpayamount" type = "double"/>
+				<field name = "memberpayamount" type = "double" formula="$convertMoney(V_LANG,FETCHERGROUP,MEMBERPAYAMOUNT)"/>
+				<field name = "localmemberpayamount" type = "double"/>
+				<field name = "ppdnewpaymount" type = "double" formula="$convertMoney(V_LANG,FETCHERGROUP,PPDNEWPAYMOUNT)"/>
+				<field name = "localppdnewpaymount" type = "double"/>
+				<field name = "iapnewpaymount" type = "double" formula="$convertMoney(V_LANG,FETCHERGROUP,IAPNEWPAYMOUNT)"/>
+				<field name = "localiapnewpaymount" type = "double"/>				
+				<field name = "payusercnt" type = "int"/>
+				<field name = "timepayamount" type = "double"/>
+				<field name = "memberpayamount" type = "double"/>
+				<field name = "{DATETIME}" type = "DATE" format = "yyyy-MM-dd" />
+			</fieldDefinition>
+		</fetcher>
+		<fetcher> 
+			<resultType>arrayMap</resultType>
+			<name>overall_overview_trend</name>
+			<from>t_partner_summary_d_v2</from>
+			<scope expression = "dtime between {DATETIME} - 32 and {DATETIME}" />
+			<keyField name = "projectid" paramName="QUERYPROJECTID"/>
+			<keyField name = "partnerid" paramName='PARTNERID==""?QUERYPARTNERID:PARTNERID'/>
+			<resultField>
+				time,downloadcnt,memberdownloadcnt,startcnt,newusercnt,activeusercnt,totalusercnt,payusercnt,payamount,localpayamount,dailydrawnewpayamount,localdailydrawnewpayamount,memberpayamount,localmemberpayamount,ppdnewpaymount,localppdnewpaymount,iapnewpaymount,localiapnewpaymount
+			</resultField>
+			<fieldDefinition>
+				<field name = "dtime" type = "DATE" format = "yyyyMMdd" alias="TIME"/>
+				<field name = "downloadcnt" type = "int"/>
+				<field name = "memberdownloadcnt" type = "int"/>
+				<field name = "startcnt" type = "int"/>
+				<field name = "newusercnt" type = "int"/>
+				<field name = "activeusercnt" type = "int"/>
+				<field name = "accusercnt" type = "int" alias="totalusercnt"/>
+				<field name = "payamount" type = "double" formula="$convertMoney(V_LANG,FETCHERGROUP,PAYAMOUNT)"/>
+				<field name = "localpayamount" type = "double"/>
+				<field name = "dailydrawnewpayamount" type = "double" formula="$convertMoney(V_LANG,FETCHERGROUP,DAILYDRAWNEWPAYAMOUNT)"/>
+				<field name = "localdailydrawnewpayamount" type = "double"/>
+				<field name = "memberpayamount" type = "double" formula="$convertMoney(V_LANG,FETCHERGROUP,MEMBERPAYAMOUNT)"/>
+				<field name = "localmemberpayamount" type = "double"/>
+				<field name = "ppdnewpaymount" type = "double" formula="$convertMoney(V_LANG,FETCHERGROUP,PPDNEWPAYMOUNT)"/>
+				<field name = "localppdnewpaymount" type = "double"/>
+				<field name = "iapnewpaymount" type = "double" formula="$convertMoney(V_LANG,FETCHERGROUP,IAPNEWPAYMOUNT)"/>
+				<field name = "localiapnewpaymount" type = "double"/>
+				<field name = "payusercnt" type = "int"/>
+				<field name = "timepayamount" type = "double"/>
+				<field name = "memberpayamount" type = "double"/>
+				<field name = "{DATETIME}" type = "DATE" format = "yyyy-MM-dd" />
+			</fieldDefinition>
+		</fetcher>
+		<!--全部内容概览 列表查询-->
+		<pageFetcher> 
+			<resultType>arrayMap</resultType>
+			<name>overall_recent_detail</name>
+			<from>t_content_summary_d_v2</from>
+			<rowKey>projectid@{projectid}#contentid@[0-9a-zA-Z./-]*#relchannel@[0-9a-zA-Z./-]*#dtime@{dtime}#version@[0-9a-zA-Z./-]*#</rowKey>
+			<indexKey>projectid@{projectid}#partnerid@{partnerid}#dtime@{dtime}#</indexKey>
+			<scope expression = "dtime = {DATETIME}" />
+			<orderBy>downloadcnt</orderBy>
+			<filterField name = "projectid" paramName="QUERYPROJECTID" isKey="true"/>
+			<filterField name = "relchannel" paramValue="ALL" isKey="true"/>
+			<filterField name = "version" paramValue="ALL" isKey="true"/>
+			<filterField name = "partnerid" paramName='PARTNERID==""?QUERYPARTNERID:PARTNERID'/>
+			<resultField>
+				time,contentname,partnerid,ostype,contribution,startcnt,contentid,appkey,projectcnt,downloadcnt,cpname,newusercnt,activeusercnt,payusercnt,timepayusercnt,totalusercnt,extcontentid,memberdownloadcnt,payamount,localpayamount,dailydrawnewpayamount,localdailydrawnewpayamount,memberpayamount,localmemberpayamount,ppdnewpaymount,localppdnewpaymount,iapnewpaymount,localiapnewpaymount
+			</resultField>
+			<fieldDefinition>
+				<field name = "dtime" type = "DATE" format = "yyyyMMdd"/>
+				<field name = "contentname" type = "string"/>
+				<field name = "ostype" type = "string"/>
+				<field name = "partnername" type = "string"  alias="cpname"/>
+				<field name = "downloadcnt" type = "int"/>
+				<field name = "projectcnt" type = "int"/>
+				<field name = "startcnt" type = "int"/>
+				<field name = "newusercnt" type = "int"/>
+				<field name = "activeusercnt" type = "int"/>
+				<field name = "accusercnt" type = "int" alias="totalusercnt"/>
+				<field name = "payamount" type = "double" formula="$convertMoney(V_LANG,FETCHERGROUP,PAYAMOUNT)"/>
+				<field name = "localpayamount" type = "double"/>
+				<field name = "dailydrawnewpayamount" type = "double" formula="$convertMoney(V_LANG,FETCHERGROUP,DAILYDRAWNEWPAYAMOUNT)"/>
+				<field name = "localdailydrawnewpayamount" type = "double"/>
+				<field name = "memberpayamount" type = "double" formula="$convertMoney(V_LANG,FETCHERGROUP,MEMBERPAYAMOUNT)"/>
+				<field name = "localmemberpayamount" type = "double"/>
+				<field name = "ppdnewpaymount" type = "double" formula="$convertMoney(V_LANG,FETCHERGROUP,PPDNEWPAYMOUNT)"/>
+				<field name = "localppdnewpaymount" type = "double"/>
+				<field name = "iapnewpaymount" type = "double" formula="$convertMoney(V_LANG,FETCHERGROUP,IAPNEWPAYMOUNT)"/>
+				<field name = "localiapnewpaymount" type = "double"/>
+				<field name = "payusercnt" formula="TIMEPAYUSERCNT*1" type = "int"/>
+				<field name = "contribution" type = "double" format="0.00"/>
+				<field name = "partnerid" type = "string"/>
+				<field name = "contentid" type = "string" alias="time"/>
+				<field name = "contentid" type = "string"/>
+				<field name = "appkey" type = "string"/>
+				<field name = "extcontentid" type = "string"/>
+				<field name = "memberdownloadcnt" type = "int"/>
+				<field name = "timepayusercnt" type = "int"/>
+				<field name = "{DATETIME}" type = "DATE" format = "yyyy-MM-dd" />
+			</fieldDefinition>
+		</pageFetcher> 
+		<pageFetcher> 
+			<resultType>arrayMap</resultType>
+			<name>overall_recent_detail_31d</name>
+			<from>t_content_summary_d_v2</from>
+			<rowKey>projectid@{projectid}#contentid@[0-9a-zA-Z./-]*#relchannel@[0-9a-zA-Z./-]*#dtime@{dtime}#version@[0-9a-zA-Z./-]*#</rowKey>
+			<scope expression = "dtime between {DATETIME} - 30 and {DATETIME}" />
+			<orderBy>downloadcnt</orderBy>
+			<filterField name = "projectid" paramName="QUERYPROJECTID" isKey="true"/>
+			<filterField name = "relchannel" paramValue="ALL" isKey="true"/>
+			<filterField name = "version" paramValue="ALL" isKey="true"/>
+			<filterField name = "partnerid" paramName='PARTNERID==""?QUERYPARTNERID:PARTNERID'/>
+			<resultField>
+				time,contentname,partnerid,ostype,contribution,startcnt,contentid,appkey,projectcnt,downloadcnt,cpname,newusercnt,activeusercnt,payusercnt,timepayusercnt,totalusercnt,extcontentid,memberdownloadcnt,payamount,localpayamount,dailydrawnewpayamount,localdailydrawnewpayamount,memberpayamount,localmemberpayamount,ppdnewpaymount,localppdnewpaymount,iapnewpaymount,localiapnewpaymount,dtime
+			</resultField>
+			<fieldDefinition>
+				<field name = "dtime" type = "DATE" format = "yyyyMMdd"/>
+				<field name = "contentname" type = "string"  nullable="false" />
+				<field name = "ostype" type = "string"/>
+				<field name = "partnername" type = "string"  alias="cpname"/>
+				<field name = "downloadcnt" type = "int"/>
+				<field name = "projectcnt" type = "int"/>
+				<field name = "startcnt" type = "int"/>
+				<field name = "newusercnt" type = "int"/>
+				<field name = "activeusercnt" type = "int"/>
+				<field name = "accusercnt" type = "int" alias="totalusercnt"/>
+				<field name = "payamount" type = "double" formula="$convertMoney(V_LANG,FETCHERGROUP,PAYAMOUNT)"/>
+				<field name = "localpayamount" type = "double"/>
+				<field name = "dailydrawnewpayamount" type = "double" formula="$convertMoney(V_LANG,FETCHERGROUP,DAILYDRAWNEWPAYAMOUNT)"/>
+				<field name = "localdailydrawnewpayamount" type = "double"/>
+				<field name = "memberpayamount" type = "double" formula="$convertMoney(V_LANG,FETCHERGROUP,MEMBERPAYAMOUNT)"/>
+				<field name = "localmemberpayamount" type = "double"/>
+				<field name = "ppdnewpaymount" type = "double" formula="$convertMoney(V_LANG,FETCHERGROUP,PPDNEWPAYMOUNT)"/>
+				<field name = "localppdnewpaymount" type = "double"/>
+				<field name = "iapnewpaymount" type = "double" formula="$convertMoney(V_LANG,FETCHERGROUP,IAPNEWPAYMOUNT)"/>
+				<field name = "localiapnewpaymount" type = "double"/>
+				<field name = "payusercnt" formula="TIMEPAYUSERCNT*1" type = "int"/>
+				<field name = "contribution" type = "double" format="0.00"/>
+				<field name = "partnerid" type = "string"/>
+				<field name = "contentid" type = "string" alias="time"/>
+				<field name = "contentid" type = "string"/>
+				<field name = "appkey" type = "string"/>
+				<field name = "extcontentid" type = "string"/>
+				<field name = "memberdownloadcnt" type = "int"/>
+				<field name = "timepayusercnt" type = "int"/>
+				<field name = "{DATETIME}" type = "DATE" format = "yyyy-MM-dd" />
+			</fieldDefinition>
+		</pageFetcher> 
+	</hBaseFetcherGroup>
+</dataFetchers>
