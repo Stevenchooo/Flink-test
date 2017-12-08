@@ -1,4 +1,0 @@
-alter table user_profile_table_1 rename user_profile_table_1_bak_20130513;
-alter table user_profile_table_2 rename user_profile_table_2_bak_20130513;
-alter table user_ad_profile_table_1 rename user_profile_table_1;
-alter table user_ad_profile_table_2 rename user_profile_table_2;

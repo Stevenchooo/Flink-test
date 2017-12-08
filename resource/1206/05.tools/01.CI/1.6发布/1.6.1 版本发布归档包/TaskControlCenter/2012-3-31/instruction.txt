@@ -1,6 +1,0 @@
-版本变动内容：
-TCC后台：
-  集成重做功能不再局限于历史任务（非当天）周期
-
-在2012-3-26版本的基础上替换如下文件：
-TaskControlCenter\WEB-INF\lib\taskcontrolcenter-1.1.1.jar

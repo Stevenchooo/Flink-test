@@ -1,8 +1,0 @@
-版本变动内容：
-TCC后台功能点修改：
-1、增加一个重做指定时间范围内的任务周期的功能（非正式测试页面portal）
-
-在2012-2-26版本的基础上替换如下文件：
-TaskControlCenter\WEB-INF\lib\taskcontrolcenter-1.1.1.jar
-TaskControlCenter\WEB-INF\conf\spring\tcc.service.xml
-TaskControlCenter\index.jsp

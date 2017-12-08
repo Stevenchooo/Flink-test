@@ -1,0 +1,1 @@
+git clone http://dgggit01-ge.huawei.com/Bigdata/BigData_Platform/TCC/TCC -b Bigdata/Common/BigData_Platform

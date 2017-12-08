@@ -1,1 +1,0 @@
-hadoop jar mahout-core-0.6-job.jar org.apache.mahout.cf.taste.hadoop.item.RecommenderJob -Dmapred.input.dir=/input/ratings.dat -Dmapred.output.dir=/output --similarityClassname SIMILARITY_PEARSON_CORRELATION

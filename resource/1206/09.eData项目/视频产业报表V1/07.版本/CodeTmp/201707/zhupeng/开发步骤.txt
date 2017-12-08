@@ -1,5 +1,0 @@
-
-
-1.依赖t_video_develop_user_grab和t_video_develop_user_active表的数据需要增加过滤条件（终端类型为all）
-
-2.报表中包含本次优化的字段需要更改从模型表获取数据

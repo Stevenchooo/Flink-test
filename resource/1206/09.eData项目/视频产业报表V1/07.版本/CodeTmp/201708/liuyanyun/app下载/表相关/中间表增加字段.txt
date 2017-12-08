@@ -1,3 +1,0 @@
-alter table t_mid_video_sdk_current_d add columns (appdownload int);
-alter table t_mid_video_sdk_current_dw add columns (appdownload int);
-alter table t_mid_video_sdk_current_dm add columns (appdownload int);

@@ -1,7 +1,0 @@
-版本变动内容：
-TCC：
-    修改TCC在偶然条件下忽略处理ods任务问题
-
-升级：
-    在2014-03-26号版本的基础上替换如下文件进行升级
-    TaskControlCenter/WEB-INF/lib/taskcontrolcenter-1.1.1.jar

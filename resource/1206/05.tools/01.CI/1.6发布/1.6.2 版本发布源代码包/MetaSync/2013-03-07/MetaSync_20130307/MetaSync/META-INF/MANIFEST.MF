@@ -1,5 +1,0 @@
-Manifest-Version: 1.0
-Main-Class: com.huawei.devicecloud.platform.bi.metasync.ExeSync
-Class-Path: lib/commons-dbcp-1.4.jar lib/commons-lang-2.4.jar lib/log4j-1.2.15.jar lib/mysql-connector-java-5.1.19-bin.jar lib/slf4j-api-1.6.1.jar lib/slf4j-log4j12-1.6.4.jar lib/uniaccount_common.jar
-
-

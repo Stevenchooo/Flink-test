@@ -1,3 +1,0 @@
-1. T_MID_DAY_NEWLOGIN_VISITOR修改成T_MID_DAY_NEWLOGIN_VISITORS，其他报表依赖此表的加上platformid，并增加时间30天之内过滤
-
-2. 拆分各个小指标，作为单独report，在bdi中执行
