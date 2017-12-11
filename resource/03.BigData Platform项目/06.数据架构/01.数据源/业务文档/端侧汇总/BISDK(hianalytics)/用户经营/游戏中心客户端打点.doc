@@ -1,0 +1,1261 @@
+Message-ID: <944546126.41795.1474855576165.JavaMail.root@slave1>
+Subject: Exported From Confluence
+MIME-Version: 1.0
+Content-Type: multipart/related; 
+	boundary="----=_Part_41794_1907070743.1474855576164"
+
+------=_Part_41794_1907070743.1474855576164
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Content-Location: file:///C:/exported.html
+
+<html xmlns:o=3D'urn:schemas-microsoft-com:office:office'
+      xmlns:w=3D'urn:schemas-microsoft-com:office:word'
+      xmlns:v=3D'urn:schemas-microsoft-com:vml'
+      xmlns=3D'urn:w3-org-ns:HTML'>
+<head>
+    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf-8=
+">
+    <title>=E6=B8=B8=E6=88=8F=E4=B8=AD=E5=BF=83=E5=AE=A2=E6=88=B7=E7=AB=AF=
+=E6=89=93=E7=82=B9</title>
+    <!--[if gte mso 9]>
+    <xml>
+        <o:OfficeDocumentSettings>
+            <o:TargetScreenSize>1024x640</o:TargetScreenSize>
+            <o:PixelsPerInch>72</o:PixelsPerInch>
+            <o:AllowPNG/>
+        </o:OfficeDocumentSettings>
+        <w:WordDocument>
+            <w:View>Print</w:View>
+            <w:Zoom>90</w:Zoom>
+            <w:DoNotOptimizeForBrowser/>
+        </w:WordDocument>
+    </xml>
+    <![endif]-->
+    <style>
+                <!--
+        @page Section1 {
+            size: 8.5in 11.0in;
+            margin: 1.0in;
+            mso-header-margin: .5in;
+            mso-footer-margin: .5in;
+            mso-paper-source: 0;
+        }
+
+        td {
+            page-break-inside: avoid;
+        }
+
+        tr {
+            page-break-after: avoid;
+        }
+
+        div.Section1 {
+            page: Section1;
+        }
+
+        /* Confluence print stylesheet. Common to all themes for print medi=
+a */
+/* Full of !important until we improve batching for print CSS */
+
+#main {
+    padding-bottom: 1em !important; /* The default padding of 6em is too mu=
+ch for printouts */
+}
+
+body {
+    font-family: Arial, Helvetica, FreeSans, sans-serif;
+    font-size: 10pt;
+    line-height: 1.2;
+}
+
+body, #full-height-container, #main, #page, #content, .has-personal-sidebar=
+ #content {
+    background: #fff    !important;
+    color: #000         !important;
+    border: 0           !important;
+    width: 100%         !important;
+    height: auto        !important;
+    min-height: auto    !important;
+    margin: 0           !important;
+    padding: 0          !important;
+    display: block      !important;
+}
+
+a, a:link, a:visited, a:focus, a:hover, a:active {
+    color: #000;
+}
+#content h1,
+#content h2,
+#content h3,
+#content h4,
+#content h5,
+#content h6 {
+    font-family: Arial, Helvetica, FreeSans, sans-serif;
+    page-break-after: avoid;
+}
+pre {
+    font-family: Monaco, "Courier New", monospace;
+}
+
+#header,
+.aui-header-inner,
+#navigation,
+#sidebar,
+.sidebar,
+#personal-info-sidebar,
+.ia-fixed-sidebar,
+.page-actions,
+.navmenu,
+.ajs-menu-bar,
+.noprint,
+.inline-control-link,
+.inline-control-link a,
+a.show-labels-editor,
+.global-comment-actions,
+.comment-actions,
+.quick-comment-container,
+#addcomment {
+    display: none !important;
+}
+
+.comment .date::before {
+    content: none !important; /* remove middot for print view */
+}
+
+h1.pagetitle img {
+    height: auto;
+    width: auto;
+}
+
+.print-only {
+    display: block;
+}
+#footer {
+    position: relative !important; /* CONF-17506 Place the footer at end of=
+ the content */
+    margin: 0;
+    padding: 0;
+    background: none;
+    clear: both;
+}
+
+#poweredby {
+    border-top: none;
+    background: none;
+}
+
+#poweredby li.print-only {
+    display: list-item;
+    font-style: italic;
+}
+
+#poweredby li.noprint {
+    display:none;
+}
+
+
+/* no width controls in print */
+.wiki-content .table-wrap,
+.wiki-content p,
+.panel .codeContent,
+.panel .codeContent pre,
+.image-wrap {
+    overflow: visible !important;
+}
+
+/* TODO - should this work? */
+#children-section,
+#comments-section .comment,
+#comments-section .comment .comment-body,
+#comments-section .comment .comment-content,
+#comments-section .comment p {
+    page-break-inside: avoid;
+}
+
+#page-children a {
+    text-decoration: none;
+}
+
+/**
+ hide twixies
+
+ the specificity here is a hack because print styles
+ are getting loaded before the base styles. */
+#comments-section.pageSection .section-header,
+#comments-section.pageSection .section-title,
+#children-section.pageSection .section-header,
+#children-section.pageSection .section-title,
+.children-show-hide {
+    padding-left: 0;
+    margin-left: 0;
+}
+
+.children-show-hide.icon {
+    display: none;
+}
+
+/* personal sidebar */
+.has-personal-sidebar #content {
+    margin-right: 0px;
+}
+
+.has-personal-sidebar #content .pageSection {
+    margin-right: 0px;
+}
+-->
+    </style>
+</head>
+<body>
+    <h1>=E6=B8=B8=E6=88=8F=E4=B8=AD=E5=BF=83=E5=AE=A2=E6=88=B7=E7=AB=AF=E6=
+=89=93=E7=82=B9</h1>
+    <div class=3D"Section1">
+        <div class=3D"table-wrap">
+<table class=3D"confluenceTable">
+<colgroup>
+<col />=20
+<col />=20
+<col />=20
+<col />=20
+<col />=20
+<col />=20
+<col />=20
+</colgroup>
+<tbody>
+<tr>
+<td colspan=3D"5" class=3D"confluenceTd">=E9=94=AE=E5=80=BC=EF=BC=88KEY=EF=
+=BC=89</td>
+<td class=3D"confluenceTd">=E9=94=AE=E5=90=8D=EF=BC=88VALUE=EF=BC=89</td>
+<td class=3D"confluenceTd">=E6=B8=B8=E6=88=8F=E4=B8=AD=E5=BF=83=E7=89=88=E6=
+=9C=AC</td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">apk=E7=B1=BB=E5=9E=8B</td>
+<td class=3D"confluenceTd">=E5=A4=A7=E6=A8=A1=E5=9D=97=E5=90=8D=E7=A7=B0</t=
+d>
+<td class=3D"confluenceTd">=E5=B0=8F=E6=A8=A1=E5=9D=97=E5=90=8D=E7=A7=B0</t=
+d>
+<td class=3D"confluenceTd">=E4=BA=8B=E4=BB=B6=E5=90=8D=E7=A7=B0</td>
+<td class=3D"confluenceTd">=E7=BB=84=E5=90=88=E9=94=AE=E5=80=BC</td>
+<td class=3D"confluenceTd">=E9=94=AE=E5=80=BC=E8=AF=B4=E6=98=8E</td>
+<td class=3D"confluenceTd">=E3=80=80</td>
+</tr>
+<tr>
+<td rowspan=3D"56" class=3D"confluenceTd">=E6=B8=B8=E6=88=8F=EF=BC=8801=EF=
+=BC=89</td>
+<td rowspan=3D"4" class=3D"confluenceTd">=E6=8E=A8=E8=8D=90=EF=BC=8801=EF=
+=BC=89</td>
+<td rowspan=3D"4" class=3D"confluenceTd">=E6=97=A0=EF=BC=8800=EF=BC=89</td>
+<td rowspan=3D"2" class=3D"confluenceTd">=E5=81=9C=E7=95=99=E6=97=B6=E9=95=
+=BF=EF=BC=8803=EF=BC=89</td>
+<td rowspan=3D"2" class=3D"confluenceTd">01010003</td>
+<td class=3D"confluenceTd">=E5=BC=80=E5=A7=8B=E6=97=B6=E9=97=B4=EF=BC=8801=
+=EF=BC=89</td>
+<td class=3D"confluenceTd">6.0.30</td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">=E7=BB=93=E6=9D=9F=E6=97=B6=E9=97=B4=EF=BC=8802=
+=EF=BC=89</td>
+<td class=3D"confluenceTd">6.0.30</td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">=E6=B5=8F=E8=A7=88=EF=BC=8802=EF=BC=89</td>
+<td class=3D"confluenceTd">01010002</td>
+<td class=3D"confluenceTd">=E6=8E=A8=E8=8D=90=E5=85=A5=E5=8F=A3=E6=B5=8F=E8=
+=A7=88=EF=BC=8801|detailId=EF=BC=89</td>
+<td class=3D"confluenceTd">6.0.30=E4=B9=8B=E5=89=8D=E7=89=88=E6=9C=AC</td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">=E6=9D=A5=E6=BA=90=EF=BC=8804=EF=BC=89</td>
+<td class=3D"confluenceTd">01010004</td>
+<td class=3D"confluenceTd">=E6=90=9C=E7=B4=A2=E9=A1=B5=E9=9D=A2=E6=9D=A5=E6=
+=BA=90=EF=BC=8801=EF=BC=89</td>
+<td class=3D"confluenceTd">6.0.30=E4=B9=8B=E5=89=8D=E7=89=88=E6=9C=AC</td>
+</tr>
+<tr>
+<td rowspan=3D"3" class=3D"confluenceTd">=E7=83=AD=E9=97=A8=EF=BC=8802=EF=
+=BC=89</td>
+<td rowspan=3D"3" class=3D"confluenceTd">=E6=97=A0=EF=BC=8800=EF=BC=89</td>
+<td rowspan=3D"2" class=3D"confluenceTd">=E5=81=9C=E7=95=99=E6=97=B6=E9=95=
+=BF=EF=BC=8803=EF=BC=89</td>
+<td rowspan=3D"2" class=3D"confluenceTd">01020003</td>
+<td class=3D"confluenceTd">=E5=BC=80=E5=A7=8B=E6=97=B6=E9=97=B4=EF=BC=8801=
+=EF=BC=89</td>
+<td class=3D"confluenceTd">6.0.30=E4=B9=8B=E5=89=8D=E7=89=88=E6=9C=AC</td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">=E7=BB=93=E6=9D=9F=E6=97=B6=E9=97=B4=EF=BC=8802=
+=EF=BC=89</td>
+<td class=3D"confluenceTd">6.0.30=E4=B9=8B=E5=89=8D=E7=89=88=E6=9C=AC</td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">=E6=9D=A5=E6=BA=90=EF=BC=8804=EF=BC=89</td>
+<td class=3D"confluenceTd">01020004</td>
+<td class=3D"confluenceTd">=E6=90=9C=E7=B4=A2=E9=A1=B5=E9=9D=A2=E6=9D=A5=E6=
+=BA=90=EF=BC=8801=EF=BC=89</td>
+<td class=3D"confluenceTd">6.0.30=E4=B9=8B=E5=89=8D=E7=89=88=E6=9C=AC</td>
+</tr>
+<tr>
+<td rowspan=3D"3" class=3D"confluenceTd">=E5=8D=95=E6=9C=BA=EF=BC=8803=EF=
+=BC=89</td>
+<td rowspan=3D"3" class=3D"confluenceTd">=E6=97=A0=EF=BC=8800=EF=BC=89</td>
+<td rowspan=3D"2" class=3D"confluenceTd">=E5=81=9C=E7=95=99=E6=97=B6=E9=95=
+=BF=EF=BC=8803=EF=BC=89</td>
+<td rowspan=3D"2" class=3D"confluenceTd">01030003</td>
+<td class=3D"confluenceTd">=E5=BC=80=E5=A7=8B=E6=97=B6=E9=97=B4=EF=BC=8801=
+=EF=BC=89</td>
+<td class=3D"confluenceTd">6.0.30=E4=B9=8B=E5=89=8D=E7=89=88=E6=9C=AC</td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">=E7=BB=93=E6=9D=9F=E6=97=B6=E9=97=B4=EF=BC=8802=
+=EF=BC=89</td>
+<td class=3D"confluenceTd">6.0.30=E4=B9=8B=E5=89=8D=E7=89=88=E6=9C=AC</td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">=E6=9D=A5=E6=BA=90=EF=BC=8804=EF=BC=89</td>
+<td class=3D"confluenceTd">01030004</td>
+<td class=3D"confluenceTd">=E6=90=9C=E7=B4=A2=E9=A1=B5=E9=9D=A2=E6=9D=A5=E6=
+=BA=90=EF=BC=8801=EF=BC=89</td>
+<td class=3D"confluenceTd">6.0.30=E4=B9=8B=E5=89=8D=E7=89=88=E6=9C=AC</td>
+</tr>
+<tr>
+<td rowspan=3D"6" class=3D"confluenceTd">=E5=88=86=E7=B1=BB=EF=BC=8804=EF=
+=BC=89</td>
+<td rowspan=3D"5" class=3D"confluenceTd">=E6=97=A0=EF=BC=8800=EF=BC=89</td>
+<td rowspan=3D"6" class=3D"confluenceTd">=E5=81=9C=E7=95=99=E6=97=B6=E9=95=
+=BF=EF=BC=8803=EF=BC=89</td>
+<td rowspan=3D"4" class=3D"confluenceTd">01040003</td>
+<td class=3D"confluenceTd">=E5=85=A8=E9=83=A8=E6=B8=B8=E6=88=8F=E7=BB=93=E6=
+=9D=9F=E6=97=B6=E9=97=B4=EF=BC=88=E5=AD=90=E7=B1=BB=E5=88=AB|0|02=EF=BC=89<=
+/td>
+<td class=3D"confluenceTd">6.0.30=E4=B9=8B=E5=89=8D=E7=89=88=E6=9C=AC</td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">=E5=85=A8=E9=83=A8=E6=B8=B8=E6=88=8F=E5=BC=80=E5=
+=A7=8B=E6=97=B6=E9=97=B4=EF=BC=88=E5=AD=90=E7=B1=BB=E5=88=AB|0|01=EF=BC=89<=
+/td>
+<td class=3D"confluenceTd">6.0.30=E4=B9=8B=E5=89=8D=E7=89=88=E6=9C=AC</td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">=E6=9C=80=E6=96=B0=E6=B8=B8=E6=88=8F=E7=BB=93=E6=
+=9D=9F=E6=97=B6=E9=97=B4=EF=BC=88=E5=AD=90=E7=B1=BB=E5=88=AB|1|02=EF=BC=89<=
+/td>
+<td class=3D"confluenceTd">6.0.30=E4=B9=8B=E5=89=8D=E7=89=88=E6=9C=AC</td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">=E6=9C=80=E6=96=B0=E6=B8=B8=E6=88=8F=E5=BC=80=E5=
+=A7=8B=E6=97=B6=E9=97=B4=EF=BC=88=E5=AD=90=E7=B1=BB=E5=88=AB|1|01=EF=BC=89<=
+/td>
+<td class=3D"confluenceTd">6.0.30=E4=B9=8B=E5=89=8D=E7=89=88=E6=9C=AC</td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">01040004</td>
+<td class=3D"confluenceTd">=E6=90=9C=E7=B4=A2=E9=A1=B5=E9=9D=A2=E6=9D=A5=E6=
+=BA=90=EF=BC=8801=EF=BC=89</td>
+<td class=3D"confluenceTd">6.0.30=E4=B9=8B=E5=89=8D=E7=89=88=E6=9C=AC</td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">=E6=B8=B8=E6=88=8F=E5=88=86=E7=B1=BB=EF=BC=8801=
+=EF=BC=89</td>
+<td class=3D"confluenceTd">01040103|=E5=AD=90=E7=B1=BB=E5=88=AB</td>
+<td class=3D"confluenceTd">=E5=81=9C=E7=95=99=E6=97=B6=E9=95=BF=EF=BC=88=E6=
+=AF=AB=E7=A7=92=EF=BC=89</td>
+<td class=3D"confluenceTd">6.0.40-6.1.30=EF=BC=88=E4=B8=8D=E5=90=AB=EF=BC=
+=89</td>
+</tr>
+<tr>
+<td rowspan=3D"2" class=3D"confluenceTd">=E6=90=9C=E7=B4=A2=EF=BC=8805=EF=
+=BC=89</td>
+<td rowspan=3D"2" class=3D"confluenceTd">=E6=97=A0=EF=BC=8800=EF=BC=89</td>
+<td rowspan=3D"2" class=3D"confluenceTd">=E5=81=9C=E7=95=99=E6=97=B6=E9=95=
+=BF=EF=BC=8803=EF=BC=89</td>
+<td rowspan=3D"2" class=3D"confluenceTd">01050003</td>
+<td class=3D"confluenceTd">=E5=BC=80=E5=A7=8B=E6=97=B6=E9=97=B4=EF=BC=8801=
+=EF=BC=89</td>
+<td class=3D"confluenceTd">6.0.30</td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">=E7=BB=93=E6=9D=9F=E6=97=B6=E9=97=B4=EF=BC=8802=
+=EF=BC=89</td>
+<td class=3D"confluenceTd">6.0.30</td>
+</tr>
+<tr>
+<td rowspan=3D"12" class=3D"confluenceTd">=E6=88=91=E7=9A=84=E6=B8=B8=E6=88=
+=8F=EF=BC=8806=EF=BC=89</td>
+<td rowspan=3D"2" class=3D"confluenceTd">=E6=B8=B8=E6=88=8F=E6=9B=B4=E6=96=
+=B0=E5=88=97=E8=A1=A8=EF=BC=8801=EF=BC=89</td>
+<td rowspan=3D"2" class=3D"confluenceTd">=E5=81=9C=E7=95=99=E6=97=B6=E9=95=
+=BF=EF=BC=8803=EF=BC=89</td>
+<td rowspan=3D"2" class=3D"confluenceTd">01060103</td>
+<td class=3D"confluenceTd">=E5=BC=80=E5=A7=8B=E6=97=B6=E9=97=B4=EF=BC=8801=
+=EF=BC=89</td>
+<td class=3D"confluenceTd">6.0.30</td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">=E7=BB=93=E6=9D=9F=E6=97=B6=E9=97=B4=EF=BC=8802=
+=EF=BC=89</td>
+<td class=3D"confluenceTd">6.0.30</td>
+</tr>
+<tr>
+<td rowspan=3D"2" class=3D"confluenceTd">=E6=88=91=E7=9A=84=E6=B8=B8=E6=88=
+=8F=EF=BC=8802=EF=BC=89</td>
+<td class=3D"confluenceTd">=E6=B5=8F=E8=A7=88=EF=BC=8802=EF=BC=89</td>
+<td class=3D"confluenceTd">AppManagerActivity</td>
+<td class=3D"confluenceTd">=E9=87=87=E7=94=A8activity=E7=BB=9F=E8=AE=A1=E6=
+=96=B9=E5=BC=8F</td>
+<td class=3D"confluenceTd">6.1.20</td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">=E7=82=B9=E5=87=BB=EF=BC=8806=EF=BC=89</td>
+<td class=3D"confluenceTd">01060206</td>
+<td class=3D"confluenceTd">=E6=88=91=E7=9A=84=E6=B8=B8=E6=88=8F=E7=82=B9=E5=
+=87=BB=EF=BC=8801=EF=BC=89</td>
+<td class=3D"confluenceTd">6.1.20</td>
+</tr>
+<tr>
+<td rowspan=3D"6" class=3D"confluenceTd">=E5=B7=B2=E5=AE=89=E8=A3=85=E6=B8=
+=B8=E6=88=8F=EF=BC=8803=EF=BC=89</td>
+<td rowspan=3D"6" class=3D"confluenceTd">=E7=82=B9=E5=87=BB=EF=BC=8806=EF=
+=BC=89</td>
+<td rowspan=3D"6" class=3D"confluenceTd">01060306</td>
+<td class=3D"confluenceTd">=E7=82=B9=E5=87=BB=E5=8D=B8=E8=BD=BD=EF=BC=8801=
+=EF=BC=89</td>
+<td class=3D"confluenceTd">6.0.40</td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">=E7=82=B9=E5=87=BB=E6=89=93=E5=BC=80=EF=BC=8802=
+=EF=BC=89</td>
+<td class=3D"confluenceTd">6.0.40</td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">=E7=82=B9=E5=87=BB=E8=AE=BA=E5=9D=9B=EF=BC=8803|=
+=E5=BA=94=E7=94=A8=E5=8C=85=E5=90=8D=EF=BC=89</td>
+<td class=3D"confluenceTd">6.1.20</td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">=E7=82=B9=E5=87=BB=E6=94=BB=E7=95=A5=EF=BC=8804|=
+=E5=BA=94=E7=94=A8=E5=8C=85=E5=90=8D=EF=BC=89</td>
+<td class=3D"confluenceTd">6.1.20</td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">=E7=82=B9=E5=87=BB=E7=A4=BC=E5=8C=85=EF=BC=8805|=
+=E5=BA=94=E7=94=A8=E5=8C=85=E5=90=8D=EF=BC=89</td>
+<td class=3D"confluenceTd">6.1.20</td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">=E7=82=B9=E5=87=BB=E8=AF=A6=E6=83=85=EF=BC=8806|=
+=E5=BA=94=E7=94=A8=E5=8C=85=E5=90=8D=EF=BC=89</td>
+<td class=3D"confluenceTd">6.1.20</td>
+</tr>
+<tr>
+<td rowspan=3D"2" class=3D"confluenceTd">=E6=88=91=E7=9A=84=E6=B8=B8=E6=88=
+=8FICON=EF=BC=8804=EF=BC=89</td>
+<td class=3D"confluenceTd">=E5=88=9B=E5=BB=BAICON=EF=BC=8810=EF=BC=89</td>
+<td class=3D"confluenceTd">01060410</td>
+<td class=3D"confluenceTd">=E6=88=91=E7=9A=84=E6=B8=B8=E6=88=8FICON=E5=88=
+=9B=E5=BB=BA=EF=BC=8801=EF=BC=89</td>
+<td class=3D"confluenceTd">6.1.20</td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">=E7=82=B9=E5=87=BB=EF=BC=8806=EF=BC=89</td>
+<td class=3D"confluenceTd">01060406</td>
+<td class=3D"confluenceTd">=E6=88=91=E7=9A=84=E6=B8=B8=E6=88=8FICON=E7=82=
+=B9=E5=87=BB=EF=BC=8802=EF=BC=89</td>
+<td class=3D"confluenceTd">6.1.20</td>
+</tr>
+<tr>
+<td rowspan=3D"8" class=3D"confluenceTd">=E5=BA=94=E7=94=A8=E8=AF=A6=E6=83=
+=85=EF=BC=8809=EF=BC=89</td>
+<td rowspan=3D"4" class=3D"confluenceTd">=E4=BB=8B=E7=BB=8D=E9=A1=B5=EF=BC=
+=8810=EF=BC=89</td>
+<td rowspan=3D"2" class=3D"confluenceTd">=E5=81=9C=E7=95=99=E6=97=B6=E9=95=
+=BF=EF=BC=8803=EF=BC=89</td>
+<td rowspan=3D"2" class=3D"confluenceTd">01091003</td>
+<td class=3D"confluenceTd">=E7=BB=93=E6=9D=9F=E6=97=B6=E9=97=B4=EF=BC=8802=
+=EF=BC=89</td>
+<td class=3D"confluenceTd">6.0.40</td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">=E5=BC=80=E5=A7=8B=E6=97=B6=E9=97=B4=EF=BC=8801=
+=EF=BC=89</td>
+<td class=3D"confluenceTd">6.0.40</td>
+</tr>
+<tr>
+<td rowspan=3D"2" class=3D"confluenceTd">=E7=82=B9=E5=87=BB=EF=BC=8806=EF=
+=BC=89</td>
+<td rowspan=3D"2" class=3D"confluenceTd">01091006</td>
+<td class=3D"confluenceTd">=E7=82=B9=E5=87=BB=E5=8F=96=E6=B6=88=E4=B8=8B=E8=
+=BD=BD=EF=BC=8801|tabIndex=EF=BC=89tabIndex=E4=B8=BA0=E8=A1=A8=E7=A4=BA=E4=
+=BB=8B=E7=BB=8D=E9=A1=B5tabIndex=E4=B8=BA1=E8=A1=A8=E7=A4=BA=E8=AF=84=E8=AE=
+=BA=E9=A1=B5</td>
+<td class=3D"confluenceTd">6.0.40</td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">=E4=B8=8B=E8=BD=BD=E7=82=B9=E5=87=BB=EF=BC=8802=
+=EF=BC=89</td>
+<td class=3D"confluenceTd">6.0.40</td>
+</tr>
+<tr>
+<td rowspan=3D"4" class=3D"confluenceTd">=E8=AF=84=E8=AE=BA=E9=A1=B5=EF=BC=
+=8806=EF=BC=89</td>
+<td rowspan=3D"2" class=3D"confluenceTd">=E7=82=B9=E5=87=BB=EF=BC=8806=EF=
+=BC=89</td>
+<td rowspan=3D"2" class=3D"confluenceTd">01090606</td>
+<td class=3D"confluenceTd">=E7=82=B9=E5=87=BB=E8=AF=84=E8=AE=BA=E6=8C=89=E9=
+=92=AE=EF=BC=8803=EF=BC=89</td>
+<td class=3D"confluenceTd">6.0.40</td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">=E4=B8=8B=E8=BD=BD=E7=82=B9=E5=87=BB=EF=BC=8804=
+=EF=BC=89</td>
+<td class=3D"confluenceTd">6.0.40</td>
+</tr>
+<tr>
+<td rowspan=3D"2" class=3D"confluenceTd">=E5=81=9C=E7=95=99=E6=97=B6=E9=95=
+=BF=EF=BC=8803=EF=BC=89</td>
+<td rowspan=3D"2" class=3D"confluenceTd">01090603</td>
+<td class=3D"confluenceTd">=E7=BB=93=E6=9D=9F=E6=97=B6=E9=97=B4=EF=BC=8802=
+=EF=BC=89</td>
+<td class=3D"confluenceTd">6.0.40</td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">=E5=BC=80=E5=A7=8B=E6=97=B6=E9=97=B4=EF=BC=8801=
+=EF=BC=89</td>
+<td class=3D"confluenceTd">6.0.40</td>
+</tr>
+<tr>
+<td rowspan=3D"4" class=3D"confluenceTd">=E6=88=91=E7=9A=84=EF=BC=8810=EF=
+=BC=89</td>
+<td class=3D"confluenceTd">=E6=97=A0=EF=BC=8800=EF=BC=89</td>
+<td class=3D"confluenceTd">=E7=82=B9=E5=87=BB=EF=BC=8806=EF=BC=89</td>
+<td class=3D"confluenceTd">01100006</td>
+<td class=3D"confluenceTd">=E7=82=B9=E5=87=BB=E6=88=91=E7=9A=84TAB=EF=BC=88=
+01=EF=BC=89</td>
+<td class=3D"confluenceTd">6.0.40</td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">=E6=88=91=E7=9A=84=E6=B6=88=E6=81=AF=EF=BC=8803=
+=EF=BC=89</td>
+<td class=3D"confluenceTd">=E7=82=B9=E5=87=BB=EF=BC=8806=EF=BC=89</td>
+<td class=3D"confluenceTd">01100306</td>
+<td class=3D"confluenceTd">=E7=82=B9=E5=87=BB=E6=88=91=E7=9A=84=E6=B6=88=E6=
+=81=AF=EF=BC=8801=EF=BC=89</td>
+<td class=3D"confluenceTd">6.0.40</td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">=E7=99=BB=E5=BD=95=E6=88=90=E5=8A=9F=EF=BC=8806=
+=EF=BC=89</td>
+<td class=3D"confluenceTd">=E6=A0=87=E8=AE=B0=EF=BC=8811=EF=BC=89</td>
+<td class=3D"confluenceTd">01100611</td>
+<td class=3D"confluenceTd">=E6=A0=87=E8=AE=B0=E7=94=A8=E6=88=B7=E8=87=AA=E5=
+=8A=A8=E7=99=BB=E5=BD=95=E6=88=90=E5=8A=9F=E6=88=96=E6=89=8B=E5=B7=A5=E7=99=
+=BB=E5=BD=95=E6=88=90=E5=8A=9F=EF=BC=8801|userId=EF=BC=89</td>
+<td class=3D"confluenceTd">6.0.40</td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">=E4=B8=AA=E4=BA=BA=E4=BF=A1=E6=81=AF=EF=BC=8807=
+=EF=BC=89</td>
+<td class=3D"confluenceTd">=E7=82=B9=E5=87=BB=EF=BC=8806=EF=BC=89</td>
+<td class=3D"confluenceTd">01100706</td>
+<td class=3D"confluenceTd">=E7=82=B9=E5=87=BB=E8=BF=9B=E5=85=A5=E4=B8=AA=E4=
+=BA=BA=E4=BF=A1=E6=81=AF=EF=BC=8801|userId=EF=BC=89</td>
+<td class=3D"confluenceTd">6.0.40</td>
+</tr>
+<tr>
+<td rowspan=3D"4" class=3D"confluenceTd">=E5=90=8E=E5=8F=B0=E8=83=BD=E5=8A=
+=9B=EF=BC=8812=EF=BC=89</td>
+<td rowspan=3D"2" class=3D"confluenceTd">=E6=89=B9=E9=87=8F=E6=9B=B4=E6=96=
+=B0=EF=BC=8801=EF=BC=89</td>
+<td class=3D"confluenceTd">=E5=BC=B9=E5=87=BA=E6=B6=88=E6=81=AF=EF=BC=8809=
+=EF=BC=89</td>
+<td class=3D"confluenceTd">01120109</td>
+<td class=3D"confluenceTd">=E9=80=9A=E7=9F=A5=E6=A0=8F=E6=B6=88=E6=81=AF=E5=
+=BC=B9=E5=87=BA=E5=B1=95=E7=A4=BA=EF=BC=8801|=E6=B6=88=E6=81=AFID|=E8=AE=BE=
+=E5=A4=87ID|=E5=BC=B9=E5=87=BA=E6=97=B6=E9=97=B4|=E6=B6=88=E6=81=AF=E7=B1=
+=BB=E5=9E=8B|=E6=B6=88=E6=81=AF=E6=A0=87=E9=A2=98=EF=BC=89</td>
+<td class=3D"confluenceTd">6.0.40</td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">=E7=82=B9=E5=87=BB=EF=BC=8806=EF=BC=89</td>
+<td class=3D"confluenceTd">01120106</td>
+<td class=3D"confluenceTd">=E7=82=B9=E5=87=BB=E9=80=9A=E7=9F=A5=E6=A0=8F=E6=
+=B6=88=E6=81=AF=EF=BC=8801|=E6=B6=88=E6=81=AFID|=E8=AE=BE=E5=A4=87ID|=E5=BC=
+=B9=E5=87=BA=E6=97=B6=E9=97=B4|=E6=B6=88=E6=81=AF=E7=B1=BB=E5=9E=8B|=E6=B6=
+=88=E6=81=AF=E6=A0=87=E9=A2=98=EF=BC=89</td>
+<td class=3D"confluenceTd">6.0.40</td>
+</tr>
+<tr>
+<td rowspan=3D"2" class=3D"confluenceTd">=E9=87=8D=E7=82=B9=E5=BA=94=E7=94=
+=A8=E6=9B=B4=E6=96=B0=EF=BC=8802=EF=BC=89</td>
+<td class=3D"confluenceTd">=E5=BC=B9=E5=87=BA=E6=B6=88=E6=81=AF=EF=BC=8809=
+=EF=BC=89</td>
+<td class=3D"confluenceTd">01120209</td>
+<td class=3D"confluenceTd">=E9=80=9A=E7=9F=A5=E6=A0=8F=E6=B6=88=E6=81=AF=E5=
+=BC=B9=E5=87=BA=E5=B1=95=E7=A4=BA=EF=BC=8801|=E6=B6=88=E6=81=AFID|=E8=AE=BE=
+=E5=A4=87ID|=E5=BC=B9=E5=87=BA=E6=97=B6=E9=97=B4|=E6=B6=88=E6=81=AF=E7=B1=
+=BB=E5=9E=8B|=E6=B6=88=E6=81=AF=E6=A0=87=E9=A2=98=EF=BC=89</td>
+<td class=3D"confluenceTd">6.0.40</td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">=E7=82=B9=E5=87=BB=EF=BC=8806=EF=BC=89</td>
+<td class=3D"confluenceTd">01120206</td>
+<td class=3D"confluenceTd">=E7=82=B9=E5=87=BB=E9=80=9A=E7=9F=A5=E6=A0=8F=E6=
+=B6=88=E6=81=AF=EF=BC=8801|=E6=B6=88=E6=81=AFID|=E8=AE=BE=E5=A4=87ID|=E5=BC=
+=B9=E5=87=BA=E6=97=B6=E9=97=B4|=E6=B6=88=E6=81=AF=E7=B1=BB=E5=9E=8B|=E6=B6=
+=88=E6=81=AF=E6=A0=87=E9=A2=98=EF=BC=89</td>
+<td class=3D"confluenceTd">6.0.40</td>
+</tr>
+<tr>
+<td rowspan=3D"6" class=3D"confluenceTd">=E9=80=9A=E7=9F=A5=E6=A0=8F=E6=B6=
+=88=E6=81=AF=EF=BC=8816=EF=BC=89</td>
+<td rowspan=3D"2" class=3D"confluenceTd">=E5=BA=94=E7=94=A8=E6=8E=A7=E5=88=
+=B6=E9=80=9A=E7=9F=A5=E6=A0=8F=EF=BC=8800=EF=BC=89</td>
+<td class=3D"confluenceTd">=E5=BC=B9=E5=87=BA=E6=B6=88=E6=81=AF=EF=BC=8809=
+=EF=BC=89</td>
+<td class=3D"confluenceTd">01160009</td>
+<td class=3D"confluenceTd">=E9=80=9A=E7=9F=A5=E6=A0=8F=E6=B6=88=E6=81=AF=E5=
+=BC=B9=E5=87=BA=E5=B1=95=E7=A4=BA=EF=BC=8801|=E6=B6=88=E6=81=AFID|=E8=AE=BE=
+=E5=A4=87ID|=E5=BC=B9=E5=87=BA=E6=97=B6=E9=97=B4|=E6=B6=88=E6=81=AF=E7=B1=
+=BB=E5=9E=8B|=E6=B6=88=E6=81=AF=E6=A0=87=E9=A2=98=EF=BC=89</td>
+<td class=3D"confluenceTd">6.0.40</td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">=E7=82=B9=E5=87=BB=EF=BC=8806=EF=BC=89</td>
+<td class=3D"confluenceTd">01160006</td>
+<td class=3D"confluenceTd">=E7=82=B9=E5=87=BB=E9=80=9A=E7=9F=A5=E6=A0=8F=E6=
+=B6=88=E6=81=AF=EF=BC=8801|=E6=B6=88=E6=81=AFID|=E8=AE=BE=E5=A4=87ID|=E5=BC=
+=B9=E5=87=BA=E6=97=B6=E9=97=B4|=E6=B6=88=E6=81=AF=E7=B1=BB=E5=9E=8B|=E6=B6=
+=88=E6=81=AF=E6=A0=87=E9=A2=98=EF=BC=89</td>
+<td class=3D"confluenceTd">6.0.40</td>
+</tr>
+<tr>
+<td rowspan=3D"2" class=3D"confluenceTd">Push=EF=BC=8802=EF=BC=89</td>
+<td class=3D"confluenceTd">=E5=BC=B9=E5=87=BA=E6=B6=88=E6=81=AF=EF=BC=8809=
+=EF=BC=89</td>
+<td class=3D"confluenceTd">01160209</td>
+<td class=3D"confluenceTd">=E9=80=9A=E7=9F=A5=E6=A0=8F=E6=B6=88=E6=81=AF=E5=
+=BC=B9=E5=87=BA=E5=B1=95=E7=A4=BA=EF=BC=8801|=E6=B6=88=E6=81=AFID|=E8=AE=BE=
+=E5=A4=87ID|=E5=BC=B9=E5=87=BA=E6=97=B6=E9=97=B4|=E6=B6=88=E6=81=AF=E7=B1=
+=BB=E5=9E=8B|=E6=B6=88=E6=81=AF=E6=A0=87=E9=A2=98|SessionID=EF=BC=89</td>
+<td class=3D"confluenceTd">6.1.10</td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">=E7=82=B9=E5=87=BB=EF=BC=8806=EF=BC=89</td>
+<td class=3D"confluenceTd">01160206</td>
+<td class=3D"confluenceTd">=E7=82=B9=E5=87=BB=E9=80=9A=E7=9F=A5=E6=A0=8F=E6=
+=B6=88=E6=81=AF=EF=BC=8801|=E6=B6=88=E6=81=AFID|=E8=AE=BE=E5=A4=87ID|=E5=BC=
+=B9=E5=87=BA=E6=97=B6=E9=97=B4|=E6=B6=88=E6=81=AF=E7=B1=BB=E5=9E=8B|=E6=B6=
+=88=E6=81=AF=E6=A0=87=E9=A2=98|SessionID=EF=BC=89</td>
+<td class=3D"confluenceTd">6.1.10</td>
+</tr>
+<tr>
+<td rowspan=3D"2" class=3D"confluenceTd">=E6=9C=89=E5=A5=96=E6=B4=BB=E5=8A=
+=A8Push=EF=BC=8803=EF=BC=89</td>
+<td rowspan=3D"2" class=3D"confluenceTd">=E7=82=B9=E5=87=BB=EF=BC=8806=EF=
+=BC=89</td>
+<td rowspan=3D"2" class=3D"confluenceTd">01160306</td>
+<td class=3D"confluenceTd">=E6=9C=89=E5=A5=96=E6=B4=BB=E5=8A=A8=E6=8C=89=E9=
+=92=AE=EF=BC=8801=EF=BC=89</td>
+<td class=3D"confluenceTd">6.1.30</td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">=E6=99=AE=E9=80=9A=E6=8C=89=E9=92=AE=EF=BC=8802=
+=EF=BC=89</td>
+<td class=3D"confluenceTd">6.1.30</td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">=E3=80=80</td>
+<td class=3D"confluenceTd">=E3=80=80</td>
+<td class=3D"confluenceTd">=E3=80=80</td>
+<td class=3D"confluenceTd">=E3=80=80</td>
+<td class=3D"confluenceTd">=E3=80=80</td>
+<td class=3D"confluenceTd">=E3=80=80</td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">=E3=80=80</td>
+<td class=3D"confluenceTd">=E3=80=80</td>
+<td class=3D"confluenceTd">=E3=80=80</td>
+<td class=3D"confluenceTd">=E3=80=80</td>
+<td class=3D"confluenceTd">=E3=80=80</td>
+<td class=3D"confluenceTd">=E3=80=80</td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">=E3=80=80</td>
+<td class=3D"confluenceTd">=E3=80=80</td>
+<td class=3D"confluenceTd">=E3=80=80</td>
+<td class=3D"confluenceTd">=E3=80=80</td>
+<td class=3D"confluenceTd">=E3=80=80</td>
+<td class=3D"confluenceTd">=E3=80=80</td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">=E3=80=80</td>
+<td class=3D"confluenceTd">=E3=80=80</td>
+<td class=3D"confluenceTd">=E3=80=80</td>
+<td class=3D"confluenceTd">=E3=80=80</td>
+<td class=3D"confluenceTd">=E3=80=80</td>
+<td class=3D"confluenceTd">=E3=80=80</td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">&nbsp;</td>
+<td class=3D"confluenceTd">&nbsp;</td>
+<td class=3D"confluenceTd">&nbsp;</td>
+<td class=3D"confluenceTd">&nbsp;</td>
+<td class=3D"confluenceTd">&nbsp;</td>
+<td class=3D"confluenceTd">&nbsp;</td>
+<td class=3D"confluenceTd">&nbsp;</td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">&nbsp;</td>
+<td class=3D"confluenceTd">&nbsp;</td>
+<td class=3D"confluenceTd">&nbsp;</td>
+<td class=3D"confluenceTd">&nbsp;</td>
+<td class=3D"confluenceTd">&nbsp;</td>
+<td class=3D"confluenceTd">&nbsp;</td>
+<td class=3D"confluenceTd">&nbsp;</td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">&nbsp;</td>
+<td class=3D"confluenceTd">&nbsp;</td>
+<td class=3D"confluenceTd">&nbsp;</td>
+<td class=3D"confluenceTd">&nbsp;</td>
+<td class=3D"confluenceTd">&nbsp;</td>
+<td class=3D"confluenceTd">&nbsp;</td>
+<td class=3D"confluenceTd">&nbsp;</td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">&nbsp;</td>
+<td class=3D"confluenceTd">&nbsp;</td>
+<td class=3D"confluenceTd">&nbsp;</td>
+<td class=3D"confluenceTd">&nbsp;</td>
+<td class=3D"confluenceTd">&nbsp;</td>
+<td class=3D"confluenceTd">&nbsp;</td>
+<td class=3D"confluenceTd">&nbsp;</td>
+</tr>
+<tr>
+<td colspan=3D"6" class=3D"confluenceTd">=E6=B3=A8=EF=BC=9A=E4=B8=8B=E8=BD=
+=BD=E5=AE=89=E8=A3=85=EF=BC=8801=EF=BC=89=EF=BC=8C=E6=B5=8F=E8=A7=88=EF=BC=
+=8802=EF=BC=89=EF=BC=8C=E5=81=9C=E7=95=99=E6=97=B6=E9=95=BF=EF=BC=8803=EF=
+=BC=89=EF=BC=8C=E6=9D=A5=E6=BA=90=EF=BC=8804=EF=BC=89=EF=BC=8C=E5=8D=B8=E8=
+=BD=BD=EF=BC=8805=EF=BC=89=EF=BC=8C=E7=82=B9=E5=87=BB=EF=BC=8806=EF=BC=89,=
+=E6=8F=92=E4=BB=B6=E7=9B=B8=E5=85=B3=EF=BC=8807=EF=BC=89=EF=BC=8C=E5=88=92=
+=E5=8A=A8=E7=82=B9=E5=87=BB=EF=BC=8808=EF=BC=89=EF=BC=8C=E5=BC=B9=E5=87=BA=
+=E6=B6=88=E6=81=AF=EF=BC=8809=EF=BC=89=EF=BC=8C=E5=88=9B=E5=BB=BAICON=EF=BC=
+=8810=EF=BC=89=EF=BC=8C=E6=A0=87=E8=AE=B0=EF=BC=8811=EF=BC=89=EF=BC=8C=E5=
+=B1=95=E7=A4=BA=EF=BC=8812=EF=BC=89</td>
+<td class=3D"confluenceTd">&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class=3D"table-wrap">
+<table class=3D"confluenceTable">
+<colgroup>
+<col />=20
+<col />=20
+<col />=20
+<col />=20
+<col />=20
+<col />=20
+<col />
+</colgroup>
+<tbody>
+<tr>
+<td class=3D"confluenceTd">=E3=80=80</td>
+<td class=3D"confluenceTd">=E5=8A=9F=E8=83=BD</td>
+<td class=3D"confluenceTd">=E5=AD=90=E5=8A=9F=E8=83=BD1</td>
+<td class=3D"confluenceTd">=E5=AD=90=E5=8A=9F=E8=83=BD2</td>
+<td class=3D"confluenceTd">=E9=94=AE=E5=90=8D=EF=BC=88Key=EF=BC=89</td>
+<td class=3D"confluenceTd">=E5=80=BC=EF=BC=88Value=EF=BC=89</td>
+<td class=3D"confluenceTd">=E7=89=88=E6=9C=AC</td>
+</tr>
+<tr>
+<td rowspan=3D"7" class=3D"confluenceTd">=E6=B8=B8=E6=88=8F=EF=BC=8801=EF=
+=BC=89</td>
+<td rowspan=3D"7" class=3D"confluenceTd">=E5=88=86=E4=BA=AB=EF=BC=8818=EF=
+=BC=89</td>
+<td rowspan=3D"3" class=3D"confluenceTd">=E5=88=86=E4=BA=AB=E6=8C=89=E9=92=
+=AE=EF=BC=8801=EF=BC=89</td>
+<td rowspan=3D"7" class=3D"confluenceTd">=E7=82=B9=E5=87=BB=EF=BC=8806=EF=
+=BC=89</td>
+<td rowspan=3D"3" class=3D"confluenceTd">01180106</td>
+<td class=3D"confluenceTd">=E5=BA=94=E7=94=A8=E8=AF=A6=E6=83=85=EF=BC=8801|=
+userId=EF=BC=89</td>
+<td class=3D"confluenceTd">6.2.20</td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">=E6=88=91=E7=9A=84=E5=A5=96=E5=93=81=EF=BC=8802|=
+userId=EF=BC=89</td>
+<td class=3D"confluenceTd">6.2.20</td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">=E5=85=B6=E4=BB=96=EF=BC=8803|userId=EF=BC=89</t=
+d>
+<td class=3D"confluenceTd">6.2.20</td>
+</tr>
+<tr>
+<td rowspan=3D"4" class=3D"confluenceTd">=E5=88=86=E4=BA=AB=E4=BA=8C=E7=BA=
+=A7=E6=8C=89=E9=92=AE=EF=BC=8802=EF=BC=89</td>
+<td rowspan=3D"4" class=3D"confluenceTd">01180206</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E6=9C=8B=E5=8F=8B=E5=9C=88=EF=BC=
+=8801|userId=EF=BC=89</td>
+<td colspan=3D"1" class=3D"confluenceTd">6.2.20</td>
+</tr>
+<tr>
+<td colspan=3D"1" class=3D"confluenceTd">=E5=BE=AE=E4=BF=A1=EF=BC=8802|user=
+Id=EF=BC=89</td>
+<td colspan=3D"1" class=3D"confluenceTd">6.2.20</td>
+</tr>
+<tr>
+<td colspan=3D"1" class=3D"confluenceTd">=E5=BE=AE=E5=8D=9A=EF=BC=8803|user=
+Id=EF=BC=89</td>
+<td colspan=3D"1" class=3D"confluenceTd">6.2.20</td>
+</tr>
+<tr>
+<td colspan=3D"1" class=3D"confluenceTd">=E6=9B=B4=E5=A4=9A=EF=BC=8804|user=
+Id=EF=BC=89</td>
+<td colspan=3D"1" class=3D"confluenceTd">6.2.20</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class=3D"table-wrap">
+<table class=3D"confluenceTable">
+<tbody>
+<tr>
+<td colspan=3D"1" class=3D"confluenceTd">&nbsp;</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E5=8A=9F=E8=83=BD</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E5=AD=90=E5=8A=9F=E8=83=BD1</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E5=AD=90=E5=8A=9F=E8=83=BD2</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E9=94=AE=E5=90=8D=EF=BC=88Key=EF=
+=BC=89</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E5=80=BC=EF=BC=88Value=EF=BC=89</=
+td>
+<td colspan=3D"1" class=3D"confluenceTd">=E7=89=88=E6=9C=AC</td>
+</tr>
+<tr>
+<td rowspan=3D"19" class=3D"confluenceTd">=E6=B8=B8=E6=88=8F=E6=B5=AE=E6=A0=
+=87=EF=BC=8815=EF=BC=89</td>
+<td class=3D"confluenceTd">=E6=B5=AE=E6=A0=87=E5=B0=8F=E7=AA=97=E5=8F=A3=EF=
+=BC=8801=EF=BC=89</td>
+<td class=3D"confluenceTd">&nbsp;</td>
+<td rowspan=3D"2" class=3D"confluenceTd">=E7=82=B9=E5=87=BB=EF=BC=8806=EF=
+=BC=89</td>
+<td class=3D"confluenceTd">150106</td>
+<td class=3D"confluenceTd">=E7=82=B9=E5=87=BB=E6=B5=AE=E6=A0=87=E6=8C=89=E9=
+=92=AE=E6=89=93=E5=BC=80=E6=B5=AE=E6=A0=87=E5=B0=8F=E7=AA=97=E5=8F=A3=EF=BC=
+=8801|userId|=E5=BA=94=E7=94=A8=E5=8C=85=E5=90=8D|appid|SDKVersionCode=EF=
+=BC=89</td>
+<td class=3D"confluenceTd">1.1.1</td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">=E6=B5=AE=E6=A0=87=E9=9A=90=E8=97=8F=EF=BC=8802=
+=EF=BC=89</td>
+<td class=3D"confluenceTd">&nbsp;</td>
+<td class=3D"confluenceTd">150206</td>
+<td class=3D"confluenceTd">=E7=82=B9=E5=87=BB=E6=B5=AE=E6=A0=87=E9=9A=90=E8=
+=97=8F=E6=8C=89=E9=92=AE=EF=BC=8801|userId|=E5=BA=94=E7=94=A8=E5=8C=85=E5=
+=90=8D|appid|SDKVersionCode=EF=BC=89</td>
+<td class=3D"confluenceTd">1.2.5</td>
+</tr>
+<tr>
+<td colspan=3D"1" class=3D"confluenceTd">=E5=85=AC=E5=91=8A=EF=BC=8803=EF=
+=BC=89</td>
+<td class=3D"confluenceTd">=E5=85=AC=E5=91=8A=E5=BC=B9=E5=87=BA=EF=BC=8801=
+=EF=BC=89</td>
+<td class=3D"confluenceTd">=E5=B1=95=E7=A4=BA=EF=BC=8812=EF=BC=89</td>
+<td colspan=3D"1" class=3D"confluenceTd">15030112</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E5=BC=B9=E5=87=BA=E5=85=AC=E5=91=
+=8A=E6=A1=86=EF=BC=8801|userId|=E5=BA=94=E7=94=A8=E5=8C=85=E5=90=8D|appid|S=
+DKVersionCode=EF=BC=89</td>
+<td colspan=3D"1" class=3D"confluenceTd">1.3.1</td>
+</tr>
+<tr>
+<td colspan=3D"1" class=3D"confluenceTd">=E6=B8=B8=E6=88=8F=E8=A7=92=E8=89=
+=B2=E4=BF=A1=E6=81=AF=EF=BC=8804=EF=BC=89</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E9=87=87=E9=9B=86=E4=BF=A1=E6=81=
+=AF=EF=BC=8801=EF=BC=89</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E7=82=B9=E5=87=BB=EF=BC=8806=EF=
+=BC=89</td>
+<td colspan=3D"1" class=3D"confluenceTd">15040106</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E8=A7=92=E8=89=B2=E4=BF=A1=E6=81=
+=AF=EF=BC=8801|userid|=E5=8C=85=E5=90=8D|appid|SDKVersionCode|=E6=89=80=E5=
+=9C=A8=E5=8C=BA=E5=90=8D|=E8=A7=92=E8=89=B2=E5=90=8D|=E7=AD=89=E7=BA=A7=EF=
+=BC=89</td>
+<td colspan=3D"1" class=3D"confluenceTd">1.3.1.2=E5=88=B01.3.3</td>
+</tr>
+<tr>
+<td colspan=3D"1" class=3D"confluenceTd">=E7=8E=A9=E5=AE=B6=E9=82=80=E8=AF=
+=B7=EF=BC=8805=EF=BC=89</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E9=82=80=E8=AF=B7=E7=A0=81=E5=88=
+=86=E4=BA=AB=EF=BC=8801=EF=BC=89</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E7=82=B9=E5=87=BB=EF=BC=8806=EF=
+=BC=89</td>
+<td colspan=3D"1" class=3D"confluenceTd">15050106</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E5=88=86=E4=BA=AB=E4=BF=A1=E6=81=
+=AF=EF=BC=8801|userid|=E5=BA=94=E7=94=A8=E5=8C=85=E5=90=8D|appid|SDKVersion=
+Code=EF=BC=89</td>
+<td colspan=3D"1" class=3D"confluenceTd">1.6.3.50</td>
+</tr>
+<tr>
+<td colspan=3D"1" class=3D"confluenceTd">=E6=B8=B8=E6=88=8F=E5=88=9D=E5=A7=
+=8B=E5=8C=96=EF=BC=8806=EF=BC=89</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E6=B8=B8=E6=88=8F=E5=88=9D=E5=A7=
+=8B=E5=8C=96=EF=BC=8801=EF=BC=89</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E7=82=B9=E5=87=BB=EF=BC=8806=EF=
+=BC=89</td>
+<td colspan=3D"1" class=3D"confluenceTd">15060106</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E6=B8=B8=E6=88=8F=E5=88=9D=E5=A7=
+=8B=E5=8C=96=EF=BC=8801|userid|=E5=8C=85=E5=90=8D|appid|SDKVersionCode|=E9=
+=9A=8F=E6=9C=BA=E5=80=BC|=E6=97=B6=E9=97=B4=EF=BC=89</td>
+<td colspan=3D"1" class=3D"confluenceTd">7.1.0</td>
+</tr>
+<tr>
+<td colspan=3D"1" class=3D"confluenceTd">=E6=8E=A5=E5=8F=A3=E8=AE=BF=E9=97=
+=AE=E6=97=A5=E5=BF=97=EF=BC=8807=EF=BC=89</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E6=8E=A5=E5=8F=A3=E8=AE=BF=E9=97=
+=AE=EF=BC=8801=EF=BC=89</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E7=82=B9=E5=87=BB=EF=BC=8806=EF=
+=BC=89</td>
+<td colspan=3D"1" class=3D"confluenceTd">15070106</td>
+<td colspan=3D"1" class=3D"confluenceTd">01|userid|=E5=8C=85=E5=90=8D|appid=
+|SDKVersionCode|=E8=AF=B7=E6=B1=82=E6=96=B9=E6=B3=95=E5=90=8D|=E5=8F=91=E8=
+=B5=B7=E6=97=B6=E9=97=B4|=E7=BB=93=E6=9D=9F=E6=97=B6=E9=97=B4|=E6=9C=BA=E5=
+=9E=8B|=E7=BD=91=E7=BB=9C=E7=B1=BB=E5=9E=8B|=E7=BD=91=E7=BB=9C=E7=8A=B6=E6=
+=80=81|=E9=94=99=E8=AF=AF=E7=A0=81</td>
+<td colspan=3D"1" class=3D"confluenceTd">7.1.0</td>
+</tr>
+<tr>
+<td colspan=3D"1" class=3D"confluenceTd">=E9=97=AA=E5=B1=8F=EF=BC=8808=EF=
+=BC=89</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E5=9B=BE=E7=89=87=E7=82=B9=E5=87=
+=BB=EF=BC=8801=EF=BC=89</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E8=B7=B3=E8=BD=AC=E5=88=B0=E5=9C=
+=B0=E5=9D=80=EF=BC=8801=EF=BC=89</td>
+<td colspan=3D"1" class=3D"confluenceTd">15080101</td>
+<td colspan=3D"1" class=3D"confluenceTd">01|userid|=E5=8C=85=E5=90=8D|appid=
+|SDKVersionCode|linkUrl|=E9=9A=8F=E6=9C=BA=E5=80=BC</td>
+<td colspan=3D"1" class=3D"confluenceTd">7.1.1</td>
+</tr>
+<tr>
+<td colspan=3D"1" class=3D"confluenceTd">=E9=97=AA=E5=B1=8F=EF=BC=8808=EF=
+=BC=89</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E7=82=B9=E5=87=BB=E2=80=9D=E8=B7=
+=B3=E8=BF=87=E2=80=9D=EF=BC=8802=EF=BC=89</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E8=BF=9B=E5=85=A5=E6=B8=B8=E6=88=
+=8F=EF=BC=8801=EF=BC=89</td>
+<td colspan=3D"1" class=3D"confluenceTd">15080201</td>
+<td colspan=3D"1" class=3D"confluenceTd">01|userid|=E5=8C=85=E5=90=8D|appid=
+|SDKVersionCode|=E9=9A=8F=E6=9C=BA=E5=80=BC</td>
+<td colspan=3D"1" class=3D"confluenceTd">7.1.1</td>
+</tr>
+<tr>
+<td colspan=3D"1" class=3D"confluenceTd">=E9=97=AA=E5=B1=8F=EF=BC=8808=EF=
+=BC=89</td>
+<td colspan=3D"1" class=3D"confluenceTd">&nbsp;=E6=97=B6=E9=97=B4=E5=88=B0=
+=E8=BF=9B=E5=85=A5=EF=BC=8803=EF=BC=89</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E8=BF=9B=E5=85=A5=E6=B8=B8=E6=88=
+=8F=EF=BC=8801=EF=BC=89</td>
+<td colspan=3D"1" class=3D"confluenceTd">15080301</td>
+<td colspan=3D"1" class=3D"confluenceTd">01|userid|=E5=8C=85=E5=90=8D|appid=
+|SDKVersionCode|=E9=9A=8F=E6=9C=BA=E5=80=BC</td>
+<td colspan=3D"1" class=3D"confluenceTd">7.1.1</td>
+</tr>
+<tr>
+<td colspan=3D"1" class=3D"confluenceTd">=E5=8D=87=E7=BA=A7=EF=BC=8809=EF=
+=BC=89</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E7=82=B9=E5=87=BB=E4=B8=8B=E8=BD=
+=BD=EF=BC=8801=EF=BC=89</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E7=82=B9=E5=87=BB=EF=BC=8806=EF=
+=BC=89</td>
+<td colspan=3D"1" class=3D"confluenceTd">15090106</td>
+<td colspan=3D"1" class=3D"confluenceTd">01|userid|=E5=8C=85=E5=90=8D|appid=
+|SDKVersionCode|=E9=9A=8F=E6=9C=BA=E5=80=BC</td>
+<td colspan=3D"1" class=3D"confluenceTd">7.1.1</td>
+</tr>
+<tr>
+<td rowspan=3D"6" class=3D"confluenceTd">=E7=99=BB=E5=BD=95=EF=BC=8810=EF=
+=BC=89</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E5=BC=80=E5=A7=8B=E7=99=BB=E5=BD=
+=95=EF=BC=8801=EF=BC=89</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E7=82=B9=E5=87=BB=EF=BC=8806=EF=
+=BC=89</td>
+<td colspan=3D"1" class=3D"confluenceTd">15100106</td>
+<td colspan=3D"1" class=3D"confluenceTd">01|userid|=E5=8C=85=E5=90=8D|appid=
+|SDKVersionCode|=E9=9A=8F=E6=9C=BA=E5=80=BC|=E6=97=B6=E9=97=B4</td>
+<td colspan=3D"1" class=3D"confluenceTd">7.1.1</td>
+</tr>
+<tr>
+<td colspan=3D"1" class=3D"confluenceTd">=E5=AE=8C=E6=88=90=E7=99=BB=E5=BD=
+=95=EF=BC=8802=EF=BC=89</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E7=82=B9=E5=87=BB=EF=BC=8806=EF=
+=BC=89</td>
+<td colspan=3D"1" class=3D"confluenceTd">15100206</td>
+<td colspan=3D"1" class=3D"confluenceTd">01|userid|=E5=8C=85=E5=90=8D|appid=
+|SDKVersionCode|=E9=9A=8F=E6=9C=BA=E5=80=BC|=E6=97=B6=E9=97=B4|=E8=AE=A1=E7=
+=AE=9702-01=E7=9A=84=E6=97=B6=E9=97=B4=E5=B7=AE=E5=80=BC|
+<div class=3D"item">
+<div class=3D"item-body">
+<span class=3D"im-content">=E6=98=AF=E5=90=A6=E7=BD=91=E7=BB=9C=E9=89=B4=E6=
+=9D=83|=E6=98=AF=E5=90=A6=E6=8B=89=E8=B5=B7=E7=99=BB=E5=BD=95</span>
+</div>
+</div></td>
+<td colspan=3D"1" class=3D"confluenceTd">7.1.1</td>
+</tr>
+<tr>
+<td colspan=3D"1" class=3D"confluenceTd">=E6=A0=A1=E9=AA=8C=E7=99=BB=E5=BD=
+=95=EF=BC=8803=EF=BC=89</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E7=82=B9=E5=87=BB=EF=BC=8806=EF=
+=BC=89</td>
+<td colspan=3D"1" class=3D"confluenceTd">15100306</td>
+<td colspan=3D"1" class=3D"confluenceTd">01|userid|=E5=8C=85=E5=90=8D|appid=
+|SDKVersionCode|=E9=9A=8F=E6=9C=BA=E5=80=BC|=E6=97=B6=E9=97=B4|=E8=AE=A1=E7=
+=AE=9702-01=E7=9A=84=E6=97=B6=E9=97=B4=E5=B7=AE=E5=80=BC|=E8=AE=A1=E7=AE=97=
+03-02=E7=9A=84=E6=97=B6=E9=97=B4=E5=B7=AE=E5=80=BC</td>
+<td colspan=3D"1" class=3D"confluenceTd">7.1.1</td>
+</tr>
+<tr>
+<td colspan=3D"1" class=3D"confluenceTd">=E5=AE=8C=E6=88=90=E7=99=BB=E5=BD=
+=95=E5=BC=82=E5=B8=B8=EF=BC=8804=EF=BC=89</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E7=82=B9=E5=87=BB=EF=BC=8806=EF=
+=BC=89</td>
+<td colspan=3D"1" class=3D"confluenceTd">15100406</td>
+<td colspan=3D"1" class=3D"confluenceTd">01|userid|=E5=8C=85=E5=90=8D|appid=
+|SDKVersionCode|=E9=9A=8F=E6=9C=BA=E5=80=BC|=E6=97=B6=E9=97=B4|=E9=94=99=E8=
+=AF=AF=E7=A0=81|=E6=89=8B=E6=9C=BA=E5=9E=8B=E5=8F=B7|EMUI=E7=89=88=E6=9C=AC=
+=E5=8F=B7</td>
+<td colspan=3D"1" class=3D"confluenceTd">7.1.1</td>
+</tr>
+<tr>
+<td colspan=3D"1" class=3D"confluenceTd">=E6=A0=A1=E9=AA=8C=E7=99=BB=E5=BD=
+=95=E5=BC=82=E5=B8=B8=EF=BC=8805=EF=BC=89</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E7=82=B9=E5=87=BB=EF=BC=8806=EF=
+=BC=89</td>
+<td colspan=3D"1" class=3D"confluenceTd">15100506</td>
+<td colspan=3D"1" class=3D"confluenceTd">01|userid|=E5=8C=85=E5=90=8D|appid=
+|SDKVersionCode|=E9=9A=8F=E6=9C=BA=E5=80=BC|=E6=97=B6=E9=97=B4|=E9=94=99=E8=
+=AF=AF=E7=A0=81|=E6=89=8B=E6=9C=BA=E5=9E=8B=E5=8F=B7|EMUI=E7=89=88=E6=9C=AC=
+=E5=8F=B7</td>
+<td colspan=3D"1" class=3D"confluenceTd">7.1.1</td>
+</tr>
+<tr>
+<td colspan=3D"1" class=3D"confluenceTd">=E7=99=BB=E5=BD=95AIDL=E9=89=B4=E6=
+=9D=83=E6=97=B6=E9=95=BF=EF=BC=8806=EF=BC=89</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E7=82=B9=E5=87=BB=EF=BC=8806=EF=
+=BC=89</td>
+<td colspan=3D"1" class=3D"confluenceTd">15100606</td>
+<td colspan=3D"1" class=3D"confluenceTd">01|userid|=E5=8C=85=E5=90=8D|appid=
+|SDKVersionCode|=E9=9A=8F=E6=9C=BA=E5=80=BC|=EF=BC=880=EF=BC=9A=E6=9C=AC=E5=
+=9C=B0=E9=89=B4=E6=9D=83 1=EF=BC=9A=E7=BD=91=E7=BB=9C=E9=89=B4=E6=9D=83=EF=
+=BC=89|=E9=89=B4=E6=9D=83=E6=97=B6=E9=95=BF</td>
+<td colspan=3D"1" class=3D"confluenceTd">7.1.1</td>
+</tr>
+<tr>
+<td rowspan=3D"2" class=3D"confluenceTd">=E5=BF=AB=E6=8D=B7=E6=94=AF=E4=BB=
+=98=EF=BC=8811=EF=BC=89</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E8=B0=83=E7=94=A8=E6=94=AF=E4=BB=
+=98=E6=8E=A5=E5=8F=A3=EF=BC=8801=EF=BC=89</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E7=82=B9=E5=87=BB=EF=BC=8806=EF=
+=BC=89</td>
+<td colspan=3D"1" class=3D"confluenceTd">15110106</td>
+<td colspan=3D"1" class=3D"confluenceTd">01|userid|=E5=8C=85=E5=90=8D|appid=
+|SDKVersionCode|CP=E8=AE=A2=E5=8D=95=E5=8F=B7</td>
+<td colspan=3D"1" class=3D"confluenceTd">7.1.1</td>
+</tr>
+<tr>
+<td colspan=3D"1" class=3D"confluenceTd">=E5=BF=AB=E6=8D=B7=E6=94=AF=E4=BB=
+=98=E7=95=8C=E9=9D=A2=EF=BC=8802=EF=BC=89</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E7=82=B9=E5=87=BB=EF=BC=8806=EF=
+=BC=89</td>
+<td colspan=3D"1" class=3D"confluenceTd">15110206</td>
+<td colspan=3D"1" class=3D"confluenceTd">01|userid|=E5=8C=85=E5=90=8D|appid=
+|SDKVersionCode|CP=E8=AE=A2=E5=8D=95=E5=8F=B7</td>
+<td colspan=3D"1" class=3D"confluenceTd">7.1.1</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class=3D"table-wrap">
+<table class=3D"confluenceTable">
+<tbody>
+<tr>
+<td colspan=3D"1" class=3D"confluenceTd">&nbsp;</td>
+<td class=3D"confluenceTd">=E5=8A=9F=E8=83=BD</td>
+<td class=3D"confluenceTd">=E5=AD=90=E5=8A=9F=E8=83=BD1</td>
+<td class=3D"confluenceTd">=E5=AD=90=E5=8A=9F=E8=83=BD2</td>
+<td class=3D"confluenceTd">=E9=94=AE=E5=90=8D=EF=BC=88Key=EF=BC=89</td>
+<td class=3D"confluenceTd">=E5=80=BC=EF=BC=88Value=EF=BC=89</td>
+<td class=3D"confluenceTd">=E7=89=88=E6=9C=AC</td>
+</tr>
+<tr>
+<td rowspan=3D"15" class=3D"confluenceTd"><span>=E6=B8=B8=E6=88=8F=EF=BC=88=
+01=EF=BC=89</span></td>
+<td rowspan=3D"2" class=3D"confluenceTd">=E5=8D=A1=E7=89=87=EF=BC=8822=EF=
+=BC=89</td>
+<td class=3D"confluenceTd">=E5=9C=BA=E6=99=AF=E5=8C=96=E5=8D=A1=E7=89=87=E6=
+=BB=91=E5=8A=A8=EF=BC=8801=EF=BC=89</td>
+<td class=3D"confluenceTd">=E5=8D=A1=E7=89=87=E6=BB=91=E5=8A=A8=EF=BC=8808=
+=EF=BC=89</td>
+<td class=3D"confluenceTd">01220108</td>
+<td class=3D"confluenceTd"><p>=E5=9C=BA=E6=99=AF=E5=8C=96=E5=8D=A1=E7=89=87=
+=E6=BB=91=E5=8A=A8=EF=BC=8801=EF=BC=89</p></td>
+<td class=3D"confluenceTd">6.3.50</td>
+</tr>
+<tr>
+<td colspan=3D"1" class=3D"confluenceTd">=E5=9C=BA=E6=99=AF=E5=8C=96=E5=8D=
+=A1=E7=89=87=E5=9C=BA=E6=99=AF=E6=BB=91=E5=8A=A8=EF=BC=8802=EF=BC=89</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E5=9C=BA=E6=99=AF=E6=BB=91=E5=8A=
+=A8(08)</td>
+<td colspan=3D"1" class=3D"confluenceTd">01220208</td>
+<td colspan=3D"1" class=3D"confluenceTd"><p>=E5=9C=BA=E6=99=AF=E5=8C=96=E5=
+=8D=A1=E7=89=87=E6=BB=91=E5=8A=A8=E5=9C=BA=E6=99=AF=E7=9A=84=E5=BA=8F=E5=8F=
+=B7=EF=BC=8C</p><p>=E5=A6=82=E6=BB=91=E5=88=B0=E7=AC=AC3=E4=B8=AA=E5=9C=BA=
+=E6=99=AF=EF=BC=8C=E5=80=BC=E4=B8=BA03</p></td>
+<td colspan=3D"1" class=3D"confluenceTd">6.3.50</td>
+</tr>
+<tr>
+<td rowspan=3D"7" class=3D"confluenceTd">=E5=8A=A8=E6=80=81=EF=BC=8823=EF=
+=BC=89</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E5=8F=91=E8=A1=A8=E5=8A=A8=E6=80=
+=81=E6=8C=89=E9=92=AE=EF=BC=8801=EF=BC=89</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E7=82=B9=E5=87=BB=EF=BC=8806=EF=
+=BC=89</td>
+<td colspan=3D"1" class=3D"confluenceTd">01230106</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E7=82=B9=E5=87=BB=E6=8C=89=E9=92=
+=AE=EF=BC=8801|packageName=EF=BC=89</td>
+<td colspan=3D"1" class=3D"confluenceTd">7.0.1</td>
+</tr>
+<tr>
+<td colspan=3D"1" class=3D"confluenceTd">=E6=88=91=E7=9A=84=E5=8A=A8=E6=80=
+=81=E6=8C=89=E9=92=AE=EF=BC=8802=EF=BC=89</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E7=82=B9=E5=87=BB=EF=BC=8806=EF=
+=BC=89</td>
+<td colspan=3D"1" class=3D"confluenceTd">01230206</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E7=82=B9=E5=87=BB=E6=8C=89=E9=92=
+=AE=EF=BC=8801|packageName=EF=BC=89</td>
+<td colspan=3D"1" class=3D"confluenceTd">7.0.1</td>
+</tr>
+<tr>
+<td colspan=3D"1" class=3D"confluenceTd">=E5=88=86=E4=BA=AB=E6=88=91=E7=9A=
+=84=E5=8A=A8=E6=80=81=EF=BC=8803=EF=BC=89</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E7=82=B9=E5=87=BB=EF=BC=8806=EF=
+=BC=89</td>
+<td colspan=3D"1" class=3D"confluenceTd">01230306</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E7=82=B9=E5=87=BB=E6=8C=89=E9=92=
+=AE=EF=BC=8801=EF=BC=89</td>
+<td colspan=3D"1" class=3D"confluenceTd">7.0.1</td>
+</tr>
+<tr>
+<td colspan=3D"1" class=3D"confluenceTd">=E7=94=A8webview=E6=89=93=E5=BC=80=
+=E5=8A=A8=E6=80=81=EF=BC=8804=EF=BC=89</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E7=82=B9=E5=87=BB=EF=BC=8806=EF=
+=BC=89</td>
+<td colspan=3D"1" class=3D"confluenceTd">01230406</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E7=82=B9=E5=87=BB=E6=8C=89=E9=92=
+=AE=EF=BC=8801|URL=EF=BC=89</td>
+<td colspan=3D"1" class=3D"confluenceTd">7.0.1</td>
+</tr>
+<tr>
+<td colspan=3D"1" class=3D"confluenceTd">=E8=AF=A6=E6=83=85TAB=E5=8A=A8=E6=
+=80=81=EF=BC=8805=EF=BC=89</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E7=82=B9=E5=87=BB=EF=BC=8806=EF=
+=BC=89</td>
+<td colspan=3D"1" class=3D"confluenceTd">01230506</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E7=82=B9=E5=87=BB=E6=8C=89=E9=92=
+=AE=EF=BC=8801=EF=BC=89</td>
+<td colspan=3D"1" class=3D"confluenceTd">7.0.2</td>
+</tr>
+<tr>
+<td colspan=3D"1" class=3D"confluenceTd">=E5=BD=95=E5=B1=8F=E6=92=AD=E6=94=
+=BE=EF=BC=8806=EF=BC=89</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E7=82=B9=E5=87=BB=EF=BC=8806=EF=
+=BC=89</td>
+<td colspan=3D"1" class=3D"confluenceTd">01230606</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E7=82=B9=E5=87=BB=E6=8C=89=E9=92=
+=AE=EF=BC=8801|infoId=EF=BC=89</td>
+<td colspan=3D"1" class=3D"confluenceTd">7.0.2</td>
+</tr>
+<tr>
+<td colspan=3D"1" class=3D"confluenceTd">=E4=B8=8B=E8=BD=BD=E7=82=B9=E5=87=
+=BB=EF=BC=8807=EF=BC=89</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E7=82=B9=E5=87=BB=EF=BC=8806=EF=
+=BC=89</td>
+<td colspan=3D"1" class=3D"confluenceTd">01230706</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E7=82=B9=E5=87=BB=E6=8C=89=E9=92=
+=AE=EF=BC=8801|=E6=B8=B8=E6=88=8F=E5=8C=85=E5=90=8D=EF=BC=89</td>
+<td colspan=3D"1" class=3D"confluenceTd">7.0.2</td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">=E5=B9=BF=E5=91=8A=E5=8D=A1=E7=89=87=EF=BC=8824=
+=EF=BC=89</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E6=BB=91=E5=8A=A8=EF=BC=8801=EF=
+=BC=89</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E6=BB=91=E5=8A=A8=EF=BC=8808=EF=
+=BC=89</td>
+<td colspan=3D"1" class=3D"confluenceTd">01240108</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E6=BB=91=E5=8A=A8=EF=BC=8801|uri=
+=EF=BC=89</td>
+<td colspan=3D"1" class=3D"confluenceTd">7.0.2</td>
+</tr>
+<tr>
+<td colspan=3D"1" class=3D"confluenceTd">H5=E6=B8=B8=E6=88=8F=EF=BC=8827=EF=
+=BC=89</td>
+<td colspan=3D"1" class=3D"confluenceTd"><p>=E7=99=BB=E5=BD=95=E5=90=8E=E8=
+=BF=9B=E5=85=A5=E6=B8=B8=E6=88=8F=EF=BC=8801=EF=BC=89</p></td>
+<td colspan=3D"1" class=3D"confluenceTd">=E7=82=B9=E5=87=BB=EF=BC=8806=EF=
+=BC=89</td>
+<td colspan=3D"1" class=3D"confluenceTd">01270106</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E7=82=B9=E5=87=BB=E6=8C=89=E9=92=
+=AE=EF=BC=8801|userId|appId=EF=BC=89</td>
+<td colspan=3D"1" class=3D"confluenceTd">7.1.1</td>
+</tr>
+<tr>
+<td colspan=3D"1" class=3D"confluenceTd"><p>=E4=B8=93=E9=A2=98=EF=BC=8826=
+=EF=BC=89</p></td>
+<td colspan=3D"1" class=3D"confluenceTd">=E4=B8=93=E9=A2=98=E5=88=97=E8=A1=
+=A8=EF=BC=8801=EF=BC=89</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E7=82=B9=E5=87=BB=EF=BC=8806=EF=
+=BC=89</td>
+<td colspan=3D"1" class=3D"confluenceTd">01260106</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E7=82=B9=E5=87=BB=E6=8C=89=E9=92=
+=AE=EF=BC=8801|URI=EF=BC=89</td>
+<td colspan=3D"1" class=3D"confluenceTd">7.1.1</td>
+</tr>
+<tr>
+<td rowspan=3D"3" class=3D"confluenceTd">=E9=A2=84=E7=BA=A6=EF=BC=8825=EF=
+=BC=89</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E9=80=9A=E7=9F=A5=EF=BC=8801=EF=
+=BC=89</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E7=82=B9=E5=87=BB=EF=BC=8806=EF=
+=BC=89</td>
+<td colspan=3D"1" class=3D"confluenceTd">01250106</td>
+<td colspan=3D"1" class=3D"confluenceTd"><p>=E7=82=B9=E5=87=BB=EF=BC=8801|p=
+ackageName|uid=EF=BC=89</p></td>
+<td colspan=3D"1" class=3D"confluenceTd">7.1.1</td>
+</tr>
+<tr>
+<td colspan=3D"1" class=3D"confluenceTd">=E5=88=97=E8=A1=A8=E9=A2=84=E7=BA=
+=A6=EF=BC=8802=EF=BC=89</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E7=82=B9=E5=87=BB=EF=BC=8806=EF=
+=BC=89</td>
+<td colspan=3D"1" class=3D"confluenceTd">01250206</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E7=82=B9=E5=87=BB=EF=BC=8801||pac=
+kageName|uid=EF=BC=89</td>
+<td colspan=3D"1" class=3D"confluenceTd">7.1.1</td>
+</tr>
+<tr>
+<td colspan=3D"1" class=3D"confluenceTd">=E8=AF=A6=E6=83=85=E9=A2=84=E7=BA=
+=A6=EF=BC=8803=EF=BC=89</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E7=82=B9=E5=87=BB=EF=BC=8806=EF=
+=BC=89</td>
+<td colspan=3D"1" class=3D"confluenceTd">01250306</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E7=82=B9=E5=87=BB=EF=BC=8801|pack=
+ageName|uid=EF=BC=89</td>
+<td colspan=3D"1" class=3D"confluenceTd">7.1.1</td>
+</tr>
+</tbody>
+</table>
+</div>
+    </div>
+</body>
+</html>
+------=_Part_41794_1907070743.1474855576164--

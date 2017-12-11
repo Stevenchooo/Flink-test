@@ -1,0 +1,77 @@
+CREATE EXTERNAL TABLE ODS_CW_AAA_CDR_DM (
+nai                       string,
+accesstype                string,
+chargingtype              string,
+payaccount                string,
+calledstationid           string,
+callingstationid          string,
+cdrmode                   string,
+acctsessionid             string,
+accttype                  string,
+begintime                 string,
+endtime                   string,
+timelength                string,
+inputbytes                string,
+outputbytes               string,
+nas_ip_address            string,
+framed_ip_address         string,
+nas_identifier            string,
+acct_delay_time           string,
+acct_terminate_cause      string,
+acct_multi_session_id     string,
+nas_port_type             string,
+nas_port_id               string,
+contactinfo               string,
+auth_type                 string,
+imsi                      string,
+framedinterfaceid         string,
+framedipv6prefix          string,
+delegatedipv6prefix       string,
+framedipv6address         string,
+acctupdateaddress         string,
+acctipv6inputoctets       string,
+acctipv6outputoctets      string,
+acctipv6inputpackets      string,
+acctipv6outputpackets     string,
+nat_ip_address            string,
+hw_nat_start_port         string,
+hw_nat_end_port           string,
+homeareaid                string,
+terminaltype              string,
+terminalos                string,
+productid                 string,
+poiid                     string,
+productowner              string,
+chargeflag                string,
+customerid                string,
+servicestarttime          string,
+servicetype               string,
+framed_protocol           string,
+tunneltype                string,
+tunnelmediumtype          string,
+tunnelprivategroupid      string,
+usertype                  string,
+usersegment               string,
+operator_name             string,
+sequencenumber            string,
+ssgroupid                 string,
+ssproductid               string,
+accessapmac               string,
+hwpolicyname              string,
+hwaccountinglevel         string,
+nassrcipaddress           string,
+)
+PARTITIONED BY (                                                       
+   pt_d string)                                                       
+ ROW FORMAT SERDE                                                       
+   'org.apache.hadoop.hive.ql.io.orc.OrcSerde'                          
+ WITH SERDEPROPERTIES (                                                 
+   'field.delim'='|',                                                   
+   'line.delim'='\n',                                                   
+   'serialization.format'='|')                                          
+ STORED AS INPUTFORMAT                                                  
+   'org.apache.hadoop.hive.ql.io.orc.OrcInputFormat'                    
+ OUTPUTFORMAT                                                           
+   'org.apache.hadoop.hive.ql.io.orc.OrcOutputFormat'                   
+ LOCATION                                                               
+   'hdfs://hacluster/AppData/BIProd/ODS/PREPARE/ODS_CW_AAA_CDR_DM'  

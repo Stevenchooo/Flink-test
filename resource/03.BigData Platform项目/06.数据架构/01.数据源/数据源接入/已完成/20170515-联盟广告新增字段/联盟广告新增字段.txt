@@ -1,0 +1,21 @@
+ODS_DEV_ADV_ACCESS_HM
+新增字段：
+alter table ODS_DEV_ADV_ACCESS_HM add columns (impFcControlMode string comment '展示频率控制模式');  
+
+ODS_DEV_ADV_REQUEST_HM
+新增字段：
+alter table ODS_DEV_ADV_REQUEST_HM add columns (impFcControlMode string comment '展示频率控制模式');  
+
+ODS_DEV_ADV_T_USER_DS
+新增字段：
+alter table ODS_DEV_ADV_T_USER_DS add columns (up_email_account string comment '邮箱账号');  
+alter table ODS_DEV_ADV_T_USER_DS add columns (up_mobile_account string comment '手机账号'); 
+alter table ODS_DEV_ADV_T_USER_DS add columns (user_type string comment '用户类型'); 
+
+ODS_DEV_ADV_OTHER_HM
+新增字段：
+alter table ODS_DEV_ADV_OTHER_HM add columns (impFcControlMode string comment '展示频率控制模式');  
+
+ODS_DEV_ADV_CLICK_HM
+新增字段：
+alter table ODS_DEV_ADV_CLICK_HM add columns (impFcControlMode string comment '展示频率控制模式');  

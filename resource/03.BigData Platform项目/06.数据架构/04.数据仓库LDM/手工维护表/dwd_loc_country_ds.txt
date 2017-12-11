@@ -1,0 +1,249 @@
+Afghanistan|Afghanistan (l')|阿富汗|AF|AFG|004|中东|93
+?land Islands|?land(les ?les)|NULL|AX|ALA|248|NULL|NULL
+Albania|Albanie (l')|阿尔巴尼亚|AL|ALB|008|东北欧|355
+Algeria|Algérie (l')|阿尔及利亚|DZ|DZA|012|北非|213
+American Samoa|Samoa américaines (les)|美属萨摩亚|AS|ASM|016|南太平洋|NULL
+Andorra|Andorre (l')|安道尔|AD|AND|020|西欧|376
+Angola|Angola (l')|安哥拉|AO|AGO|024|东南非|244
+Anguilla|Anguilla|安圭拉|AI|AIA|660|东南非|1264
+Antarctica|Antarctique (l')|NULL|AQ|ATA|010|NULL|NULL
+Antigua and Barbuda|Antigua-et-Barbuda|安提瓜和巴布达|AG|ATG|028|拉美北|1268
+Argentina|Argentine (l')|阿根廷|AR|ARG|032|南美南|54
+Armenia|Arménie (l')|亚美尼亚|AM|ARM|051|俄罗斯代表处|374
+Aruba|Aruba|阿鲁巴|AW|ABW|533|拉美北|297
+Australia|Australie (l')|澳大利亚|AU|AUS|036|南太平洋|61
+Austria|Autriche (l')|奥地利|AT|AUT|040|东北欧|43
+Azerbaijan|Azerba?djan (l')|阿塞拜疆|AZ|AZE|031|中亚|994
+Bahamas (the)|Bahamas (les)|巴哈马|BS|BHS|044|拉美北|1242
+Bahrain|Bahre?n|巴林|BH|BHR|048|中东|973
+Bangladesh|Bangladesh (le)|孟加拉|BD|BGD|050|东南亚|880
+Barbados|Barbade (la)|巴巴多斯|BB|BRB|052|拉美北|1246
+Belarus|Bélarus (le)|白俄罗斯|BY|BLR|112|中亚|375
+Belgium|Belgique (la)|比利时|BE|BEL|056|西欧|32
+Belize|Belize (le)|伯利兹|BZ|BLZ|084|拉美北|501
+Benin|Bénin (le)|贝宁|BJ|BEN|204|西非|229
+Bermuda|Bermudes (les)|百慕大 (英国)|BM|BMU|060|NULL|NULL
+Bhutan|Bhoutan (le)|不丹|BT|BTN|064|南太平洋|NULL
+Bolivia (Plurinational State of)|Bolivie (état plurinational de)|玻利维亚|BO|BOL|068|南美南|591
+Bonaire, Sint Eustatius and Saba|Bonaire, Saint-Eustache et Saba|NULL|BQ|BES|535|NULL|NULL
+Bosnia and Herzegovina|Bosnie-Herzégovine (la)|波黑|BA|BIH|070|东北欧|387
+Botswana|Botswana (le)|博茨瓦纳|BW|BWA|072|东南非|267
+Bouvet Island|Bouvet (l'?le)|NULL|BV|BVT|074|NULL|NULL
+Brazil|Brésil (le)|巴西|BR|BRA|076|南美南|55
+British Indian Ocean Territory (the)|Indien (le?Territoire britannique de l'océan)|NULL|IO|IOT|086|NULL|NULL
+Brunei Darussalam|Brunéi Darussalam (le)|文莱|BN|BRN|096|南太平洋|673
+Bulgaria|Bulgarie (la)|保加利亚|BG|BGR|100|东北欧|359
+Burkina Faso|Burkina Faso (le)|布基纳法索|BF|BFA|854|西非|226
+Burundi|Burundi (le)|布隆迪|BI|BDI|108|东南非|257
+Cabo Verde|Cabo Verde|佛特角|CV|CPV|132|北非|238
+Cambodia|Cambodge (le)|柬埔寨|KH|KHM|116|东南亚|855
+Cameroon|Cameroun (le)|喀麦隆|CM|CMR|120|西非|237
+Canada|Canada (le)|加拿大|CA|CAN|124|加拿大代表处|NULL
+Cayman Islands (the)|Ca?mans (les??les)|开曼群岛|KY|CYM|136|拉美北|1345
+Central African Republic (the)|République centrafricaine (la)|中非|CF|CAF|140|西非|236
+Chad|Tchad (le)|乍得|TD|TCD|148|北非|235
+Chile|Chili (le)|智利|CL|CHL|152|南美南|56
+China|Chine (la)|中国|CN|CHN|156|中国|86
+Christmas Island|Christmas (l'?le)|NULL|CX|CXR|162|NULL|NULL
+Cocos (Keeling) Islands (the)|Cocos (les??les)/ Keeling (les??les)|NULL|CC|CCK|166|NULL|NULL
+Colombia|Colombie (la)|哥伦比亚|CO|COL|170|拉美北|57
+Comoros (the)|Comores (les)|科摩罗|KM|COM|174|东南非|269
+Congo (the Democratic Republic of the)|Congo (la République démocratique du)|刚果金|CD|COD|180|东南非|243
+Congo (the)|Congo (le)|刚果布|CG|COG|178|东南非|242
+Cook Islands (the)|Cook (les ?les)|库克群岛|CK|COK|184|南太平洋|682
+Costa Rica|Costa Rica (le)|哥斯达黎加|CR|CRI|188|拉美北|506
+C?te d'Ivoire|C?te d'Ivoire (la)|科特迪瓦|CI|CIV|384|西非|225
+Croatia|Croatie (la)|克罗地亚|HR|HRV|191|东北欧|385
+Cuba|Cuba|古巴|CU|CUB|192|拉美北|53
+Cura?ao|Cura?ao|荷属安的列斯|CW|CUW|531|拉美北|599
+Cyprus|Chypre|塞浦路斯|CY|CYP|196|东北欧|357
+Czechia|Tchéquie (la)|捷克|CZ|CZE|203|东北欧|420
+Denmark|Danemark (le)|丹麦|DK|DNK|208|东北欧|45
+Djibouti|Djibouti|吉布提|DJ|DJI|262|北非|253
+Dominica|Dominique (la)|多米尼克|DM|DMA|212|NULL|NULL
+Dominican Republic (the)|dominicaine (la?République)|多米尼加共和国|DO|DOM|214|拉美北|1849
+Ecuador|équateur (l')|厄瓜多尔|EC|ECU|218|拉美北|593
+Egypt|égypte (l')|埃及|EG|EGY|818|北非|20
+El Salvador|El Salvador|萨尔瓦多|SV|SLV|222|拉美北|503
+Equatorial Guinea|Guinée équatoriale (la)|赤道几内亚|GQ|GNQ|226|西非|240
+Eritrea|érythrée (l')|厄立特里亚|ER|ERI|232|北非|291
+Estonia|Estonie (l')|爱沙尼亚|EE|EST|233|东北欧|372
+Ethiopia|éthiopie (l')|埃塞俄比亚|ET|ETH|231|北非|251
+Falkland Islands (the) [Malvinas]|Falkland (les ?les)/Malouines (les ?les)|福克兰群岛 (英国)|FK|FLK|238|NULL|NULL
+Faroe Islands (the)|Féroé (les ?les)|法罗群岛 (丹麦)|FO|FRO|234|NULL|298
+Fiji|Fidji (les)|斐济|FJ|FJI|242|南太平洋|679
+Finland|Finlande (la)|芬兰|FI|FIN|246|东北欧|358
+France|France (la)|法国|FR|FRA|250|西欧|33
+French Guiana|Guyane fran?aise (la?)|法属圭亚那 (法国)|GF|GUF|254|拉美北|594
+French Polynesia|Polynésie fran?aise (la)|法属波利尼西亚|PF|PYF|258|南太平洋|689
+French Southern Territories (the)|Terres australes fran?aises (les)|NULL|TF|ATF|260|NULL|NULL
+Gabon|Gabon (le)|加蓬|GA|GAB|266|西非|241
+Gambia (the)|Gambie (la)|冈比亚|GM|GMB|270|北非|220
+Georgia|Géorgie (la)|格鲁吉亚|GE|GEO|268|中亚|995
+Germany|Allemagne (l')|德国|DE|DEU|276|西欧|49
+Ghana|Ghana (le)|加纳|GH|GHA|288|西非|233
+Gibraltar|Gibraltar|直布罗陀|GI|GIB|292|西欧|350
+Greece|Grèce (la)|希腊|GR|GRC|300|东北欧|30
+Greenland|Groenland (le)|格陵兰 (丹麦)|GL|GRL|304|NULL|299
+Grenada|Grenade (la)|格林纳达|GD|GRD|308|拉美北|1473
+Guadeloupe|Guadeloupe (la)|瓜德罗普|GP|GLP|312|拉美北|590
+Guam|Guam|关岛 (美国)|GU|GUM|316|南太平洋|NULL
+Guatemala|Guatemala (le)|危地马拉|GT|GTM|320|拉美北|502
+Guernsey|Guernesey|NULL|GG|GGY|831|NULL|NULL
+Guinea|Guinée (la)|几内亚|GN|GIN|324|西非|224
+Guinea-Bissau|Guinée-Bissau (la)|几内亚比绍|GW|GNB|624|北非|245
+Guyana|Guyana (le)|圭亚那|GY|GUY|328|拉美北|592
+Haiti|Ha?ti|海地|HT|HTI|332|拉美北|509
+Heard Island and McDonald Islands|Heard-et-?les MacDonald (l'?le)|NULL|HM|HMD|334|NULL|NULL
+Holy See (the)|Saint-Siège (le)|梵蒂冈|VA|VAT|336|西欧|379
+Honduras|Honduras (le)|洪都拉斯|HN|HND|340|拉美北|504
+Hong Kong|Hong Kong|香港|HK|HKG|344|东南亚|852
+Hungary|Hongrie (la)|匈牙利|HU|HUN|348|东北欧|36
+Iceland|Islande (l')|冰岛|IS|ISL|352|东北欧|354
+India|Inde (l')|印度|IN|IND|356|东南亚|91
+Indonesia|Indonésie (l')|印度尼西亚|ID|IDN|360|南太平洋|62
+Iran (Islamic Republic of)|Iran (République Islamique d')|伊朗|IR|IRN|364|中东|98
+Iraq|Iraq (l')|伊拉克|IQ|IRQ|368|中东|964
+Ireland|Irlande (l')|爱尔兰|IE|IRL|372|西欧|353
+Isle of Man|?le de Man|NULL|IM|IMN|833|NULL|NULL
+Israel|Isra?l|以色列|IL|ISR|376|东北欧|972
+Italy|Italie (l')|意大利|IT|ITA|380|西欧|39
+Jamaica|Jama?que (la)|牙买加|JM|JAM|388|拉美北|1876
+Japan|Japon (le)|日本|JP|JPN|392|日本代表处|81
+Jersey|Jersey|NULL|JE|JEY|832|NULL|NULL
+Jordan|Jordanie (la)|约旦|JO|JOR|400|北非|962
+Kazakhstan|Kazakhstan (le)|哈萨克斯坦|KZ|KAZ|398|中亚|7
+Kenya|Kenya (le)|肯尼亚|KE|KEN|404|东南非|254
+Kiribati|Kiribati|基里巴斯|KI|KIR|296|南太平洋|NULL
+Korea (the Democratic People's Republic of)|Corée (la?République populaire démocratique de)|北朝鲜|KP|PRK|408|日本代表处|NULL
+Korea (the Republic of)|Corée (la République de)|韩国|KR|KOR|410|日本代表处|NULL
+Kuwait|Kowe?t (le)|科威特|KW|KWT|414|中东|965
+Kyrgyzstan|Kirghizistan (le)|吉尔吉斯斯坦|KG|KGZ|417|中亚|996
+Lao People's Democratic Republic (the)|Lao, République démocratique populaire|老挝|LA|LAO|418|东南亚|856
+Latvia|Lettonie (la)|拉脱维亚|LV|LVA|428|东北欧|371
+Lebanon|Liban (le)|黎巴嫩|LB|LBN|422|北非|961
+Lesotho|Lesotho (le)|莱索托|LS|LSO|426|东南非|266
+Liberia|Libéria (le)|利比里亚|LR|LBR|430|西非|231
+Libya|Libye (la)|利比亚|LY|LBY|434|北非|218
+Liechtenstein|Liechtenstein (le)|列支敦士登|LI|LIE|438|东北欧|423
+Lithuania|Lituanie (la)|立陶宛|LT|LTU|440|东北欧|370
+Luxembourg|Luxembourg (le)|卢森堡|LU|LUX|442|西欧|352
+Macao|Macao|澳门|MO|MAC|446|东南亚|853
+Macedonia (the former Yugoslav Republic of)|Macédoine (l'ex?République yougoslave de)|马其顿|MK|MKD|807|东北欧|389
+Madagascar|Madagascar|马达加斯加|MG|MDG|450|东南非|261
+Malawi|Malawi (le)|马拉维|MW|MWI|454|东南非|265
+Malaysia|Malaisie (la)|马来西亚|MY|MYS|458|南太平洋|60
+Maldives|Maldives (les)|马尔代夫|MV|MDV|462|东南亚|960
+Mali|Mali (le)|马里|ML|MLI|466|北非|223
+Malta|Malte|马耳他|MT|MLT|470|西欧|356
+Marshall Islands (the)|Marshall (?les)|马绍尔群岛|MH|MHL|584|南太平洋|NULL
+Martinique|Martinique (la)|NULL|MQ|MTQ|474|NULL|NULL
+Mauritania|Mauritanie (la)|毛里塔尼亚|MR|MRT|478|北非|222
+Mauritius|Maurice|毛里求斯|MU|MUS|480|东南非|230
+Mayotte|Mayotte|NULL|YT|MYT|175|NULL|NULL
+Mexico|Mexique (le)|墨西哥|MX|MEX|484|拉美北|52
+Micronesia (Federated States of)|Micronésie (états fédérés de)|密克罗尼西亚|FM|FSM|583|南太平洋|NULL
+Moldova (the Republic of)|Moldova, République de|摩尔多瓦|MD|MDA|498|东北欧|373
+Monaco|Monaco|摩纳哥|MC|MCO|492|西欧|377
+Mongolia|Mongolie (la)|蒙古|MN|MNG|496|中亚|976
+Montenegro|Monténégro (le)|黑山|ME|MNE|499|东北欧|382
+Montserrat|Montserrat|蒙特塞拉特岛|MS|MSR|500|拉美北|1664
+Morocco|Maroc (le)|摩洛哥|MA|MAR|504|北非|NULL
+Mozambique|Mozambique (le)|莫桑比克|MZ|MOZ|508|东南非|258
+Myanmar|Myanmar (le)|缅甸|MM|MMR|104|东南亚|95
+Namibia|Namibie (la)|纳米比亚|NA|NAM|516|东南非|264
+Nauru|Nauru|瑙鲁|NR|NRU|520|南太平洋|674
+Nepal|Népal (le)|尼泊尔|NP|NPL|524|东南亚|977
+Netherlands (the)|Pays-Bas (les)|荷兰|NL|NLD|528|西欧|31
+New Caledonia|Nouvelle-Calédonie (la)|新喀里多尼亚|NC|NCL|540|南太平洋|NULL
+New Zealand|Nouvelle-Zélande (la)|新西兰|NZ|NZL|554|南太平洋|64
+Nicaragua|Nicaragua (le)|尼加拉瓜|NI|NIC|558|拉美北|505
+Niger (the)|Niger (le)|尼日尔|NE|NER|562|北非|227
+Nigeria|Nigéria (le)|尼日利亚|NG|NGA|566|西非|234
+Niue|Niue|纽埃|NU|NIU|570|南太平洋|NULL
+Norfolk Island|Norfolk (l'?le)|NULL|NF|NFK|574|NULL|NULL
+Northern Mariana Islands (the)|Mariannes du Nord (les ?les)|北马里亚纳群岛 (美国)|MP|MNP|580|南太平洋|NULL
+Norway|Norvège (la)|挪威|NO|NOR|578|东北欧|47
+Oman|Oman|阿曼|OM|OMN|512|中东|968
+Pakistan|Pakistan (le)|巴基斯坦|PK|PAK|586|中东|92
+Palau|Palaos (les)|帕劳|PW|PLW|585|南太平洋|NULL
+Palestine, State of|Palestine, état de|NULL|PS|PSE|275|NULL|NULL
+Panama|Panama (le)|巴拿马|PA|PAN|591|拉美北|507
+Papua New Guinea|Papouasie-Nouvelle-Guinée (la)|巴布亚新几内亚|PG|PNG|598|南太平洋|675
+Paraguay|Paraguay (le)|巴拉圭|PY|PRY|600|南美南|595
+Peru|Pérou (le)|秘鲁|PE|PER|604|南美南|51
+Philippines (the)|Philippines (les)|菲律宾|PH|PHL|608|南太平洋|63
+Pitcairn|Pitcairn|NULL|PN|PCN|612|NULL|NULL
+Poland|Pologne (la)|波兰|PL|POL|616|东北欧|48
+Portugal|Portugal (le)|葡萄牙|PT|PRT|620|西欧|351
+Puerto Rico|Porto Rico|波多黎各|PR|PRI|630|拉美北|1787
+Qatar|Qatar (le)|卡塔尔|QA|QAT|634|中东|974
+Réunion|Réunion (La)|留尼汪|RE|REU|638|东南非|262
+Romania|Roumanie (la)|罗马尼亚|RO|ROU|642|东北欧|40
+Russian Federation (the)|Russie (la Fédération de)|俄罗斯|RU|RUS|643|俄罗斯代表处|7
+Rwanda|Rwanda (le)|卢旺达|RW|RWA|646|东南非|250
+Saint Barthélemy|Saint-Barthélemy|NULL|BL|BLM|652|NULL|NULL
+Saint Helena, Ascension and Tristan da Cunha|Sainte-Hélène, Ascension et Tristan da Cunha|NULL|SH|SHN|654|NULL|NULL
+Saint Kitts and Nevis|Saint-Kitts-et-Nevis|圣克里斯多福与尼维斯|KN|KNA|659|NULL|NULL
+Saint Lucia|Sainte-Lucie|圣卢西亚|LC|LCA|662|拉美北|1758
+Saint Martin (French part)|Saint-Martin (partie fran?aise)|NULL|MF|MAF|663|NULL|NULL
+Saint Pierre and Miquelon|Saint-Pierre-et-Miquelon|圣皮耶与密克隆群岛 (法国)|PM|SPM|666|NULL|NULL
+Saint Vincent and the Grenadines|Saint-Vincent-et-les Grenadines|圣文森特和格林纳丁斯|VC|VCT|670|美国代表处|NULL
+Samoa|Samoa (le)|萨摩亚|WS|WSM|882|南太平洋|NULL
+San Marino|Saint-Marin|圣马力诺|SM|SMR|674|西欧|378
+Sao Tome and Principe|Sao Tomé-et-Principe|圣多美和普林西比|ST|STP|678|东南非|239
+Saudi Arabia|Arabie saoudite (l')|沙特阿拉伯|SA|SAU|682|中东|966
+Senegal|Sénégal (le)|塞内加尔|SN|SEN|686|北非|221
+Serbia|Serbie (la)|塞尔维亚|RS|SRB|688|东北欧|381
+Seychelles|Seychelles (les)|塞舌尔|SC|SYC|690|东南非|248
+Sierra Leone|Sierra Leone (la)|塞拉利昂|SL|SLE|694|西非|232
+Singapore|Singapour|新加坡|SG|SGP|702|南太平洋|65
+Sint Maarten (Dutch part)|Saint-Martin (partie néerlandaise)|NULL|SX|SXM|534|NULL|NULL
+Slovakia|Slovaquie (la)|斯洛伐克|SK|SVK|703|东北欧|421
+Slovenia|Slovénie (la)|斯洛文尼亚|SI|SVN|705|东北欧|386
+Solomon Islands|Salomon (?les)|所罗门群岛|SB|SLB|090|南太平洋|677
+Somalia|Somalie (la)|索马里|SO|SOM|706|东南非|252
+South Africa|Afrique du Sud (l')|南非|ZA|ZAF|710|东南非|27
+South Georgia and the South Sandwich Islands|Géorgie du Sud-et-les ?les Sandwich du Sud (la)|NULL|GS|SGS|239|NULL|NULL
+South Sudan|Soudan du Sud (le)|NULL|SS|SSD|728|NULL|NULL
+Spain|Espagne (l')|西班牙|ES|ESP|724|西欧|34
+Sri Lanka|Sri Lanka|斯里兰卡|LK|LKA|144|东南亚|94
+Sudan (the)|Soudan (le)|苏丹|SD|SDN|729|北非|249
+Suriname|Suriname (le)|苏里南|SR|SUR|740|拉美北|597
+Svalbard and Jan Mayen|Svalbard et l'?le Jan Mayen (le)|NULL|SJ|SJM|744|NULL|NULL
+Swaziland|Swaziland (le)|斯威士兰|SZ|SWZ|748|东南非|268
+Sweden|Suède (la)|瑞典|SE|SWE|752|东北欧|46
+Switzerland|Suisse (la)|瑞士|CH|CHE|756|西欧|41
+Syrian Arab Republic|République arabe syrienne (la)|叙利亚|SY|SYR|760|北非|963
+Taiwan (Province of China)|Ta?wan (Province de Chine)|台湾|TW|TWN|158|东南亚|886
+Tajikistan|Tadjikistan (le)|塔吉克斯坦|TJ|TJK|762|中亚|992
+Tanzania, United Republic of|Tanzanie, République-Unie de|坦桑尼亚|TZ|TZA|834|东南非|255
+Thailand|Tha?lande (la)|泰国|TH|THA|764|东南亚|66
+Timor-Leste|Timor-Leste (le)|东帝汶|TL|TLS|626|南太平洋|NULL
+Togo|Togo (le)|多哥|TG|TGO|768|西非|228
+Tokelau|Tokelau (les)|NULL|TK|TKL|772|NULL|NULL
+Tonga|Tonga (les)|汤加|TO|TON|776|南太平洋|676
+Trinidad and Tobago|Trinité-et-Tobago (la)|特立尼达和多巴哥|TT|TTO|780|拉美北|1868
+Tunisia|Tunisie (la)|突尼斯|TN|TUN|788|北非|216
+Turkey|Turquie (la)|土耳其|TR|TUR|792|中亚|90
+Turkmenistan|Turkménistan (le)|土库曼斯坦|TM|TKM|795|中亚|993
+Turks and Caicos Islands (the)|Turks-et-Ca?cos (les ?les)|土克凯可群岛 (英国)|TC|TCA|796|NULL|NULL
+Tuvalu|Tuvalu (les)|NULL|TV|TUV|798|NULL|NULL
+Uganda|Ouganda (l')|乌干达|UG|UGA|800|东南非|256
+Ukraine|Ukraine (l')|乌克兰|UA|UKR|804|中亚|380
+United Arab Emirates (the)|émirats arabes unis (les)|阿拉伯联合酋长国|AE|ARE|784|中东|971
+United Kingdom of Great Britain and Northern Ireland (the)|Royaume-Uni de Grande-Bretagne et d'Irlande du Nord (le)|英国|GB|GBR|826|西欧|44
+United States Minor Outlying Islands (the)|?les mineures éloignées des états-Unis (les)|NULL|UM|UMI|581|NULL|NULL
+United States of America (the)|états-Unis d'Amérique (les)|美国|US|USA|840|美国代表处|1
+Uruguay|Uruguay (l')|乌拉圭|UY|URY|858|南美南|598
+Uzbekistan|Ouzbékistan (l')|乌兹别克斯坦|UZ|UZB|860|中亚|998
+Vanuatu|Vanuatu (le)|瓦努阿图|VU|VUT|548|南太平洋|NULL
+Venezuela (Bolivarian Republic of)|Venezuela (République bolivarienne du)|委内瑞拉|VE|VEN|862|拉美北|58
+Viet Nam|Viet Nam (le)|越南|VN|VNM|704|东南亚|84
+Virgin Islands (British)|Vierges britanniques (les??les)|英属维尔京群岛 (英国)|VG|VGB|092|拉美北|1284
+Virgin Islands (U.S.)|Vierges des états-Unis (les ?les)|NULL|VI|VIR|850|NULL|NULL
+Wallis and Futuna|Wallis-et-Futuna|瓦利斯和富图纳|WF|WLF|876|南太平洋|NULL
+Western Sahara*|Sahara occidental (le)*|NULL|EH|ESH|732|NULL|NULL
+Yemen|Yémen (le)|也门|YE|YEM|887|北非|967
+Zambia|Zambie (la)|赞比亚|ZM|ZMB|894|东南非|260
+Zimbabwe|Zimbabwe (le)|津巴布韦|ZW|ZWE|716|东南非|263

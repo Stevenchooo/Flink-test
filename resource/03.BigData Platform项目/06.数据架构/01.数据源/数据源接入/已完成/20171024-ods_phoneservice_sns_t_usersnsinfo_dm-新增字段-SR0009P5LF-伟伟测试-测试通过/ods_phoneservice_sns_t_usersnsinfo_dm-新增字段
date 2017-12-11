@@ -1,0 +1,2 @@
+ods_phoneservice_sns_t_usersnsinfo_dm
+alter table ods_phoneservice_sns_t_usersnsinfo_dm add columns (publicType int COMMENT '公众号类型 ');   
