@@ -1,0 +1,27 @@
+影片节目表 mv_item_info                 对应 ODS_VIDEO_CLOUD_MOVIE_ITEM_INFO_DM
+影片运营数据表 mv_operate_data          对应 ODS_VIDEO_CLOUD_OPERATE_DATA_DM
+影片主分类表 mv_group_top               对应 ODS_VIDEO_CLOUD_MOVIE_GROUP_TOP_DM
+影片类型关联表 mv_type_relation         对应 ODS_VIDEO_CLOUD_MOVIE_TYPE_RELATION_DM
+影片地区表 mv_group_area                对应 ODS_VIDEO_CLOUD_MOVIE_GROUP_AREA_DM
+影片地区映射表 mv_area_mapping          对应 ODS_VIDEO_CLOUD_MOVIE_AREA_MAPPING_DM
+影片地区关联表mv_area_relation          对应 ODS_VIDEO_CLOUD_MOVIE_AREA_RELATION_DM
+影片集信息表 mv_volume_info             对应 ODS_VIDEO_CLOUD_MOVIE_VOLUME_INFO_DM
+影片url信息表mv_source_url              对应 ODS_VIDEO_CLOUD_MOVIE_SOURCE_URL_DM
+影片CP APP映射关系表 mv_cpapp_relation  对应 ODS_VIDEO_CLOUD_MOVIE_CPAPP_RELATION_DM
+影片艺人表mv_group_artist               对应 ODS_VIDEO_CLOUD_MOVIE_GROUP_ARTIST_DM
+奖项信息表award_info                    对应 ODS_VIDEO_CLOUD_AWARD_INFO_DM
+影片奖项关联表award_mv_relation         对应 ODS_VIDEO_CLOUD_AWARD_MV_RELATION_DM
+艺人职业表 mv_artist_type               对应 ODS_VIDEO_CLOUD_MOVIE_ARTIST_TYPE_DM
+艺人归属地表mv_artist_area              对应 ODS_VIDEO_CLOUD_MOVIE_ARTIST_AREA_DM
+影片艺人关联表 mv_artist_relation       对应 ODS_VIDEO_CLOUD_MOVIE_ARTIST_RELATION_DM
+影片艺人未关联表mv_artist_norelation    对应 ODS_VIDEO_CLOUD_MOVIE_ARTIST_NORELATION_DM
+影片系列表 mv_group_series              对应 ODS_VIDEO_CLOUD_MOVIE_GROUP_SERIES_DM
+影片系列关联表mv_series_relation        对应 ODS_VIDEO_CLOUD_MOVIE_SERIES_RELATION_DM
+影片排序表 mv_top_sort                  对应 ODS_VIDEO_CLOUD_MOVIE_TOP_SORT_DM
+cp影片信息表mv_info_cp                  对应 ODS_VIDEO_CLOUD_MOVIE_INFO_CP_DM
+影片类型表 mv_group_type                对应 ODS_VIDEO_CLOUD_MOVIE_GROUP_TYPE_DM
+影片分类类型关联表 mv_group_relation    对应 ODS_VIDEO_CLOUD_MOVIE_GROUP_RELATION_DM
+
+
+用户收藏记录 mv_collect_list            ODS_VIDEO_CLOUD_MOVIE_COLLECT_LIST_DM
+用户播放记录mv_play_note                ODS_VIDEO_CLOUD_MOVIE_PLAY_NOTE_DM
