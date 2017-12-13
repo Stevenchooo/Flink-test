@@ -1,6 +1,0 @@
-ueiss_status	1: webApp 端口未监听（告警）
-                0: webApp 端口正常
-hastatus	    1: heartbeat 进程不在运行（告警）
-                0: heartbeat 进程正常
-				
-文件名：/root/watchdog/CacheAlarm.out
