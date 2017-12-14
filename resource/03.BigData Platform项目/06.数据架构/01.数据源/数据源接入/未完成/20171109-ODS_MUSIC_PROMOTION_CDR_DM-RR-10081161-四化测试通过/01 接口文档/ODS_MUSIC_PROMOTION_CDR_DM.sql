@@ -1,1 +1,0 @@
-ALTER TABLE ODS_MUSIC_PROMOTION_CDR_DM ADD COLUMNS (content string comment 'json字符串');

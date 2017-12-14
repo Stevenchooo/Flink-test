@@ -1,2 +1,0 @@
-10357891        xxxxxxxxxxxxxxxx       xxxxxxxxxxxxxxxxxxx NULL    MHA-AL00A       100200  160     2       2018-08-22 00:00:00     null    1
-10357892        xxxxxxxxxxxxxxxx       xxxxxxxxxxxxx NULL    Cannes-AL10     100100  160     1       2018-08-22 00:00:00     null    1
