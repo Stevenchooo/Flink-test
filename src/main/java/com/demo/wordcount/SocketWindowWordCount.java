@@ -63,7 +63,8 @@ public class SocketWindowWordCount {
         /**
          * 注意: 一定要有这个空的构造方法, 否则会报异常
          */
-        public WordWithCount() {}
+        public WordWithCount() {
+        }
 
         public WordWithCount(String word, long count) {
             this.word = word;
